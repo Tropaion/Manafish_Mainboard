@@ -1,0 +1,28 @@
+# KiCad backups, locks and caches
+*-backups/
+\#auto_saved_files\#
+_autosave-*
+*.lck
+fp-info-cache
+*.bak
+*.bck
+*-bak
+*.kicad_pcb-bak
+*.kicad_sch-bak
+*.sch-bak
+*-save.kicad_pcb
+*-save.pro
+
+# KiCad per-user view settings (open sheets, layer visibility)
+*.kicad_prl
+
+# Third-party datasheets are linked from README.md instead of committed:
+# their licences don't allow redistribution or don't need it.
+hardware/datasheets/
+
+# Operating systems and editors
+.DS_Store
+Thumbs.db
+*~
+.vscode/
+.idea/

@@ -1,0 +1,1045 @@
+(kicad_sch
+	(version 20260306)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "37283e3e-a087-4659-9b29-171eab26a1f6")
+	(paper "A4")
+	(lib_symbols
+		(symbol "Connector:Conn_01x02_Pin"
+			(pin_names
+				(offset 1.016)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "J"
+				(at 0 2.54 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "Conn_01x02_Pin"
+				(at 0 -5.08 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Generic connector, single row, 01x02, script generated"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_locked" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "connector"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "Connector*:*_1x??_*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "Conn_01x02_Pin_1_1"
+				(rectangle
+					(start 0.8636 0.127)
+					(end 0 -0.127)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(rectangle
+					(start 0.8636 -2.413)
+					(end 0 -2.667)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 0) (xy 0.8636 0)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 -2.54) (xy 0.8636 -2.54)
+					)
+					(stroke
+						(width 0.1524)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin passive line
+					(at 5.08 0 180)
+					(length 3.81)
+					(name "Pin_1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 5.08 -2.54 180)
+					(length 3.81)
+					(name "Pin_2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+	)
+	(rectangle
+		(start 15.24 17.78)
+		(end 175.26 104.14)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(uuid "c2ccd663-9652-4828-b878-73342f4d6fd2")
+	)
+	(text "Manafish Controller"
+		(exclude_from_sim no)
+		(at 33.528 16.256 0)
+		(effects
+			(font
+				(size 2.54 2.54)
+			)
+		)
+		(uuid "e2f1fd47-b7c2-47f4-9f12-95d42afbeed7")
+	)
+	(junction
+		(at 132.08 43.18)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "652a533a-01d8-4512-bdd4-f7a1b82fde53")
+	)
+	(junction
+		(at 132.08 60.96)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "6571ce57-19a4-42e9-959b-c7ca59a0488d")
+	)
+	(junction
+		(at 132.08 25.4)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "dda22bf7-cda7-4f85-8b17-b0bc9d7f9ba0")
+	)
+	(no_connect
+		(at 172.72 81.28)
+		(uuid "7ec44499-952d-47a9-be63-9c7527da3f17")
+	)
+	(wire
+		(pts
+			(xy 119.38 66.04) (xy 134.62 66.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0bc5d628-9080-4450-a2f4-7004938ea912")
+	)
+	(wire
+		(pts
+			(xy 30.48 27.94) (xy 35.56 27.94)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2a84377d-686c-4a75-ae34-1a9fdba39dac")
+	)
+	(wire
+		(pts
+			(xy 170.18 81.28) (xy 172.72 81.28)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3140aba3-e369-411e-8bed-b1aaa3eafe22")
+	)
+	(wire
+		(pts
+			(xy 119.38 86.36) (xy 134.62 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "39a92fa8-c92d-427b-b056-1f4920e833f1")
+	)
+	(wire
+		(pts
+			(xy 132.08 43.18) (xy 132.08 25.4)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4b5b0ea4-d533-44a5-8a64-657896698a00")
+	)
+	(wire
+		(pts
+			(xy 30.48 25.4) (xy 35.56 25.4)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4c742a30-3824-4808-adb2-2a72e1f2d2c5")
+	)
+	(wire
+		(pts
+			(xy 119.38 96.52) (xy 134.62 96.52)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "67da385e-b507-473a-9c02-8a4ccd20b4f6")
+	)
+	(wire
+		(pts
+			(xy 119.38 68.58) (xy 134.62 68.58)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7a59ae9c-ddde-4332-abeb-ac55bc313cec")
+	)
+	(wire
+		(pts
+			(xy 132.08 60.96) (xy 132.08 81.28)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "85623edf-d548-4972-b2e1-3d66a3dc89cb")
+	)
+	(wire
+		(pts
+			(xy 119.38 25.4) (xy 134.62 25.4)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "870b67e3-add0-4055-a3a0-2ce7b1653932")
+	)
+	(wire
+		(pts
+			(xy 119.38 88.9) (xy 134.62 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8cfe7cc3-9376-4dc5-b0d7-0d8354d00503")
+	)
+	(wire
+		(pts
+			(xy 134.62 43.18) (xy 132.08 43.18)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "902e4203-4e50-4b5f-b311-86762d8dc767")
+	)
+	(wire
+		(pts
+			(xy 132.08 81.28) (xy 134.62 81.28)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a64aaa3c-b378-48d8-b424-57985c60e767")
+	)
+	(bus
+		(pts
+			(xy 119.38 48.26) (xy 134.62 48.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "afa66bdd-fdcd-4f15-a334-2ed9ddaa2a29")
+	)
+	(bus
+		(pts
+			(xy 119.38 30.48) (xy 134.62 30.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b70683ff-43d1-426e-a1bb-756897a25de7")
+	)
+	(wire
+		(pts
+			(xy 134.62 60.96) (xy 132.08 60.96)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b88759a1-5588-4e94-8181-81731c94416c")
+	)
+	(wire
+		(pts
+			(xy 119.38 93.98) (xy 134.62 93.98)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bcd10fe6-3f08-4f73-ae16-52974675f435")
+	)
+	(wire
+		(pts
+			(xy 71.12 25.4) (xy 86.36 25.4)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "be471c56-55ed-4206-a31e-9a84194bf059")
+	)
+	(wire
+		(pts
+			(xy 132.08 60.96) (xy 132.08 43.18)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d743860c-2161-4b02-90bb-0afbe6513af2")
+	)
+	(symbol
+		(lib_id "Connector:Conn_01x02_Pin")
+		(at 25.4 25.4 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "596a5db1-e804-470c-8d83-c6891732825f")
+		(property "Reference" "J6"
+			(at 18.796 25.4 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Battery"
+			(at 20.828 27.686 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 25.4 25.4 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 25.4 25.4 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x02, script generated"
+			(at 25.4 25.4 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "45e7c098-91e4-4091-a95e-e9ec7314ee8a")
+		)
+		(pin "2"
+			(uuid "3657497c-8c8a-445f-8dbf-821bd3ee774f")
+		)
+		(instances
+			(project "manafish"
+				(path "/37283e3e-a087-4659-9b29-171eab26a1f6"
+					(reference "J6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(sheet
+		(at 134.62 22.86)
+		(size 23.876 10.16)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "28412147-b627-4d0b-9e7e-b42a3a6555a0")
+		(property "Sheetname" "Camera Serial Interface"
+			(at 134.62 22.1484 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "csi.kicad_sch"
+			(at 134.62 33.6046 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "+3.3V" input
+			(at 134.62 25.4 180)
+			(uuid "8576f3e0-0062-473a-b588-a8367fc7c78f")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "CSI0{CSI0}" bidirectional
+			(at 134.62 30.48 180)
+			(uuid "cfbd044e-5fc7-4807-9380-2c2478b32aa1")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(instances
+			(project "manafish"
+				(path "/37283e3e-a087-4659-9b29-171eab26a1f6"
+					(page "3")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 134.62 58.42)
+		(size 33.02 12.7)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "4112cffa-0e28-4d2a-acd4-e0e3e9e075d8")
+		(property "Sheetname" "I2C Peripherals"
+			(at 134.62 57.7084 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "i2c_peripherals.kicad_sch"
+			(at 134.62 71.7046 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "+3.3V" input
+			(at 134.62 60.96 180)
+			(uuid "9337e04a-f56f-417c-a38d-71e95cb3145e")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "I2C1_SCL" input
+			(at 134.62 66.04 180)
+			(uuid "8a1b68cc-043b-4086-9d2d-0c4ec7af215b")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "I2C1_SDA" bidirectional
+			(at 134.62 68.58 180)
+			(uuid "9c4babd6-ad37-4831-b1a8-638262b03cfe")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(instances
+			(project "manafish"
+				(path "/37283e3e-a087-4659-9b29-171eab26a1f6"
+					(page "5")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 86.36 22.86)
+		(size 33.02 76.2)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "66118e41-f515-4bf7-aa29-701c06daff5b")
+		(property "Sheetname" "Rasperry Pi Compute Module 5"
+			(at 86.36 22.1484 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "cm5.kicad_sch"
+			(at 86.36 99.6446 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "+3.3V" output
+			(at 119.38 25.4 0)
+			(uuid "3edda78a-ac13-4caa-807c-623041b6a92d")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "+5V" input
+			(at 86.36 25.4 180)
+			(uuid "26ac6258-e0bb-47e0-8323-64f01ecb7979")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "CSI0{CSI0}" bidirectional
+			(at 119.38 30.48 0)
+			(uuid "81efb0fd-74c8-4a74-ba55-a9d815c72e44")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "ETH0{ETH0}" bidirectional
+			(at 119.38 48.26 0)
+			(uuid "6e47fba7-5d6d-4361-846c-ae51ae3510f8")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "I2C1_SCL" output
+			(at 119.38 66.04 0)
+			(uuid "4588cd25-bb4c-411d-9d3a-f0f30e82a7b7")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "I2C1_SDA" bidirectional
+			(at 119.38 68.58 0)
+			(uuid "7e8267ba-a212-4eab-b089-031061b5aae7")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "RP2354_BOOTSEL" output
+			(at 119.38 96.52 0)
+			(uuid "53d272dd-82a7-425d-b9fb-4f8e3b926c6f")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "RP2354_RUN" output
+			(at 119.38 93.98 0)
+			(uuid "b50456d4-7d76-4c94-ab92-8c39f1553dee")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "USB3_D+" bidirectional
+			(at 119.38 86.36 0)
+			(uuid "ba7ec605-942b-464d-9f89-c260cc50120f")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "USB3_D-" bidirectional
+			(at 119.38 88.9 0)
+			(uuid "497db2af-7313-4d97-bda7-aba58dc58077")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "manafish"
+				(path "/37283e3e-a087-4659-9b29-171eab26a1f6"
+					(page "2")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 35.56 22.86)
+		(size 35.56 7.62)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "89d7ac77-fa0c-4bb2-902c-6102b08b0cf6")
+		(property "Sheetname" "Power Management"
+			(at 35.56 22.1484 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "power_management.kicad_sch"
+			(at 35.56 31.0646 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "BAT+" input
+			(at 35.56 25.4 180)
+			(uuid "43183861-cad7-434a-877a-cf96e13a1240")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "BAT-" input
+			(at 35.56 27.94 180)
+			(uuid "57ba8991-d382-4f8c-889a-249fdb0e344a")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "+5V" output
+			(at 71.12 25.4 0)
+			(uuid "ea616647-d44a-4494-9caf-6af287117d6a")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "manafish"
+				(path "/37283e3e-a087-4659-9b29-171eab26a1f6"
+					(page "7")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 134.62 40.64)
+		(size 23.876 10.16)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "ba09456f-d29b-4907-909f-45263bd46633")
+		(property "Sheetname" "Ethernet"
+			(at 134.62 39.9284 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "ethernet.kicad_sch"
+			(at 134.62 51.3846 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "+3.3V" input
+			(at 134.62 43.18 180)
+			(uuid "ee935297-6658-4e61-a211-860fe99a2986")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "ETH0{ETH0}" bidirectional
+			(at 134.62 48.26 180)
+			(uuid "55a9bad4-533e-4219-839c-a8ddf202f4a6")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(instances
+			(project "manafish"
+				(path "/37283e3e-a087-4659-9b29-171eab26a1f6"
+					(page "4")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 134.62 78.74)
+		(size 35.56 20.32)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "eed15416-da11-445b-8a88-e141ebb917f7")
+		(property "Sheetname" "RP2354A"
+			(at 134.62 78.0284 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "rp2354a.kicad_sch"
+			(at 134.62 99.6446 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "+1.1V" output
+			(at 170.18 81.28 0)
+			(uuid "bb1ca4ab-3392-462a-8313-26c073bd49c4")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "+3.3V" input
+			(at 134.62 81.28 180)
+			(uuid "c3d63072-c8e2-46d7-b55b-455a1277c4af")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "BOOTSEL" input
+			(at 134.62 96.52 180)
+			(uuid "d2e89ab0-d10f-4806-b7e9-cb2e7a1d97b1")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RUN" input
+			(at 134.62 93.98 180)
+			(uuid "f939e893-f18c-4241-877e-e9174d6bc0dc")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "USB_D+" bidirectional
+			(at 134.62 86.36 180)
+			(uuid "cb7bf087-a68e-4aba-bf16-c5d3abf745ce")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "USB_D-" bidirectional
+			(at 134.62 88.9 180)
+			(uuid "ad364986-d74e-4c8c-b639-9b33edf13206")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(instances
+			(project "manafish"
+				(path "/37283e3e-a087-4659-9b29-171eab26a1f6"
+					(page "6")
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
+)

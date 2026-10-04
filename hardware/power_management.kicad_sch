@@ -1,0 +1,41 @@
+(kicad_sch
+	(version 20260306)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "2b4636c0-69aa-4cd4-b8ea-96e1a4432463")
+	(paper "A4")
+	(lib_symbols)
+	(hierarchical_label "+5V"
+		(shape output)
+		(at 177.8 76.2 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "0a5e79ce-c60c-44a1-8662-6043b7fea233")
+	)
+	(hierarchical_label "BAT-"
+		(shape input)
+		(at 162.56 81.28 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "395b0384-48cc-4389-bd24-d82e7bbf3f6f")
+	)
+	(hierarchical_label "BAT+"
+		(shape input)
+		(at 162.56 76.2 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "91ba1d28-15b3-40f0-aeeb-ed5cd4e52607")
+	)
+)
