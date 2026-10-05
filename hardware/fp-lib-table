@@ -5,4 +5,5 @@
 	(lib (name "SHT45") (type "KiCad") (uri "${KIPRJMOD}/custom_components/footprints/SHT45.pretty") (options "") (descr ""))
 	(lib (name "ABM8-272-T3") (type "KiCad") (uri "${KIPRJMOD}/custom_components/footprints/ABM8-272-T3.pretty") (options "") (descr ""))
 	(lib (name "RP2350_Minimal") (type "KiCad") (uri "${KIPRJMOD}/custom_components/footprints/RP2350_Minimal.pretty") (options "") (descr "Footprints from Raspberry Pi's RP2350A minimal design (MIT)"))
+	(lib (name "Silvertel") (type "KiCad") (uri "${KIPRJMOD}/custom_components/footprints/Silvertel.pretty") (options "") (descr "Silvertel PoE modules, drawn from the datasheets"))
 )

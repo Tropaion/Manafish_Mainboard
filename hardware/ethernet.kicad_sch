@@ -2654,222 +2654,6 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "Connector_Generic:Conn_02x02_Odd_Even"
-			(pin_names
-				(offset 1.016)
-				(hide yes)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
-			(property "Reference" "J"
-				(at 1.27 2.54 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "Conn_02x02_Odd_Even"
-				(at 1.27 -5.08 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Datasheet" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Description" "Generic connector, double row, 02x02, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "ki_keywords" "connector"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "ki_fp_filters" "Connector*:*_2x??_*"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(symbol "Conn_02x02_Odd_Even_1_1"
-				(rectangle
-					(start -1.27 1.27)
-					(end 3.81 -3.81)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type background)
-					)
-				)
-				(rectangle
-					(start -1.27 0.127)
-					(end 0 -0.127)
-					(stroke
-						(width 0.1524)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(rectangle
-					(start -1.27 -2.413)
-					(end 0 -2.667)
-					(stroke
-						(width 0.1524)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(rectangle
-					(start 3.81 0.127)
-					(end 2.54 -0.127)
-					(stroke
-						(width 0.1524)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(rectangle
-					(start 3.81 -2.413)
-					(end 2.54 -2.667)
-					(stroke
-						(width 0.1524)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(pin passive line
-					(at -5.08 0 0)
-					(length 3.81)
-					(name "Pin_1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 7.62 0 180)
-					(length 3.81)
-					(name "Pin_2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at -5.08 -2.54 0)
-					(length 3.81)
-					(name "Pin_3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 7.62 -2.54 180)
-					(length 3.81)
-					(name "Pin_4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
 		(symbol "Device:C"
 			(pin_numbers
 				(hide yes)
@@ -3305,18 +3089,6 @@
 		)
 		(uuid "9ab8a1ad-ba3e-481f-9416-14449a431638")
 	)
-	(rectangle
-		(start 170.18 17.018)
-		(end 208.28 30.48)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(fill
-			(type none)
-		)
-		(uuid "ab82885e-06fc-408a-a88f-59e6df894a5b")
-	)
 	(text "Ethernet POE Protection"
 		(exclude_from_sim no)
 		(at 99.06 17.018 0)
@@ -3338,17 +3110,6 @@
 			(justify left bottom)
 		)
 		(uuid "a4bf655c-49a1-4ed6-b042-529971acba12")
-	)
-	(text "POE Header"
-		(exclude_from_sim no)
-		(at 170.18 17.018 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "a87193d3-fa6f-48a0-aa3b-c330422f3f2c")
 	)
 	(junction
 		(at 55.88 86.36)
@@ -3662,16 +3423,6 @@
 	)
 	(wire
 		(pts
-			(xy 171.45 27.94) (xy 182.88 27.94)
-		)
-		(stroke
-			(width 0)
-			(type solid)
-		)
-		(uuid "48b55eed-9325-4964-8a0f-57af1e825ade")
-	)
-	(wire
-		(pts
 			(xy 55.88 101.6) (xy 55.88 110.49)
 		)
 		(stroke
@@ -3729,16 +3480,6 @@
 			(type default)
 		)
 		(uuid "7d0fe079-79f0-4c30-a008-6937a7cec083")
-	)
-	(wire
-		(pts
-			(xy 195.58 27.94) (xy 207.01 27.94)
-		)
-		(stroke
-			(width 0)
-			(type solid)
-		)
-		(uuid "7da86bda-276f-4090-b052-2d496fa174a0")
 	)
 	(wire
 		(pts
@@ -3832,16 +3573,6 @@
 	)
 	(wire
 		(pts
-			(xy 195.58 25.4) (xy 207.01 25.4)
-		)
-		(stroke
-			(width 0)
-			(type solid)
-		)
-		(uuid "ba936e85-91ea-4280-9def-a3d2ed2c3c2b")
-	)
-	(wire
-		(pts
 			(xy 22.86 76.2) (xy 58.42 76.2)
 		)
 		(stroke
@@ -3879,16 +3610,6 @@
 			(type default)
 		)
 		(uuid "ca39c1de-1d37-47f6-91e9-325823d79fa9")
-	)
-	(wire
-		(pts
-			(xy 171.45 25.4) (xy 182.88 25.4)
-		)
-		(stroke
-			(width 0)
-			(type solid)
-		)
-		(uuid "ca5f9702-cb2b-41da-9d39-a109afdd46ca")
 	)
 	(wire
 		(pts
@@ -4020,16 +3741,6 @@
 		)
 		(uuid "210e04ea-d478-43ce-bdd2-7d4d9796e601")
 	)
-	(label "TR1_TAP"
-		(at 171.45 25.4 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "2f9998c6-5de2-4d92-afaa-972facd6c254")
-	)
 	(label "ETH_LEDY"
 		(at 22.86 93.98 0)
 		(effects
@@ -4060,16 +3771,6 @@
 		)
 		(uuid "51ffd06a-0994-43a8-8c38-3473a4dc7547")
 	)
-	(label "TR3_TAP"
-		(at 207.01 27.94 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "6d5f0a05-9b15-4622-839e-c9dcedbab8fb")
-	)
 	(label "TRD1_N"
 		(at 106.68 69.85 0)
 		(effects
@@ -4079,16 +3780,6 @@
 			(justify left bottom)
 		)
 		(uuid "73b9903a-edd6-4861-812c-53e2067adaad")
-	)
-	(label "TR2_TAP"
-		(at 207.01 25.4 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "7489b64a-556c-451e-b013-09dbab4946eb")
 	)
 	(label "TRD0_N"
 		(at 160.02 64.77 180)
@@ -4129,16 +3820,6 @@
 			(justify left bottom)
 		)
 		(uuid "8dd20781-386f-4aa7-839f-59f81af688fc")
-	)
-	(label "TR0_TAP"
-		(at 171.45 27.94 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "9d1c8e78-2b84-4c97-80fd-b7eee4f2dfcf")
 	)
 	(label "TRD2_N"
 		(at 22.86 60.96 0)
@@ -5421,135 +5102,6 @@
 			(project "manafish"
 				(path "/37283e3e-a087-4659-9b29-171eab26a1f6/ba09456f-d29b-4907-909f-45263bd46633"
 					(reference "U2")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Connector_Generic:Conn_02x02_Odd_Even")
-		(at 187.96 25.4 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "eee82d19-5577-4adf-b654-d7d064452e55")
-		(property "Reference" "J9"
-			(at 189.23 19.8882 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "THD-02-R"
-			(at 189.23 22.1996 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_2x02_P2.54mm_Vertical"
-			(at 187.96 25.4 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" "https://www.we-online.com/components/products/datasheet/61300421121.pdf"
-			(at 187.96 25.4 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "CONN HDR 2x2 2.54mm vertical THT"
-			(at 187.96 25.4 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Manufacturer" "Wurth Elektronik"
-			(at 187.96 25.4 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "MPN" "61300421121"
-			(at 187.96 25.4 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Mouser PN" "710-61300421121"
-			(at 187.96 25.4 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Mouser" "https://www.mouser.com/ProductDetail/710-61300421121"
-			(at 187.96 25.4 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "06a7589c-ecd4-43ef-bca3-fc41cfd93722")
-		)
-		(pin "2"
-			(uuid "52732156-fba2-4885-b890-243930ecfa9e")
-		)
-		(pin "3"
-			(uuid "ef956daa-b64e-43fb-a2df-c1936f814c38")
-		)
-		(pin "4"
-			(uuid "fb2d49a9-f8e4-4750-ad5b-d709f0495158")
-		)
-		(instances
-			(project "manafish"
-				(path "/37283e3e-a087-4659-9b29-171eab26a1f6/ba09456f-d29b-4907-909f-45263bd46633"
-					(reference "J9")
 					(unit 1)
 				)
 			)
