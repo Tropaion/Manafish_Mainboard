@@ -19,6 +19,7 @@ fp-info-cache
 # Third-party datasheets are linked from README.md instead of committed:
 # their licences don't allow redistribution or don't need it.
 hardware/datasheets/
+hardware/custom_components/*.pdf
 
 # Operating systems and editors
 .DS_Store

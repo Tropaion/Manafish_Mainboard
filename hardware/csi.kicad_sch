@@ -1146,7 +1146,7 @@
 	)
 	(rectangle
 		(start 15.24 17.78)
-		(end 45.974 91.694)
+		(end 45.974 86.868)
 		(stroke
 			(width 0)
 			(type solid)
@@ -1169,7 +1169,7 @@
 	)
 	(text "Note: Intended camera is IMX477"
 		(exclude_from_sim no)
-		(at 28.702 90.678 0)
+		(at 30.734 85.852 0)
 		(effects
 			(font
 				(size 1.016 1.016)
@@ -1790,7 +1790,7 @@
 		)
 		(uuid "04792f51-64e3-41bd-a1dc-f4941ed1cbe9")
 	)
-	(hierarchical_label "CSI0{CSI0}"
+	(hierarchical_label "{CSI0}"
 		(shape bidirectional)
 		(at 17.78 76.2 270)
 		(effects

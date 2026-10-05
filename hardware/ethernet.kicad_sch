@@ -3980,7 +3980,7 @@
 		)
 		(uuid "03ca8ce2-adb4-4bad-824a-57ad87e83d07")
 	)
-	(label "ETH0.TRD3_N"
+	(label "TRD3_N"
 		(at 106.68 34.29 0)
 		(effects
 			(font
@@ -3990,7 +3990,7 @@
 		)
 		(uuid "05f90c90-9c96-45df-879d-feb336814365")
 	)
-	(label "ETH0.TRD2_N"
+	(label "TRD2_N"
 		(at 160.02 29.21 180)
 		(effects
 			(font
@@ -4000,7 +4000,7 @@
 		)
 		(uuid "07bde776-6059-430c-9b78-b259c12182e3")
 	)
-	(label "ETH0.TRD1_P"
+	(label "TRD1_P"
 		(at 106.68 64.77 0)
 		(effects
 			(font
@@ -4070,7 +4070,7 @@
 		)
 		(uuid "6d5f0a05-9b15-4622-839e-c9dcedbab8fb")
 	)
-	(label "ETH0.TRD1_N"
+	(label "TRD1_N"
 		(at 106.68 69.85 0)
 		(effects
 			(font
@@ -4090,7 +4090,7 @@
 		)
 		(uuid "7489b64a-556c-451e-b013-09dbab4946eb")
 	)
-	(label "ETH0.TRD0_N"
+	(label "TRD0_N"
 		(at 160.02 64.77 180)
 		(effects
 			(font
@@ -4110,7 +4110,7 @@
 		)
 		(uuid "800e971d-2441-4700-b3db-ccc211ece857")
 	)
-	(label "ETH0.TRD3_P"
+	(label "TRD3_P"
 		(at 106.68 29.21 0)
 		(effects
 			(font
@@ -4160,7 +4160,7 @@
 		)
 		(uuid "a3b963af-30db-49af-abe0-22d2528c92ce")
 	)
-	(label "ETH0.TRD0_P"
+	(label "TRD0_P"
 		(at 160.02 69.85 180)
 		(effects
 			(font
@@ -4210,7 +4210,7 @@
 		)
 		(uuid "c02640b2-4c35-4740-afd6-5d2b082a5192")
 	)
-	(label "ETH0.TRD2_P"
+	(label "TRD2_P"
 		(at 160.02 34.29 180)
 		(effects
 			(font
@@ -4230,7 +4230,7 @@
 		)
 		(uuid "fb9906dd-7b7d-4c83-a7b0-8ab3c0345699")
 	)
-	(hierarchical_label "ETH0{ETH0}"
+	(hierarchical_label "{ETH0}"
 		(shape bidirectional)
 		(at 20.32 99.06 270)
 		(effects
@@ -4252,7 +4252,7 @@
 		)
 		(uuid "7864d0c5-2b17-4155-af36-c639b97ca1b4")
 	)
-	(hierarchical_label "ETH0{ETH0}"
+	(hierarchical_label "{ETH0}"
 		(shape bidirectional)
 		(at 104.14 74.93 270)
 		(effects
@@ -4263,7 +4263,7 @@
 		)
 		(uuid "a65b2c23-51c5-4125-874d-9ddef1cbd9aa")
 	)
-	(hierarchical_label "ETH0{ETH0}"
+	(hierarchical_label "{ETH0}"
 		(shape bidirectional)
 		(at 162.56 74.93 270)
 		(effects

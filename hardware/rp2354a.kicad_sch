@@ -5,6 +5,216 @@
 	(uuid "bdb31d00-2e6e-4246-b957-594b741997bf")
 	(paper "A4")
 	(lib_symbols
+		(symbol "ABM8-272-T3:ABM8-272-T3"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "Y"
+				(at 36.83 7.62 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Value" "ABM8-272-T3"
+				(at 36.83 5.08 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Footprint" "ABM8272T3"
+				(at 36.83 -94.92 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Datasheet" "https://abracon.com/datasheets/ABM8-272-T3.pdf"
+				(at 36.83 -194.92 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Description" "Crystal, 12 MHz, SMD, 3.2mm x 2.5mm, 30 ppm, 10 pF, 30 ppm, ABM8 Series"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Height" "0.8"
+				(at 36.83 -394.92 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Mouser Part Number" "815-ABM8-272-T3"
+				(at 36.83 -494.92 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Mouser Price/Stock" "https://www.mouser.co.uk/ProductDetail/ABRACON/ABM8-272-T3?qs=QpmGXVUTftEj6miOiJBMxQ%3D%3D"
+				(at 36.83 -594.92 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Manufacturer_Name" "ABRACON"
+				(at 36.83 -694.92 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Manufacturer_Part_Number" "ABM8-272-T3"
+				(at 36.83 -794.92 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(symbol "ABM8-272-T3_1_1"
+				(rectangle
+					(start 5.08 2.54)
+					(end 35.56 -5.08)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin passive line
+					(at 0 -2.54 0)
+					(length 5.08)
+					(name "CRYSTAL_1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 40.64 -2.54 180)
+					(length 5.08)
+					(name "GND_1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 40.64 0 180)
+					(length 5.08)
+					(name "CRYSTAL_2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 0 0)
+					(length 5.08)
+					(name "GND_2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "Connector:Conn_01x05_Pin"
 			(pin_names
 				(offset 1.016)
@@ -2129,7 +2339,7 @@
 	)
 	(rectangle
 		(start 149.86 17.78)
-		(end 200.66 58.42)
+		(end 200.66 55.88)
 		(stroke
 			(width 0)
 			(type default)
@@ -2138,6 +2348,18 @@
 			(type none)
 		)
 		(uuid "522bb046-17fc-40f1-9525-7556ef43e569")
+	)
+	(rectangle
+		(start 149.86 60.96)
+		(end 233.68 96.52)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(uuid "62f82249-7ab3-4b86-b921-c7e787ae739a")
 	)
 	(rectangle
 		(start 15.24 60.96)
@@ -2153,7 +2375,7 @@
 	)
 	(rectangle
 		(start 15.24 17.78)
-		(end 144.78 55.88)
+		(end 147.32 55.88)
 		(stroke
 			(width 0)
 			(type default)
@@ -2172,6 +2394,16 @@
 			)
 		)
 		(uuid "0403697e-98e0-46a1-ab92-059c549addfa")
+	)
+	(text "Crystal"
+		(exclude_from_sim no)
+		(at 152.908 59.944 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "0f19affd-5c46-48f4-a5ad-5503890f085d")
 	)
 	(text "Note: Optional JST Debug Connector"
 		(exclude_from_sim no)
@@ -2202,6 +2434,17 @@
 			)
 		)
 		(uuid "9616856b-6a47-4649-9d23-2d93127b585c")
+	)
+	(text "Note: Required for USB or UART"
+		(exclude_from_sim no)
+		(at 166.116 62.992 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(href "#1")
+		)
+		(uuid "fc192bde-64b7-4d64-95c1-bb30f1a94bd8")
 	)
 	(junction
 		(at 20.32 30.48)
@@ -2246,6 +2489,12 @@
 		(uuid "26afdedb-4b62-4aee-9359-d9c4768ea185")
 	)
 	(junction
+		(at 214.63 73.66)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "2942dc0a-d9d3-4d76-a41b-f7365837a359")
+	)
+	(junction
 		(at 121.92 30.48)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -2258,7 +2507,7 @@
 		(uuid "34237400-f7ea-4f8c-b3fb-73567b55e885")
 	)
 	(junction
-		(at 175.26 38.1)
+		(at 175.26 36.83)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "53e419ec-9bb1-4e02-a18d-aaa3ada7218c")
@@ -2276,7 +2525,7 @@
 		(uuid "6c91dcfa-66ae-40bd-863c-1b3cb571efd2")
 	)
 	(junction
-		(at 175.26 33.02)
+		(at 175.26 31.75)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "75abfff4-9239-4f96-9acb-d52cd2bdd85f")
@@ -2312,10 +2561,16 @@
 		(uuid "93f288ad-ddec-4926-9ca0-8b63af919bc2")
 	)
 	(junction
-		(at 187.96 33.02)
+		(at 187.96 31.75)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "9be2e1c0-0f87-40aa-a9b9-a60abdc42a92")
+	)
+	(junction
+		(at 156.21 76.2)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "a6d007db-11c7-41ae-bc6c-21fb34a25fbf")
 	)
 	(junction
 		(at 83.82 43.18)
@@ -2394,20 +2649,12 @@
 		(uuid "6bc31ef6-0984-4068-983b-bf6262276706")
 	)
 	(no_connect
-		(at 71.12 160.02)
-		(uuid "8a01e98f-5f11-4558-9d77-7e5b3dab374e")
-	)
-	(no_connect
 		(at 71.12 137.16)
 		(uuid "bb197de6-205c-4402-836a-586117bd8269")
 	)
 	(no_connect
 		(at 71.12 132.08)
 		(uuid "c50b68d3-aca1-4aca-8ad5-7c7e8b077681")
-	)
-	(no_connect
-		(at 71.12 149.86)
-		(uuid "d393f505-6fd5-4878-b293-3ae5cb43f2fc")
 	)
 	(no_connect
 		(at 71.12 139.7)
@@ -2429,7 +2676,7 @@
 	)
 	(wire
 		(pts
-			(xy 187.96 33.02) (xy 187.96 40.64)
+			(xy 187.96 31.75) (xy 187.96 39.37)
 		)
 		(stroke
 			(width 0)
@@ -2479,7 +2726,7 @@
 	)
 	(wire
 		(pts
-			(xy 152.4 38.1) (xy 162.56 38.1)
+			(xy 152.4 36.83) (xy 162.56 36.83)
 		)
 		(stroke
 			(width 0)
@@ -2579,6 +2826,16 @@
 	)
 	(wire
 		(pts
+			(xy 68.58 149.86) (xy 71.12 149.86)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1f4ff549-f0e8-417c-bea7-fd6c3fec13bc")
+	)
+	(wire
+		(pts
 			(xy 121.92 149.86) (xy 132.08 149.86)
 		)
 		(stroke
@@ -2626,6 +2883,16 @@
 			(type default)
 		)
 		(uuid "277f898a-7f63-4480-95b9-697ed3e30225")
+	)
+	(wire
+		(pts
+			(xy 226.06 73.66) (xy 232.41 73.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "29b56d35-7cb6-46ab-a805-e2a6413fadea")
 	)
 	(wire
 		(pts
@@ -2889,7 +3156,7 @@
 	)
 	(wire
 		(pts
-			(xy 175.26 48.26) (xy 175.26 50.8)
+			(xy 175.26 46.99) (xy 175.26 49.53)
 		)
 		(stroke
 			(width 0)
@@ -2906,6 +3173,26 @@
 			(type default)
 		)
 		(uuid "6d52ffb6-00d0-49b6-8c4e-e8f08ab45b5a")
+	)
+	(wire
+		(pts
+			(xy 208.28 73.66) (xy 214.63 73.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7313f8ab-17d7-48e9-a9b3-a3829dd2ee88")
+	)
+	(wire
+		(pts
+			(xy 208.28 76.2) (xy 210.82 76.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "75c48c2c-ff73-41cb-9eb7-b4936cc62f31")
 	)
 	(wire
 		(pts
@@ -2929,7 +3216,17 @@
 	)
 	(wire
 		(pts
-			(xy 187.96 27.94) (xy 187.96 33.02)
+			(xy 214.63 86.36) (xy 214.63 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "832feb6f-4917-4fd1-a930-af4835384f96")
+	)
+	(wire
+		(pts
+			(xy 187.96 26.67) (xy 187.96 31.75)
 		)
 		(stroke
 			(width 0)
@@ -2946,6 +3243,26 @@
 			(type default)
 		)
 		(uuid "8566e769-d3c7-4b97-b01d-c5f9661951cb")
+	)
+	(wire
+		(pts
+			(xy 210.82 76.2) (xy 210.82 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "85f3f145-8087-4b0c-add7-06e054e48376")
+	)
+	(wire
+		(pts
+			(xy 156.21 76.2) (xy 167.64 76.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8aa0710d-f502-4d28-929d-41f71b887bc6")
 	)
 	(wire
 		(pts
@@ -3059,7 +3376,7 @@
 	)
 	(wire
 		(pts
-			(xy 152.4 33.02) (xy 175.26 33.02)
+			(xy 152.4 31.75) (xy 175.26 31.75)
 		)
 		(stroke
 			(width 0)
@@ -3069,7 +3386,7 @@
 	)
 	(wire
 		(pts
-			(xy 187.96 48.26) (xy 187.96 50.8)
+			(xy 187.96 46.99) (xy 187.96 49.53)
 		)
 		(stroke
 			(width 0)
@@ -3109,13 +3426,33 @@
 	)
 	(wire
 		(pts
-			(xy 175.26 38.1) (xy 175.26 40.64)
+			(xy 109.22 71.12) (xy 109.22 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b0011a1f-0094-485a-822e-670226c9ae7b")
+	)
+	(wire
+		(pts
+			(xy 175.26 36.83) (xy 175.26 39.37)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "b135bc3b-974b-477b-95b5-d0f3a92b7520")
+	)
+	(wire
+		(pts
+			(xy 152.4 76.2) (xy 156.21 76.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b245d3f6-567b-49b4-894a-74ac497142a8")
 	)
 	(wire
 		(pts
@@ -3126,6 +3463,16 @@
 			(type default)
 		)
 		(uuid "b269be24-47a9-49c1-a7c9-614cae04c899")
+	)
+	(wire
+		(pts
+			(xy 156.21 76.2) (xy 156.21 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b2db4bb6-d41b-467d-b46d-eeed8818c847")
 	)
 	(wire
 		(pts
@@ -3159,6 +3506,16 @@
 	)
 	(wire
 		(pts
+			(xy 68.58 160.02) (xy 71.12 160.02)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b805a423-0886-47b5-ab35-855e0a7fbff3")
+	)
+	(wire
+		(pts
 			(xy 58.42 40.64) (xy 58.42 43.18)
 		)
 		(stroke
@@ -3179,13 +3536,23 @@
 	)
 	(wire
 		(pts
-			(xy 170.18 38.1) (xy 175.26 38.1)
+			(xy 170.18 36.83) (xy 175.26 36.83)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "bcee2e95-19df-46cc-b0d3-9772e04a9b7a")
+	)
+	(wire
+		(pts
+			(xy 214.63 73.66) (xy 218.44 73.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bf109800-ea6b-4bd2-84d9-282b1b722583")
 	)
 	(wire
 		(pts
@@ -3279,6 +3646,16 @@
 	)
 	(wire
 		(pts
+			(xy 167.64 73.66) (xy 165.1 73.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cb0d2630-2de1-432a-ae65-0d84f248184d")
+	)
+	(wire
+		(pts
 			(xy 43.18 119.38) (xy 43.18 116.84)
 		)
 		(stroke
@@ -3289,7 +3666,7 @@
 	)
 	(wire
 		(pts
-			(xy 187.96 33.02) (xy 198.12 33.02)
+			(xy 187.96 31.75) (xy 198.12 31.75)
 		)
 		(stroke
 			(width 0)
@@ -3479,6 +3856,16 @@
 	)
 	(wire
 		(pts
+			(xy 214.63 73.66) (xy 214.63 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ec0066db-cc11-499a-ba86-a0d5b30a6ea6")
+	)
+	(wire
+		(pts
 			(xy 121.92 144.78) (xy 132.08 144.78)
 		)
 		(stroke
@@ -3509,7 +3896,7 @@
 	)
 	(wire
 		(pts
-			(xy 175.26 27.94) (xy 175.26 38.1)
+			(xy 175.26 26.67) (xy 175.26 36.83)
 		)
 		(stroke
 			(width 0)
@@ -3539,6 +3926,16 @@
 	)
 	(wire
 		(pts
+			(xy 165.1 73.66) (xy 165.1 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f79a5e87-9201-44fd-a9c5-38c46823a8fd")
+	)
+	(wire
+		(pts
 			(xy 66.04 175.26) (xy 66.04 177.8)
 		)
 		(stroke
@@ -3557,8 +3954,18 @@
 		)
 		(uuid "f7ea36cc-6969-4aad-a4fb-85ef2e20bc08")
 	)
+	(wire
+		(pts
+			(xy 156.21 86.36) (xy 156.21 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fb6b9566-443d-4167-bd13-db167806b32a")
+	)
 	(label "VREG_FB"
-		(at 152.4 33.02 0)
+		(at 152.4 31.75 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -3567,8 +3974,38 @@
 		)
 		(uuid "0d4d8705-9d75-4b8e-88b3-f942196981d0")
 	)
+	(label "XOUT"
+		(at 232.41 73.66 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "0dc46c27-a3f4-4cb6-8b18-b3f47c89f436")
+	)
+	(label "XIN"
+		(at 152.4 76.2 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "14490b93-d226-4d88-acde-ccc950881652")
+	)
+	(label "XOUT"
+		(at 68.58 160.02 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "7e6ea058-f522-4250-ae7a-2a68d3c73741")
+	)
 	(label "VREG_LX"
-		(at 152.4 38.1 0)
+		(at 152.4 36.83 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -3588,7 +4025,7 @@
 		(uuid "8ea1aaa7-963e-4068-a8cc-e3252a446ba6")
 	)
 	(label "VREG_VIN"
-		(at 198.12 33.02 180)
+		(at 198.12 31.75 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -3596,6 +4033,16 @@
 			(justify right bottom)
 		)
 		(uuid "a48b561e-d310-4a2a-a278-b5c4c83eb7ec")
+	)
+	(label "XIN"
+		(at 68.58 149.86 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "d5bac1ae-b49b-47e1-bd0b-64c098fc0242")
 	)
 	(label "VREG_VIN"
 		(at 99.06 76.2 270)
@@ -3628,9 +4075,20 @@
 		)
 		(uuid "36b5b598-c57c-4f8f-a9af-131828a456fb")
 	)
+	(hierarchical_label "+1.1V"
+		(shape output)
+		(at 109.22 71.12 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "39f3f6b6-84d2-4d17-8532-0c705dc06e76")
+	)
 	(hierarchical_label "+3.3V"
 		(shape input)
-		(at 187.96 27.94 90)
+		(at 187.96 26.67 90)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -3707,7 +4165,7 @@
 	)
 	(hierarchical_label "+1.1V"
 		(shape output)
-		(at 175.26 27.94 90)
+		(at 175.26 26.67 90)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4244,6 +4702,153 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:C")
+		(at 156.21 82.55 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "173e4300-1bf6-4cbd-992c-6a59bbbd5b31")
+		(property "Reference" "C18"
+			(at 159.131 81.3816 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "15pF"
+			(at 159.131 83.693 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 157.1752 86.36 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "https://search.murata.co.jp/Ceramy/image/img/A01X/G101/ENG/GRM155R71C104KA88-01.pdf"
+			(at 156.21 82.55 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 156.21 82.55 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Field4" "Farnell"
+			(at 156.21 82.55 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Field5" "2611911"
+			(at 156.21 82.55 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Field6" "RM EMK105 B7104KV-F"
+			(at 156.21 82.55 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Field7" "TAIYO YUDEN EUROPE GMBH"
+			(at 156.21 82.55 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Part Description" "	0.1uF 10% 16V Ceramic Capacitor X7R 0402 (1005 Metric)"
+			(at 156.21 82.55 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Field8" "110091611"
+			(at 156.21 82.55 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "71a916f5-165f-402f-bfa4-4eeaee3e34d5")
+		)
+		(pin "2"
+			(uuid "3ef7e2d9-b3f3-4cc6-94b5-da6dd8f8168f")
+		)
+		(instances
+			(project "manafish"
+				(path "/37283e3e-a087-4659-9b29-171eab26a1f6/eed15416-da11-445b-8a88-e141ebb917f7"
+					(reference "C18")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R")
 		(at 63.5 80.01 0)
 		(unit 1)
@@ -4317,6 +4922,83 @@
 			(project "manafish"
 				(path "/37283e3e-a087-4659-9b29-171eab26a1f6/eed15416-da11-445b-8a88-e141ebb917f7"
 					(reference "R8")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 156.21 88.9 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "24491bb8-a7f2-4667-9c46-33cb774ec3a5")
+		(property "Reference" "#PWR0150"
+			(at 156.21 95.25 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 156.337 93.2942 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 156.21 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 156.21 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 156.21 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "d22cd3da-1511-42f6-bd58-b642af6b4dc3")
+		)
+		(instances
+			(project "manafish"
+				(path "/37283e3e-a087-4659-9b29-171eab26a1f6/eed15416-da11-445b-8a88-e141ebb917f7"
+					(reference "#PWR0150")
 					(unit 1)
 				)
 			)
@@ -4774,7 +5456,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 175.26 50.8 0)
+		(at 175.26 49.53 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -4784,7 +5466,7 @@
 		(dnp no)
 		(uuid "4a5db079-a60e-42ca-874e-c570feab3181")
 		(property "Reference" "#PWR0144"
-			(at 175.26 57.15 0)
+			(at 175.26 55.88 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4795,7 +5477,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 175.387 55.1942 0)
+			(at 175.387 53.9242 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4805,7 +5487,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 175.26 50.8 0)
+			(at 175.26 49.53 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4816,7 +5498,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 175.26 50.8 0)
+			(at 175.26 49.53 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4827,7 +5509,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 175.26 50.8 0)
+			(at 175.26 49.53 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5154,7 +5836,7 @@
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 175.26 44.45 0)
+		(at 175.26 43.18 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -5164,7 +5846,7 @@
 		(dnp no)
 		(uuid "5e8b3f30-99ad-49a1-b7e1-9a7eb881af11")
 		(property "Reference" "C14"
-			(at 178.181 43.2816 0)
+			(at 178.181 42.0116 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5175,7 +5857,7 @@
 			)
 		)
 		(property "Value" "4.7uF"
-			(at 178.181 45.593 0)
+			(at 178.181 44.323 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5186,7 +5868,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 176.2252 48.26 0)
+			(at 176.2252 46.99 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5197,7 +5879,7 @@
 			)
 		)
 		(property "Datasheet" "https://search.murata.co.jp/Ceramy/image/img/A01X/G101/ENG/GRM155R71C104KA88-01.pdf"
-			(at 175.26 44.45 0)
+			(at 175.26 43.18 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5208,7 +5890,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 175.26 44.45 0)
+			(at 175.26 43.18 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5219,7 +5901,7 @@
 			)
 		)
 		(property "Field4" "Farnell"
-			(at 175.26 44.45 0)
+			(at 175.26 43.18 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5230,7 +5912,7 @@
 			)
 		)
 		(property "Field5" "2611911"
-			(at 175.26 44.45 0)
+			(at 175.26 43.18 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5241,7 +5923,7 @@
 			)
 		)
 		(property "Field6" "RM EMK105 B7104KV-F"
-			(at 175.26 44.45 0)
+			(at 175.26 43.18 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5252,7 +5934,7 @@
 			)
 		)
 		(property "Field7" "TAIYO YUDEN EUROPE GMBH"
-			(at 175.26 44.45 0)
+			(at 175.26 43.18 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5263,7 +5945,7 @@
 			)
 		)
 		(property "Part Description" "	0.1uF 10% 16V Ceramic Capacitor X7R 0402 (1005 Metric)"
-			(at 175.26 44.45 0)
+			(at 175.26 43.18 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5274,7 +5956,7 @@
 			)
 		)
 		(property "Field8" "110091611"
-			(at 175.26 44.45 0)
+			(at 175.26 43.18 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5447,8 +6129,8 @@
 		)
 	)
 	(symbol
-		(lib_id "power:GND")
-		(at 187.96 50.8 0)
+		(lib_id "Device:R")
+		(at 222.25 73.66 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -5456,10 +6138,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(uuid "7574a5e3-ce70-4c43-ac33-65b1c71e7832")
-		(property "Reference" "#PWR0145"
-			(at 187.96 57.15 0)
-			(hide yes)
+		(uuid "640e515d-bc68-4dab-9fe3-41dc26c1d44e")
+		(property "Reference" "R10"
+			(at 222.25 75.692 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5468,8 +6149,8 @@
 				)
 			)
 		)
-		(property "Value" "GND"
-			(at 188.087 55.1942 0)
+		(property "Value" "1kR"
+			(at 222.25 71.374 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5478,8 +6159,8 @@
 				)
 			)
 		)
-		(property "Footprint" ""
-			(at 187.96 50.8 0)
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+			(at 222.25 75.438 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5490,7 +6171,234 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 187.96 50.8 0)
+			(at 222.25 73.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 222.25 73.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "cfe882b3-2fd4-4453-a226-4ebbdff1afb1")
+		)
+		(pin "2"
+			(uuid "0de7e55e-5e7c-412b-8d44-4220b987d96a")
+		)
+		(instances
+			(project "manafish"
+				(path "/37283e3e-a087-4659-9b29-171eab26a1f6/eed15416-da11-445b-8a88-e141ebb917f7"
+					(reference "R10")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 214.63 82.55 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "6784191d-32df-4ae9-8c74-1320573bb97a")
+		(property "Reference" "C19"
+			(at 217.551 81.3816 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "15pF"
+			(at 217.551 83.693 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 215.5952 86.36 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "https://search.murata.co.jp/Ceramy/image/img/A01X/G101/ENG/GRM155R71C104KA88-01.pdf"
+			(at 214.63 82.55 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 214.63 82.55 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Field4" "Farnell"
+			(at 214.63 82.55 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Field5" "2611911"
+			(at 214.63 82.55 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Field6" "RM EMK105 B7104KV-F"
+			(at 214.63 82.55 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Field7" "TAIYO YUDEN EUROPE GMBH"
+			(at 214.63 82.55 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Part Description" "	0.1uF 10% 16V Ceramic Capacitor X7R 0402 (1005 Metric)"
+			(at 214.63 82.55 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Field8" "110091611"
+			(at 214.63 82.55 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "c0f1b4b4-0b14-4c9a-8134-f71d376565a5")
+		)
+		(pin "2"
+			(uuid "6b95421e-0d1b-4ee2-9d84-ae004dc7536b")
+		)
+		(instances
+			(project "manafish"
+				(path "/37283e3e-a087-4659-9b29-171eab26a1f6/eed15416-da11-445b-8a88-e141ebb917f7"
+					(reference "C19")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 187.96 49.53 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "7574a5e3-ce70-4c43-ac33-65b1c71e7832")
+		(property "Reference" "#PWR0145"
+			(at 187.96 55.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 188.087 53.9242 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 187.96 49.53 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 187.96 49.53 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5501,7 +6409,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 187.96 50.8 0)
+			(at 187.96 49.53 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5819,7 +6727,7 @@
 	)
 	(symbol
 		(lib_id "Device:L")
-		(at 166.37 38.1 90)
+		(at 166.37 36.83 90)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -5829,7 +6737,7 @@
 		(dnp no)
 		(uuid "857753d6-192d-4b00-af2b-6d1ce56182c0")
 		(property "Reference" "L1"
-			(at 166.37 36.068 90)
+			(at 166.37 34.798 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5839,7 +6747,7 @@
 			)
 		)
 		(property "Value" "3.3uH 2.1A"
-			(at 166.37 39.878 90)
+			(at 166.37 38.608 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5849,7 +6757,7 @@
 			)
 		)
 		(property "Footprint" "Package_DFN_QFN:QFN-60-1EP_7x7mm_P0.4mm_EP3.4x3.4mm"
-			(at 166.37 38.1 0)
+			(at 166.37 36.83 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5860,7 +6768,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 166.37 38.1 0)
+			(at 166.37 36.83 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5871,7 +6779,7 @@
 			)
 		)
 		(property "Description" "Inductor"
-			(at 166.37 38.1 0)
+			(at 166.37 36.83 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6603,6 +7511,154 @@
 		)
 	)
 	(symbol
+		(lib_id "ABM8-272-T3:ABM8-272-T3")
+		(at 167.64 73.66 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "c859f9f2-fb5e-4ce4-ba89-fde8e9d02948")
+		(property "Reference" "Y1"
+			(at 187.96 66.04 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "ABM8-272-T3"
+			(at 187.96 68.58 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "ABM8272T3"
+			(at 204.47 168.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Datasheet" "https://abracon.com/datasheets/ABM8-272-T3.pdf"
+			(at 204.47 268.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Description" "Crystal, 12 MHz, SMD, 3.2mm x 2.5mm, 30 ppm, 10 pF, 30 ppm, ABM8 Series"
+			(at 167.64 73.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Height" "0.8"
+			(at 204.47 468.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Mouser Part Number" "815-ABM8-272-T3"
+			(at 204.47 568.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Mouser Price/Stock" "https://www.mouser.co.uk/ProductDetail/ABRACON/ABM8-272-T3?qs=QpmGXVUTftEj6miOiJBMxQ%3D%3D"
+			(at 204.47 668.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Manufacturer_Name" "ABRACON"
+			(at 204.47 768.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Manufacturer_Part_Number" "ABM8-272-T3"
+			(at 204.47 868.58 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "4"
+			(uuid "3b4c2765-ea5c-45ad-b465-de709a376bca")
+		)
+		(pin "1"
+			(uuid "e042a2bd-9ac6-41a5-b87d-cc05678c498b")
+		)
+		(pin "3"
+			(uuid "85e838eb-ba39-4a76-b4f3-5e28df8057d0")
+		)
+		(pin "2"
+			(uuid "dabd35af-1d66-45a8-904c-e9241a48d7c2")
+		)
+		(instances
+			(project "manafish"
+				(path "/37283e3e-a087-4659-9b29-171eab26a1f6/eed15416-da11-445b-8a88-e141ebb917f7"
+					(reference "Y1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R")
 		(at 48.26 80.01 0)
 		(unit 1)
@@ -6762,7 +7818,7 @@
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 187.96 44.45 0)
+		(at 187.96 43.18 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -6772,7 +7828,7 @@
 		(dnp no)
 		(uuid "ddf2610c-46db-4957-bf80-1dc071721323")
 		(property "Reference" "C15"
-			(at 190.881 43.2816 0)
+			(at 190.881 42.0116 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6783,7 +7839,7 @@
 			)
 		)
 		(property "Value" "4.7uF"
-			(at 190.881 45.593 0)
+			(at 190.881 44.323 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6794,7 +7850,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 188.9252 48.26 0)
+			(at 188.9252 46.99 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6805,7 +7861,7 @@
 			)
 		)
 		(property "Datasheet" "https://search.murata.co.jp/Ceramy/image/img/A01X/G101/ENG/GRM155R71C104KA88-01.pdf"
-			(at 187.96 44.45 0)
+			(at 187.96 43.18 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6816,7 +7872,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 187.96 44.45 0)
+			(at 187.96 43.18 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6827,7 +7883,7 @@
 			)
 		)
 		(property "Field4" "Farnell"
-			(at 187.96 44.45 0)
+			(at 187.96 43.18 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6838,7 +7894,7 @@
 			)
 		)
 		(property "Field5" "2611911"
-			(at 187.96 44.45 0)
+			(at 187.96 43.18 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6849,7 +7905,7 @@
 			)
 		)
 		(property "Field6" "RM EMK105 B7104KV-F"
-			(at 187.96 44.45 0)
+			(at 187.96 43.18 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6860,7 +7916,7 @@
 			)
 		)
 		(property "Field7" "TAIYO YUDEN EUROPE GMBH"
-			(at 187.96 44.45 0)
+			(at 187.96 43.18 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6871,7 +7927,7 @@
 			)
 		)
 		(property "Part Description" "	0.1uF 10% 16V Ceramic Capacitor X7R 0402 (1005 Metric)"
-			(at 187.96 44.45 0)
+			(at 187.96 43.18 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6882,7 +7938,7 @@
 			)
 		)
 		(property "Field8" "110091611"
-			(at 187.96 44.45 0)
+			(at 187.96 43.18 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7076,6 +8132,83 @@
 		)
 	)
 	(symbol
+		(lib_id "power:GND")
+		(at 165.1 88.9 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "de86cf29-19dc-4b2e-a1c8-6fa30f3d4bf3")
+		(property "Reference" "#PWR0152"
+			(at 165.1 95.25 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 165.227 93.2942 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 165.1 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 165.1 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 165.1 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "da4a5fd9-7bb1-4f7a-8937-42c3db3ce7c8")
+		)
+		(instances
+			(project "manafish"
+				(path "/37283e3e-a087-4659-9b29-171eab26a1f6/eed15416-da11-445b-8a88-e141ebb917f7"
+					(reference "#PWR0152")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:C")
 		(at 121.92 36.83 0)
 		(unit 1)
@@ -7217,6 +8350,160 @@
 			(project "manafish"
 				(path "/37283e3e-a087-4659-9b29-171eab26a1f6/eed15416-da11-445b-8a88-e141ebb917f7"
 					(reference "C10")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 210.82 88.9 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "e6617318-9e65-4a96-9832-c063621de521")
+		(property "Reference" "#PWR0153"
+			(at 210.82 95.25 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 210.947 93.2942 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 210.82 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 210.82 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 210.82 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "42e20595-5cce-4f45-9e65-8c4a86b4077d")
+		)
+		(instances
+			(project "manafish"
+				(path "/37283e3e-a087-4659-9b29-171eab26a1f6/eed15416-da11-445b-8a88-e141ebb917f7"
+					(reference "#PWR0153")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 214.63 88.9 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "e6b642b8-1846-4252-868e-075ed3cbcc44")
+		(property "Reference" "#PWR0151"
+			(at 214.63 95.25 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 214.757 93.2942 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 214.63 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 214.63 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 214.63 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "47ae05b4-dfc2-4d42-921e-ec0db64f789e")
+		)
+		(instances
+			(project "manafish"
+				(path "/37283e3e-a087-4659-9b29-171eab26a1f6/eed15416-da11-445b-8a88-e141ebb917f7"
+					(reference "#PWR0151")
 					(unit 1)
 				)
 			)
