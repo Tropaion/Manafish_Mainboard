@@ -2828,6 +2828,16 @@
 	)
 	(wire
 		(pts
+			(xy 121.92 104.14) (xy 124.46 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1a49db5e-bfa3-4b76-bcdf-c73360c3f9b8")
+	)
+	(wire
+		(pts
 			(xy 63.5 86.36) (xy 63.5 88.9)
 		)
 		(stroke
@@ -3768,6 +3778,16 @@
 	)
 	(wire
 		(pts
+			(xy 121.92 106.68) (xy 124.46 106.68)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d64f30ce-e6ab-4c2a-8cd3-03382f90273c")
+	)
+	(wire
+		(pts
 			(xy 39.37 177.8) (xy 41.91 177.8)
 		)
 		(stroke
@@ -4233,6 +4253,17 @@
 		)
 		(uuid "81e387c7-5201-41d2-87ca-1a87c380b24c")
 	)
+	(hierarchical_label "I2C0_SCL"
+		(shape output)
+		(at 124.46 104.14 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "9fefb42b-ee20-48c9-ac98-deafa1ccb888")
+	)
 	(hierarchical_label "USB_D-"
 		(shape bidirectional)
 		(at 27.94 116.84 180)
@@ -4276,6 +4307,17 @@
 			(justify right)
 		)
 		(uuid "c34f8e1a-f8bd-4f41-bf9c-2632183875a2")
+	)
+	(hierarchical_label "I2C0_SDA"
+		(shape bidirectional)
+		(at 124.46 106.68 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "dc5be8bd-66db-4680-a7ae-66f28fdf43f4")
 	)
 	(hierarchical_label "+1.1V"
 		(shape output)
