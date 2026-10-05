@@ -6756,7 +6756,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_DFN_QFN:QFN-60-1EP_7x7mm_P0.4mm_EP3.4x3.4mm"
+		(property "Footprint" "RP2350_Minimal:abracon_aota-b201610s3r3-101-t"
 			(at 166.37 36.83 0)
 			(hide yes)
 			(show_name no)
@@ -6912,7 +6912,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "RP2350_Minimal:jst_sm03b-srss-tb-lf--sn-"
 			(at 58.42 172.72 0)
 			(hide yes)
 			(show_name no)
@@ -7227,7 +7227,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Connector_JST:JST_GH_SM05B-GHS-TB_1x05-1MP_P1.25mm_Horizontal"
 			(at 137.16 116.84 0)
 			(hide yes)
 			(show_name no)
@@ -7542,7 +7542,7 @@
 				)
 			)
 		)
-		(property "Footprint" "ABM8272T3"
+		(property "Footprint" "ABM8-272-T3:ABM8272T3"
 			(at 204.47 168.58 0)
 			(hide yes)
 			(show_name no)
@@ -7997,7 +7997,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Connector_JST:JST_GH_SM05B-GHS-TB_1x05-1MP_P1.25mm_Horizontal"
 			(at 137.16 147.32 0)
 			(hide yes)
 			(show_name no)

@@ -100,7 +100,7 @@ hardware/
 ├── fp-lib-table            project footprint libraries
 └── custom_components/
     ├── symbols/            CM5IO, BMI270, SHT45, ABM8-272-T3 symbols
-    ├── footprints/         CM5IO, BMI270, SHT45, ABM8-272-T3 footprints
+    ├── footprints/         CM5IO, BMI270, SHT45, ABM8-272-T3, RP2350_Minimal footprints
     └── 3d/                 STEP models
 ```
 
@@ -183,7 +183,9 @@ reference design by Raspberry Pi Ltd.
 
 The RP2354A circuit follows Raspberry Pi's
 [*Hardware design with RP2350*](https://datasheets.raspberrypi.com/rp2350/hardware-design-with-rp2350.pdf)
-(RP-008280-DS).
+(RP-008280-DS). The footprints for the core regulator inductor L1 and the SWD
+connector J2 come from Raspberry Pi's RP2350A minimal design, published under
+the MIT license.
 
 Raspberry Pi is a trademark of Raspberry Pi Ltd. This project is not affiliated
 with or endorsed by Raspberry Pi Ltd.

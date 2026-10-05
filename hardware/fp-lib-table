@@ -3,4 +3,6 @@
 	(lib (name "CM5IO") (type "KiCad") (uri "${KIPRJMOD}/custom_components/footprints/CM5IO.pretty") (options "") (descr "Raspberry Pi CM5 IO Board footprints"))
 	(lib (name "BMI270") (type "KiCad") (uri "${KIPRJMOD}/custom_components/footprints/BMI270.pretty") (options "") (descr ""))
 	(lib (name "SHT45") (type "KiCad") (uri "${KIPRJMOD}/custom_components/footprints/SHT45.pretty") (options "") (descr ""))
+	(lib (name "ABM8-272-T3") (type "KiCad") (uri "${KIPRJMOD}/custom_components/footprints/ABM8-272-T3.pretty") (options "") (descr ""))
+	(lib (name "RP2350_Minimal") (type "KiCad") (uri "${KIPRJMOD}/custom_components/footprints/RP2350_Minimal.pretty") (options "") (descr "Footprints from Raspberry Pi's RP2350A minimal design (MIT)"))
 )

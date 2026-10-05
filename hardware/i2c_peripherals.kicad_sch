@@ -2360,7 +2360,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Connector:Tag-Connect_TC2030-IDC-FP_2x03_P1.27mm_Vertical"
+		(property "Footprint" "Connector_JST:JST_GH_SM04B-GHS-TB_1x04-1MP_P1.25mm_Horizontal"
 			(at 66.04 27.94 0)
 			(hide yes)
 			(show_name no)
@@ -2971,7 +2971,7 @@
 				)
 			)
 		)
-		(property "Footprint" "BMI270"
+		(property "Footprint" "BMI270:BMI270"
 			(at -18.72 83.82 0)
 			(hide yes)
 			(show_name no)
@@ -3149,7 +3149,7 @@
 				)
 			)
 		)
-		(property "Footprint" "SON80P150X150X59-5N"
+		(property "Footprint" "SHT45:SON80P150X150X59-5N"
 			(at 146.05 157.15 0)
 			(hide yes)
 			(show_name no)

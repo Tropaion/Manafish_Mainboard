@@ -32,6 +32,25 @@ Schematic sheets adapted from the package's `CM5IO.kicad_sch`,
 - `hardware/ethernet.kicad_sch`
 - `hardware/manafish.kicad_sch`: the USB-C service port J8
 
+## Raspberry Pi RP2350A minimal design
+
+- **Copyright:** © 2026 Raspberry Pi Ltd.
+- **Source:** *RP2350A Minimal KiCad design*, linked from
+  [Hardware design with RP2350](https://datasheets.raspberrypi.com/rp2350/hardware-design-with-rp2350.pdf)
+  (<https://datasheets.raspberrypi.com/rp2350/Minimal-KiCAD.zip>).
+- **License:** MIT. The full text is in
+  `hardware/custom_components/footprints/RP2350_Minimal.pretty/LICENSE.txt`.
+
+Footprints extracted from that design's PCB into
+`hardware/custom_components/footprints/RP2350_Minimal.pretty/`:
+
+| Footprint | Used for |
+| --- | --- |
+| `abracon_aota-b201610s3r3-101-t` | L1, the RP2354A core regulator inductor |
+| `jst_sm03b-srss-tb-lf--sn-` | J2, the SWD debug connector |
+
+Their 3D models were embedded in the original board and are not included.
+
 ## 3D models
 
 Raspberry Pi's package says about its models: "The models provided in the
