@@ -6219,6 +6219,16 @@
 	)
 	(wire
 		(pts
+			(xy 76.2 73.66) (xy 83.82 73.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "74ada4ba-3b7c-4c82-a522-615c172fe2fc")
+	)
+	(wire
+		(pts
 			(xy 251.46 104.14) (xy 254 104.14)
 		)
 		(stroke
@@ -6466,16 +6476,6 @@
 			(type solid)
 		)
 		(uuid "90f02299-ba0a-49af-bbdc-d47c210108a4")
-	)
-	(wire
-		(pts
-			(xy 147.32 81.28) (xy 147.32 68.58)
-		)
-		(stroke
-			(width 0)
-			(type solid)
-		)
-		(uuid "92795f62-2fd1-455d-8311-e63a8bbb64ed")
 	)
 	(wire
 		(pts
@@ -6756,6 +6756,16 @@
 			(type solid)
 		)
 		(uuid "b3b603d1-a715-4c19-af3d-7577aac0dfd1")
+	)
+	(wire
+		(pts
+			(xy 147.32 68.58) (xy 147.32 81.28)
+		)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(uuid "b43233cf-59f9-4014-a6f3-3cd5d8a2b011")
 	)
 	(wire
 		(pts
@@ -7066,6 +7076,16 @@
 			(type solid)
 		)
 		(uuid "d7e52f7b-a282-40df-b817-a911db07fe3e")
+	)
+	(wire
+		(pts
+			(xy 144.78 76.2) (xy 152.4 76.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d829c2ed-3e7e-4c91-89f5-7484f349dbff")
 	)
 	(wire
 		(pts
@@ -7781,6 +7801,17 @@
 		)
 		(uuid "325e5457-e843-4120-950b-ee2ae0a19574")
 	)
+	(hierarchical_label "RP2354_SWDIO"
+		(shape bidirectional)
+		(at 152.4 76.2 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "395f14d2-f080-4267-9223-5956673fb043")
+	)
 	(hierarchical_label "USB2_P"
 		(shape bidirectional)
 		(at 256.54 33.02 0)
@@ -7879,6 +7910,17 @@
 			(justify left)
 		)
 		(uuid "c2e29ffd-9a83-4c25-b4c8-b48df686b9b7")
+	)
+	(hierarchical_label "RP2354_SWCLK"
+		(shape output)
+		(at 76.2 73.66 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "cb9de7ff-872a-427a-98d0-7ba610a2bef1")
 	)
 	(hierarchical_label "{ETH0}"
 		(shape bidirectional)
@@ -8055,7 +8097,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "https://cdn.amphenol-cs.com/media/wysiwyg/files/drawing/10164227.pdf"
 			(at 223.52 115.57 0)
 			(hide yes)
 			(show_name no)
@@ -8066,7 +8108,7 @@
 				)
 			)
 		)
-		(property "Description" "RaspberryPi Compute module 5"
+		(property "Description" "CONN BergStak 100P 0.4mm receptacle 1.5mm stack (CM5 socket)"
 			(at 81.28 88.9 0)
 			(hide yes)
 			(show_name no)
@@ -8077,8 +8119,9 @@
 				)
 			)
 		)
-		(property "Field4" "Amphenol"
-			(at 220.98 20.32 0)
+		(property "Manufacturer" "Amphenol"
+			(at 81.28 88.9 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8087,8 +8130,42 @@
 				)
 			)
 		)
-		(property "Field5" "2x 10164227-1001A1RLF"
-			(at 220.98 22.86 0)
+		(property "MPN" "10164227-1001A1RLF"
+			(at 81.28 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "649-01642271001A1RLF"
+			(at 81.28 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/649-01642271001A1RLF"
+			(at 81.28 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Note" "2 pcs per board (both CM5 connectors). CM5 module (eMMC variant) ordered separately."
+			(at 81.28 88.9 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8750,7 +8827,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://search.murata.co.jp/Ceramy/image/img/A01X/G101/ENG/GRM155R71C104KA88-01.pdf"
+		(property "Datasheet" "https://pim.murata.com/asset/pim4/ceramicCapacitorSMD/GRM155R71C104KA88-01A-EN_PDF_CERAMICCAPACITORSMD"
 			(at 31.75 34.29 0)
 			(hide yes)
 			(show_name no)
@@ -8761,7 +8838,7 @@
 				)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "CAP CER 100nF 16V X7R 10% 0402"
 			(at 31.75 34.29 0)
 			(hide yes)
 			(show_name no)
@@ -8772,7 +8849,7 @@
 				)
 			)
 		)
-		(property "Field4" "Farnell"
+		(property "Manufacturer" "Murata"
 			(at 31.75 34.29 0)
 			(hide yes)
 			(show_name no)
@@ -8783,7 +8860,7 @@
 				)
 			)
 		)
-		(property "Field5" "2611911"
+		(property "MPN" "GRM155R71C104KA88D"
 			(at 31.75 34.29 0)
 			(hide yes)
 			(show_name no)
@@ -8794,7 +8871,7 @@
 				)
 			)
 		)
-		(property "Field6" "RM EMK105 B7104KV-F"
+		(property "Mouser PN" "81-GRM155R71C104KA88"
 			(at 31.75 34.29 0)
 			(hide yes)
 			(show_name no)
@@ -8805,29 +8882,7 @@
 				)
 			)
 		)
-		(property "Field7" "TAIYO YUDEN EUROPE GMBH"
-			(at 31.75 34.29 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Part Description" "	0.1uF 10% 16V Ceramic Capacitor X7R 0402 (1005 Metric)"
-			(at 31.75 34.29 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field8" "110091611"
+		(property "Mouser" "https://www.mouser.com/ProductDetail/81-GRM155R71C104KA88"
 			(at 31.75 34.29 0)
 			(hide yes)
 			(show_name no)
@@ -9126,7 +9181,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.toby.co.uk/uploads/publications/1673.pdf"
+		(property "Datasheet" "https://www.we-online.com/components/products/datasheet/61301421121.pdf"
 			(at 30.48 72.39 0)
 			(hide yes)
 			(show_name no)
@@ -9137,7 +9192,7 @@
 				)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "CONN HDR 2x7 2.54mm vertical THT"
 			(at 30.48 72.39 0)
 			(hide yes)
 			(show_name no)
@@ -9148,7 +9203,7 @@
 				)
 			)
 		)
-		(property "Field4" "Toby"
+		(property "Manufacturer" "Wurth Elektronik"
 			(at 30.48 72.39 0)
 			(hide yes)
 			(show_name no)
@@ -9159,7 +9214,7 @@
 				)
 			)
 		)
-		(property "Field5" "THD-07-R"
+		(property "MPN" "61301421121"
 			(at 30.48 72.39 0)
 			(hide yes)
 			(show_name no)
@@ -9170,7 +9225,7 @@
 				)
 			)
 		)
-		(property "Field6" "THD-07-R"
+		(property "Mouser PN" "710-61301421121"
 			(at 30.48 72.39 0)
 			(hide yes)
 			(show_name no)
@@ -9181,18 +9236,7 @@
 				)
 			)
 		)
-		(property "Field7" "Toby"
-			(at 30.48 72.39 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Part Description" "PinHeader_2x07_P2.54mm_Vertical"
+		(property "Mouser" "https://www.mouser.com/ProductDetail/710-61301421121"
 			(at 30.48 72.39 0)
 			(hide yes)
 			(show_name no)
@@ -9297,7 +9341,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "https://cdn.amphenol-cs.com/media/wysiwyg/files/drawing/10164227.pdf"
 			(at 259.08 110.49 0)
 			(hide yes)
 			(show_name no)
@@ -9308,7 +9352,7 @@
 				)
 			)
 		)
-		(property "Description" "RaspberryPi Compute module 5"
+		(property "Description" "CONN BergStak 100P 0.4mm receptacle 1.5mm stack (CM5 socket)"
 			(at 116.84 83.82 0)
 			(hide yes)
 			(show_name no)
@@ -9319,8 +9363,9 @@
 				)
 			)
 		)
-		(property "Field4" "Amphenol"
-			(at 114.3 20.32 0)
+		(property "Manufacturer" "Amphenol"
+			(at 116.84 83.82 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9329,8 +9374,42 @@
 				)
 			)
 		)
-		(property "Field5" "2x 10164227-1001A1RLF"
-			(at 114.3 22.86 0)
+		(property "MPN" "10164227-1001A1RLF"
+			(at 116.84 83.82 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "649-01642271001A1RLF"
+			(at 116.84 83.82 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/649-01642271001A1RLF"
+			(at 116.84 83.82 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Note" "2 pcs per board (both CM5 connectors). CM5 module (eMMC variant) ordered separately."
+			(at 116.84 83.82 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10069,7 +10148,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://search.murata.co.jp/Ceramy/image/img/A01X/G101/ENG/GRM155R71C104KA88-01.pdf"
+		(property "Datasheet" "https://pim.murata.com/asset/pim4/ceramicCapacitorSMD/GRM155R71C104KA88-01A-EN_PDF_CERAMICCAPACITORSMD"
 			(at 19.05 34.29 0)
 			(hide yes)
 			(show_name no)
@@ -10080,7 +10159,7 @@
 				)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "CAP CER 100nF 16V X7R 10% 0402"
 			(at 19.05 34.29 0)
 			(hide yes)
 			(show_name no)
@@ -10091,7 +10170,7 @@
 				)
 			)
 		)
-		(property "Field4" "Farnell"
+		(property "Manufacturer" "Murata"
 			(at 19.05 34.29 0)
 			(hide yes)
 			(show_name no)
@@ -10102,7 +10181,7 @@
 				)
 			)
 		)
-		(property "Field5" "2611911"
+		(property "MPN" "GRM155R71C104KA88D"
 			(at 19.05 34.29 0)
 			(hide yes)
 			(show_name no)
@@ -10113,7 +10192,7 @@
 				)
 			)
 		)
-		(property "Field6" "RM EMK105 B7104KV-F"
+		(property "Mouser PN" "81-GRM155R71C104KA88"
 			(at 19.05 34.29 0)
 			(hide yes)
 			(show_name no)
@@ -10124,29 +10203,7 @@
 				)
 			)
 		)
-		(property "Field7" "TAIYO YUDEN EUROPE GMBH"
-			(at 19.05 34.29 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Part Description" "	0.1uF 10% 16V Ceramic Capacitor X7R 0402 (1005 Metric)"
-			(at 19.05 34.29 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field8" "110091611"
+		(property "Mouser" "https://www.mouser.com/ProductDetail/81-GRM155R71C104KA88"
 			(at 19.05 34.29 0)
 			(hide yes)
 			(show_name no)

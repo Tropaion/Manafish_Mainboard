@@ -1099,7 +1099,7 @@
 	)
 	(rectangle
 		(start 15.24 17.78)
-		(end 175.26 104.14)
+		(end 175.26 114.3)
 		(stroke
 			(width 0)
 			(type default)
@@ -1220,6 +1220,16 @@
 			(type default)
 		)
 		(uuid "39a92fa8-c92d-427b-b056-1f4920e833f1")
+	)
+	(wire
+		(pts
+			(xy 119.38 104.14) (xy 134.62 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "39decc4e-39cf-45bc-81a4-3f62500464a5")
 	)
 	(wire
 		(pts
@@ -1503,6 +1513,16 @@
 	)
 	(wire
 		(pts
+			(xy 119.38 101.6) (xy 134.62 101.6)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ca85e214-3eac-4f9f-b8c7-efb1c3968ad0")
+	)
+	(wire
+		(pts
 			(xy 66.04 46.99) (xy 60.96 46.99)
 		)
 		(stroke
@@ -1593,7 +1613,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.usb.org/sites/default/files/documents/usb_type-c.zip"
+		(property "Datasheet" "https://gct.co/files/drawings/usb4105.pdf"
 			(at 49.53 54.61 0)
 			(hide yes)
 			(show_name no)
@@ -1604,7 +1624,51 @@
 				)
 			)
 		)
-		(property "Description" "USB 2.0-only 14P Type-C Receptacle connector"
+		(property "Description" "CONN USB-C receptacle USB 2.0 16P SMT"
+			(at 45.72 54.61 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "GCT"
+			(at 45.72 54.61 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "USB4105-GF-A"
+			(at 45.72 54.61 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "640-USB4105-GF-A"
+			(at 45.72 54.61 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/640-USB4105-GF-A"
 			(at 45.72 54.61 0)
 			(hide yes)
 			(show_name no)
@@ -1825,7 +1889,8 @@
 	)
 	(symbol
 		(lib_id "Connector:Conn_01x02_Pin")
-		(at 25.4 25.4 0)
+		(at 25.4 27.94 0)
+		(mirror x)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -1835,7 +1900,7 @@
 		(dnp no)
 		(uuid "596a5db1-e804-470c-8d83-c6891732825f")
 		(property "Reference" "J6"
-			(at 18.796 25.4 0)
+			(at 18.796 27.94 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -1845,7 +1910,7 @@
 			)
 		)
 		(property "Value" "Battery"
-			(at 20.828 27.686 0)
+			(at 20.828 25.654 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -1855,7 +1920,7 @@
 			)
 		)
 		(property "Footprint" "Connector_AMASS:AMASS_XT30PW-M_1x02_P2.50mm_Horizontal"
-			(at 25.4 25.4 0)
+			(at 25.4 27.94 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1865,8 +1930,8 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
-			(at 25.4 25.4 0)
+		(property "Datasheet" "https://datasheet.lcsc.com/datasheet/pdf/f40c503d729038bd14858056d73ccb74.pdf"
+			(at 25.4 27.94 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1876,8 +1941,63 @@
 				)
 			)
 		)
-		(property "Description" "Generic connector, single row, 01x02, script generated"
-			(at 25.4 25.4 0)
+		(property "Description" "CONN XT30 male PCB R/A THT 15A"
+			(at 25.4 27.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Amass"
+			(at 25.4 27.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "XT30PW-M30.G.Y"
+			(at 25.4 27.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "not stocked"
+			(at 25.4 27.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C431092.html"
+			(at 25.4 27.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Note" "Not stocked by Mouser: LCSC C431092 or TME XT30PW-M."
+			(at 25.4 27.94 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1944,7 +2064,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "https://yageogroup.com/content/datasheet/asset/file/PYU-RC_GROUP_51_ROHS_L"
 			(at 66.04 76.2 0)
 			(hide yes)
 			(show_name no)
@@ -1955,7 +2075,51 @@
 				)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "RES 5k1 1% 1/16W 0402"
+			(at 66.04 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Yageo"
+			(at 66.04 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "RC0402FR-075K1L"
+			(at 66.04 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "603-RC0402FR-075K1L"
+			(at 66.04 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/603-RC0402FR-075K1L"
 			(at 66.04 76.2 0)
 			(hide yes)
 			(show_name no)
@@ -2100,7 +2264,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "https://yageogroup.com/content/datasheet/asset/file/PYU-RC_GROUP_51_ROHS_L"
 			(at 74.93 76.2 0)
 			(hide yes)
 			(show_name no)
@@ -2111,7 +2275,51 @@
 				)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "RES 5k1 1% 1/16W 0402"
+			(at 74.93 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Yageo"
+			(at 74.93 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "RC0402FR-075K1L"
+			(at 74.93 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "603-RC0402FR-075K1L"
+			(at 74.93 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/603-RC0402FR-075K1L"
 			(at 74.93 76.2 0)
 			(hide yes)
 			(show_name no)
@@ -2281,7 +2489,7 @@
 	)
 	(sheet
 		(at 86.36 22.86)
-		(size 33.02 76.2)
+		(size 33.02 87.63)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
@@ -2307,7 +2515,7 @@
 			)
 		)
 		(property "Sheetfile" "cm5.kicad_sch"
-			(at 86.36 99.6446 0)
+			(at 86.36 111.0746 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -2455,6 +2663,26 @@
 					(size 1.27 1.27)
 				)
 				(justify left)
+			)
+		)
+		(pin "RP2354_SWCLK" output
+			(at 119.38 101.6 0)
+			(uuid "9471085e-d61a-45cf-8940-f229723c303a")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "RP2354_SWDIO" bidirectional
+			(at 119.38 104.14 0)
+			(uuid "26375e34-edfa-4cd1-b840-37dfd02929ad")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
 			)
 		)
 		(instances
@@ -2609,7 +2837,7 @@
 	)
 	(sheet
 		(at 134.62 78.74)
-		(size 35.56 20.32)
+		(size 35.56 31.75)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
@@ -2635,7 +2863,7 @@
 			)
 		)
 		(property "Sheetfile" "rp2354a.kicad_sch"
-			(at 134.62 99.6446 0)
+			(at 134.62 111.0746 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -2698,6 +2926,26 @@
 		(pin "USB_D-" bidirectional
 			(at 134.62 88.9 180)
 			(uuid "ad364986-d74e-4c8c-b639-9b33edf13206")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RP2354_SWCLK" input
+			(at 134.62 101.6 180)
+			(uuid "60719e99-94ad-4aee-90e0-a547fb4a3b2e")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "RP2354_SWDIO" bidirectional
+			(at 134.62 104.14 180)
+			(uuid "2ec546bb-37fc-43fe-89de-7bb1f083b781")
 			(effects
 				(font
 					(size 1.27 1.27)

@@ -1847,7 +1847,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.hirose.com/product/document?clcode=&productname=&series=FH12&documenttype=Catalog&lang=en&documentid=D31648_en"
+		(property "Datasheet" "https://www.hirose.com/api/v1/products/CL0586-0532-7-55/documents/drawing_2d/content?lang=EN"
 			(at 41.91 45.72 0)
 			(hide yes)
 			(show_name no)
@@ -1858,7 +1858,7 @@
 				)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "CONN FPC 22P 0.5mm bottom contact ZIF R/A"
 			(at 41.91 45.72 0)
 			(hide yes)
 			(show_name no)
@@ -1869,7 +1869,7 @@
 				)
 			)
 		)
-		(property "Field4" "Mouser"
+		(property "Manufacturer" "Hirose"
 			(at 41.91 45.72 0)
 			(hide yes)
 			(show_name no)
@@ -1880,7 +1880,7 @@
 				)
 			)
 		)
-		(property "Field5" "798-FH12-22S-0.5SH55"
+		(property "MPN" "FH12-22S-0.5SH(55)"
 			(at 41.91 45.72 0)
 			(hide yes)
 			(show_name no)
@@ -1891,7 +1891,7 @@
 				)
 			)
 		)
-		(property "Field6" "FH12-22S-0.5SH55"
+		(property "Mouser PN" "798-FH12-22S-0.5SH55"
 			(at 41.91 45.72 0)
 			(hide yes)
 			(show_name no)
@@ -1902,18 +1902,7 @@
 				)
 			)
 		)
-		(property "Field7" "Hirose"
-			(at 41.91 45.72 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Part Description" "22 Position FFC, FPC Connector Contacts, Bottom 0.020\" (0.50mm) Surface Mount, Right Angle"
+		(property "Mouser" "https://www.mouser.com/ProductDetail/798-FH12-22S-0.5SH55"
 			(at 41.91 45.72 0)
 			(hide yes)
 			(show_name no)

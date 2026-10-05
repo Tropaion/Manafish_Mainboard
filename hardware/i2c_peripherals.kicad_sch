@@ -2142,7 +2142,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "https://yageogroup.com/content/datasheet/asset/file/PYU-RC_GROUP_51_ROHS_L"
 			(at 27.94 25.4 0)
 			(hide yes)
 			(show_name no)
@@ -2153,7 +2153,51 @@
 				)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "RES 4k7 1% 1/16W 0402"
+			(at 27.94 25.4 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Yageo"
+			(at 27.94 25.4 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "RC0402FR-074K7L"
+			(at 27.94 25.4 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "603-RC0402FR-074K7L"
+			(at 27.94 25.4 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/603-RC0402FR-074K7L"
 			(at 27.94 25.4 0)
 			(hide yes)
 			(show_name no)
@@ -2223,7 +2267,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://search.murata.co.jp/Ceramy/image/img/A01X/G101/ENG/GRM155R71C104KA88-01.pdf"
+		(property "Datasheet" "https://pim.murata.com/asset/pim4/ceramicCapacitorSMD/GRM155R71C104KA88-01A-EN_PDF_CERAMICCAPACITORSMD"
 			(at 160.02 71.12 0)
 			(hide yes)
 			(show_name no)
@@ -2234,7 +2278,7 @@
 				)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "CAP CER 100nF 16V X7R 10% 0402"
 			(at 160.02 71.12 0)
 			(hide yes)
 			(show_name no)
@@ -2245,7 +2289,7 @@
 				)
 			)
 		)
-		(property "Field4" "Farnell"
+		(property "Manufacturer" "Murata"
 			(at 160.02 71.12 0)
 			(hide yes)
 			(show_name no)
@@ -2256,7 +2300,7 @@
 				)
 			)
 		)
-		(property "Field5" "2611911"
+		(property "MPN" "GRM155R71C104KA88D"
 			(at 160.02 71.12 0)
 			(hide yes)
 			(show_name no)
@@ -2267,7 +2311,7 @@
 				)
 			)
 		)
-		(property "Field6" "RM EMK105 B7104KV-F"
+		(property "Mouser PN" "81-GRM155R71C104KA88"
 			(at 160.02 71.12 0)
 			(hide yes)
 			(show_name no)
@@ -2278,29 +2322,7 @@
 				)
 			)
 		)
-		(property "Field7" "TAIYO YUDEN EUROPE GMBH"
-			(at 160.02 71.12 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Part Description" "	0.1uF 10% 16V Ceramic Capacitor X7R 0402 (1005 Metric)"
-			(at 160.02 71.12 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field8" "110091611"
+		(property "Mouser" "https://www.mouser.com/ProductDetail/81-GRM155R71C104KA88"
 			(at 160.02 71.12 0)
 			(hide yes)
 			(show_name no)
@@ -2371,7 +2393,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "https://www.jst-mfg.com/product/pdf/eng/eGH.pdf"
 			(at 66.04 27.94 0)
 			(hide yes)
 			(show_name no)
@@ -2382,7 +2404,51 @@
 				)
 			)
 		)
-		(property "Description" "Generic connector, single row, 01x04, script generated"
+		(property "Description" "CONN JST GH 4P 1.25mm R/A SMD"
+			(at 66.04 27.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "JST"
+			(at 66.04 27.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "SM04B-GHS-TB(LF)(SN)"
+			(at 66.04 27.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "306-SM04BGHSTBLFSN"
+			(at 66.04 27.94 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/306-SM04BGHSTBLFSN"
 			(at 66.04 27.94 0)
 			(hide yes)
 			(show_name no)
@@ -2535,7 +2601,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://search.murata.co.jp/Ceramy/image/img/A01X/G101/ENG/GRM155R71C104KA88-01.pdf"
+		(property "Datasheet" "https://pim.murata.com/asset/pim4/ceramicCapacitorSMD/GRM155R71C104KA88-01A-EN_PDF_CERAMICCAPACITORSMD"
 			(at 30.48 96.52 0)
 			(hide yes)
 			(show_name no)
@@ -2546,7 +2612,7 @@
 				)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "CAP CER 100nF 16V X7R 10% 0402"
 			(at 30.48 96.52 0)
 			(hide yes)
 			(show_name no)
@@ -2557,7 +2623,7 @@
 				)
 			)
 		)
-		(property "Field4" "Farnell"
+		(property "Manufacturer" "Murata"
 			(at 30.48 96.52 0)
 			(hide yes)
 			(show_name no)
@@ -2568,7 +2634,7 @@
 				)
 			)
 		)
-		(property "Field5" "2611911"
+		(property "MPN" "GRM155R71C104KA88D"
 			(at 30.48 96.52 0)
 			(hide yes)
 			(show_name no)
@@ -2579,7 +2645,7 @@
 				)
 			)
 		)
-		(property "Field6" "RM EMK105 B7104KV-F"
+		(property "Mouser PN" "81-GRM155R71C104KA88"
 			(at 30.48 96.52 0)
 			(hide yes)
 			(show_name no)
@@ -2590,29 +2656,7 @@
 				)
 			)
 		)
-		(property "Field7" "TAIYO YUDEN EUROPE GMBH"
-			(at 30.48 96.52 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Part Description" "	0.1uF 10% 16V Ceramic Capacitor X7R 0402 (1005 Metric)"
-			(at 30.48 96.52 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field8" "110091611"
+		(property "Mouser" "https://www.mouser.com/ProductDetail/81-GRM155R71C104KA88"
 			(at 30.48 96.52 0)
 			(hide yes)
 			(show_name no)
@@ -2759,7 +2803,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://search.murata.co.jp/Ceramy/image/img/A01X/G101/ENG/GRM155R71C104KA88-01.pdf"
+		(property "Datasheet" "https://pim.murata.com/asset/pim4/ceramicCapacitorSMD/GRM155R71C104KA88-01A-EN_PDF_CERAMICCAPACITORSMD"
 			(at 60.96 96.52 0)
 			(hide yes)
 			(show_name no)
@@ -2770,7 +2814,7 @@
 				)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "CAP CER 100nF 16V X7R 10% 0402"
 			(at 60.96 96.52 0)
 			(hide yes)
 			(show_name no)
@@ -2781,7 +2825,7 @@
 				)
 			)
 		)
-		(property "Field4" "Farnell"
+		(property "Manufacturer" "Murata"
 			(at 60.96 96.52 0)
 			(hide yes)
 			(show_name no)
@@ -2792,7 +2836,7 @@
 				)
 			)
 		)
-		(property "Field5" "2611911"
+		(property "MPN" "GRM155R71C104KA88D"
 			(at 60.96 96.52 0)
 			(hide yes)
 			(show_name no)
@@ -2803,7 +2847,7 @@
 				)
 			)
 		)
-		(property "Field6" "RM EMK105 B7104KV-F"
+		(property "Mouser PN" "81-GRM155R71C104KA88"
 			(at 60.96 96.52 0)
 			(hide yes)
 			(show_name no)
@@ -2814,29 +2858,7 @@
 				)
 			)
 		)
-		(property "Field7" "TAIYO YUDEN EUROPE GMBH"
-			(at 60.96 96.52 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Part Description" "	0.1uF 10% 16V Ceramic Capacitor X7R 0402 (1005 Metric)"
-			(at 60.96 96.52 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Field8" "110091611"
+		(property "Mouser" "https://www.mouser.com/ProductDetail/81-GRM155R71C104KA88"
 			(at 60.96 96.52 0)
 			(hide yes)
 			(show_name no)
@@ -2995,7 +3017,7 @@
 				(justify left top)
 			)
 		)
-		(property "Description" "IMUs - Inertial Measurement Units Smart Ultra-Low Power Inertial Measurement Unit (IMU) for Wearable Applications"
+		(property "Description" "IMU 6-axis accel+gyro LGA-14"
 			(at 68.58 57.15 0)
 			(hide yes)
 			(show_name no)
@@ -3018,8 +3040,8 @@
 				(justify left top)
 			)
 		)
-		(property "Mouser Part Number" "262-BMI270"
-			(at -418.72 83.82 0)
+		(property "Manufacturer" "Bosch Sensortec"
+			(at 68.58 57.15 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3027,11 +3049,10 @@
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left top)
 			)
 		)
-		(property "Mouser Price/Stock" "https://www.mouser.co.uk/ProductDetail/Bosch-Sensortec/BMI270?qs=u16ybLDytRYIj%252BjQEee88A%3D%3D"
-			(at -518.72 83.82 0)
+		(property "MPN" "BMI270"
+			(at 68.58 57.15 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3039,11 +3060,10 @@
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left top)
 			)
 		)
-		(property "Manufacturer_Name" "BOSCH"
-			(at -618.72 83.82 0)
+		(property "Mouser PN" "262-BMI270"
+			(at 68.58 57.15 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3051,11 +3071,10 @@
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left top)
 			)
 		)
-		(property "Manufacturer_Part_Number" "BMI270"
-			(at -718.72 83.82 0)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/262-BMI270"
+			(at 68.58 57.15 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3063,7 +3082,6 @@
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left top)
 			)
 		)
 		(pin "13"
@@ -3161,7 +3179,7 @@
 				(justify left top)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "https://sensirion.com/resource/datasheet/sht4x"
 			(at 146.05 257.15 0)
 			(hide yes)
 			(show_name no)
@@ -3173,7 +3191,7 @@
 				(justify left top)
 			)
 		)
-		(property "Description" "Humidity and Temperature Sensor, Digital, 0% to 100% Relative Humidity, I2C, DFN-4, -40C to 125C"
+		(property "Description" "SENSOR RH/T with PTFE membrane DFN-4 1.5x1.5"
 			(at 124.46 62.23 0)
 			(hide yes)
 			(show_name no)
@@ -3196,8 +3214,8 @@
 				(justify left top)
 			)
 		)
-		(property "Mouser Part Number" "403-SHT45-AD1F-R2"
-			(at 146.05 557.15 0)
+		(property "Manufacturer" "Sensirion"
+			(at 124.46 62.23 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3205,11 +3223,10 @@
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left top)
 			)
 		)
-		(property "Mouser Price/Stock" "https://www.mouser.co.uk/ProductDetail/Sensirion/SHT45-AD1F-R2?qs=rQFj71Wb1eW5UnD4WT8nwA%3D%3D"
-			(at 146.05 657.15 0)
+		(property "MPN" "SHT45-AD1F-R2"
+			(at 124.46 62.23 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3217,11 +3234,10 @@
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left top)
 			)
 		)
-		(property "Manufacturer_Name" "Sensirion"
-			(at 146.05 757.15 0)
+		(property "Mouser PN" "403-SHT45-AD1F-R2"
+			(at 124.46 62.23 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3229,11 +3245,10 @@
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left top)
 			)
 		)
-		(property "Manufacturer_Part_Number" "SHT45-AD1F-R2"
-			(at 146.05 857.15 0)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/403-SHT45-AD1F-R2"
+			(at 124.46 62.23 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3241,7 +3256,6 @@
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left top)
 			)
 		)
 		(pin "4"
@@ -3464,7 +3478,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "https://yageogroup.com/content/datasheet/asset/file/PYU-RC_GROUP_51_ROHS_L"
 			(at 38.1 25.4 0)
 			(hide yes)
 			(show_name no)
@@ -3475,7 +3489,51 @@
 				)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "RES 4k7 1% 1/16W 0402"
+			(at 38.1 25.4 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Yageo"
+			(at 38.1 25.4 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "RC0402FR-074K7L"
+			(at 38.1 25.4 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "603-RC0402FR-074K7L"
+			(at 38.1 25.4 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/603-RC0402FR-074K7L"
 			(at 38.1 25.4 0)
 			(hide yes)
 			(show_name no)
