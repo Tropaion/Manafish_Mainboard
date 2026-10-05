@@ -17,6 +17,7 @@ the USB-connected Raspberry Pi Pico and the wiring between them with one board:
 > repository yet.
 
 ## Overview
+View the latest [KiCad Design](https://kicanvas.org/?repo=https%3A%2F%2Fgithub.com%2FTropaion%2FManafish_Mainboard%2Fblob%2Fmain%2Fhardware%2Fmanafish.kicad_pro)
 
 ```mermaid
 flowchart LR
