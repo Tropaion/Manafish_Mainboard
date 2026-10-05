@@ -17835,9 +17835,42 @@
 			(uuid "0b6ce903-5b23-4d6f-aa5d-93c2eb92b984")
 		)
 		(zone
-			(layers "F.Cu" "B.Cu")
-			(uuid "c278db5e-4672-43c2-a8b9-5d3065c58494")
+			(layer "B.Cu")
+			(uuid "acc464ac-e532-498f-91ef-ead68cfea1b6")
 			(name "Ag5700 isolation barrier")
+			(hatch full 0.508)
+			(connect_pads
+				(clearance 0)
+			)
+			(min_thickness 0.254)
+			(keepout
+				(tracks not_allowed)
+				(vias not_allowed)
+				(pads not_allowed)
+				(copperpour not_allowed)
+				(footprints allowed)
+			)
+			(placement
+				(enabled no)
+				(sheetname "")
+			)
+			(fill
+				(thermal_gap 0.508)
+				(thermal_bridge_width 0.508)
+				(island_removal_mode 0)
+			)
+			(polygon
+				(pts
+					(xy 123.685 68.475238) (xy 123.685 80.485238) (xy 130.415 80.485238) (xy 130.415 92.725238) (xy 125.455 92.725238)
+					(xy 125.455 104.225238) (xy 128.455 104.225238) (xy 128.455 95.725238) (xy 133.415 95.725238) (xy 133.415 77.485238)
+					(xy 126.685 77.485238) (xy 126.685 68.475238)
+				)
+			)
+		)
+		(zone
+			(layer "In1.Cu")
+			(uuid "c83f727d-8d3b-4c26-9023-71a5c288af3c")
+			(name "Ag5700 isolation barrier, inner layer")
 			(hatch full 0.508)
 			(connect_pads
 				(clearance 0)

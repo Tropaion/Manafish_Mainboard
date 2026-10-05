@@ -1,0 +1,349 @@
+(footprint "Silvertel_Ag5700-LPB"
+	(version 20260206)
+	(generator "pcbnew")
+	(generator_version "10.0")
+	(layer "F.Cu")
+	(descr "Silvertel Ag5700-LPB series (Ag5712-LPB, Ag5724-LPB) 24 W PoE+ PD module, SMT, 31.75x20.32 mm, land pattern and isolation keep-out from datasheet V1.3 figure 15 (https://silvertel.com/images/datasheets/Ag5700LPB-datasheet-minature%20IEEE802_3At%2024W%20power-over-ethernet%20module.pdf)")
+	(tags "Silvertel PoE PD module power-over-ethernet IEEE802.3at Ag5712 Ag5724")
+	(property "Reference" "REF**"
+		(at 0 -12.46 0)
+		(layer "F.SilkS")
+		(uuid "c47caa2f-0679-4bc0-8d02-634124a7a364")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "Silvertel_Ag5700-LPB"
+		(at 0 12.46 0)
+		(layer "F.Fab")
+		(uuid "fa906349-8a04-45c3-b516-b83202b47677")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" "https://silvertel.com/images/datasheets/Ag5700LPB-datasheet-minature%20IEEE802_3At%2024W%20power-over-ethernet%20module.pdf"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "08218280-0383-417c-bee0-17b4aa357ee9")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" "Silvertel Ag5700-LPB series 24 W PoE+ PD module"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "c584ac97-88d6-4ea8-b2a3-3ba9fdcce638")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd)
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_line
+		(start -15.985 -10.27)
+		(end -15.985 11.2)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "43c2e66c-6383-44af-a68b-fda6ba989267")
+	)
+	(fp_line
+		(start -15.985 -10.27)
+		(end -15.68 -10.27)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "9b945395-38e9-4bbc-9efd-95bffb28d91c")
+	)
+	(fp_line
+		(start -15.68 10.27)
+		(end -15.985 10.27)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "af9f260f-7cd0-4ca7-8783-87748d5b0017")
+	)
+	(fp_line
+		(start -10.99 -10.27)
+		(end 13.33 -10.27)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "1b2780af-c16a-48ff-8c3e-6428a16f6f88")
+	)
+	(fp_line
+		(start 10.99 10.27)
+		(end -13.33 10.27)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "41e3a915-d4bd-4e08-b569-e00d2cf0fbdf")
+	)
+	(fp_line
+		(start 15.68 -10.27)
+		(end 15.985 -10.27)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "b6af1155-6e51-4473-aac6-139216274c5d")
+	)
+	(fp_line
+		(start 15.985 -10.27)
+		(end 15.985 10.27)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "6856c12f-61d8-456f-9204-ba09c0170fe6")
+	)
+	(fp_line
+		(start 15.985 10.27)
+		(end 15.68 10.27)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "fc2e084f-c14c-4b58-ac66-49e9a1b9a2d3")
+	)
+	(fp_line
+		(start -16.58 -11.45)
+		(end 16.58 -11.45)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "6edeaef7-c377-49b8-b490-d978d8ef6dfd")
+	)
+	(fp_line
+		(start -16.58 11.45)
+		(end -16.58 -11.45)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "6f57f0ea-9379-4185-83d5-d22f30415c1e")
+	)
+	(fp_line
+		(start 16.58 -11.45)
+		(end 16.58 11.45)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "24ac374f-d993-43a3-ab0e-a33b513ae808")
+	)
+	(fp_line
+		(start 16.58 11.45)
+		(end -16.58 11.45)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "24947ecf-0c89-4ddd-aaf1-c5e263e99596")
+	)
+	(fp_line
+		(start -15.875 -10.16)
+		(end 15.875 -10.16)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "7cc5ba1a-8ff8-481c-a26b-193de3cf7db5")
+	)
+	(fp_line
+		(start -15.875 9.16)
+		(end -15.875 -10.16)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "a131b383-7cc5-42fc-b27d-2ee690fbf39f")
+	)
+	(fp_line
+		(start -14.875 10.16)
+		(end -15.875 9.16)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "5d4e94cd-688f-4ece-9671-2d704f4aab54")
+	)
+	(fp_line
+		(start 15.875 -10.16)
+		(end 15.875 10.16)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "0a7196b6-21ff-4580-be26-57b122c2cbd2")
+	)
+	(fp_line
+		(start 15.875 10.16)
+		(end -14.875 10.16)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "4c5ef1ef-f6d8-4626-9070-b4c21072459e")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(uuid "7fca5b54-b39f-48d8-a0c5-142745a77eae")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(pad "1" smd rect
+		(at -14.505 8.7)
+		(size 1.83 5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "4b04849d-e5b2-4a71-bf89-3aa088838331")
+	)
+	(pad "2" smd rect
+		(at 12.165 8.7)
+		(size 1.83 5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "ce8878c4-1706-405c-8393-92782804ba25")
+	)
+	(pad "3" smd rect
+		(at 14.505 8.7)
+		(size 1.83 5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "3fec4a76-dd07-4f1c-9ae6-6234f381a48d")
+	)
+	(pad "4" smd rect
+		(at 14.505 -8.7)
+		(size 1.83 5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "eff392aa-49bc-4df0-a8eb-ecad740eb3ec")
+	)
+	(pad "5" smd rect
+		(at -12.165 -8.7)
+		(size 1.83 5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "b61e4481-b325-4d8f-b6e2-7505b916213b")
+	)
+	(pad "6" smd rect
+		(at -14.505 -8.7)
+		(size 1.83 5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "8483a209-53c2-49c0-8222-66c6cccdd792")
+	)
+	(zone
+		(layer "F.Cu")
+		(uuid "812721f6-0d58-4240-9e38-74bd1e494c36")
+		(name "Ag5700 isolation barrier")
+		(hatch full 0.508)
+		(connect_pads
+			(clearance 0)
+		)
+		(min_thickness 0.254)
+		(keepout
+			(tracks not_allowed)
+			(vias not_allowed)
+			(pads not_allowed)
+			(copperpour not_allowed)
+			(footprints allowed)
+		)
+		(placement
+			(enabled no)
+			(sheetname "")
+		)
+		(fill
+			(thermal_gap 0.508)
+			(thermal_bridge_width 0.508)
+			(island_removal_mode 0)
+		)
+		(polygon
+			(pts
+				(xy -17.875 0.43) (xy -5.865 0.43) (xy -5.865 7.16) (xy 6.375 7.16) (xy 6.375 2.2) (xy 17.875 2.2)
+				(xy 17.875 5.2) (xy 9.375 5.2) (xy 9.375 10.16) (xy -8.865 10.16) (xy -8.865 3.43) (xy -17.875 3.43)
+			)
+		)
+	)
+	(zone
+		(layer "In1.Cu")
+		(uuid "926aa71d-2893-4f2a-bec2-52678ae4f907")
+		(name "Ag5700 isolation barrier, inner layer")
+		(hatch full 0.508)
+		(connect_pads
+			(clearance 0)
+		)
+		(min_thickness 0.254)
+		(keepout
+			(tracks not_allowed)
+			(vias not_allowed)
+			(pads not_allowed)
+			(copperpour not_allowed)
+			(footprints allowed)
+		)
+		(placement
+			(enabled no)
+			(sheetname "")
+		)
+		(fill
+			(thermal_gap 0.508)
+			(thermal_bridge_width 0.508)
+			(island_removal_mode 0)
+		)
+		(polygon
+			(pts
+				(xy -17.875 0.43) (xy -5.865 0.43) (xy -5.865 7.16) (xy 6.375 7.16) (xy 6.375 2.2) (xy 17.875 2.2)
+				(xy 17.875 5.2) (xy 9.375 5.2) (xy 9.375 10.16) (xy -8.865 10.16) (xy -8.865 3.43) (xy -17.875 3.43)
+			)
+		)
+	)
+	(embedded_fonts no)
+	(model "${KIPRJMOD}/custom_components/3d/AG5700.step"
+		(offset
+			(xyz -14.503 -8.052 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+)

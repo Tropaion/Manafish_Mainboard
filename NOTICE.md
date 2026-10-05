@@ -80,20 +80,19 @@ Added for this board, under their makers' terms:
 | `BMI270.stp` | Bosch Sensortec BMI270 |
 | `SHT45-AD1F-R2.stp` | Sensirion SHT45-AD1F-R2 |
 | `ABM8-272-T3.stp` | Abracon ABM8-272-T3, 12 MHz crystal |
-| `Ag5700_simplified.step`, `Ag5700_detailed.step` | Silvertel Ag5700-LPB series PoE module, © Silver Telecom |
+| `AG5700.step` | Silvertel Ag5700-LPB series PoE module, © Silver Telecom |
 
-The Silvertel models come from <https://silvertel.com/images/3D_Step_Files/Ag5700.zip>.
-The disclaimer in that archive says they are a visual reference, provided
-without warranty, and must be used together with the keep-out regions in the
-datasheet. The footprint uses the simplified model.
+`AG5700.step` is `Ag5700_detailed.step` from
+<https://silvertel.com/images/3D_Step_Files/Ag5700.zip>. The disclaimer in that
+archive says the model is a visual reference, provided without warranty, and
+must be used together with the keep-out regions in the datasheet.
 
-Both models were modified for this repository. As published, each stores the
-whole module as one solid whose outer shell is a single small part and whose
-other parts are voids, so most viewers show the detailed model as a flat sheet
-and the simplified model inside out. Each shell is now a separate solid with
-the original colour. The geometry is unchanged. The `Silvertel` symbol and
-footprint were drawn for this board from the datasheet and are covered by this
-repository's license.
+The model was modified for this repository. As published, it stores the whole
+module as one solid whose outer shell is a single small part and whose other
+parts are voids, so most viewers show it as a flat sheet. Each shell is now a
+separate solid with the original colour. The geometry is unchanged. The
+`Silvertel` symbol and footprint were drawn for this board from the datasheet
+and are covered by this repository's license.
 
 ## SamacSys symbols and footprints
 
