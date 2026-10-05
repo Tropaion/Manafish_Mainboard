@@ -24,6 +24,7 @@ flowchart LR
   magjack -->|4 pairs| cm5["Compute Module 5"]
   magjack -.->|center taps| poe["PoE header J9"]
   cm5 -->|MIPI0| cam["Camera connector J5"]
+  cm5 -->|"USB 2.0 (data only)"| service["USB-C service port J8"]
   cm5 -->|I2C1| sensors["BMI270, SHT45, MS5837 connector"]
   cm5 -->|"USB 2.0 (USB3-1 port)"| mcu["RP2354A"]
   cm5 -->|"GPIO24 RUN, GPIO25 BOOTSEL"| mcu
@@ -37,8 +38,8 @@ flowchart LR
 
 | Sheet | File | Contents | Origin |
 | --- | --- | --- | --- |
-| Manafish (top level) | `manafish.kicad_sch` | Sheet hierarchy, battery input J6 | Original |
-| Raspberry Pi Compute Module 5 | `cm5.kicad_sch` | CM5 module connectors | Adapted from the CM5 IO Board |
+| Manafish (top level) | `manafish.kicad_sch` | Sheet hierarchy, battery input J6, USB-C service port J8 | Original; USB-C port adapted from the CM5 IO Board |
+| Raspberry Pi Compute Module 5 | `cm5.kicad_sch` | CM5 module connectors, boot and EEPROM jumper header J7 | Adapted from the CM5 IO Board |
 | Camera Serial Interface | `csi.kicad_sch` | 22-pin MIPI camera connector J5 | Adapted from the CM5 IO Board |
 | Ethernet | `ethernet.kicad_sch` | MagJack U3, ESD protection U1/U2, PoE center-tap header J9, link LEDs | Adapted from the CM5 IO Board |
 | I2C Peripherals | `i2c_peripherals.kicad_sch` | BMI270 IMU, SHT45 humidity and temperature sensor, MS5837 connector, I2C pull-ups | Original |
@@ -62,6 +63,9 @@ Compute Module 5:
 | MIPI0 data and clock lanes | 115–141 | Camera connector J5 |
 | SDA0 / SCL0 | 82 / 80 | Camera connector J5 |
 | CAM_GPIO0 / CAM_GPIO1 | 97 / 100 | Camera connector J5 |
+| USB_P / USB_N (USB 2.0) | 105 / 103 | USB-C service port J8, data only |
+| nRPIBOOT, EEPROM_nWP, SYNC_OUT, USB_OTG_ID, PMIC_ENABLE, PWR_BUT | 93, 20, 18, 101, 99, 92 | Jumper header J7 |
+| GPIO_VREF | 78 | CM5_3.3V (3.3 V GPIO levels) |
 | +5 V input | 77–87 | Power management |
 | CM5_3.3V output | 84 / 86 | RP2354A and sensors |
 
@@ -75,6 +79,7 @@ RP2354A (QFN-60):
 | RUN | 26 | CM5 GPIO24 |
 | QSPI_SS | 60 | CM5 GPIO25 |
 | SWCLK / SWDIO | 24 / 25 | Debug connector J2 |
+| XIN / XOUT | 21 / 22 | 12 MHz crystal Y1 (ABM8-272-T3) |
 
 I2C devices on the CM5's I2C1 bus:
 
@@ -94,10 +99,36 @@ hardware/
 ├── sym-lib-table           project symbol libraries
 ├── fp-lib-table            project footprint libraries
 └── custom_components/
-    ├── symbols/            CM5IO, BMI270, SHT45 symbols
-    ├── footprints/         CM5IO, BMI270, SHT45 footprints
+    ├── symbols/            CM5IO, BMI270, SHT45, ABM8-272-T3 symbols
+    ├── footprints/         CM5IO, BMI270, SHT45, ABM8-272-T3 footprints
     └── 3d/                 STEP models
 ```
+
+## Flashing the Compute Module
+
+The USB-C port J8 carries data only. Its VBUS isn't connected, so the board
+needs its normal supply while you flash it.
+
+1. Power the board.
+2. Fit a jumper on J7 pins 1–2 (`nRPIBOOT`).
+3. Connect J8 to a computer and run
+   [`rpiboot`](https://github.com/raspberrypi/usbboot)
+   `-d mass-storage-gadget64`. The eMMC appears as a USB drive.
+4. Write the image, then remove the jumper.
+
+Set `PSU_MAX_CURRENT=5000` in the bootloader EEPROM configuration. The CM5
+isn't powered over USB-C, so it can't detect the supply's capability itself.
+
+Jumper header J7:
+
+| Pins | Signal | Fitted means |
+| --- | --- | --- |
+| 1–2 | `nRPIBOOT` | Boot from USB, for flashing |
+| 3–4 | `EEPROM_nWP` | Bootloader EEPROM write-protected; blocks EEPROM updates |
+| 5–6 | `SYNC_OUT` | Ethernet timing output; never fit a jumper |
+| 9–10 | `USB_OTG_ID` | USB 2.0 port in host mode; leave open for flashing |
+| 11–12 | `PMIC_ENABLE` | CM5 switched off |
+| 13–14 | `PWR_BUT` | For a push button: short press shuts down or wakes, holding over 5 s forces power-off |
 
 ## Opening the project
 
@@ -142,7 +173,8 @@ reference design by Raspberry Pi Ltd.
   `custom_components/footprints/CM5IO.pretty/`, and eight 3D models in
   `custom_components/3d/`.
 - **Adapted:** the circuits in `cm5.kicad_sch`, `csi.kicad_sch` and
-  `ethernet.kicad_sch`.
+  `ethernet.kicad_sch`, including the boot and EEPROM jumper header J7, and
+  the USB-C service port J8 in `manafish.kicad_sch`.
 - **Terms:** the CM5 IO Board datasheet says the design files "can be used in
   your own reference designs", and Raspberry Pi grants permission to use its
   resources "solely in conjunction with the Raspberry Pi products". These files
