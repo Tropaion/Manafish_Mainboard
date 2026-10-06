@@ -81,18 +81,26 @@ Added for this board, under their makers' terms:
 | `SHT45-AD1F-R2.stp` | Sensirion SHT45-AD1F-R2 |
 | `ABM8-272-T3.stp` | Abracon ABM8-272-T3, 12 MHz crystal |
 | `AG5700.step` | Silvertel Ag5700-LPB series PoE module, © Silver Telecom |
+| `AG59800-LPB.step` | Silvertel Ag59800-LPB series PoE module, © Silver Telecom |
 
-`AG5700.step` is `Ag5700_detailed.step` from
-<https://silvertel.com/images/3D_Step_Files/Ag5700.zip>. The disclaimer in that
-archive says the model is a visual reference, provided without warranty, and
-must be used together with the keep-out regions in the datasheet.
+Both Silvertel models were modified for this repository. The disclaimer in
+Silvertel's archives says the models are a visual reference, provided without
+warranty, and must be used together with the keep-out regions in the datasheet.
 
-The model was modified for this repository. As published, it stores the whole
-module as one solid whose outer shell is a single small part and whose other
-parts are voids, so most viewers show it as a flat sheet. Each shell is now a
-separate solid with the original colour. The geometry is unchanged. The
-`Silvertel` symbol and footprint were drawn for this board from the datasheet
-and are covered by this repository's license.
+- `AG5700.step` is `Ag5700_detailed.step` from
+  <https://silvertel.com/images/3D_Step_Files/Ag5700.zip>. As published, it
+  stores the whole module as one solid whose outer shell is a single small part
+  and whose other parts are voids, so most viewers show it as a flat sheet.
+  Each shell is now a separate solid with the original colour. The geometry is
+  unchanged.
+- `AG59800-LPB.step` is derived from `Ag59800_Simplified.step` in
+  <https://silvertel.com/images/3D_Step_Files/Ag59800.zip>. The pad, via and
+  silkscreen faces of the module's own PCB were removed (4214 of 5078 faces,
+  which brings the file from 15.9 MB to 1.7 MB), and the faces were coloured.
+  The outline, component envelopes and terminals are unchanged.
+
+The `Silvertel` symbols and footprints were drawn for this board from the
+datasheets and are covered by this repository's license.
 
 ## SamacSys symbols and footprints
 

@@ -1,0 +1,365 @@
+(footprint "Silvertel_Ag59800-LPB"
+	(version 20260206)
+	(generator "pcbnew")
+	(generator_version "10.0")
+	(layer "F.Cu")
+	(descr "Silvertel Ag59800-LPB series (Ag59812-LPB, Ag59824-LPB) IEEE 802.3bt Type 4 Class 8 PoE PD module, SMT, 50.6x30 mm. Land pattern from datasheet V2.0 figure 17. The isolation keep-out covers both the tabulated and the drawn stripe, on all copper layers; continue it across the host board. Datasheet p19: solder-mask-defined pads preferred, minimal thermal relief, never reflow the module hanging upside down (on the bottom side: solder it last or by hand) (https://silvertel.com/images/datasheets/Ag59800-LPB%20-datasheet-high%20efficiency%20SMT%20IEEE802_3BT%20100W%20power-over-ethernet%20module.pdf)")
+	(tags "Silvertel PoE PD module power-over-ethernet IEEE802.3bt class 8 Ag59812 Ag59824")
+	(property "Reference" "REF**"
+		(at 0 -17.1 0)
+		(layer "F.SilkS")
+		(uuid "abd0cb92-c386-40b7-98a8-486ddb96c5d7")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "Silvertel_Ag59800-LPB"
+		(at 0 17.1 0)
+		(layer "F.Fab")
+		(uuid "120bf720-8124-4bb4-8848-8ed56714dab8")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" "https://silvertel.com/images/datasheets/Ag59800-LPB%20-datasheet-high%20efficiency%20SMT%20IEEE802_3BT%20100W%20power-over-ethernet%20module.pdf"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "f27f7a00-1e74-4724-b074-bdbe73e3bcc7")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" "Silvertel Ag59800-LPB series PoE++ PD module, IEEE 802.3bt Class 8"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "29e313d5-bc15-4c44-96a8-6361718296fa")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd)
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_line
+		(start -25.41 -15.11)
+		(end -25.41 15.785)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "18955da7-4f36-4424-b264-90e86596bd5a")
+	)
+	(fp_line
+		(start -25.41 -15.11)
+		(end -25.06 -15.11)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "288383dd-d94a-4387-965b-ba4e84f6d2a8")
+	)
+	(fp_line
+		(start -25.06 15.11)
+		(end -25.41 15.11)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "6d4c3a85-1e12-46de-abc4-e6353c14fac0")
+	)
+	(fp_line
+		(start -22.71 -15.11)
+		(end 17.79 -15.11)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "8eb97b7b-51d7-4e7e-bfc9-f59e9bc72596")
+	)
+	(fp_line
+		(start 20.25 15.11)
+		(end -17.79 15.11)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "30214e05-810c-48ef-bd05-36999b56421f")
+	)
+	(fp_line
+		(start 25.06 -15.11)
+		(end 25.41 -15.11)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "b90d0661-0894-4122-8630-e19bab050435")
+	)
+	(fp_line
+		(start 25.41 -15.11)
+		(end 25.41 15.11)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "87d70c7a-9282-420d-944d-c0302cb4c514")
+	)
+	(fp_line
+		(start 25.41 15.11)
+		(end 25.06 15.11)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "03557eb5-f665-45bc-adb2-e5a0109b4f71")
+	)
+	(fp_rect
+		(start -9.155 -13.125)
+		(end -0.015 -3.985)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill no)
+		(layer "Cmts.User")
+		(uuid "4360f142-54d4-4f23-af91-3e3fec32c626")
+	)
+	(fp_rect
+		(start 15.235 -8.565)
+		(end 24.375 9.725)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill no)
+		(layer "Cmts.User")
+		(uuid "3103b9ea-3c52-4b57-afe9-45b5f919dde2")
+	)
+	(fp_rect
+		(start -26.3 -16.04)
+		(end 26.3 16.04)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "38f08ac7-4ef4-4050-9e51-772d5286bc5d")
+	)
+	(fp_line
+		(start -25.3 -15)
+		(end 25.3 -15)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "30a25e34-48d5-45c0-805a-4399027ce41e")
+	)
+	(fp_line
+		(start -25.3 14)
+		(end -25.3 -15)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "9395db5f-930e-4368-8ee3-61cd6ca128d3")
+	)
+	(fp_line
+		(start -24.3 15)
+		(end -25.3 14)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "347f04fe-2800-4583-8c4d-8db6b88fe977")
+	)
+	(fp_line
+		(start 25.3 -15)
+		(end 25.3 15)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "12a06538-ec26-4709-a339-b2a54b9beef0")
+	)
+	(fp_line
+		(start 25.3 15)
+		(end -24.3 15)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "f5a77055-a63c-4893-9cde-439d98d96ab7")
+	)
+	(fp_text user "PRI thermal vias"
+		(at -4.585 -8.555 0)
+		(layer "Cmts.User")
+		(uuid "e1f8384f-4890-4806-9f62-5cca8118a170")
+		(effects
+			(font
+				(size 0.8 0.8)
+				(thickness 0.12)
+			)
+		)
+	)
+	(fp_text user "isolation barrier: continue across the board"
+		(at 10.485 0 90)
+		(layer "Cmts.User")
+		(uuid "e8565773-f0d0-46c1-b0b3-fba74ef22712")
+		(effects
+			(font
+				(size 0.8 0.8)
+				(thickness 0.12)
+			)
+		)
+	)
+	(fp_text user "SEC thermal vias (datasheet fig. 10)"
+		(at 19.805 0.58 90)
+		(layer "Cmts.User")
+		(uuid "e4ca68b0-0cd0-488e-a6c4-89831f5d4234")
+		(effects
+			(font
+				(size 0.8 0.8)
+				(thickness 0.12)
+			)
+		)
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(uuid "3dc0e940-ffa7-4a70-8dc2-fa2fbe4cbb9c")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(pad "1" smd rect
+		(at -23.885 13.285)
+		(size 1.83 5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "7df9eb1f-c902-4464-ab6f-6d133592fc9a")
+	)
+	(pad "2" smd rect
+		(at -21.425 13.285)
+		(size 1.83 5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "25554e8e-d924-418e-a80c-962681db81c2")
+	)
+	(pad "3" smd rect
+		(at -18.965 13.285)
+		(size 1.83 5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "a9ad858f-9cd7-4b0b-8fda-087984330106")
+	)
+	(pad "4" smd rect
+		(at 21.425 13.285)
+		(size 1.83 5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "3ddc31a7-925f-4d9d-8ce6-0b545bec8bd5")
+	)
+	(pad "5" smd rect
+		(at 23.885 13.285)
+		(size 1.83 5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "0e28c806-1df0-4c53-90ef-46855ff61f81")
+	)
+	(pad "6" smd rect
+		(at 23.885 -13.285)
+		(size 1.83 5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "d6253cb7-f634-4529-830e-12cff8751b7d")
+	)
+	(pad "7" smd rect
+		(at 21.425 -13.285)
+		(size 1.83 5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "2b4f527b-d0ee-45d3-ada4-4ac707154484")
+	)
+	(pad "8" smd rect
+		(at 18.965 -13.285)
+		(size 1.83 5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "cce77eac-e3c8-416d-8da8-767c578dca5c")
+	)
+	(pad "9" smd rect
+		(at -23.885 -13.285)
+		(size 1.83 5)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "2105b576-ae7f-41c3-8544-5b68d803aeb2")
+	)
+	(zone
+		(layers "F.Cu" "B.Cu" "In1.Cu" "In2.Cu" "In3.Cu" "In4.Cu" "In5.Cu" "In6.Cu"
+			"In7.Cu" "In8.Cu" "In9.Cu" "In10.Cu" "In11.Cu" "In12.Cu" "In13.Cu" "In14.Cu"
+			"In15.Cu" "In16.Cu" "In17.Cu" "In18.Cu" "In19.Cu" "In20.Cu" "In21.Cu"
+			"In22.Cu" "In23.Cu" "In24.Cu" "In25.Cu" "In26.Cu" "In27.Cu" "In28.Cu"
+			"In29.Cu" "In30.Cu"
+		)
+		(uuid "53b7d102-55cf-4f3a-861e-555bce0fb624")
+		(name "Ag59800 isolation barrier")
+		(hatch full 0.508)
+		(connect_pads
+			(clearance 0)
+		)
+		(min_thickness 0.254)
+		(keepout
+			(tracks not_allowed)
+			(vias not_allowed)
+			(pads not_allowed)
+			(copperpour not_allowed)
+			(footprints allowed)
+		)
+		(placement
+			(enabled no)
+			(sheetname "")
+		)
+		(fill
+			(thermal_gap 0.508)
+			(thermal_bridge_width 0.508)
+			(island_removal_mode 0)
+		)
+		(polygon
+			(pts
+				(xy 8.655 -18.5) (xy 12.315 -18.5) (xy 12.315 18.5) (xy 8.655 18.5)
+			)
+		)
+	)
+	(embedded_fonts no)
+	(model "${KIPRJMOD}/custom_components/3d/AG59800-LPB.step"
+		(offset
+			(xyz -23.8887 -12.6365 3.3147)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+)

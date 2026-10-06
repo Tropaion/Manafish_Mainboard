@@ -97,6 +97,7 @@ hardware/
 ├── manafish.kicad_pro      KiCad project
 ├── *.kicad_sch             schematic sheets
 ├── manafish.kicad_pcb      PCB (not started)
+├── manafish.kicad_dru      custom DRC rules for the PoE isolation barriers
 ├── sym-lib-table           project symbol libraries
 ├── fp-lib-table            project footprint libraries
 └── custom_components/
@@ -151,6 +152,7 @@ Datasheets aren't stored in the repository. Use the links below.
 - [Bosch BMI270 datasheet](https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bmi270-ds000.pdf)
 - [Sensirion SHT45 product page and datasheet](https://sensirion.com/products/catalog/SHT45)
 - [Silvertel Ag5700-LPB (Ag5724-LPB) PoE module datasheet](https://silvertel.com/images/datasheets/Ag5700LPB-datasheet-minature%20IEEE802_3At%2024W%20power-over-ethernet%20module.pdf)
+- [Silvertel Ag59800 (Ag59824-LPB) PoE++ module datasheet](https://silvertel.com/images/datasheets/Ag59800-LPB%20-datasheet-high%20efficiency%20SMT%20IEEE802_3BT%20100W%20power-over-ethernet%20module.pdf)
 
 ## Related repositories
 

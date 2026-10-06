@@ -271,41 +271,14 @@
 		(uuid "8483a209-53c2-49c0-8222-66c6cccdd792")
 	)
 	(zone
-		(layer "F.Cu")
+		(layers "F.Cu" "B.Cu" "In1.Cu" "In2.Cu" "In3.Cu" "In4.Cu" "In5.Cu" "In6.Cu"
+			"In7.Cu" "In8.Cu" "In9.Cu" "In10.Cu" "In11.Cu" "In12.Cu" "In13.Cu" "In14.Cu"
+			"In15.Cu" "In16.Cu" "In17.Cu" "In18.Cu" "In19.Cu" "In20.Cu" "In21.Cu"
+			"In22.Cu" "In23.Cu" "In24.Cu" "In25.Cu" "In26.Cu" "In27.Cu" "In28.Cu"
+			"In29.Cu" "In30.Cu"
+		)
 		(uuid "812721f6-0d58-4240-9e38-74bd1e494c36")
 		(name "Ag5700 isolation barrier")
-		(hatch full 0.508)
-		(connect_pads
-			(clearance 0)
-		)
-		(min_thickness 0.254)
-		(keepout
-			(tracks not_allowed)
-			(vias not_allowed)
-			(pads not_allowed)
-			(copperpour not_allowed)
-			(footprints allowed)
-		)
-		(placement
-			(enabled no)
-			(sheetname "")
-		)
-		(fill
-			(thermal_gap 0.508)
-			(thermal_bridge_width 0.508)
-			(island_removal_mode 0)
-		)
-		(polygon
-			(pts
-				(xy -17.875 0.43) (xy -5.865 0.43) (xy -5.865 7.16) (xy 6.375 7.16) (xy 6.375 2.2) (xy 17.875 2.2)
-				(xy 17.875 5.2) (xy 9.375 5.2) (xy 9.375 10.16) (xy -8.865 10.16) (xy -8.865 3.43) (xy -17.875 3.43)
-			)
-		)
-	)
-	(zone
-		(layer "In1.Cu")
-		(uuid "926aa71d-2893-4f2a-bec2-52678ae4f907")
-		(name "Ag5700 isolation barrier, inner layer")
 		(hatch full 0.508)
 		(connect_pads
 			(clearance 0)

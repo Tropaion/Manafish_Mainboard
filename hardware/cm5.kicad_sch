@@ -7109,6 +7109,16 @@
 	)
 	(wire
 		(pts
+			(xy 76.2 63.5) (xy 83.82 63.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dc38385d-0521-439d-807d-a1f98880e677")
+	)
+	(wire
+		(pts
 			(xy 144.78 38.1) (xy 162.56 38.1)
 		)
 		(stroke
@@ -7356,6 +7366,16 @@
 			(type solid)
 		)
 		(uuid "f8d2b0dd-207d-46cb-86d3-0a8250acc4f2")
+	)
+	(wire
+		(pts
+			(xy 144.78 66.04) (xy 152.4 66.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fa05f606-2cf7-45bb-b761-89c7a0fdfd20")
 	)
 	(wire
 		(pts
@@ -7899,6 +7919,28 @@
 			(justify right)
 		)
 		(uuid "99b1dc1e-49bc-41b5-ad28-9c77cda260a9")
+	)
+	(hierarchical_label "POE_TYP2_DET"
+		(shape input)
+		(at 76.2 63.5 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "a6cc461f-94dd-490e-a265-385fe6d934bc")
+	)
+	(hierarchical_label "POE_TYP3_DET"
+		(shape input)
+		(at 152.4 66.04 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "b661b079-ce7b-40e0-99d4-54f0c75ef6eb")
 	)
 	(hierarchical_label "+5V"
 		(shape input)

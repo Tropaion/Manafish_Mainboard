@@ -1,0 +1,10 @@
+(version 1)
+# KiCad 10 does not report vias or other footprints' pads inside a footprint's keep-out
+# while the library-parity checks are enabled. These rules enforce the PoE isolation
+# barriers of the Silvertel modules explicitly.
+(rule "Ag59800 isolation barrier"
+	(constraint disallow track via pad)
+	(condition "A.intersectsArea('Ag59800 isolation barrier*')"))
+(rule "Ag5700 isolation barrier"
+	(constraint disallow track via pad)
+	(condition "A.intersectsArea('Ag5700 isolation barrier*')"))

@@ -5,4 +5,5 @@
 	(lib (name "SHT45-AD1F-R2") (type "KiCad") (uri "${KIPRJMOD}/custom_components/symbols/SHT45-AD1F-R2.kicad_sym") (options "") (descr ""))
 	(lib (name "ABM8-272-T3") (type "KiCad") (uri "${KIPRJMOD}/custom_components/symbols/ABM8-272-T3.kicad_sym") (options "") (descr ""))
 	(lib (name "Silvertel") (type "KiCad") (uri "${KIPRJMOD}/custom_components/symbols/Silvertel.kicad_sym") (options "") (descr "Silvertel PoE modules"))
+	(lib (name "V6K100DUHM3_H") (type "KiCad") (uri "${KIPRJMOD}/custom_components/symbols/V6K100DUHM3_H.kicad_sym") (options "") (descr ""))
 )
