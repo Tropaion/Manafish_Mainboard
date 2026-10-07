@@ -82,6 +82,7 @@ Added for this board, under their makers' terms:
 | `ABM8-272-T3.stp` | Abracon ABM8-272-T3, 12 MHz crystal |
 | `AG5700.step` | Silvertel Ag5700-LPB series PoE module, © Silver Telecom |
 | `AG59800-LPB.step` | Silvertel Ag59800-LPB series PoE module, © Silver Telecom |
+| `V6K100DUHM3_H.stp` | Vishay V6K100DUHM3 dual Schottky diode, from SamacSys |
 
 Both Silvertel models were modified for this repository. The disclaimer in
 Silvertel's archives says the models are a visual reference, provided without
@@ -110,9 +111,11 @@ SamacSys's terms of use:
 - `hardware/custom_components/symbols/BMI270.kicad_sym`
 - `hardware/custom_components/symbols/SHT45-AD1F-R2.kicad_sym`
 - `hardware/custom_components/symbols/ABM8-272-T3.kicad_sym`
+- `hardware/custom_components/symbols/V6K100DUHM3_H.kicad_sym`
 - `hardware/custom_components/footprints/BMI270.pretty/BMI270.kicad_mod`
 - `hardware/custom_components/footprints/SHT45.pretty/SON80P150X150X59-5N.kicad_mod`
 - `hardware/custom_components/footprints/ABM8-272-T3.pretty/ABM8272T3.kicad_mod`
+- `hardware/custom_components/footprints/V6K100DUHM3.pretty/V6K100DUHM3H.kicad_mod`
 
 ## KiCad standard libraries
 
@@ -121,6 +124,23 @@ Symbols and footprints from KiCad's standard libraries (for example
 exception: the copyright holder waives article 3 of the licence for designs
 that use the libraries and for files generated from them. See
 <https://www.kicad.org/libraries/license/>.
+
+Two files in this repository come from KiCad's libraries and keep that
+licence:
+
+- `hardware/custom_components/footprints/LTC4162.pretty/QFN-28-1EP_4x5mm_P0.5mm_EP2.65x3.65mm_ThermalVias0.3mm.kicad_mod`
+  is a copy of KiCad 10's
+  `Package_DFN_QFN:QFN-28-1EP_4x5mm_P0.5mm_EP2.65x3.65mm_ThermalVias`. The
+  12 thermal vias are drilled 0.3 mm instead of 0.2 mm, to meet this board's
+  minimum drill, and the footprint points to the model below.
+- `hardware/custom_components/3d/QFN-28-1EP_4x5mm_P0.5mm_EP2.65x3.65mm.step`
+  was generated with KiCad's own model generator
+  (<https://gitlab.com/kicad/libraries/kicad-library-tools>, commit
+  6ef68694) from KiCad's package data. KiCad's library has no model for this
+  footprint.
+
+The `LTC4162` symbol was drawn for this board from the LTC4162-L datasheet and
+is covered by this repository's license.
 
 ## Trademarks
 

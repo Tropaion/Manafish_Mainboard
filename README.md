@@ -101,8 +101,8 @@ hardware/
 ├── sym-lib-table           project symbol libraries
 ├── fp-lib-table            project footprint libraries
 └── custom_components/
-    ├── symbols/            CM5IO, BMI270, SHT45, ABM8-272-T3, Silvertel symbols
-    ├── footprints/         CM5IO, BMI270, SHT45, ABM8-272-T3, RP2350_Minimal, Silvertel footprints
+    ├── symbols/            CM5IO, BMI270, SHT45, ABM8-272-T3, Silvertel, V6K100DUHM3, LTC4162 symbols
+    ├── footprints/         CM5IO, BMI270, SHT45, ABM8-272-T3, RP2350_Minimal, Silvertel, V6K100DUHM3, LTC4162 footprints
     └── 3d/                 STEP models
 ```
 
@@ -153,6 +153,8 @@ Datasheets aren't stored in the repository. Use the links below.
 - [Sensirion SHT45 product page and datasheet](https://sensirion.com/products/catalog/SHT45)
 - [Silvertel Ag5700-LPB (Ag5724-LPB) PoE module datasheet](https://silvertel.com/images/datasheets/Ag5700LPB-datasheet-minature%20IEEE802_3At%2024W%20power-over-ethernet%20module.pdf)
 - [Silvertel Ag59800 (Ag59824-LPB) PoE++ module datasheet](https://silvertel.com/images/datasheets/Ag59800-LPB%20-datasheet-high%20efficiency%20SMT%20IEEE802_3BT%20100W%20power-over-ethernet%20module.pdf)
+- [Vishay V6K100DU dual Schottky diode datasheet](https://www.vishay.com/docs/87418/v6k100du.pdf)
+- [Analog Devices LTC4162-L battery charger datasheet](https://www.analog.com/media/en/technical-documentation/data-sheets/LTC4162-L.pdf)
 
 ## Related repositories
 

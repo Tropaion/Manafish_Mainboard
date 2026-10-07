@@ -6,4 +6,5 @@
 	(lib (name "ABM8-272-T3") (type "KiCad") (uri "${KIPRJMOD}/custom_components/symbols/ABM8-272-T3.kicad_sym") (options "") (descr ""))
 	(lib (name "Silvertel") (type "KiCad") (uri "${KIPRJMOD}/custom_components/symbols/Silvertel.kicad_sym") (options "") (descr "Silvertel PoE modules"))
 	(lib (name "V6K100DUHM3_H") (type "KiCad") (uri "${KIPRJMOD}/custom_components/symbols/V6K100DUHM3_H.kicad_sym") (options "") (descr ""))
+	(lib (name "LTC4162") (type "KiCad") (uri "${KIPRJMOD}/custom_components/symbols/LTC4162.kicad_sym") (options "") (descr "LTC4162-L battery charger"))
 )
