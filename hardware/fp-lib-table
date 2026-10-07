@@ -8,4 +8,5 @@
 	(lib (name "Silvertel") (type "KiCad") (uri "${KIPRJMOD}/custom_components/footprints/Silvertel.pretty") (options "") (descr "Silvertel PoE modules, drawn from the datasheets"))
 	(lib (name "V6K100DUHM3") (type "KiCad") (uri "${KIPRJMOD}/custom_components/footprints/V6K100DUHM3.pretty") (options "") (descr ""))
 	(lib (name "LTC4162") (type "KiCad") (uri "${KIPRJMOD}/custom_components/footprints/LTC4162.pretty") (options "") (descr "LTC4162 charger footprint, copied from the KiCad library"))
+	(lib (name "FDMC86139P") (type "KiCad") (uri "${KIPRJMOD}/custom_components/footprints/FDMC86139P.pretty") (options "") (descr "onsemi WDFN8 3.3x3.3 (Power33) MOSFET footprint"))
 )

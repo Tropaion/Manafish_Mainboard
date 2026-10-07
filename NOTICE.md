@@ -83,6 +83,7 @@ Added for this board, under their makers' terms:
 | `AG5700.step` | Silvertel Ag5700-LPB series PoE module, © Silver Telecom |
 | `AG59800-LPB.step` | Silvertel Ag59800-LPB series PoE module, © Silver Telecom |
 | `V6K100DUHM3_H.stp` | Vishay V6K100DUHM3 dual Schottky diode, from SamacSys |
+| `FDMC8327L.stp` | onsemi FDMC8327L N-channel MOSFET, from SamacSys |
 
 Both Silvertel models were modified for this repository. The disclaimer in
 Silvertel's archives says the models are a visual reference, provided without
@@ -112,10 +113,23 @@ SamacSys's terms of use:
 - `hardware/custom_components/symbols/SHT45-AD1F-R2.kicad_sym`
 - `hardware/custom_components/symbols/ABM8-272-T3.kicad_sym`
 - `hardware/custom_components/symbols/V6K100DUHM3_H.kicad_sym`
+- `hardware/custom_components/symbols/FDMC8327L.kicad_sym`
 - `hardware/custom_components/footprints/BMI270.pretty/BMI270.kicad_mod`
 - `hardware/custom_components/footprints/SHT45.pretty/SON80P150X150X59-5N.kicad_mod`
 - `hardware/custom_components/footprints/ABM8-272-T3.pretty/ABM8272T3.kicad_mod`
 - `hardware/custom_components/footprints/V6K100DUHM3.pretty/V6K100DUHM3H.kicad_mod`
+- `hardware/custom_components/footprints/FDMC86139P.pretty/FDMC86139P.kicad_mod`
+
+Three of them were modified for this board:
+
+- `V6K100DUHM3H.kicad_mod` and `V6K100DUHM3_H.kicad_sym`: the two exposed
+  cathode pads (pads 9-12) carry the number of the cathode pins they belong to
+  (8 and 5), and the hidden symbol pins 9-12 were removed. Before, the pads had
+  no net and touched the cathode pins.
+- `FDMC86139P.kicad_mod`: the exposed drain pad is numbered 5, so it joins the
+  drain pins; the origin was moved to the centre of the package; the 3D model
+  path points to `custom_components/3d/`. The `FDMC8327L` symbol's default
+  footprint now names this library.
 
 ## KiCad standard libraries
 

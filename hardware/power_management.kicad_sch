@@ -1679,7 +1679,7 @@
 					(justify left top)
 				)
 			)
-			(property "Footprint" "FDMC86139P"
+			(property "Footprint" "FDMC86139P:FDMC86139P"
 				(at 21.59 -94.92 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -3610,82 +3610,6 @@
 						)
 					)
 					(number "8"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 8.89 -13.97 180)
-					(length 2.54)
-					(hide yes)
-					(name ""
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "9"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 17.78 -13.97 180)
-					(length 2.54)
-					(hide yes)
-					(name ""
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "10"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 8.89 -16.51 180)
-					(length 2.54)
-					(hide yes)
-					(name ""
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "11"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 17.78 -16.51 180)
-					(length 2.54)
-					(hide yes)
-					(name ""
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "12"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -7139,7 +7063,7 @@
 				)
 			)
 		)
-		(property "Footprint" "FDMC86139P"
+		(property "Footprint" "FDMC86139P:FDMC86139P"
 			(at 22.86 210.49 0)
 			(hide yes)
 			(show_name no)
@@ -8426,18 +8350,6 @@
 		(pin "4"
 			(uuid "cfa26240-a926-428d-91b6-fa7405b0b51a")
 		)
-		(pin "9"
-			(uuid "05a143c7-ea30-413d-9eee-01bcbc0acf47")
-		)
-		(pin "10"
-			(uuid "eb2264a4-8d71-484f-a520-b977c8a9ce1a")
-		)
-		(pin "12"
-			(uuid "808856ca-09c3-4c36-ae05-4b9e779b07c4")
-		)
-		(pin "11"
-			(uuid "a69e0a66-c537-41b0-ba48-a61fed364977")
-		)
 		(instances
 			(project "manafish"
 				(path "/37283e3e-a087-4659-9b29-171eab26a1f6/89d7ac77-fa0c-4bb2-902c-6102b08b0cf6"
@@ -8806,18 +8718,6 @@
 		)
 		(pin "4"
 			(uuid "97b24771-bff9-4fb8-8fee-736caddd8674")
-		)
-		(pin "10"
-			(uuid "30814e0b-49b7-44d8-8e80-02d634f4c1c6")
-		)
-		(pin "9"
-			(uuid "4be952be-b6f4-4d70-9358-bc4556459c22")
-		)
-		(pin "11"
-			(uuid "1429c736-eba3-4a59-b22a-c4b9242dcef9")
-		)
-		(pin "12"
-			(uuid "049197f4-b895-46ac-bdbc-5cfaa30fb715")
 		)
 		(instances
 			(project "manafish"
@@ -9560,18 +9460,6 @@
 		(pin "4"
 			(uuid "fa04b5e2-b114-4cc0-beaa-0186c2d178b7")
 		)
-		(pin "10"
-			(uuid "c40f380f-0d24-448d-a674-36b66439378e")
-		)
-		(pin "12"
-			(uuid "2a3e1256-7789-4d25-a508-a3f7a032bfa7")
-		)
-		(pin "9"
-			(uuid "3840968e-59a8-4b01-8477-7d1d56a4f37b")
-		)
-		(pin "11"
-			(uuid "01d8f8ec-6d75-41c7-8c4e-12573e272dd5")
-		)
 		(instances
 			(project "manafish"
 				(path "/37283e3e-a087-4659-9b29-171eab26a1f6/89d7ac77-fa0c-4bb2-902c-6102b08b0cf6"
@@ -9948,7 +9836,7 @@
 				)
 			)
 		)
-		(property "Footprint" "FDMC86139P"
+		(property "Footprint" "FDMC86139P:FDMC86139P"
 			(at 138.43 215.57 0)
 			(hide yes)
 			(show_name no)
@@ -11346,18 +11234,6 @@
 		)
 		(pin "4"
 			(uuid "055c7a5d-a333-4aec-869d-9cfe4efa1140")
-		)
-		(pin "12"
-			(uuid "d84c1d42-8bda-469f-85f6-49756932a62a")
-		)
-		(pin "9"
-			(uuid "e27a6cc4-ffd9-4c94-94fa-69b9c5f0b5c7")
-		)
-		(pin "11"
-			(uuid "84d11449-2e4b-4b79-9498-6e4d291861a9")
-		)
-		(pin "10"
-			(uuid "f23063ba-cee5-4b07-99c5-4c9c7b57a12c")
 		)
 		(instances
 			(project "manafish"
