@@ -1109,6 +1109,17 @@
 		)
 		(uuid "c2ccd663-9652-4828-b878-73342f4d6fd2")
 	)
+	(text "TODO:\n - RJ45 Jack tauschen\n - Sensor auf SPI\n - 2ter Kamera-Stecker"
+		(exclude_from_sim no)
+		(at 20.574 140.716 0)
+		(effects
+			(font
+				(size 2.54 2.54)
+			)
+			(justify left)
+		)
+		(uuid "8f75e262-88a4-4e00-833c-698bcb3df10b")
+	)
 	(text "Manafish Controller"
 		(exclude_from_sim no)
 		(at 33.782 16.764 0)

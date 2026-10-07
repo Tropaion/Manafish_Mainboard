@@ -23833,7 +23833,7 @@
 		(property "Reference" "U5"
 			(at 0 17.1 90)
 			(layer "B.SilkS")
-			(uuid "4c786db5-df84-4eb0-8baa-5e2f5999b42e")
+			(uuid "b5489583-c0b8-4d59-b934-88fcaec1cac7")
 			(effects
 				(font
 					(size 1 1)
@@ -23845,7 +23845,7 @@
 		(property "Value" "Ag59824-LPB"
 			(at 0 -17.1 90)
 			(layer "B.Fab")
-			(uuid "1ad620d8-10d9-453e-8f6d-9e56b9e109b4")
+			(uuid "6b375706-8aa7-4fb0-b33f-ebf59a98a890")
 			(effects
 				(font
 					(size 1 1)
@@ -23858,7 +23858,7 @@
 			(at 0 0 90)
 			(layer "B.Fab")
 			(hide yes)
-			(uuid "b69e7185-6633-4464-a039-5e55f9a4ed01")
+			(uuid "96677505-d4f4-447d-9d4a-1c9d5152413c")
 			(effects
 				(font
 					(size 1 1)
@@ -23871,7 +23871,7 @@
 			(at 0 0 90)
 			(layer "B.Fab")
 			(hide yes)
-			(uuid "c943a7e6-d186-400b-82e0-fbcb910dea08")
+			(uuid "ecb8485b-e762-4e1b-a667-e6b73ac6ce60")
 			(effects
 				(font
 					(size 1 1)
@@ -24264,7 +24264,7 @@
 		(layer "Edge.Cuts")
 		(uuid "f9a34a03-fd60-4b93-b28b-e858e820dde4")
 	)
-	(gr_text "Note: Rohrdurchmesser: 74,5mm\n      Max. PCB Länge: 105mm"
+	(gr_text "Note: Rohrdurchmesser: 74,5mm\n      Max. PCB Länge: 110mm"
 		(at 14.675 19.425 0)
 		(layer "Cmts.User")
 		(uuid "8e73ee4b-4282-4025-87c5-5a14256ebc80")
