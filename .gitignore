@@ -13,6 +13,9 @@ fp-info-cache
 *-save.kicad_pcb
 *-save.pro
 
+# KiCad local history (contains its own git repository)
+.history/
+
 # KiCad per-user view settings (open sheets, layer visibility)
 *.kicad_prl
 
