@@ -3735,6 +3735,121 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "power:PWR_FLAG"
+			(power global)
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "#FLG"
+				(at 0 1.905 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "PWR_FLAG"
+				(at 0 3.81 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Special symbol for telling ERC where power comes from"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "flag power"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "PWR_FLAG_0_0"
+				(pin power_out line
+					(at 0 0 90)
+					(length 0)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "PWR_FLAG_0_1"
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 1.27) (xy -1.016 1.905) (xy 0 2.54) (xy 1.016 1.905) (xy 0 1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 	)
 	(rectangle
 		(start 60.96 15.24)
@@ -3815,6 +3930,17 @@
 			)
 		)
 		(uuid "1567eae7-6374-430d-83e5-38dd289026da")
+	)
+	(text "Note: \n - 20mR = 1.6A/38 max. Input\n - 16mR = 2.0A/48W max. Input\nTest it and limit if hull gets too hot"
+		(exclude_from_sim no)
+		(at 15.748 138.938 0)
+		(effects
+			(font
+				(size 0.635 0.635)
+			)
+			(justify left)
+		)
+		(uuid "1743591e-056d-48e6-90c0-6f2e6471f30e")
 	)
 	(text "AN \"EN\" PIN MAGENT SWTICH SOMEHOW?"
 		(exclude_from_sim no)
@@ -4041,6 +4167,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "74dcc83c-2bfd-4936-a14a-501b7583c3f6")
+	)
+	(junction
+		(at 111.76 153.67)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "7505e4e5-ab44-4112-802b-66618562ef49")
 	)
 	(junction
 		(at 172.72 115.57)
@@ -4394,7 +4526,7 @@
 	)
 	(wire
 		(pts
-			(xy 109.22 158.75) (xy 109.22 175.26)
+			(xy 107.95 158.75) (xy 107.95 175.26)
 		)
 		(stroke
 			(width 0)
@@ -4624,7 +4756,7 @@
 	)
 	(wire
 		(pts
-			(xy 87.63 158.75) (xy 109.22 158.75)
+			(xy 87.63 158.75) (xy 107.95 158.75)
 		)
 		(stroke
 			(width 0)
@@ -4651,6 +4783,16 @@
 			(type default)
 		)
 		(uuid "1c7aac3d-89c3-4516-8b44-d0b07f9926c0")
+	)
+	(wire
+		(pts
+			(xy 87.63 151.13) (xy 97.79 151.13)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1c894b70-d86a-4248-b741-cab9dfa5208b")
 	)
 	(wire
 		(pts
@@ -4854,6 +4996,16 @@
 	)
 	(wire
 		(pts
+			(xy 111.76 165.1) (xy 111.76 185.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2fd88590-1efa-4ee3-a170-86658a6ee5d4")
+	)
+	(wire
+		(pts
 			(xy 127 163.83) (xy 127 185.42)
 		)
 		(stroke
@@ -5054,6 +5206,16 @@
 	)
 	(wire
 		(pts
+			(xy 74.93 115.57) (xy 74.93 111.76)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "452275d3-6355-4ace-978c-4f6ffc67cf79")
+	)
+	(wire
+		(pts
 			(xy 172.72 123.19) (xy 172.72 140.97)
 		)
 		(stroke
@@ -5091,6 +5253,16 @@
 			(type default)
 		)
 		(uuid "4b613591-7e4c-4974-94d9-2ff2d669a905")
+	)
+	(wire
+		(pts
+			(xy 111.76 153.67) (xy 111.76 157.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4bc9b325-dea1-47ba-8233-868ca069f756")
 	)
 	(wire
 		(pts
@@ -5191,6 +5363,16 @@
 			(type default)
 		)
 		(uuid "5d9bdffb-ec83-4ebc-bf4d-e15cab829265")
+	)
+	(wire
+		(pts
+			(xy 87.63 111.76) (xy 95.25 111.76)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "620bd05e-9d28-42a1-b0ba-f0c46293fd0a")
 	)
 	(wire
 		(pts
@@ -5371,6 +5553,16 @@
 			(type default)
 		)
 		(uuid "74aeac37-b2eb-4755-9a09-0db07f2bf2bc")
+	)
+	(wire
+		(pts
+			(xy 74.93 111.76) (xy 82.55 111.76)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "74d5862b-155e-46aa-8c03-7968fe0fcb23")
 	)
 	(wire
 		(pts
@@ -5834,6 +6026,16 @@
 	)
 	(wire
 		(pts
+			(xy 87.63 153.67) (xy 111.76 153.67)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9d9aef14-1aef-4f65-98ed-e00685990b67")
+	)
+	(wire
+		(pts
 			(xy 149.86 78.74) (xy 165.1 78.74)
 		)
 		(stroke
@@ -5854,7 +6056,7 @@
 	)
 	(wire
 		(pts
-			(xy 109.22 182.88) (xy 109.22 185.42)
+			(xy 107.95 182.88) (xy 107.95 185.42)
 		)
 		(stroke
 			(width 0)
@@ -6224,6 +6426,16 @@
 	)
 	(wire
 		(pts
+			(xy 95.25 111.76) (xy 95.25 121.92)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ca3f0b43-389f-443b-9951-92d9769460ca")
+	)
+	(wire
+		(pts
 			(xy 43.18 62.23) (xy 41.91 62.23)
 		)
 		(stroke
@@ -6454,6 +6666,16 @@
 	)
 	(wire
 		(pts
+			(xy 105.41 151.13) (xy 111.76 151.13)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e4c56c77-2d9b-4f2a-a563-442d85ba9377")
+	)
+	(wire
+		(pts
 			(xy 238.76 123.19) (xy 238.76 124.46)
 		)
 		(stroke
@@ -6541,6 +6763,16 @@
 			(type default)
 		)
 		(uuid "e8eeb6a5-1161-4d2f-b9c7-ae047e52815c")
+	)
+	(wire
+		(pts
+			(xy 111.76 151.13) (xy 111.76 153.67)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ea8df32c-3fb4-43fd-87c7-c6b0637c0ce0")
 	)
 	(wire
 		(pts
@@ -6812,7 +7044,7 @@
 		)
 		(uuid "3137c697-45c9-4966-a1ae-8c959897321a")
 	)
-	(label "VBAT"
+	(label "VSYS"
 		(at 156.21 115.57 180)
 		(effects
 			(font
@@ -7012,6 +7244,130 @@
 		(uuid "f694afdd-ebea-46f1-b254-c93459504676")
 	)
 	(symbol
+		(lib_id "Device:R")
+		(at 111.76 161.29 0)
+		(mirror y)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "01343cee-b453-4165-b0cd-e67acdec8a44")
+		(property "Reference" "R27"
+			(at 111.76 161.29 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "10kR"
+			(at 114.046 161.29 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 113.538 161.29 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "https://yageogroup.com/content/datasheet/asset/file/PYU-RC_GROUP_51_ROHS_L"
+			(at 111.76 161.29 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "RES 10k 1% 1/10W 0603"
+			(at 111.76 161.29 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Yageo"
+			(at 111.76 161.29 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "RC0603FR-0710KL"
+			(at 111.76 161.29 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "603-RC0603FR-0710KL"
+			(at 111.76 161.29 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/603-RC0603FR-0710KL"
+			(at 111.76 161.29 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "7ee176e3-4935-4a1e-bb91-0a6d88d371f7")
+		)
+		(pin "1"
+			(uuid "2e66e8c1-2d79-4844-90ca-3cb259b95f79")
+		)
+		(instances
+			(project "manafish"
+				(path "/37283e3e-a087-4659-9b29-171eab26a1f6/89d7ac77-fa0c-4bb2-902c-6102b08b0cf6"
+					(reference "R27")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "FDMC8327L:FDMC8327L")
 		(at 44.45 115.57 0)
 		(mirror y)
@@ -7055,7 +7411,7 @@
 				(justify left top)
 			)
 		)
-		(property "Datasheet" "https://www.onsemi.com/pub/Collateral/FDMC8327L-D.pdf"
+		(property "Datasheet" "https://www.onsemi.com/download/data-sheet/pdf/fdmc8327l-d.pdf"
 			(at 22.86 310.49 0)
 			(hide yes)
 			(show_name no)
@@ -7067,7 +7423,7 @@
 				(justify left top)
 			)
 		)
-		(property "Description" "Max rDS(on) = 9.7 m at VGS = 10 V, ID = 12 A ; 100% UIL test ; RoHS Compliant ; Low Profile - 0.8mm max in Power 33 ; Max rDS(on) = 12.5 m at VGS = 4.5 V, ID = 10 A"
+		(property "Description" "MOSFET N-CH 40V 14A 9.7mR@10V Power33 3.3x3.3"
 			(at 44.45 115.57 0)
 			(hide yes)
 			(show_name no)
@@ -7078,8 +7434,20 @@
 				)
 			)
 		)
-		(property "Height" ""
-			(at 22.86 510.49 0)
+		(property "Manufacturer" "onsemi"
+			(at 22.86 310.49 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "MPN" "FDMC8327L"
+			(at 22.86 310.49 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7092,42 +7460,6 @@
 		)
 		(property "Mouser PN" "512-FDMC8327L"
 			(at 22.86 610.49 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-			)
-		)
-		(property "Mouser Price/Stock" "https://www.mouser.co.uk/ProductDetail/onsemi-Fairchild/FDMC8327L?qs=WCuZTSj0%252BHDvMqCYzCnZnA%3D%3D"
-			(at 22.86 710.49 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-			)
-		)
-		(property "Manufacturer_Name" "onsemi"
-			(at 22.86 810.49 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-			)
-		)
-		(property "Manufacturer_Part_Number" "FDMC8327L"
-			(at 22.86 910.49 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7292,7 +7624,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Converter_ACDC:Converter_ACDC_Murata_BAC05SxxDC_THT"
+		(property "Footprint" "Capacitor_SMD:C_1210_3225Metric"
 			(at 265.43 123.19 0)
 			(hide yes)
 			(show_name no)
@@ -7303,7 +7635,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "https://pim.murata.com/asset/pim4/ceramicCapacitorSMD/GRM32ER71A476KE15-01A-EN_PDF_CERAMICCAPACITORSMD"
 			(at 265.43 123.19 0)
 			(hide yes)
 			(show_name no)
@@ -7314,8 +7646,52 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" "CAP CER 47uF 10V X7R 10% 1210"
 			(at 265.43 133.35 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Murata"
+			(at 265.43 123.19 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "GRM32ER71A476KE15L"
+			(at 265.43 123.19 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "81-GRM32ER71A476KE5L"
+			(at 265.43 123.19 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/81-GRM32ER71A476KE5L"
+			(at 265.43 123.19 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7496,6 +7872,130 @@
 	)
 	(symbol
 		(lib_id "Device:R")
+		(at 101.6 151.13 90)
+		(mirror x)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "0a388900-81d6-4f71-abf4-a20bd08d80c9")
+		(property "Reference" "R26"
+			(at 101.6 151.13 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "10kR"
+			(at 101.6 148.844 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+			(at 101.6 149.352 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "https://yageogroup.com/content/datasheet/asset/file/PYU-RC_GROUP_51_ROHS_L"
+			(at 101.6 151.13 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "RES 10k 1% 1/10W 0603"
+			(at 101.6 151.13 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Yageo"
+			(at 101.6 151.13 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "RC0603FR-0710KL"
+			(at 101.6 151.13 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "603-RC0603FR-0710KL"
+			(at 101.6 151.13 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/603-RC0603FR-0710KL"
+			(at 101.6 151.13 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "0368ef1f-97cd-4ad7-b2a6-cc4d158b369a")
+		)
+		(pin "1"
+			(uuid "8de3cc7c-9cbb-407c-b684-b4f602cf3cba")
+		)
+		(instances
+			(project "manafish"
+				(path "/37283e3e-a087-4659-9b29-171eab26a1f6/89d7ac77-fa0c-4bb2-902c-6102b08b0cf6"
+					(reference "R26")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
 		(at 22.86 133.35 90)
 		(mirror x)
 		(unit 1)
@@ -7526,7 +8026,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_LCC:PLCC-84_29.3x29.3mm_P1.27mm"
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric"
 			(at 22.86 131.572 90)
 			(hide yes)
 			(show_name no)
@@ -7537,7 +8037,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "https://industrial.panasonic.com/cdbs/www-data/pdf/RDN0000/AOA0000C313.pdf"
 			(at 22.86 133.35 0)
 			(hide yes)
 			(show_name no)
@@ -7548,7 +8048,51 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "RES SENSE 16mR 1% 1W 1206"
+			(at 22.86 133.35 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Panasonic"
+			(at 22.86 133.35 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "ERJ-8BWFR016V"
+			(at 22.86 133.35 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "667-ERJ-8BWFR016V"
+			(at 22.86 133.35 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/667-ERJ-8BWFR016V"
 			(at 22.86 133.35 0)
 			(hide yes)
 			(show_name no)
@@ -7608,7 +8152,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Converter_ACDC:Converter_ACDC_Murata_BAC05SxxDC_THT"
+		(property "Footprint" "Capacitor_SMD:C_1210_3225Metric"
 			(at 187.96 120.65 0)
 			(hide yes)
 			(show_name no)
@@ -7619,7 +8163,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "https://product.tdk.com/en/search/capacitor/ceramic/mlcc/info?part_no=C3225X7R1H106K250AC"
 			(at 187.96 120.65 0)
 			(hide yes)
 			(show_name no)
@@ -7630,8 +8174,52 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" "CAP CER 10uF 50V X7R 10% 1210"
 			(at 187.96 130.81 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "TDK"
+			(at 187.96 120.65 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "C3225X7R1H106K250AC"
+			(at 187.96 120.65 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "810-C3225X7R1H106250"
+			(at 187.96 120.65 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/810-C3225X7R1H106250"
+			(at 187.96 120.65 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7799,6 +8387,28 @@
 				)
 			)
 		)
+		(property "Manufacturer" "Analog Devices"
+			(at 72.39 171.45 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "LTC4162IUFD-LAD#PBF"
+			(at 72.39 171.45 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(property "Mouser PN" "584-4162IUFDLADPB"
 			(at 72.39 143.51 0)
 			(hide yes)
@@ -7812,6 +8422,17 @@
 		)
 		(property "Mouser" "https://mou.sr/3TGKyxN"
 			(at 72.39 143.51 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Note" "Mouser no longer restocks ADI parts: DigiKey 505-LTC4162IUFD-LAD#PBF-ND, Farnell. LTC4162EUFD-LAD#PBF is an approved alternate."
+			(at 72.39 171.45 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7995,6 +8616,285 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:C_Small")
+		(at 85.09 111.76 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "3cd907e7-5b50-4c3c-8110-c38b1929ccda")
+		(property "Reference" "C37"
+			(at 82.296 110.49 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "100nF 50V"
+			(at 85.09 108.458 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+			(at 85.09 111.76 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" "https://pim.murata.com/asset/pim4/ceramicCapacitorSMD/GCM188R71H104KA57-01A-EN_PDF_CERAMICCAPACITORSMD"
+			(at 85.09 111.76 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "CAP CER 100nF 50V X7R 10% 0603"
+			(at 95.25 111.76 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Murata"
+			(at 85.09 111.76 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "GCM188R71H104KA57D"
+			(at 85.09 111.76 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "81-GCM188R71H104KA7D"
+			(at 85.09 111.76 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/81-GCM188R71H104KA7D"
+			(at 85.09 111.76 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "40f12066-b4ea-4a5e-838f-5458457bf668")
+		)
+		(pin "1"
+			(uuid "3a06277e-575c-42d7-881f-08f2e11f74f5")
+		)
+		(instances
+			(project "manafish"
+				(path "/37283e3e-a087-4659-9b29-171eab26a1f6/89d7ac77-fa0c-4bb2-902c-6102b08b0cf6"
+					(reference "C37")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:PWR_FLAG")
+		(at 144.78 115.57 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "40395e90-fc05-403f-9dcb-6e9eda554520")
+		(property "Reference" "#FLG01"
+			(at 144.78 113.665 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "PWR_FLAG"
+			(at 144.78 110.49 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 144.78 115.57 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 144.78 115.57 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Special symbol for telling ERC where power comes from"
+			(at 144.78 115.57 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "0adfb69d-d645-4a04-96b2-3d17b2c69783")
+		)
+		(instances
+			(project "manafish"
+				(path "/37283e3e-a087-4659-9b29-171eab26a1f6/89d7ac77-fa0c-4bb2-902c-6102b08b0cf6"
+					(reference "#FLG01")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:PWR_FLAG")
+		(at 138.43 72.39 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "4133d4cf-eedd-4ca3-97b3-0639f963630f")
+		(property "Reference" "#FLG03"
+			(at 138.43 70.485 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "PWR_FLAG"
+			(at 138.43 67.31 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 138.43 72.39 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 138.43 72.39 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Special symbol for telling ERC where power comes from"
+			(at 138.43 72.39 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "b9b84025-69d7-4ab9-aa31-8fb3b2ab847a")
+		)
+		(instances
+			(project "manafish"
+				(path "/37283e3e-a087-4659-9b29-171eab26a1f6/89d7ac77-fa0c-4bb2-902c-6102b08b0cf6"
+					(reference "#FLG03")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R_Small")
 		(at 238.76 127 0)
 		(unit 1)
@@ -8027,7 +8927,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Array_SIP4"
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 238.76 127 0)
 			(hide yes)
 			(show_name no)
@@ -8038,7 +8938,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "https://yageogroup.com/content/datasheet/asset/file/PYU-RC_GROUP_51_ROHS_L"
 			(at 238.76 127 0)
 			(hide yes)
 			(show_name no)
@@ -8049,7 +8949,51 @@
 				)
 			)
 		)
-		(property "Description" "Resistor, small symbol"
+		(property "Description" "RES 2k49 1% 1/10W 0603"
+			(at 238.76 127 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Yageo"
+			(at 238.76 127 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "RC0603FR-072K49L"
+			(at 238.76 127 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "603-RC0603FR-072K49L"
+			(at 238.76 127 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/603-RC0603FR-072K49L"
 			(at 238.76 127 0)
 			(hide yes)
 			(show_name no)
@@ -8098,7 +9042,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "470uF 25V"
+		(property "Value" "470uF 35V"
 			(at 215.9 42.2909 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8120,7 +9064,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.we-online.com/components/products/datasheet/860040475008.pdf"
+		(property "Datasheet" "https://www.nichicon.co.jp/english/series_items/catalog_pdf/e-uhw.pdf"
 			(at 212.09 41.91 0)
 			(hide yes)
 			(show_name no)
@@ -8131,7 +9075,7 @@
 				)
 			)
 		)
-		(property "Description" "Polarized capacitor"
+		(property "Description" "CAP ALU 470uF 35V 20% 10x16mm P5.0 low-ESR 2.0A 105C 10000h"
 			(at 212.09 41.91 0)
 			(hide yes)
 			(show_name no)
@@ -8142,7 +9086,7 @@
 				)
 			)
 		)
-		(property "Mouser PN" "710-860040475008"
+		(property "Manufacturer" "Nichicon"
 			(at 212.09 41.91 0)
 			(hide yes)
 			(show_name no)
@@ -8153,7 +9097,29 @@
 				)
 			)
 		)
-		(property "Mouser" "https://mou.sr/4i4rhj0"
+		(property "MPN" "UHW1V471MPD"
+			(at 212.09 41.91 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "647-UHW1V471MPD"
+			(at 212.09 41.91 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/647-UHW1V471MPD"
 			(at 212.09 41.91 0)
 			(hide yes)
 			(show_name no)
@@ -8223,7 +9189,7 @@
 				(justify left top)
 			)
 		)
-		(property "Datasheet" "https://componentsearchengine.com/Datasheets/2/V6K100DUHM3_H.pdf"
+		(property "Datasheet" "https://www.vishay.com/docs/87418/v6k100du.pdf"
 			(at 45.72 236.83 0)
 			(hide yes)
 			(show_name no)
@@ -8235,7 +9201,7 @@
 				(justify left top)
 			)
 		)
-		(property "Description" "Schottky Diodes & Rectifiers 6A 100V TMBS FlatPAK 5x6"
+		(property "Description" "DIODE SCHOTTKY dual 100V 3A FlatPAK 5x6"
 			(at 31.75 41.91 0)
 			(hide yes)
 			(show_name no)
@@ -8246,56 +9212,56 @@
 				)
 			)
 		)
+		(property "Manufacturer" "Vishay"
+			(at 45.72 236.83 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "MPN" "V6K100DUHM3/H"
+			(at 45.72 236.83 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Mouser PN" "78-V6K100DUHM3/H"
+			(at 45.72 236.83 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Mouser" "https://mou.sr/4ehyeea"
+			(at 45.72 236.83 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
 		(property "Height" "1.09"
 			(at 45.72 436.83 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-			)
-		)
-		(property "Mouser Part Number" "78-V6K100DUHM3/H"
-			(at 45.72 536.83 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-			)
-		)
-		(property "Mouser Price/Stock" "https://www.mouser.co.uk/ProductDetail/Vishay-General-Semiconductor/V6K100DUHM3-H?qs=u16ybLDytRbtckVK0zChdQ%3D%3D"
-			(at 45.72 636.83 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-			)
-		)
-		(property "Manufacturer_Name" "Vishay"
-			(at 45.72 736.83 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-			)
-		)
-		(property "Manufacturer_Part_Number" "V6K100DUHM3/H"
-			(at 45.72 836.83 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8341,7 +9307,7 @@
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 109.22 179.07 0)
+		(at 107.95 179.07 0)
 		(mirror y)
 		(unit 1)
 		(body_style 1)
@@ -8352,7 +9318,7 @@
 		(dnp no)
 		(uuid "4cdda01c-1ab3-43f7-ba4c-c3c0fe5d030c")
 		(property "Reference" "C32"
-			(at 105.41 177.7999 0)
+			(at 104.14 177.7999 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8363,7 +9329,7 @@
 			)
 		)
 		(property "Value" "4.7uF 50V"
-			(at 105.41 180.3399 0)
+			(at 104.14 180.3399 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -8374,7 +9340,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_1206_3216Metric"
-			(at 108.2548 182.88 0)
+			(at 106.9848 182.88 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8384,8 +9350,8 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.we-online.com/components/products/datasheet/885342208024.pdf"
-			(at 109.22 179.07 0)
+		(property "Datasheet" "https://pim.murata.com/asset/pim4/ceramicCapacitorSMD/GRM31CR71H475KA12-01A-EN_PDF_CERAMICCAPACITORSMD"
+			(at 107.95 179.07 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8395,8 +9361,8 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
-			(at 109.22 179.07 0)
+		(property "Description" "CAP CER 4.7uF 50V X7R 10% 1206"
+			(at 107.95 179.07 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8406,8 +9372,8 @@
 				)
 			)
 		)
-		(property "Mouser PN" ""
-			(at 109.22 179.07 0)
+		(property "Manufacturer" "Murata"
+			(at 107.95 179.07 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8417,8 +9383,30 @@
 				)
 			)
 		)
-		(property "Mouser" ""
-			(at 109.22 179.07 0)
+		(property "MPN" "GRM31CR71H475KA12L"
+			(at 107.95 179.07 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "81-GRM31CR71H475KA2L"
+			(at 107.95 179.07 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/81-GRM31CR71H475KA2L"
+			(at 107.95 179.07 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8477,7 +9465,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Converter_ACDC:Converter_ACDC_Murata_BAC05SxxDC_THT"
+		(property "Footprint" "Capacitor_SMD:C_1210_3225Metric"
 			(at 172.72 120.65 0)
 			(hide yes)
 			(show_name no)
@@ -8488,7 +9476,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "https://product.tdk.com/en/search/capacitor/ceramic/mlcc/info?part_no=C3225X7R1H106K250AC"
 			(at 172.72 120.65 0)
 			(hide yes)
 			(show_name no)
@@ -8499,8 +9487,52 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" "CAP CER 10uF 50V X7R 10% 1210"
 			(at 172.72 130.81 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "TDK"
+			(at 172.72 120.65 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "C3225X7R1H106K250AC"
+			(at 172.72 120.65 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "810-C3225X7R1H106250"
+			(at 172.72 120.65 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/810-C3225X7R1H106250"
+			(at 172.72 120.65 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8520,6 +9552,84 @@
 			(project "manafish"
 				(path "/37283e3e-a087-4659-9b29-171eab26a1f6/89d7ac77-fa0c-4bb2-902c-6102b08b0cf6"
 					(reference "C34")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:PWR_FLAG")
+		(at 138.43 36.83 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "4e879df8-98a0-4aa3-a484-3fd77a18611c")
+		(property "Reference" "#FLG02"
+			(at 138.43 34.925 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "PWR_FLAG"
+			(at 138.43 31.75 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 138.43 36.83 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 138.43 36.83 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Special symbol for telling ERC where power comes from"
+			(at 138.43 36.83 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "bc1a48ab-eaa7-410c-a88e-7b9b8867555b")
+		)
+		(instances
+			(project "manafish"
+				(path "/37283e3e-a087-4659-9b29-171eab26a1f6/89d7ac77-fa0c-4bb2-902c-6102b08b0cf6"
+					(reference "#FLG02")
 					(unit 1)
 				)
 			)
@@ -8569,7 +9679,7 @@
 				(justify left top)
 			)
 		)
-		(property "Datasheet" "https://componentsearchengine.com/Datasheets/2/V6K100DUHM3_H.pdf"
+		(property "Datasheet" "https://www.vishay.com/docs/87418/v6k100du.pdf"
 			(at 45.72 219.05 0)
 			(hide yes)
 			(show_name no)
@@ -8581,7 +9691,7 @@
 				(justify left top)
 			)
 		)
-		(property "Description" "Schottky Diodes & Rectifiers 6A 100V TMBS FlatPAK 5x6"
+		(property "Description" "DIODE SCHOTTKY dual 100V 3A FlatPAK 5x6"
 			(at 31.75 24.13 0)
 			(hide yes)
 			(show_name no)
@@ -8592,8 +9702,20 @@
 				)
 			)
 		)
-		(property "Height" "1.09"
-			(at 45.72 419.05 0)
+		(property "Manufacturer" "Vishay"
+			(at 45.72 219.05 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "MPN" "V6K100DUHM3/H"
+			(at 45.72 219.05 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8616,42 +9738,6 @@
 				(justify left top)
 			)
 		)
-		(property "Mouser Price/Stock" "https://www.mouser.co.uk/ProductDetail/Vishay-General-Semiconductor/V6K100DUHM3-H?qs=u16ybLDytRbtckVK0zChdQ%3D%3D"
-			(at 45.72 619.05 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-			)
-		)
-		(property "Manufacturer_Name" "Vishay"
-			(at 45.72 719.05 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-			)
-		)
-		(property "Manufacturer_Part_Number" "V6K100DUHM3/H"
-			(at 45.72 819.05 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-			)
-		)
 		(property "Mouser" "https://mou.sr/4ehyeea"
 			(at 24.13 24.13 0)
 			(hide yes)
@@ -8663,8 +9749,8 @@
 				)
 			)
 		)
-		(property "Mouser Part Number" "78-V6K100DUHM3/H"
-			(at 45.72 519.05 0)
+		(property "Height" "1.09"
+			(at 45.72 419.05 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8818,7 +9904,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Array_SIP4"
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 238.76 119.38 0)
 			(hide yes)
 			(show_name no)
@@ -8829,7 +9915,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "https://yageogroup.com/content/datasheet/asset/file/PYU-RC_GROUP_51_ROHS_L"
 			(at 238.76 119.38 0)
 			(hide yes)
 			(show_name no)
@@ -8840,7 +9926,51 @@
 				)
 			)
 		)
-		(property "Description" "Resistor, small symbol"
+		(property "Description" "RES 10k 1% 1/10W 0603"
+			(at 238.76 119.38 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Yageo"
+			(at 238.76 119.38 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "RC0603FR-0710KL"
+			(at 238.76 119.38 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "603-RC0603FR-0710KL"
+			(at 238.76 119.38 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/603-RC0603FR-0710KL"
 			(at 238.76 119.38 0)
 			(hide yes)
 			(show_name no)
@@ -8888,7 +10018,7 @@
 				)
 			)
 		)
-		(property "Value" "4.7nF 2kV"
+		(property "Value" "4.7nF 1kV"
 			(at 133.35 48.26 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8920,7 +10050,7 @@
 				)
 			)
 		)
-		(property "Description" "885342208020"
+		(property "Description" "CAP CER 4.7nF 1kV X7R 10% 1206"
 			(at 142.748 48.26 90)
 			(hide yes)
 			(show_name no)
@@ -8931,7 +10061,29 @@
 				)
 			)
 		)
-		(property "Mouser PN" "710-885342208020 "
+		(property "Manufacturer" "Wurth Elektronik"
+			(at 138.43 48.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "885342208020"
+			(at 138.43 48.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "710-885342208020"
 			(at 138.43 48.26 90)
 			(hide yes)
 			(show_name no)
@@ -8944,6 +10096,17 @@
 		)
 		(property "Mouser" "https://mou.sr/4j8MKZk"
 			(at 138.43 48.26 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Note" "Silvertel Fig. 15 specifies 2000 V; this part is 1 kV. 2 kV option: Yageo CC1812KKX7RDBB472 (1812) or leave unfitted (EMI only)."
+			(at 138.43 48.26 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9025,6 +10188,28 @@
 		)
 		(property "Description" "36-V, 3A input, stepdown, DC/DC converter, Texas B3QFN-14"
 			(at 214.63 123.19 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Texas Instruments"
+			(at 217.17 107.95 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "TPSM53603RDAR"
+			(at 217.17 107.95 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9132,7 +10317,7 @@
 				)
 			)
 		)
-		(property "Value" "4.7nF 2kV"
+		(property "Value" "4.7nF 1kV"
 			(at 133.35 83.82 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9164,7 +10349,7 @@
 				)
 			)
 		)
-		(property "Description" "885342208020"
+		(property "Description" "CAP CER 4.7nF 1kV X7R 10% 1206"
 			(at 142.748 83.82 90)
 			(hide yes)
 			(show_name no)
@@ -9175,7 +10360,29 @@
 				)
 			)
 		)
-		(property "Mouser PN" "710-885342208020 "
+		(property "Manufacturer" "Wurth Elektronik"
+			(at 138.43 83.82 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "885342208020"
+			(at 138.43 83.82 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "710-885342208020"
 			(at 138.43 83.82 90)
 			(hide yes)
 			(show_name no)
@@ -9188,6 +10395,17 @@
 		)
 		(property "Mouser" "https://mou.sr/4j8MKZk"
 			(at 138.43 83.82 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Note" "Silvertel Fig. 15 specifies 2000 V; this part is 1 kV. 2 kV option: Yageo CC1812KKX7RDBB472 (1812) or leave unfitted (EMI only)."
+			(at 138.43 83.82 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9333,7 +10551,7 @@
 				(justify left top)
 			)
 		)
-		(property "Datasheet" "https://componentsearchengine.com/Datasheets/2/V6K100DUHM3_H.pdf"
+		(property "Datasheet" "https://www.vishay.com/docs/87418/v6k100du.pdf"
 			(at 22.86 272.39 0)
 			(hide yes)
 			(show_name no)
@@ -9345,7 +10563,7 @@
 				(justify left top)
 			)
 		)
-		(property "Description" "Schottky Diodes & Rectifiers 6A 100V TMBS FlatPAK 5x6"
+		(property "Description" "DIODE SCHOTTKY dual 100V 3A FlatPAK 5x6"
 			(at 36.83 77.47 0)
 			(hide yes)
 			(show_name no)
@@ -9356,56 +10574,56 @@
 				)
 			)
 		)
+		(property "Manufacturer" "Vishay"
+			(at 22.86 272.39 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "MPN" "V6K100DUHM3/H"
+			(at 22.86 272.39 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Mouser PN" "78-V6K100DUHM3/H"
+			(at 22.86 272.39 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Mouser" "https://mou.sr/4ehyeea"
+			(at 22.86 272.39 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
 		(property "Height" "1.09"
 			(at 22.86 472.39 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-			)
-		)
-		(property "Mouser Part Number" "78-V6K100DUHM3/H"
-			(at 22.86 572.39 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-			)
-		)
-		(property "Mouser Price/Stock" "https://www.mouser.co.uk/ProductDetail/Vishay-General-Semiconductor/V6K100DUHM3-H?qs=u16ybLDytRbtckVK0zChdQ%3D%3D"
-			(at 22.86 672.39 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-			)
-		)
-		(property "Manufacturer_Name" "Vishay"
-			(at 22.86 772.39 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-			)
-		)
-		(property "Manufacturer_Part_Number" "V6K100DUHM3/H"
-			(at 22.86 872.39 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9560,7 +10778,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Package_LCC:PLCC-84_29.3x29.3mm_P1.27mm"
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 33.528 179.07 90)
 			(hide yes)
 			(show_name no)
@@ -9571,7 +10789,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "https://yageogroup.com/content/datasheet/asset/file/PYU-RC_GROUP_51_ROHS_L"
 			(at 31.75 179.07 0)
 			(hide yes)
 			(show_name no)
@@ -9582,7 +10800,51 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "RES 63k4 1% 1/10W 0603"
+			(at 31.75 179.07 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Yageo"
+			(at 31.75 179.07 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "RC0603FR-0763K4L"
+			(at 31.75 179.07 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "603-RC0603FR-0763K4L"
+			(at 31.75 179.07 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/603-RC0603FR-0763K4L"
 			(at 31.75 179.07 0)
 			(hide yes)
 			(show_name no)
@@ -9661,8 +10923,30 @@
 				)
 			)
 		)
-		(property "Description" "MPZ2012S102AT000"
+		(property "Description" "FERRITE BEAD 1k@100MHz 1.5A 150mR 0805"
 			(at 116.84 41.402 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "TDK"
+			(at 116.84 36.83 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "MPZ2012S102AT000"
+			(at 116.84 36.83 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -9828,7 +11112,7 @@
 				(justify left top)
 			)
 		)
-		(property "Datasheet" "https://www.onsemi.com/pub/Collateral/FDMC8327L-D.pdf"
+		(property "Datasheet" "https://www.onsemi.com/download/data-sheet/pdf/fdmc8327l-d.pdf"
 			(at 138.43 315.57 0)
 			(hide yes)
 			(show_name no)
@@ -9840,7 +11124,7 @@
 				(justify left top)
 			)
 		)
-		(property "Description" "Max rDS(on) = 9.7 m at VGS = 10 V, ID = 12 A ; 100% UIL test ; RoHS Compliant ; Low Profile - 0.8mm max in Power 33 ; Max rDS(on) = 12.5 m at VGS = 4.5 V, ID = 10 A"
+		(property "Description" "MOSFET N-CH 40V 14A 9.7mR@10V Power33 3.3x3.3"
 			(at 116.84 120.65 0)
 			(hide yes)
 			(show_name no)
@@ -9851,8 +11135,8 @@
 				)
 			)
 		)
-		(property "Height" ""
-			(at 138.43 515.57 0)
+		(property "Manufacturer" "onsemi"
+			(at 138.43 315.57 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9863,8 +11147,8 @@
 				(justify left top)
 			)
 		)
-		(property "Mouser Part Number" "512-FDMC8327L"
-			(at 138.43 615.57 0)
+		(property "MPN" "FDMC8327L"
+			(at 138.43 315.57 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9875,8 +11159,8 @@
 				(justify left top)
 			)
 		)
-		(property "Mouser Price/Stock" "https://www.mouser.co.uk/ProductDetail/onsemi-Fairchild/FDMC8327L?qs=WCuZTSj0%252BHDvMqCYzCnZnA%3D%3D"
-			(at 138.43 715.57 0)
+		(property "Mouser PN" "512-FDMC8327L"
+			(at 138.43 315.57 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9887,20 +11171,8 @@
 				(justify left top)
 			)
 		)
-		(property "Manufacturer_Name" "onsemi"
-			(at 138.43 815.57 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-			)
-		)
-		(property "Manufacturer_Part_Number" "FDMC8327L"
-			(at 138.43 915.57 0)
+		(property "Mouser" "https://mou.sr/4eeUiWP"
+			(at 138.43 315.57 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10000,8 +11272,41 @@
 				)
 			)
 		)
-		(property "Description" "400W unidirectional Transient Voltage Suppressor, 58.0Vr, SMA(DO-214AC)"
+		(property "Description" "TVS 58V 400W unidirectional SMA (DO-214AC)"
 			(at 48.26 54.61 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Littelfuse"
+			(at 48.26 53.34 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "SMAJ58A"
+			(at 48.26 53.34 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "576-SMAJ58A"
+			(at 48.26 54.61 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10022,8 +11327,8 @@
 				)
 			)
 		)
-		(property "Mouser PN" "576-SMAJ58A"
-			(at 48.26 54.61 90)
+		(property "Note" "Mouser had no stock on 2026-10-09: the identical Bourns SMAJ58A (652-SMAJ58A) or Vishay SMAJ58A-E3/61 (625-SMAJ58A-E3/61) fit."
+			(at 48.26 53.34 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10069,7 +11374,7 @@
 				)
 			)
 		)
-		(property "Value" "6.8uH ??V"
+		(property "Value" "6.8uH"
 			(at 107.95 133.858 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10079,7 +11384,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Inductor_SMD:L_Coilcraft_XAL6060-XXX"
 			(at 107.95 135.89 0)
 			(hide yes)
 			(show_name no)
@@ -10090,7 +11395,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "https://www.coilcraft.com/getmedia/ea51f14b-7f32-4dc6-8dfe-d4b70549040f/xal60xx.pdf"
 			(at 107.95 135.89 0)
 			(hide yes)
 			(show_name no)
@@ -10101,8 +11406,52 @@
 				)
 			)
 		)
-		(property "Description" "Inductor, small symbol"
+		(property "Description" "IND 6.8uH 20% 9.2A sat 7A rms 20.8mR shielded 6x6mm"
 			(at 107.95 135.89 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Coilcraft"
+			(at 107.95 135.89 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "XAL6060-682MEC"
+			(at 107.95 135.89 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "994-XAL6060-682MEC"
+			(at 107.95 135.89 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" "https://mou.sr/4dsGZlx"
+			(at 107.95 135.89 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10160,7 +11509,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Converter_ACDC:Converter_ACDC_Murata_BAC05SxxDC_THT"
+		(property "Footprint" "Capacitor_SMD:C_1210_3225Metric"
 			(at 250.19 123.19 0)
 			(hide yes)
 			(show_name no)
@@ -10171,7 +11520,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "https://pim.murata.com/asset/pim4/ceramicCapacitorSMD/GRM32ER71A476KE15-01A-EN_PDF_CERAMICCAPACITORSMD"
 			(at 250.19 123.19 0)
 			(hide yes)
 			(show_name no)
@@ -10182,8 +11531,52 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" "CAP CER 47uF 10V X7R 10% 1210"
 			(at 250.19 133.35 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Murata"
+			(at 250.19 123.19 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "GRM32ER71A476KE15L"
+			(at 250.19 123.19 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "81-GRM32ER71A476KE5L"
+			(at 250.19 123.19 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/81-GRM32ER71A476KE5L"
+			(at 250.19 123.19 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10203,6 +11596,83 @@
 			(project "manafish"
 				(path "/37283e3e-a087-4659-9b29-171eab26a1f6/89d7ac77-fa0c-4bb2-902c-6102b08b0cf6"
 					(reference "C35")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 95.25 121.92 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "9a06d469-3f71-47c1-b8c9-d274dfb18525")
+		(property "Reference" "#PWR024"
+			(at 95.25 128.27 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 95.377 126.3142 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 95.25 121.92 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 95.25 121.92 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 95.25 121.92 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "38496f40-0fee-471a-afa7-3ea7547d2232")
+		)
+		(instances
+			(project "manafish"
+				(path "/37283e3e-a087-4659-9b29-171eab26a1f6/89d7ac77-fa0c-4bb2-902c-6102b08b0cf6"
+					(reference "#PWR024")
 					(unit 1)
 				)
 			)
@@ -10261,8 +11731,30 @@
 				)
 			)
 		)
-		(property "Description" "MPZ2012S102AT000"
+		(property "Description" "FERRITE BEAD 1k@100MHz 1.5A 150mR 0805"
 			(at 73.66 76.962 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "TDK"
+			(at 73.66 72.39 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "MPZ2012S102AT000"
+			(at 73.66 72.39 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10361,8 +11853,30 @@
 				)
 			)
 		)
-		(property "Description" "MPZ2012S102AT000"
+		(property "Description" "FERRITE BEAD 1k@100MHz 1.5A 150mR 0805"
 			(at 116.84 76.962 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "TDK"
+			(at 116.84 72.39 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "MPZ2012S102AT000"
+			(at 116.84 72.39 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -10430,7 +11944,7 @@
 				)
 			)
 		)
-		(property "Value" "PC817"
+		(property "Value" "LTV-817"
 			(at 172.72 69.85 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10453,7 +11967,7 @@
 				(justify left)
 			)
 		)
-		(property "Datasheet" "http://www.soselectronic.cz/a_info/resource/d/pc817.pdf"
+		(property "Datasheet" "https://optoelectronics.liteon.com/upload/download/DS-70-96-0016/LTV-8X7%20series%20%20Rev.S.PDF"
 			(at 172.72 76.2 0)
 			(hide yes)
 			(show_name no)
@@ -10465,7 +11979,7 @@
 				(justify left)
 			)
 		)
-		(property "Description" "DC Optocoupler, Vce 35V, CTR 50-300%, DIP-4"
+		(property "Description" "OPTOCOUPLER transistor 5kVrms CTR 50-600% VCEO 35V DIP-4"
 			(at 172.72 76.2 0)
 			(hide yes)
 			(show_name no)
@@ -10474,6 +11988,54 @@
 				(font
 					(size 1.27 1.27)
 				)
+			)
+		)
+		(property "Manufacturer" "Lite-On"
+			(at 172.72 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "MPN" "LTV-817"
+			(at 172.72 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Mouser PN" "859-LTV-817"
+			(at 172.72 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/859-LTV-817"
+			(at 172.72 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
 			)
 		)
 		(pin "3"
@@ -10531,7 +12093,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Array_SIP4"
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 200.66 120.65 0)
 			(hide yes)
 			(show_name no)
@@ -10542,7 +12104,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "https://yageogroup.com/content/datasheet/asset/file/PYU-RC_GROUP_51_ROHS_L"
 			(at 200.66 120.65 0)
 			(hide yes)
 			(show_name no)
@@ -10553,7 +12115,51 @@
 				)
 			)
 		)
-		(property "Description" "Resistor, small symbol"
+		(property "Description" "RES 100k 1% 1/10W 0603"
+			(at 200.66 120.65 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Yageo"
+			(at 200.66 120.65 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "RC0603FR-07100KL"
+			(at 200.66 120.65 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "603-RC0603FR-07100KL"
+			(at 200.66 120.65 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/603-RC0603FR-07100KL"
 			(at 200.66 120.65 0)
 			(hide yes)
 			(show_name no)
@@ -10679,7 +12285,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "100nF 25V"
+		(property "Value" "100nF 50V"
 			(at 196.85 43.1799 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10701,7 +12307,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.we-online.com/components/products/datasheet/885342208024.pdf"
+		(property "Datasheet" "https://yageogroup.com/content/datasheet/asset/file/KEM_C1002_X7R_SMD"
 			(at 193.04 41.91 0)
 			(hide yes)
 			(show_name no)
@@ -10712,7 +12318,7 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "CAP CER 100nF 50V X7R 10% 1206"
 			(at 193.04 41.91 0)
 			(hide yes)
 			(show_name no)
@@ -10723,7 +12329,7 @@
 				)
 			)
 		)
-		(property "Mouser PN" ""
+		(property "Manufacturer" "KEMET"
 			(at 193.04 41.91 0)
 			(hide yes)
 			(show_name no)
@@ -10734,7 +12340,29 @@
 				)
 			)
 		)
-		(property "Mouser" ""
+		(property "MPN" "C1206C104K5RACTU"
+			(at 193.04 41.91 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "80-C1206C104K5R"
+			(at 193.04 41.91 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/80-C1206C104K5R"
 			(at 193.04 41.91 0)
 			(hide yes)
 			(show_name no)
@@ -10783,7 +12411,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "0.1uF 50V"
+		(property "Value" "100nF 50V"
 			(at 45.72 180.3399 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10805,7 +12433,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.we-online.com/components/products/datasheet/885342208024.pdf"
+		(property "Datasheet" "https://yageogroup.com/content/datasheet/asset/file/KEM_C1002_X7R_SMD"
 			(at 49.53 179.07 0)
 			(hide yes)
 			(show_name no)
@@ -10816,7 +12444,7 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "CAP CER 100nF 50V X7R 10% 1206"
 			(at 49.53 179.07 0)
 			(hide yes)
 			(show_name no)
@@ -10827,7 +12455,7 @@
 				)
 			)
 		)
-		(property "Mouser PN" ""
+		(property "Manufacturer" "KEMET"
 			(at 49.53 179.07 0)
 			(hide yes)
 			(show_name no)
@@ -10838,7 +12466,29 @@
 				)
 			)
 		)
-		(property "Mouser" ""
+		(property "MPN" "C1206C104K5RACTU"
+			(at 49.53 179.07 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "80-C1206C104K5R"
+			(at 49.53 179.07 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/80-C1206C104K5R"
 			(at 49.53 179.07 0)
 			(hide yes)
 			(show_name no)
@@ -10920,6 +12570,28 @@
 		)
 		(property "Description" "Isolated PoE++ PD module, IEEE 802.3bt Type 4 Class 8 (71.3 W at the PD, 67 W continuous output), 24 V output adjustable 18.9-25 V, 1500 Vdc impulse isolation, needs external input bridges and 330-680 uF output capacitance, TYP2-DET/TYP3-DET switch low to VIN- through 27k when detected, SMT 50.6x30 mm"
 			(at 172.72 41.91 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Silvertel"
+			(at 172.72 54.61 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "Ag59824-LPB"
+			(at 172.72 54.61 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11108,7 +12780,7 @@
 				(justify left top)
 			)
 		)
-		(property "Datasheet" "https://componentsearchengine.com/Datasheets/2/V6K100DUHM3_H.pdf"
+		(property "Datasheet" "https://www.vishay.com/docs/87418/v6k100du.pdf"
 			(at 22.86 254.61 0)
 			(hide yes)
 			(show_name no)
@@ -11120,7 +12792,7 @@
 				(justify left top)
 			)
 		)
-		(property "Description" "Schottky Diodes & Rectifiers 6A 100V TMBS FlatPAK 5x6"
+		(property "Description" "DIODE SCHOTTKY dual 100V 3A FlatPAK 5x6"
 			(at 36.83 59.69 0)
 			(hide yes)
 			(show_name no)
@@ -11131,56 +12803,56 @@
 				)
 			)
 		)
+		(property "Manufacturer" "Vishay"
+			(at 22.86 254.61 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "MPN" "V6K100DUHM3/H"
+			(at 22.86 254.61 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Mouser PN" "78-V6K100DUHM3/H"
+			(at 22.86 254.61 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Mouser" "https://mou.sr/4ehyeea"
+			(at 22.86 254.61 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
 		(property "Height" "1.09"
 			(at 22.86 454.61 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-			)
-		)
-		(property "Mouser Part Number" "78-V6K100DUHM3/H"
-			(at 22.86 554.61 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-			)
-		)
-		(property "Mouser Price/Stock" "https://www.mouser.co.uk/ProductDetail/Vishay-General-Semiconductor/V6K100DUHM3-H?qs=u16ybLDytRbtckVK0zChdQ%3D%3D"
-			(at 22.86 654.61 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-			)
-		)
-		(property "Manufacturer_Name" "Vishay"
-			(at 22.86 754.61 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-			)
-		)
-		(property "Manufacturer_Part_Number" "V6K100DUHM3/H"
-			(at 22.86 854.61 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11423,7 +13095,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.we-online.com/components/products/datasheet/885342208024.pdf"
+		(property "Datasheet" "https://pim.murata.com/asset/pim4/ceramicCapacitorSMD/GRM31CR71H105KA61-01A-EN_PDF_CERAMICCAPACITORSMD"
 			(at 91.44 179.07 0)
 			(hide yes)
 			(show_name no)
@@ -11434,7 +13106,7 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "CAP CER 1uF 50V X7R 10% 1206"
 			(at 91.44 179.07 0)
 			(hide yes)
 			(show_name no)
@@ -11445,7 +13117,7 @@
 				)
 			)
 		)
-		(property "Mouser PN" ""
+		(property "Manufacturer" "Murata"
 			(at 91.44 179.07 0)
 			(hide yes)
 			(show_name no)
@@ -11456,7 +13128,29 @@
 				)
 			)
 		)
-		(property "Mouser" ""
+		(property "MPN" "GRM31CR71H105KA61L"
+			(at 91.44 179.07 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "81-GRM31CR71H105KA61"
+			(at 91.44 179.07 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/81-GRM31CR71H105KA61"
 			(at 91.44 179.07 0)
 			(hide yes)
 			(show_name no)
@@ -11477,6 +13171,83 @@
 			(project "manafish"
 				(path "/37283e3e-a087-4659-9b29-171eab26a1f6/89d7ac77-fa0c-4bb2-902c-6102b08b0cf6"
 					(reference "C31")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 111.76 185.42 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "d4d72348-605c-4491-9e28-ee96a2aeccad")
+		(property "Reference" "#PWR023"
+			(at 111.76 191.77 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "GND"
+			(at 111.887 189.8142 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 111.76 185.42 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 111.76 185.42 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 111.76 185.42 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "95ec736f-ecaa-4d12-b4a9-dd0948f5ea82")
+		)
+		(instances
+			(project "manafish"
+				(path "/37283e3e-a087-4659-9b29-171eab26a1f6/89d7ac77-fa0c-4bb2-902c-6102b08b0cf6"
+					(reference "#PWR023")
 					(unit 1)
 				)
 			)
@@ -11535,8 +13306,30 @@
 				)
 			)
 		)
-		(property "Description" "MPZ2012S102AT000"
+		(property "Description" "FERRITE BEAD 1k@100MHz 1.5A 150mR 0805"
 			(at 95.25 41.402 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "TDK"
+			(at 95.25 36.83 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "MPZ2012S102AT000"
+			(at 95.25 36.83 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11635,8 +13428,30 @@
 				)
 			)
 		)
-		(property "Description" "MPZ2012S102AT000"
+		(property "Description" "FERRITE BEAD 1k@100MHz 1.5A 150mR 0805"
 			(at 95.25 76.962 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "TDK"
+			(at 95.25 72.39 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "MPZ2012S102AT000"
+			(at 95.25 72.39 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11735,8 +13550,30 @@
 				)
 			)
 		)
-		(property "Description" "MPZ2012S102AT000"
+		(property "Description" "FERRITE BEAD 1k@100MHz 1.5A 150mR 0805"
 			(at 73.66 41.402 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "TDK"
+			(at 73.66 36.83 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "MPZ2012S102AT000"
+			(at 73.66 36.83 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11891,7 +13728,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_LCC:PLCC-84_29.3x29.3mm_P1.27mm"
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric"
 			(at 120.65 139.192 90)
 			(hide yes)
 			(show_name no)
@@ -11902,7 +13739,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "https://industrial.panasonic.com/cdbs/www-data/pdf/RDN0000/AOA0000C313.pdf"
 			(at 120.65 140.97 0)
 			(hide yes)
 			(show_name no)
@@ -11913,7 +13750,51 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "RES SENSE 10mR 1% 1W 1206"
+			(at 120.65 140.97 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Panasonic"
+			(at 120.65 140.97 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "ERJ-8BWFR010V"
+			(at 120.65 140.97 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "667-ERJ-8BWFR010V"
+			(at 120.65 140.97 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/667-ERJ-8BWFR010V"
 			(at 120.65 140.97 0)
 			(hide yes)
 			(show_name no)
@@ -11941,7 +13822,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 109.22 185.42 0)
+		(at 107.95 185.42 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -11951,7 +13832,7 @@
 		(dnp no)
 		(uuid "e6d7878a-e8f9-42db-8ed8-303ce7dcb559")
 		(property "Reference" "#PWR014"
-			(at 109.22 191.77 0)
+			(at 107.95 191.77 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11962,7 +13843,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 109.347 189.8142 0)
+			(at 108.077 189.8142 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -11972,7 +13853,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 109.22 185.42 0)
+			(at 107.95 185.42 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11983,7 +13864,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 109.22 185.42 0)
+			(at 107.95 185.42 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11994,7 +13875,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 109.22 185.42 0)
+			(at 107.95 185.42 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12201,7 +14082,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Converter_ACDC:Converter_ACDC_Murata_BAC05SxxDC_THT"
+		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
 			(at 95.25 133.35 0)
 			(hide yes)
 			(show_name no)
@@ -12212,7 +14093,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "https://pim.murata.com/asset/pim4/ceramicCapacitorSMD/GCM188R71H223KA37-01A-EN_PDF_CERAMICCAPACITORSMD"
 			(at 95.25 133.35 0)
 			(hide yes)
 			(show_name no)
@@ -12223,8 +14104,52 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" "CAP CER 22nF 50V X7R 10% 0603"
 			(at 105.41 133.35 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Murata"
+			(at 95.25 133.35 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "GCM188R71H223KA37D"
+			(at 95.25 133.35 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "81-GCM188R71H223K37D"
+			(at 95.25 133.35 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/81-GCM188R71H223K37D"
+			(at 95.25 133.35 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12283,7 +14208,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_1206_3216Metric"
+		(property "Footprint" "Capacitor_SMD:C_1210_3225Metric"
 			(at 126.0348 156.21 0)
 			(hide yes)
 			(show_name no)
@@ -12294,7 +14219,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.we-online.com/components/products/datasheet/885342208024.pdf"
+		(property "Datasheet" "https://product.tdk.com/en/search/capacitor/ceramic/mlcc/info?part_no=C3225X7R1H106K250AC"
 			(at 127 152.4 0)
 			(hide yes)
 			(show_name no)
@@ -12305,7 +14230,7 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "CAP CER 10uF 50V X7R 10% 1210"
 			(at 127 152.4 0)
 			(hide yes)
 			(show_name no)
@@ -12316,7 +14241,7 @@
 				)
 			)
 		)
-		(property "Mouser PN" ""
+		(property "Manufacturer" "TDK"
 			(at 127 152.4 0)
 			(hide yes)
 			(show_name no)
@@ -12327,7 +14252,29 @@
 				)
 			)
 		)
-		(property "Mouser" ""
+		(property "MPN" "C3225X7R1H106K250AC"
+			(at 127 152.4 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "810-C3225X7R1H106250"
+			(at 127 152.4 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/810-C3225X7R1H106250"
 			(at 127 152.4 0)
 			(hide yes)
 			(show_name no)
@@ -12464,7 +14411,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_THT:R_Array_SIP4"
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
 			(at 229.87 125.73 0)
 			(hide yes)
 			(show_name no)
@@ -12475,7 +14422,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "https://yageogroup.com/content/datasheet/asset/file/PYU-RC_GROUP_51_ROHS_L"
 			(at 229.87 125.73 0)
 			(hide yes)
 			(show_name no)
@@ -12486,7 +14433,51 @@
 				)
 			)
 		)
-		(property "Description" "Resistor, small symbol"
+		(property "Description" "RES 100k 1% 1/10W 0603"
+			(at 229.87 125.73 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "Yageo"
+			(at 229.87 125.73 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "RC0603FR-07100KL"
+			(at 229.87 125.73 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "603-RC0603FR-07100KL"
+			(at 229.87 125.73 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/603-RC0603FR-07100KL"
 			(at 229.87 125.73 0)
 			(hide yes)
 			(show_name no)
@@ -12535,7 +14526,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "10uF 25V"
+		(property "Value" "10uF 50V"
 			(at 234.95 43.1799 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12546,7 +14537,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_1206_3216Metric"
+		(property "Footprint" "Capacitor_SMD:C_1210_3225Metric"
 			(at 232.1052 45.72 0)
 			(hide yes)
 			(show_name no)
@@ -12557,7 +14548,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "https://product.tdk.com/en/search/capacitor/ceramic/mlcc/info?part_no=C3225X7R1H106K250AC"
 			(at 231.14 41.91 0)
 			(hide yes)
 			(show_name no)
@@ -12568,7 +14559,51 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "CAP CER 10uF 50V X7R 10% 1210"
+			(at 231.14 41.91 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Manufacturer" "TDK"
+			(at 231.14 41.91 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "C3225X7R1H106K250AC"
+			(at 231.14 41.91 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "810-C3225X7R1H106250"
+			(at 231.14 41.91 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/810-C3225X7R1H106250"
 			(at 231.14 41.91 0)
 			(hide yes)
 			(show_name no)
@@ -12628,7 +14663,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_1206_3216Metric"
+		(property "Footprint" "Capacitor_SMD:C_1210_3225Metric"
 			(at 143.8148 156.21 0)
 			(hide yes)
 			(show_name no)
@@ -12639,7 +14674,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.we-online.com/components/products/datasheet/885342208024.pdf"
+		(property "Datasheet" "https://product.tdk.com/en/search/capacitor/ceramic/mlcc/info?part_no=C3225X7R1H106K250AC"
 			(at 144.78 152.4 0)
 			(hide yes)
 			(show_name no)
@@ -12650,7 +14685,7 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "CAP CER 10uF 50V X7R 10% 1210"
 			(at 144.78 152.4 0)
 			(hide yes)
 			(show_name no)
@@ -12661,7 +14696,7 @@
 				)
 			)
 		)
-		(property "Mouser PN" ""
+		(property "Manufacturer" "TDK"
 			(at 144.78 152.4 0)
 			(hide yes)
 			(show_name no)
@@ -12672,7 +14707,29 @@
 				)
 			)
 		)
-		(property "Mouser" ""
+		(property "MPN" "C3225X7R1H106K250AC"
+			(at 144.78 152.4 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "810-C3225X7R1H106250"
+			(at 144.78 152.4 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/810-C3225X7R1H106250"
 			(at 144.78 152.4 0)
 			(hide yes)
 			(show_name no)
@@ -12720,7 +14777,7 @@
 				)
 			)
 		)
-		(property "Value" "PC817"
+		(property "Value" "LTV-817"
 			(at 172.72 54.61 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -12743,7 +14800,7 @@
 				(justify left)
 			)
 		)
-		(property "Datasheet" "http://www.soselectronic.cz/a_info/resource/d/pc817.pdf"
+		(property "Datasheet" "https://optoelectronics.liteon.com/upload/download/DS-70-96-0016/LTV-8X7%20series%20%20Rev.S.PDF"
 			(at 172.72 60.96 0)
 			(hide yes)
 			(show_name no)
@@ -12755,7 +14812,7 @@
 				(justify left)
 			)
 		)
-		(property "Description" "DC Optocoupler, Vce 35V, CTR 50-300%, DIP-4"
+		(property "Description" "OPTOCOUPLER transistor 5kVrms CTR 50-600% VCEO 35V DIP-4"
 			(at 172.72 60.96 0)
 			(hide yes)
 			(show_name no)
@@ -12764,6 +14821,54 @@
 				(font
 					(size 1.27 1.27)
 				)
+			)
+		)
+		(property "Manufacturer" "Lite-On"
+			(at 172.72 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "MPN" "LTV-817"
+			(at 172.72 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Mouser PN" "859-LTV-817"
+			(at 172.72 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/859-LTV-817"
+			(at 172.72 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
 			)
 		)
 		(pin "1"

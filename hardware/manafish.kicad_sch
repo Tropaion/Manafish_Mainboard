@@ -1109,9 +1109,9 @@
 		)
 		(uuid "c2ccd663-9652-4828-b878-73342f4d6fd2")
 	)
-	(text "TODO:\n - RJ45 Jack tauschen\n - Sensor auf SPI\n - 2ter Kamera-Stecker\n - Drucksensor"
+	(text "TODO:\n - RJ45 Jack tauschen\n - Sensor auf SPI\n - 2ter Kamera-Stecker\n - Drucksensor\n - Check Cloud generated footprints"
 		(exclude_from_sim no)
-		(at 19.304 143.002 0)
+		(at 18.288 146.304 0)
 		(effects
 			(font
 				(size 2.54 2.54)
