@@ -12,9 +12,8 @@ the USB-connected Raspberry Pi Pico and the wiring between them with one board:
   sensors.
 
 > [!WARNING]
-> Work in progress. The schematic is still being drawn, the PCB layout hasn't
-> started, and no board has been built or tested. Don't manufacture from this
-> repository yet.
+> Work in progress. The schematic and the 4-layer PCB layout are drawn, but no
+> board has been built or tested. Don't manufacture from this repository yet.
 
 ## Overview
 View the latest [KiCad Design](https://kicanvas.org/?repo=https%3A%2F%2Fgithub.com%2FTropaion%2FManafish_Mainboard%2Fblob%2Fmain%2Fhardware%2Fmanafish.kicad_pro).
@@ -23,7 +22,7 @@ View the latest [KiCad Design](https://kicanvas.org/?repo=https%3A%2F%2Fgithub.c
 flowchart LR
   tether["Tether (Ethernet)"] --> magjack["MagJack + ESD"]
   magjack -->|4 pairs| cm5["Compute Module 5"]
-  magjack -.->|center taps| poe["PoE header J9"]
+  magjack -.->|center taps| poe["PoE module U5 (Ag59824, 24 V)"]
   cm5 -->|MIPI0| cam["Camera connector J5"]
   cm5 -->|"USB 2.0 (data only)"| service["USB-C service port J8"]
   cm5 -->|I2C1| sensors["BMI270, SHT45, MS5837 connector"]
@@ -31,8 +30,10 @@ flowchart LR
   cm5 -->|"GPIO24 RUN, GPIO25 BOOTSEL"| mcu
   mcu -->|GP6-GP9| escA["ESC A, 4-in-1 (AM32)"]
   mcu -->|GP18-GP21| escB["ESC B, 4-in-1 (AM32)"]
-  bat["Battery J6"] --> pm["Power management (planned)"]
-  pm -->|5 V| cm5
+  poe --> chg["Charger U8 (LTC4162-L)"]
+  bat["Battery J6 (5S)"] <--> chg
+  chg -->|VSYS| buck["5 V buck U9 (TPSM53603)"]
+  buck -->|5 V| cm5
 ```
 
 ## Schematic sheets
@@ -42,10 +43,10 @@ flowchart LR
 | Manafish (top level) | `manafish.kicad_sch` | Sheet hierarchy, battery input J6, USB-C service port J8 | Original; USB-C port adapted from the CM5 IO Board |
 | Raspberry Pi Compute Module 5 | `cm5.kicad_sch` | CM5 module connectors, boot and EEPROM jumper header J7 | Adapted from the CM5 IO Board |
 | Camera Serial Interface | `csi.kicad_sch` | 22-pin MIPI camera connector J5 | Adapted from the CM5 IO Board |
-| Ethernet | `ethernet.kicad_sch` | MagJack U3, ESD protection U1/U2, PoE center-tap header J9, link LEDs | Adapted from the CM5 IO Board |
+| Ethernet | `ethernet.kicad_sch` | MagJack U3 (YAGEO JXF0-1012NL, 4-pair PoE center taps), ESD protection U1/U2, link LEDs | Adapted from the CM5 IO Board |
 | I2C Peripherals | `i2c_peripherals.kicad_sch` | BMI270 IMU, SHT45 humidity and temperature sensor, MS5837 connector, I2C pull-ups | Original |
 | RP2354A | `rp2354a.kicad_sch` | RP2354A with core regulator, USB, SWD connector J2, ESC connectors J3/J4 | Original, following *Hardware design with RP2350* |
-| Power Management | `power_management.kicad_sch` | Battery to 5 V (not drawn yet) | Original |
+| Power Management | `power_management.kicad_sch` | PoE bridges D2–D5, PoE module U5, LTC4162-L charger U8, 5 V buck U9 | Original |
 
 "Adapted from the CM5 IO Board" means the sheet started from Raspberry Pi's
 reference design; see [Origin and attribution](#origin-and-attribution).
@@ -96,15 +97,101 @@ I2C devices on the CM5's I2C1 bus:
 hardware/
 ├── manafish.kicad_pro      KiCad project
 ├── *.kicad_sch             schematic sheets
-├── manafish.kicad_pcb      PCB (not started)
+├── manafish.kicad_pcb      PCB, 4 layers
 ├── manafish.kicad_dru      custom DRC rules for the PoE isolation barriers
 ├── sym-lib-table           project symbol libraries
 ├── fp-lib-table            project footprint libraries
 └── custom_components/
-    ├── symbols/            CM5IO, BMI270, SHT45, ABM8-272-T3, Silvertel, V6K100DUHM3, LTC4162 symbols
-    ├── footprints/         CM5IO, BMI270, SHT45, ABM8-272-T3, RP2350_Minimal, Silvertel, V6K100DUHM3, LTC4162 footprints
+    ├── symbols/            CM5IO, BMI270, SHT45, ABM8-272-T3, Silvertel, V6K100DUHM3, FDMC8327L, LTC4162, YAGEO symbols
+    ├── footprints/         CM5IO, BMI270, SHT45, ABM8-272-T3, RP2350_Minimal, Silvertel, V6K100DUHM3, FDMC86139P, LTC4162, YAGEO footprints
     └── 3d/                 STEP models
 ```
+
+## PCB
+
+`manafish.kicad_pcb` is a 70 × 100 mm, 4-layer board. It sits centred on the
+axis of a tube with a 74 mm inner diameter, so a part at lateral distance *d*
+from the axis may stand at most √(37² − *d*²) − 0.8 mm above the board surface.
+Every part fits, checked against the 3D models. The tightest are the USB-C port
+J8 (1.8 mm to the tube wall) and the SWD connector J2 (2.3 mm).
+
+### Stackup
+
+JLCPCB JLC04161H-7628, 1.6 mm, ENIG finish:
+
+| Layer | Thickness | Use |
+| --- | --- | --- |
+| F.Cu | 35 µm | Parts, signals, GND and power pours |
+| Prepreg 7628 | 0.21 mm, εr 4.4 | |
+| In1.Cu | 15 µm | Solid GND reference, no tracks |
+| Core | 1.065 mm, εr 4.6 | |
+| In2.Cu | 15 µm | GND, power pours (VSYS, +5 V, 3V3), signals |
+| Prepreg 7628 | 0.21 mm, εr 4.4 | |
+| B.Cu | 35 µm | PoE module U5, PoE input, signals, GND and 24 V pours |
+
+Order the board with impedance control:
+
+| Net class | Nets | Width / gap | Target |
+| --- | --- | --- | --- |
+| `DP100` | Ethernet `TRD*`, camera `DPHY0_*` | 0.21 / 0.19 mm on F.Cu and B.Cu | 100 Ω differential |
+| `USB90` | `USB2_*`, RP2354A `USB_D*` | 0.24 / 0.15 mm on F.Cu | 90 Ω differential |
+
+Inside the CM5 connector pin fields the pairs neck down to 0.127 mm for at most
+1.6 mm. Pours keep 0.3 mm from the pairs everywhere.
+
+### PoE isolation
+
+The PoE input side (the `Primary` net class: center taps, bridges, U5 input,
+TYP outputs) is isolated from the rest of the board. `manafish.kicad_dru`
+enforces:
+
+- 2.0 mm from primary copper to any other net, on every layer and from every
+  hole. The only exception is between the pads of each Y-capacitor
+  (C21, C24).
+- A 3.0 mm warning tier, the Silvertel guideline. 21 warnings remain, all
+  between 2.0 and 3.0 mm:
+  - the MagJack's own center-tap pads to its shield pins (2.14 mm) and the VC3
+    track next to the shield (2.02 mm);
+  - the Y-capacitors' own pads (2.7 mm) and C21's GND pad to the ferrite beads
+    (2.26 mm);
+  - the RP2354A decoupling GND vias next to the ferrite-bead column (2.38 mm);
+  - R23 next to U5's VIN+ pad (2.8 mm).
+- Under U5's primary half (`PRI_ISLAND_U5`), no vias of other nets and no
+  other copper on B.Cu or In2. The module's isolation barrier strip stays
+  empty on B.Cu and In2.
+
+The inner layers are voided 2 mm around primary copper on the next outer layer
+(In2 under primary B.Cu, In1 under primary F.Cu), and In1 stays clear of the
+front edge where the VC1 track runs on In2. Only U5, the optocouplers U6/U7 and
+the Y-capacitors C21/C24 cross the barrier.
+
+Connector A of the CM5 lies inside the island, so 16 of its GND pins have no
+via to the GND planes. They connect through the CM5's own ground: the footprint
+`Module1` declares all its GND pads as one jumper pad group.
+
+### Assembly
+
+- U5 (Ag59824-LPB) is on the bottom and must never pass through reflow hanging
+  upside down. Reflow the top side first, then the bottom side with U5 upright,
+  or fit U5 afterwards with hot air. Glue L2 (1.0–1.6 g) and U9 before the
+  second pass.
+- U5 reflow profile: peak 230–245 °C, 30–90 s above 217 °C, soak 150–180 °C for
+  30–90 s, ramp up at most 3 °C/s and down at most 6 °C/s. No wave solder on the
+  U5 side.
+- Solder the through-hole parts U3, J6, J7 and C20 by hand after both reflow
+  passes.
+- Fit the CM5 with M2.5 screws from below (head at most 4.5 mm across) and the
+  nuts on the CM5 side. A nut under the board would hit C20.
+
+The same notes are on the board's User.Comments layer, which isn't part of the
+Gerbers: copy them into the order remarks for the assembler.
+
+### Testing the isolation
+
+Use the 1500 V 10/700 µs impulse test only, at normal air pressure. Don't run
+a 1500 Vrms or 2250 Vdc hipot: the Ag59824 is rated only for the impulse
+test, and 2250 V exceeds the Y-capacitors' 2 kV rating. Afterwards the primary
+side must measure at least 2 MΩ to GND at 500 Vdc.
 
 ## Flashing the Compute Module
 
@@ -155,6 +242,7 @@ Datasheets aren't stored in the repository. Use the links below.
 - [Silvertel Ag59800 (Ag59824-LPB) PoE++ module datasheet](https://silvertel.com/images/datasheets/Ag59800-LPB%20-datasheet-high%20efficiency%20SMT%20IEEE802_3BT%20100W%20power-over-ethernet%20module.pdf)
 - [Vishay V6K100DU dual Schottky diode datasheet](https://www.vishay.com/docs/87418/v6k100du.pdf)
 - [Analog Devices LTC4162-L battery charger datasheet](https://www.analog.com/media/en/technical-documentation/data-sheets/LTC4162-L.pdf)
+- [YAGEO (Pulse) JXF0-xx12NL MagJack datasheet J520](https://www.yageogroup.com/content/datasheet/asset/file/DATASHEET_J520)
 
 ## Related repositories
 

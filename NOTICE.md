@@ -101,8 +101,12 @@ warranty, and must be used together with the keep-out regions in the datasheet.
   which brings the file from 15.9 MB to 1.7 MB), and the faces were coloured.
   The outline, component envelopes and terminals are unchanged.
 
-The `Silvertel` symbols and footprints were drawn for this board from the
-datasheets and are covered by this repository's license.
+`JXF0-1012NL.step`, the YAGEO JXF0-1012NL MagJack, was generated for this
+board from the dimensions in YAGEO's datasheet J520 and is covered by this
+repository's license.
+
+The `Silvertel` and `YAGEO` symbols and footprints were drawn for this board
+from the datasheets and are covered by this repository's license.
 
 ## SamacSys symbols and footprints
 
@@ -120,7 +124,7 @@ SamacSys's terms of use:
 - `hardware/custom_components/footprints/V6K100DUHM3.pretty/V6K100DUHM3H.kicad_mod`
 - `hardware/custom_components/footprints/FDMC86139P.pretty/FDMC86139P.kicad_mod`
 
-Three of them were modified for this board:
+Some of them were modified for this board:
 
 - `V6K100DUHM3H.kicad_mod` and `V6K100DUHM3_H.kicad_sym`: the two exposed
   cathode pads (pads 9-12) carry the number of the cathode pins they belong to
@@ -130,6 +134,11 @@ Three of them were modified for this board:
   drain pins; the origin was moved to the centre of the package; the 3D model
   path points to `custom_components/3d/`. The `FDMC8327L` symbol's default
   footprint now names this library.
+- `ABM8272T3.kicad_mod`: the courtyard was trimmed from 5.6 x 4.8 mm to
+  4.1 x 3.3 mm (the pads plus 0.25 mm), so the crystal fits next to the RP2354A.
+- `ABM8272T3.kicad_mod`, `BMI270.kicad_mod` and
+  `SON80P150X150X59-5N.kicad_mod`: the 3D model path points to
+  `custom_components/3d/`.
 
 ## KiCad standard libraries
 
@@ -146,7 +155,9 @@ licence:
   is a copy of KiCad 10's
   `Package_DFN_QFN:QFN-28-1EP_4x5mm_P0.5mm_EP2.65x3.65mm_ThermalVias`. The
   12 thermal vias are drilled 0.3 mm instead of 0.2 mm, to meet this board's
-  minimum drill, and the footprint points to the model below.
+  minimum drill; the exposed-pad paste windows were redrawn as three bands and
+  two strips that keep 0.1 mm from every via hole; and the footprint points to
+  the model below.
 - `hardware/custom_components/3d/QFN-28-1EP_4x5mm_P0.5mm_EP2.65x3.65mm.step`
   was generated with KiCad's own model generator
   (<https://gitlab.com/kicad/libraries/kicad-library-tools>, commit

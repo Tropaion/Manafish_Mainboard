@@ -10018,7 +10018,7 @@
 				)
 			)
 		)
-		(property "Value" "4.7nF 1kV"
+		(property "Value" "4.7nF 2kV"
 			(at 133.35 48.26 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10028,7 +10028,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_1206_3216Metric"
+		(property "Footprint" "Capacitor_SMD:C_1812_4532Metric"
 			(at 137.4648 52.07 0)
 			(hide yes)
 			(show_name no)
@@ -10039,7 +10039,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.we-online.com/components/products/datasheet/885342208020.pdf"
+		(property "Datasheet" "https://yageogroup.com/content/datasheet/asset/file/KEM_C1025_X7R_HV_FT-CAP_SMD"
 			(at 138.43 48.26 0)
 			(hide yes)
 			(show_name no)
@@ -10050,7 +10050,7 @@
 				)
 			)
 		)
-		(property "Description" "CAP CER 4.7nF 1kV X7R 10% 1206"
+		(property "Description" "CAP CER 4.7nF 2kV X7R 10% 1812 flexible termination (PoE isolation Y-cap)"
 			(at 142.748 48.26 90)
 			(hide yes)
 			(show_name no)
@@ -10061,7 +10061,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "Wurth Elektronik"
+		(property "Manufacturer" "KEMET"
 			(at 138.43 48.26 0)
 			(hide yes)
 			(show_name no)
@@ -10072,7 +10072,7 @@
 				)
 			)
 		)
-		(property "MPN" "885342208020"
+		(property "MPN" "C1812X472KGRACTU"
 			(at 138.43 48.26 0)
 			(hide yes)
 			(show_name no)
@@ -10083,7 +10083,7 @@
 				)
 			)
 		)
-		(property "Mouser PN" "710-885342208020"
+		(property "Mouser PN" "80-C1812X472KGRACTU"
 			(at 138.43 48.26 90)
 			(hide yes)
 			(show_name no)
@@ -10094,19 +10094,8 @@
 				)
 			)
 		)
-		(property "Mouser" "https://mou.sr/4j8MKZk"
+		(property "Mouser" "https://www.mouser.com/ProductDetail/80-C1812X472KGRACTU"
 			(at 138.43 48.26 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Note" "Silvertel Fig. 15 specifies 2000 V; this part is 1 kV. 2 kV option: Yageo CC1812KKX7RDBB472 (1812) or leave unfitted (EMI only)."
-			(at 138.43 48.26 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10317,7 +10306,7 @@
 				)
 			)
 		)
-		(property "Value" "4.7nF 1kV"
+		(property "Value" "4.7nF 2kV"
 			(at 133.35 83.82 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10327,7 +10316,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_1206_3216Metric"
+		(property "Footprint" "Capacitor_SMD:C_1812_4532Metric"
 			(at 137.4648 87.63 0)
 			(hide yes)
 			(show_name no)
@@ -10338,7 +10327,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.we-online.com/components/products/datasheet/885342208020.pdf"
+		(property "Datasheet" "https://yageogroup.com/content/datasheet/asset/file/KEM_C1025_X7R_HV_FT-CAP_SMD"
 			(at 138.43 83.82 0)
 			(hide yes)
 			(show_name no)
@@ -10349,7 +10338,7 @@
 				)
 			)
 		)
-		(property "Description" "CAP CER 4.7nF 1kV X7R 10% 1206"
+		(property "Description" "CAP CER 4.7nF 2kV X7R 10% 1812 flexible termination (PoE isolation Y-cap)"
 			(at 142.748 83.82 90)
 			(hide yes)
 			(show_name no)
@@ -10360,7 +10349,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "Wurth Elektronik"
+		(property "Manufacturer" "KEMET"
 			(at 138.43 83.82 0)
 			(hide yes)
 			(show_name no)
@@ -10371,7 +10360,7 @@
 				)
 			)
 		)
-		(property "MPN" "885342208020"
+		(property "MPN" "C1812X472KGRACTU"
 			(at 138.43 83.82 0)
 			(hide yes)
 			(show_name no)
@@ -10382,7 +10371,7 @@
 				)
 			)
 		)
-		(property "Mouser PN" "710-885342208020"
+		(property "Mouser PN" "80-C1812X472KGRACTU"
 			(at 138.43 83.82 90)
 			(hide yes)
 			(show_name no)
@@ -10393,19 +10382,8 @@
 				)
 			)
 		)
-		(property "Mouser" "https://mou.sr/4j8MKZk"
+		(property "Mouser" "https://www.mouser.com/ProductDetail/80-C1812X472KGRACTU"
 			(at 138.43 83.82 90)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Note" "Silvertel Fig. 15 specifies 2000 V; this part is 1 kV. 2 kV option: Yageo CC1812KKX7RDBB472 (1812) or leave unfitted (EMI only)."
-			(at 138.43 83.82 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11944,7 +11922,7 @@
 				)
 			)
 		)
-		(property "Value" "LTV-817"
+		(property "Value" "LTV-817S"
 			(at 172.72 69.85 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11954,7 +11932,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_DIP:DIP-4_W7.62mm"
+		(property "Footprint" "Package_DIP:SMDIP-4_W9.53mm_Clearance8mm"
 			(at 167.64 81.28 0)
 			(hide yes)
 			(show_name no)
@@ -11979,7 +11957,7 @@
 				(justify left)
 			)
 		)
-		(property "Description" "OPTOCOUPLER transistor 5kVrms CTR 50-600% VCEO 35V DIP-4"
+		(property "Description" "OPTOCOUPLER transistor 5kVrms CTR 50-600% VCEO 35V SMD-4 gull wing"
 			(at 172.72 76.2 0)
 			(hide yes)
 			(show_name no)
@@ -12002,7 +11980,7 @@
 				(justify left)
 			)
 		)
-		(property "MPN" "LTV-817"
+		(property "MPN" "LTV-817S-TA1"
 			(at 172.72 76.2 0)
 			(hide yes)
 			(show_name no)
@@ -12014,7 +11992,7 @@
 				(justify left)
 			)
 		)
-		(property "Mouser PN" "859-LTV-817"
+		(property "Mouser PN" "859-LTV-817S-TA1"
 			(at 172.72 76.2 0)
 			(hide yes)
 			(show_name no)
@@ -12026,7 +12004,7 @@
 				(justify left)
 			)
 		)
-		(property "Mouser" "https://www.mouser.com/ProductDetail/859-LTV-817"
+		(property "Mouser" "https://www.mouser.com/ProductDetail/859-LTV-817S-TA1"
 			(at 172.72 76.2 0)
 			(hide yes)
 			(show_name no)
@@ -14777,7 +14755,7 @@
 				)
 			)
 		)
-		(property "Value" "LTV-817"
+		(property "Value" "LTV-817S"
 			(at 172.72 54.61 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -14787,7 +14765,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Package_DIP:DIP-4_W7.62mm"
+		(property "Footprint" "Package_DIP:SMDIP-4_W9.53mm_Clearance8mm"
 			(at 167.64 66.04 0)
 			(hide yes)
 			(show_name no)
@@ -14812,7 +14790,7 @@
 				(justify left)
 			)
 		)
-		(property "Description" "OPTOCOUPLER transistor 5kVrms CTR 50-600% VCEO 35V DIP-4"
+		(property "Description" "OPTOCOUPLER transistor 5kVrms CTR 50-600% VCEO 35V SMD-4 gull wing"
 			(at 172.72 60.96 0)
 			(hide yes)
 			(show_name no)
@@ -14835,7 +14813,7 @@
 				(justify left)
 			)
 		)
-		(property "MPN" "LTV-817"
+		(property "MPN" "LTV-817S-TA1"
 			(at 172.72 60.96 0)
 			(hide yes)
 			(show_name no)
@@ -14847,7 +14825,7 @@
 				(justify left)
 			)
 		)
-		(property "Mouser PN" "859-LTV-817"
+		(property "Mouser PN" "859-LTV-817S-TA1"
 			(at 172.72 60.96 0)
 			(hide yes)
 			(show_name no)
@@ -14859,7 +14837,7 @@
 				(justify left)
 			)
 		)
-		(property "Mouser" "https://www.mouser.com/ProductDetail/859-LTV-817"
+		(property "Mouser" "https://www.mouser.com/ProductDetail/859-LTV-817S-TA1"
 			(at 172.72 60.96 0)
 			(hide yes)
 			(show_name no)

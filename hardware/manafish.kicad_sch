@@ -1198,9 +1198,15 @@
 		(at 82.55 83.82)
 		(uuid "940ce912-49e1-4bd1-8058-f1703214a142")
 	)
-	(no_connect
-		(at 57.15 78.74)
-		(uuid "97733f6a-238d-4bf6-b46e-4f26ffc90469")
+	(label "VBUS"
+		(at 57.15 78.74 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "d3d97c27-548f-4874-b74c-91d861269a08")
 	)
 	(no_connect
 		(at 82.55 86.36)

@@ -3,7 +3,7 @@
 	(generator "pcbnew")
 	(generator_version "10.0")
 	(layer "F.Cu")
-	(descr "Silvertel Ag59800-LPB series (Ag59812-LPB, Ag59824-LPB) IEEE 802.3bt Type 4 Class 8 PoE PD module, SMT, 50.6x30 mm. Land pattern from datasheet V2.0 figure 17. The isolation keep-out covers both the tabulated and the drawn stripe, on all copper layers; continue it across the host board. Datasheet p19: solder-mask-defined pads preferred, minimal thermal relief, never reflow the module hanging upside down (on the bottom side: solder it last or by hand) (https://silvertel.com/images/datasheets/Ag59800-LPB%20-datasheet-high%20efficiency%20SMT%20IEEE802_3BT%20100W%20power-over-ethernet%20module.pdf)")
+	(descr "Silvertel Ag59800-LPB series (Ag59812-LPB, Ag59824-LPB) IEEE 802.3bt Type 4 Class 8 PoE PD module, SMT, 50.6x30 mm. Land pattern from datasheet V2.0 figure 17. The isolation keep-out covers both the tabulated and the drawn stripe on the module-facing copper layer and the adjacent inner layer (F.Cu + In1.Cu here; B.Cu + In2.Cu when the module is mounted on the bottom). Keep vias out of it on every layer. Datasheet p19: solder-mask-defined pads preferred (pads 1-3, 8 and 9 have -0.075 mm mask and paste margins; on the board, the pours make pads 4-7 mask-defined), minimal thermal relief, never reflow the module hanging upside down (on the bottom side: solder it last or by hand) (https://silvertel.com/images/datasheets/Ag59800-LPB%20-datasheet-high%20efficiency%20SMT%20IEEE802_3BT%20100W%20power-over-ethernet%20module.pdf)")
 	(tags "Silvertel PoE PD module power-over-ethernet IEEE802.3bt class 8 Ag59812 Ag59824")
 	(property "Reference" "REF**"
 		(at 0 -17.1 0)
@@ -264,18 +264,24 @@
 		(at -23.885 13.285)
 		(size 1.83 5)
 		(layers "F.Cu" "F.Mask" "F.Paste")
+		(solder_mask_margin -0.075)
+		(solder_paste_margin -0.075)
 		(uuid "7df9eb1f-c902-4464-ab6f-6d133592fc9a")
 	)
 	(pad "2" smd rect
 		(at -21.425 13.285)
 		(size 1.83 5)
 		(layers "F.Cu" "F.Mask" "F.Paste")
+		(solder_mask_margin -0.075)
+		(solder_paste_margin -0.075)
 		(uuid "25554e8e-d924-418e-a80c-962681db81c2")
 	)
 	(pad "3" smd rect
 		(at -18.965 13.285)
 		(size 1.83 5)
 		(layers "F.Cu" "F.Mask" "F.Paste")
+		(solder_mask_margin -0.075)
+		(solder_paste_margin -0.075)
 		(uuid "a9ad858f-9cd7-4b0b-8fda-087984330106")
 	)
 	(pad "4" smd rect
@@ -306,21 +312,20 @@
 		(at 18.965 -13.285)
 		(size 1.83 5)
 		(layers "F.Cu" "F.Mask" "F.Paste")
+		(solder_mask_margin -0.075)
+		(solder_paste_margin -0.075)
 		(uuid "cce77eac-e3c8-416d-8da8-767c578dca5c")
 	)
 	(pad "9" smd rect
 		(at -23.885 -13.285)
 		(size 1.83 5)
 		(layers "F.Cu" "F.Mask" "F.Paste")
+		(solder_mask_margin -0.075)
+		(solder_paste_margin -0.075)
 		(uuid "2105b576-ae7f-41c3-8544-5b68d803aeb2")
 	)
 	(zone
-		(layers "F.Cu" "B.Cu" "In1.Cu" "In2.Cu" "In3.Cu" "In4.Cu" "In5.Cu" "In6.Cu"
-			"In7.Cu" "In8.Cu" "In9.Cu" "In10.Cu" "In11.Cu" "In12.Cu" "In13.Cu" "In14.Cu"
-			"In15.Cu" "In16.Cu" "In17.Cu" "In18.Cu" "In19.Cu" "In20.Cu" "In21.Cu"
-			"In22.Cu" "In23.Cu" "In24.Cu" "In25.Cu" "In26.Cu" "In27.Cu" "In28.Cu"
-			"In29.Cu" "In30.Cu"
-		)
+		(layers "F.Cu" "In1.Cu")
 		(uuid "53b7d102-55cf-4f3a-861e-555bce0fb624")
 		(name "Ag59800 isolation barrier")
 		(hatch full 0.508)

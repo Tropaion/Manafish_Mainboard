@@ -1,10 +1,58 @@
 (version 1)
-# KiCad 10 does not report vias or other footprints' pads inside a footprint's keep-out
-# while the library-parity checks are enabled. These rules enforce the PoE isolation
-# barriers of the Silvertel modules explicitly.
+# --- PoE module isolation barrier (Silvertel Ag59800 Fig 17). On the bottom-mounted U5 the keep-out covers
+# B.Cu and In2.Cu (the module-facing layer and the inner layer one prepreg ply above it). In1 stays continuous
+# GND and secondary F.Cu tracks may cross. KiCad does not report vias or other footprints' pads inside a
+# footprint keep-out while the library-parity checks are on, so these rules enforce it explicitly.
 (rule "Ag59800 isolation barrier"
-	(constraint disallow track via pad)
-	(condition "A.intersectsArea('Ag59800 isolation barrier*')"))
+	(constraint disallow track via pad zone)
+	(condition "A.intersectsArea('Ag59800 isolation barrier*') && (A.Type == 'Via' || A.Type == 'Pad' || A.Layer == 'B.Cu' || A.Layer == 'In2.Cu')"))
 (rule "Ag5700 isolation barrier"
 	(constraint disallow track via pad)
 	(condition "A.intersectsArea('Ag5700 isolation barrier*')"))
+# --- Under the module's primary half (barrier strip to input pins, +2 mm): Silvertel ANX-POE-Isolation-Barrier
+# forbids other-side conductors on the module-facing layer. No secondary vias at all, and no secondary
+# tracks on B.Cu/In2.
+(rule "PRI island: no secondary vias"
+	(constraint disallow via)
+	(condition "A.intersectsArea('PRI_ISLAND_U5') && A.NetClass != 'Primary'"))
+(rule "PRI island: no secondary tracks on B.Cu/In2"
+	(constraint disallow track)
+	(condition "A.intersectsArea('PRI_ISLAND_U5') && A.NetClass != 'Primary' && (A.Layer == 'B.Cu' || A.Layer == 'In2.Cu')"))
+# --- RJ45 front: the shield fingers sit on the top copper.
+(rule "JXF0 front keep-out"
+	(constraint disallow track via pad)
+	(condition "A.intersectsArea('JXF0 front keep-out*') && (A.Type == 'Via' || A.Layer == 'F.Cu')"))
+# --- Impedance pairs: 0.3 mm to pours; necked to 0.127 mm only inside the 0.4 mm pitch CM5 pin fields.
+(rule "pair to pour"
+	(constraint clearance (min 0.3mm))
+	(condition "(A.NetClass == 'DP100' || A.NetClass == 'USB90') && B.Type == 'Zone' && B.NetClass != 'Primary'"))
+(rule "CM5 pin field neck-down"
+	(constraint track_width (min 0.127mm))
+	(condition "(A.NetClass == 'DP100' || A.NetClass == 'USB90') && A.intersectsArea('CM5 pin field*')"))
+# The 0.1 mm clearance is for the connector pads and the neighbouring lines only; pours keep the 0.3 mm above,
+# also along segments that only reach into a pin field.
+(rule "CM5 pin field neck-down clearance"
+	(constraint clearance (min 0.1mm))
+	(condition "(A.NetClass == 'DP100' || A.NetClass == 'USB90') && A.intersectsArea('CM5 pin field*') && B.Type != 'Zone'"))
+# --- RP2354A core regulator: VREG_LX between the 0402 VIN/VOUT caps (reference layout).
+(rule "RP2354A VREG_LX"
+	(constraint clearance (min 0.1mm))
+	(condition "A.NetName == '/RP2354A/VREG_LX'"))
+# --- GCT USB4105 footprint: its plastic locating pegs sit next to its own GND pads (vendor land pattern).
+(rule "J8 locating pegs"
+	(constraint hole_clearance (min 0.1mm))
+	(condition "A.memberOfFootprint('J8') && B.memberOfFootprint('J8')"))
+# --- PoE primary isolation. Must stay last: KiCad applies the last matching rule per constraint type.
+# 2.0 mm on every layer (pads, tracks, vias, zones, holes) between the PoE input side and anything else,
+# with the Y-caps' own pad gap as the only exception, and a 3.0 mm advisory (Silvertel guide).
+(rule "PoE primary isolation"
+	(constraint clearance (min 2.0mm))
+	(constraint hole_clearance (min 2.0mm))
+	(condition "A.NetClass == 'Primary' && B.NetClass != 'Primary' && B.NetName != ''"))
+(rule "Y-cap across barrier: own pads only"
+	(constraint clearance (min 1.75mm))
+	(condition "A.NetClass == 'Primary' && ((A.memberOfFootprint('C21') && B.memberOfFootprint('C21')) || (A.memberOfFootprint('C24') && B.memberOfFootprint('C24')))"))
+(rule "PoE primary 3mm guide"
+	(severity warning)
+	(constraint physical_clearance (min 3.0mm))
+	(condition "A.NetClass == 'Primary' && B.NetClass != 'Primary' && B.NetName != ''"))
