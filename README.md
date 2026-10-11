@@ -8,8 +8,8 @@ the USB-connected Raspberry Pi Pico and the wiring between them with one board:
   the vehicle firmware ([manafishrov/firmware](https://github.com/manafishrov/firmware)),
 - an **RP2354A** microcontroller that drives the eight thrusters over
   bidirectional DShot ([manafishrov/mcu-firmware](https://github.com/manafishrov/mcu-firmware)),
-- the camera connector, Ethernet with PoE-capable magnetics, and the on-board
-  sensors.
+- two camera connectors, Ethernet with PoE-capable magnetics, a magnet power
+  switch input, and the on-board sensors.
 
 > [!WARNING]
 > Work in progress. The schematic and the 4-layer PCB layout are drawn, but no
@@ -22,31 +22,34 @@ View the latest [KiCad Design](https://kicanvas.org/?repo=https%3A%2F%2Fgithub.c
 flowchart LR
   tether["Tether (Ethernet)"] --> magjack["MagJack + ESD"]
   magjack -->|4 pairs| cm5["Compute Module 5"]
-  magjack -.->|center taps| poe["PoE module U5 (Ag59824, 24 V)"]
+  magjack -.->|center taps| poe["PoE module IC5 (Ag59824, 24 V)"]
   cm5 -->|MIPI0| cam["Camera connector J5"]
+  cm5 -->|MIPI1| cam2["Camera connector J11"]
   cm5 -->|"USB 2.0 (data only)"| service["USB-C service port J8"]
   cm5 -->|I2C1| sensors["BMI270, SHT45, MS5837 connector"]
   cm5 -->|"USB 2.0 (USB3-1 port)"| mcu["RP2354A"]
   cm5 -->|"GPIO24 RUN, GPIO25 BOOTSEL"| mcu
   mcu -->|GP6-GP9| escA["ESC A, 4-in-1 (AM32)"]
   mcu -->|GP18-GP21| escB["ESC B, 4-in-1 (AM32)"]
-  poe --> chg["Charger U8 (LTC4162-L)"]
+  poe --> chg["Charger IC8 (LTC4162-L)"]
   bat["Battery J6 (5S)"] <--> chg
-  chg -->|VSYS| buck["5 V buck U9 (TPSM53603)"]
-  buck -->|5 V| cm5
+  chg -->|VSYS| buck["5 V buck IC9 (TPSM53604)"]
+  mag["Magnet switch board J12"] -->|MAG_ON| lsw
+  buck -->|5 V always on| lsw["Load switch IC15 (TPS22965)"]
+  lsw -->|5 V| cm5
 ```
 
 ## Schematic sheets
 
 | Sheet | File | Contents | Origin |
 | --- | --- | --- | --- |
-| Manafish (top level) | `manafish.kicad_sch` | Sheet hierarchy, battery input J6, USB-C service port J8 | Original; USB-C port adapted from the CM5 IO Board |
+| Manafish (top level) | `manafish.kicad_sch` | Sheet hierarchy, battery input J6, USB-C service port J8, magnet switch connector J12 | Original; USB-C port adapted from the CM5 IO Board |
 | Raspberry Pi Compute Module 5 | `cm5.kicad_sch` | CM5 module connectors, boot and EEPROM jumper header J7 | Adapted from the CM5 IO Board |
-| Camera Serial Interface | `csi.kicad_sch` | 22-pin MIPI camera connector J5 | Adapted from the CM5 IO Board |
-| Ethernet | `ethernet.kicad_sch` | MagJack U3 (YAGEO JXF0-1012NL, 4-pair PoE center taps), ESD protection U1/U2, link LEDs | Adapted from the CM5 IO Board |
-| I2C Peripherals | `i2c_peripherals.kicad_sch` | BMI270 IMU, SHT45 humidity and temperature sensor, MS5837 connector, I2C pull-ups | Original |
+| Camera Serial Interface | `csi.kicad_sch` | 22-pin MIPI camera connectors J5 (MIPI0) and J11 (MIPI1), 3.3 V from CM5_3.3V | Adapted from the CM5 IO Board |
+| Ethernet | `ethernet.kicad_sch` | MagJack IC3 (YAGEO JXF0-1012NL, 4-pair PoE center taps), ESD protection IC1/IC2, link LEDs | Adapted from the CM5 IO Board |
+| Serial Peripherals | `serial_peripherals.kicad_sch` | BMI270 IMU (SPI to the RP2354A), SHT45 humidity and temperature sensor, WSEN-PADS pressure sensor IC10, MS5837 connector | Original |
 | RP2354A | `rp2354a.kicad_sch` | RP2354A with core regulator, USB, SWD connector J2, ESC connectors J3/J4 | Original, following *Hardware design with RP2350* |
-| Power Management | `power_management.kicad_sch` | PoE bridges D2–D5, PoE module U5, LTC4162-L charger U8, 5 V buck U9 | Original |
+| Power Management | `power_management.kicad_sch` | PoE bridges D2–D5, PoE module IC5, LTC4162-L charger IC8, 5 V buck IC9, load switch IC15 | Original |
 
 "Adapted from the CM5 IO Board" means the sheet started from Raspberry Pi's
 reference design; see [Origin and attribution](#origin-and-attribution).
@@ -57,7 +60,7 @@ Compute Module 5:
 
 | Signal | CM5 pin | Connects to |
 | --- | --- | --- |
-| Ethernet pairs 0–3 | 3–12 | MagJack U3 |
+| Ethernet pairs 0–3 | 3–12 | MagJack IC3 |
 | GPIO2 / GPIO3 (I2C1) | 58 / 56 | BMI270, SHT45, MS5837 connector |
 | GPIO24 | 45 | RP2354A `RUN` |
 | GPIO25 | 41 | RP2354A `QSPI_SS` (BOOTSEL) |
@@ -65,10 +68,13 @@ Compute Module 5:
 | MIPI0 data and clock lanes | 115–141 | Camera connector J5 |
 | SDA0 / SCL0 | 82 / 80 | Camera connector J5 |
 | CAM_GPIO0 / CAM_GPIO1 | 97 / 100 | Camera connector J5 |
+| MIPI1 data and clock lanes | 175–196 | Camera connector J11 |
+| ID_SD / ID_SC (I2C, 2.2 kΩ pull-ups R4/R5) | 36 / 35 | Camera connector J11 |
+| GPIO14 / GPIO15 | 55 / 51 | Camera connector J11 pins 17 / 18 (CAM1_GPIO0 / CAM1_GPIO1) |
 | USB_P / USB_N (USB 2.0) | 105 / 103 | USB-C service port J8, data only |
 | nRPIBOOT, EEPROM_nWP, SYNC_OUT, USB_OTG_ID, PMIC_ENABLE, PWR_BUT | 93, 20, 18, 101, 99, 92 | Jumper header J7 |
 | GPIO_VREF | 78 | CM5_3.3V (3.3 V GPIO levels) |
-| +5 V input | 77–87 | Power management |
+| +5 V input | 77–87 | Power management, through load switch IC15 |
 | CM5_3.3V output | 84 / 86 | RP2354A and sensors |
 
 RP2354A (QFN-60):
@@ -127,13 +133,13 @@ JLCPCB JLC04161H-7628, 1.6 mm, ENIG finish:
 | Core | 1.065 mm, εr 4.6 | |
 | In2.Cu | 15 µm | GND, power pours (VSYS, +5 V, 3V3), signals |
 | Prepreg 7628 | 0.21 mm, εr 4.4 | |
-| B.Cu | 35 µm | PoE module U5, PoE input, signals, GND and 24 V pours |
+| B.Cu | 35 µm | PoE module IC5, PoE input, signals, GND and 24 V pours |
 
 Order the board with impedance control:
 
 | Net class | Nets | Width / gap | Target |
 | --- | --- | --- | --- |
-| `DP100` | Ethernet `TRD*`, camera `DPHY0_*` | 0.21 / 0.19 mm on F.Cu and B.Cu | 100 Ω differential |
+| `DP100` | Ethernet `TRD*`, camera `DPHY0_*` and `DPHY1_*` | 0.21 / 0.19 mm on F.Cu and B.Cu | 100 Ω differential |
 | `USB90` | `USB2_*`, RP2354A `USB_D*` | 0.24 / 0.15 mm on F.Cu | 90 Ω differential |
 
 Inside the CM5 connector pin fields the pairs neck down to 0.127 mm for at most
@@ -141,7 +147,7 @@ Inside the CM5 connector pin fields the pairs neck down to 0.127 mm for at most
 
 ### PoE isolation
 
-The PoE input side (the `Primary` net class: center taps, bridges, U5 input,
+The PoE input side (the `Primary` net class: center taps, bridges, IC5 input,
 TYP outputs) is isolated from the rest of the board. `manafish.kicad_dru`
 enforces:
 
@@ -155,14 +161,14 @@ enforces:
   - the Y-capacitors' own pads (2.7 mm) and C21's GND pad to the ferrite beads
     (2.26 mm);
   - the RP2354A decoupling GND vias next to the ferrite-bead column (2.38 mm);
-  - R23 next to U5's VIN+ pad (2.8 mm).
-- Under U5's primary half (`PRI_ISLAND_U5`), no vias of other nets and no
+  - R23 next to IC5's VIN+ pad (2.8 mm).
+- Under IC5's primary half (`PRI_ISLAND_U5`), no vias of other nets and no
   other copper on B.Cu or In2. The module's isolation barrier strip stays
   empty on B.Cu and In2.
 
 The inner layers are voided 2 mm around primary copper on the next outer layer
 (In2 under primary B.Cu, In1 under primary F.Cu), and In1 stays clear of the
-front edge where the VC1 track runs on In2. Only U5, the optocouplers U6/U7 and
+front edge where the VC1 track runs on In2. Only IC5, the optocouplers IC6/IC7 and
 the Y-capacitors C21/C24 cross the barrier.
 
 Connector A of the CM5 lies inside the island, so 16 of its GND pins have no
@@ -171,14 +177,14 @@ via to the GND planes. They connect through the CM5's own ground: the footprint
 
 ### Assembly
 
-- U5 (Ag59824-LPB) is on the bottom and must never pass through reflow hanging
-  upside down. Reflow the top side first, then the bottom side with U5 upright,
-  or fit U5 afterwards with hot air. Glue L2 (1.0–1.6 g) and U9 before the
+- IC5 (Ag59824-LPB) is on the bottom and must never pass through reflow hanging
+  upside down. Reflow the top side first, then the bottom side with IC5 upright,
+  or fit IC5 afterwards with hot air. Glue L2 (1.0–1.6 g) and IC9 before the
   second pass.
-- U5 reflow profile: peak 230–245 °C, 30–90 s above 217 °C, soak 150–180 °C for
+- IC5 reflow profile: peak 230–245 °C, 30–90 s above 217 °C, soak 150–180 °C for
   30–90 s, ramp up at most 3 °C/s and down at most 6 °C/s. No wave solder on the
-  U5 side.
-- Solder the through-hole parts U3, J6, J7 and C20 by hand after both reflow
+  IC5 side.
+- Solder the through-hole parts IC3, J6, J7 and C20 by hand after both reflow
   passes.
 - Fit the CM5 with M2.5 screws from below (head at most 4.5 mm across) and the
   nuts on the CM5 side. A nut under the board would hit C20.

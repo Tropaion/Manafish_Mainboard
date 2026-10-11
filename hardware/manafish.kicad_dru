@@ -1,5 +1,5 @@
 (version 1)
-# --- PoE module isolation barrier (Silvertel Ag59800 Fig 17). On the bottom-mounted U5 the keep-out covers
+# --- PoE module isolation barrier (Silvertel Ag59800 Fig 17). On the bottom-mounted IC5 the keep-out covers
 # B.Cu and In2.Cu (the module-facing layer and the inner layer one prepreg ply above it). In1 stays continuous
 # GND and secondary F.Cu tracks may cross. KiCad does not report vias or other footprints' pads inside a
 # footprint keep-out while the library-parity checks are on, so these rules enforce it explicitly.

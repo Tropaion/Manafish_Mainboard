@@ -9,4 +9,5 @@
 	(lib (name "LTC4162") (type "KiCad") (uri "${KIPRJMOD}/custom_components/symbols/LTC4162.kicad_sym") (options "") (descr "LTC4162-L battery charger"))
 	(lib (name "FDMC8327L") (type "KiCad") (uri "${KIPRJMOD}/custom_components/symbols/FDMC8327L.kicad_sym") (options "") (descr ""))
 	(lib (name "YAGEO") (type "KiCad") (uri "${KIPRJMOD}/custom_components/symbols/YAGEO.kicad_sym") (options "") (descr "YAGEO/Pulse parts"))
+	(lib (name "TPS22965") (type "KiCad") (uri "${KIPRJMOD}/custom_components/symbols/TPS22965.kicad_sym") (options "") (descr "TI TPS22965 load switch"))
 )

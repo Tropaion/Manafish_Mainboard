@@ -1241,7 +1241,7 @@
 		(at 123.4 141.55)
 		(descr "YAGEO/Pulse JXF0-xx12NL industrial RJ45 PulseJack, 90 W 4-pair PoE, LEDs, side entry, through-hole reflow; recommended PWB layout from datasheet J520.A (2025-11-10), https://www.yageogroup.com/content/datasheet/asset/file/DATASHEET_J520")
 		(tags "RJ45 MagJack PulseJack PoE 802.3bt JXF0-1012NL JXF0-2512NL JXF0-5012NL")
-		(property "Reference" "U3"
+		(property "Reference" "IC3"
 			(at -0.000001 -5.865 0)
 			(layer "F.SilkS")
 			(uuid "6aa34745-0039-4ff4-bed2-1ea572bd1761")
@@ -1335,9 +1335,18 @@
 				)
 			)
 		)
+		(property ki_fp_filters "YAGEO*JXF0*")
 		(path "/ba09456f-d29b-4907-909f-45263bd46633/5c08a055-775a-4856-9ac5-bbbbf21dcbc1")
 		(sheetname "/Ethernet/")
 		(sheetfile "ethernet.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "15" "17" "18" "16" "13"
+					"14" "11" "12" "19" "20"
+				)
+			)
+		)
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -1499,6 +1508,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "/Ethernet/TRD0_P")
+			(pinfunction "MD1+_1")
+			(pintype "passive")
 			(uuid "f74e9ba7-b1d5-4d40-8d15-bea8aef4a5c3")
 		)
 		(pad "2" thru_hole circle
@@ -1508,6 +1519,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "/Ethernet/TRD0_N")
+			(pinfunction "MD1-_2")
+			(pintype "passive")
 			(uuid "2677f02a-c236-44a1-a0af-c856a0c1cdcf")
 		)
 		(pad "3" thru_hole circle
@@ -1517,6 +1530,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "/Ethernet/TRD1_P")
+			(pinfunction "MD2+_3")
+			(pintype "passive")
 			(uuid "6bc245d8-d895-4864-9171-81434d9b7a2e")
 		)
 		(pad "4" thru_hole circle
@@ -1526,6 +1541,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "/Ethernet/TRD1_N")
+			(pinfunction "MD2-_4")
+			(pintype "passive")
 			(uuid "bfca95bc-8c9f-4928-bee7-d4d6469024e2")
 		)
 		(pad "5" thru_hole circle
@@ -1535,6 +1552,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "Net-(C1-Pad1)")
+			(pinfunction "MDCT_5")
+			(pintype "passive")
 			(uuid "5cca5f80-f33a-40fc-a3bb-8eb4c571863e")
 		)
 		(pad "6" thru_hole circle
@@ -1544,6 +1563,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "Net-(C1-Pad1)")
+			(pinfunction "MDCT_6")
+			(pintype "passive")
 			(uuid "d8bd104b-9303-4f9b-9c05-b393eab5672b")
 		)
 		(pad "7" thru_hole circle
@@ -1553,6 +1574,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "/Ethernet/TRD2_P")
+			(pinfunction "MD3+_7")
+			(pintype "passive")
 			(uuid "e32c61f6-9f5e-4ad5-b911-35ea5c06d72b")
 		)
 		(pad "8" thru_hole circle
@@ -1562,6 +1585,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "/Ethernet/TRD2_N")
+			(pinfunction "MD3-_8")
+			(pintype "passive")
 			(uuid "e626004e-2d48-491f-a52d-bb855daf7da9")
 		)
 		(pad "9" thru_hole circle
@@ -1571,6 +1596,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "/Ethernet/TRD3_P")
+			(pinfunction "MD4+_9")
+			(pintype "passive")
 			(uuid "88855aea-2f02-4b0d-a3cc-d05b4e193b12")
 		)
 		(pad "10" thru_hole circle
@@ -1580,6 +1607,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "/Ethernet/TRD3_N")
+			(pinfunction "MD4-_10")
+			(pintype "passive")
 			(uuid "6383b214-7fd0-4b1e-9c75-be4237d59f50")
 		)
 		(pad "11" thru_hole circle
@@ -1589,6 +1618,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "/RP2354A/VREG_VIN")
+			(pinfunction "LEDG_A_11")
+			(pintype "passive")
 			(uuid "1c3e81a5-4fe4-446f-939b-29d64ea5270a")
 		)
 		(pad "12" thru_hole circle
@@ -1598,6 +1629,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "Net-(U3-LEDG_K)")
+			(pinfunction "LEDG_K_12")
+			(pintype "passive")
 			(uuid "84a1b755-4aff-413e-b066-1c06a87be4e4")
 		)
 		(pad "13" thru_hole circle
@@ -1607,6 +1640,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "/RP2354A/VREG_VIN")
+			(pinfunction "LEDY_A_13")
+			(pintype "passive")
 			(uuid "39abba70-492b-4b30-aeb6-4077194def40")
 		)
 		(pad "14" thru_hole circle
@@ -1616,6 +1651,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "Net-(U3-LEDY_K)")
+			(pinfunction "LEDY_K_14")
+			(pintype "passive")
 			(uuid "83662e70-bb1f-49d5-8973-2e9c381bec44")
 		)
 		(pad "15" thru_hole circle
@@ -1625,6 +1662,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "/Ethernet/VC1")
+			(pinfunction "VDC1+_15")
+			(pintype "passive")
 			(uuid "aad81002-8de5-452b-baf1-4f9f9ba3bb6f")
 		)
 		(pad "16" thru_hole circle
@@ -1634,6 +1673,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "/Ethernet/VC4")
+			(pinfunction "VDC1-_16")
+			(pintype "passive")
 			(uuid "74f765af-548e-43b4-b468-1154e3ae14d7")
 		)
 		(pad "17" thru_hole circle
@@ -1643,6 +1684,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "/Ethernet/VC2")
+			(pinfunction "VDC2+_17")
+			(pintype "passive")
 			(uuid "b82dac45-b8a1-472f-8ed8-1db1bd50a216")
 		)
 		(pad "18" thru_hole circle
@@ -1652,6 +1695,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "/Ethernet/VC3")
+			(pinfunction "VDC2-_18")
+			(pintype "passive")
 			(uuid "8fbc5828-5886-4dc6-adc4-4010e3a26421")
 		)
 		(pad "19" thru_hole circle
@@ -1661,6 +1706,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "GND")
+			(pinfunction "SHIELD_19")
+			(pintype "passive")
 			(zone_connect 2)
 			(uuid "4e7f8a39-e73b-4877-a77a-a951ba1fd6d0")
 		)
@@ -1671,6 +1718,8 @@
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "GND")
+			(pinfunction "SHIELD_20")
+			(pintype "passive")
 			(zone_connect 2)
 			(uuid "b0d69dc8-6a90-4274-8968-1478fec29d20")
 		)
@@ -3506,6 +3555,433 @@
 			)
 		)
 	)
+	(footprint "Connector_PinHeader_1.27mm:PinHeader_2x08_P1.27mm_Vertical"
+		(layer "F.Cu")
+		(uuid "3d81dd71-8921-49d3-9c24-9e1602c3e904")
+		(at 167.595 137.165)
+		(descr "Through hole straight pin header, 2x08, 1.27mm pitch, double rows")
+		(tags "Through hole pin header THT 2x08 1.27mm double row")
+		(property "Reference" "J9"
+			(at 0.635 -1.745 0)
+			(layer "F.SilkS")
+			(uuid "c0894d51-05c9-4bd9-b58d-516ca411c8ff")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Value" "Conn_02x08_Odd_Even"
+			(at 0.635 10.635 0)
+			(layer "F.Fab")
+			(uuid "47243a49-2fde-48bb-ab8e-335cb814b05c")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "dba260c9-21d6-4e5a-b794-a19a6bafefee")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic connector, double row, 02x08, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "5aedda6c-73c8-4030-bea1-4f8bdef8e2a5")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "KiLib_Generator" "connector/pin_header_socket"
+			(at 0 0 0)
+			(layer "F.SilkS")
+			(hide yes)
+			(uuid "1da01484-9312-4fe9-8c52-bbb4454f8c37")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property ki_fp_filters "Connector*:*_2x??_*")
+		(path "/66118e41-f515-4bf7-aa29-701c06daff5b/cacacfd2-65b2-4229-b882-0d76f7c57b4f")
+		(sheetname "/Rasperry Pi Compute Module 5/")
+		(sheetfile "cm5.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "3" "5" "7" "9" "11" "13" "15" "2" "4" "6" "8" "10" "12" "14"
+					"16"
+				)
+			)
+		)
+		(attr through_hole)
+		(duplicate_pad_numbers_are_jumpers no)
+		(fp_line
+			(start -1.18 -0.81)
+			(end 0 -0.81)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "94021444-7245-4b60-a381-e002c07303f1")
+		)
+		(fp_line
+			(start -1.18 0)
+			(end -1.18 -0.81)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "9b03b617-d10c-420c-a4a0-985751602807")
+		)
+		(fp_line
+			(start -1.18 0.81)
+			(end -1.18 9.635)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "0567cca1-b923-46a8-bfcc-72af8b4a70e8")
+		)
+		(fp_line
+			(start -1.18 0.81)
+			(end -0.666708 0.81)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "94fa4cd9-327f-4f9f-aaf9-bf0e543d8f4f")
+		)
+		(fp_line
+			(start -1.18 9.635)
+			(end -0.317923 9.635)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "d20978c1-f6e9-44d7-99cd-39385961c015")
+		)
+		(fp_line
+			(start 0.317923 9.635)
+			(end 0.952077 9.635)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "73bbbf3c-98db-4255-8bad-79196862adeb")
+		)
+		(fp_line
+			(start 1.587923 -0.745)
+			(end 2.45 -0.745)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "255fefc9-a570-44c3-abd8-ba15f2cdc936")
+		)
+		(fp_line
+			(start 1.587923 9.635)
+			(end 2.45 9.635)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "57d95f90-9ce3-4198-95a1-5fdd9564ce2a")
+		)
+		(fp_line
+			(start 2.45 -0.745)
+			(end 2.45 9.635)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "402743ab-6753-49ab-a65f-c363275ae3af")
+		)
+		(fp_rect
+			(start -1.57 -1.14)
+			(end 2.84 10.03)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(fill no)
+			(layer "F.CrtYd")
+			(uuid "9af281a3-7855-43b7-8111-a4cc92af5365")
+		)
+		(fp_line
+			(start -1.07 0.2175)
+			(end -0.2175 -0.635)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "0419e580-cd4d-4fa4-a6d9-330a45a4a058")
+		)
+		(fp_line
+			(start -1.07 9.525)
+			(end -1.07 0.2175)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "6ee7b9c1-623b-4e95-a654-087ad11f966d")
+		)
+		(fp_line
+			(start -0.2175 -0.635)
+			(end 2.34 -0.635)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "63c713dc-3768-41a3-a1a1-27805fca593c")
+		)
+		(fp_line
+			(start 2.34 -0.635)
+			(end 2.34 9.525)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "1652946e-dd5c-4837-9cce-1275aa512552")
+		)
+		(fp_line
+			(start 2.34 9.525)
+			(end -1.07 9.525)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "fb074689-ca70-4b72-8580-aef902ac76d8")
+		)
+		(fp_text user "${REFERENCE}"
+			(at 0.635 4.445 90)
+			(layer "F.Fab")
+			(uuid "ab0ea296-5863-4548-b3c9-93c7a5e12978")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(pad "1" thru_hole rect
+			(at 0 0)
+			(size 1 1)
+			(drill 0.65)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net "/Rasperry Pi Compute Module 5/GPIO21")
+			(pinfunction "Pin_1_1")
+			(pintype "passive")
+			(uuid "586d9a15-b6fb-4e27-919c-59309d001a45")
+		)
+		(pad "2" thru_hole circle
+			(at 1.27 0)
+			(size 1 1)
+			(drill 0.65)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net "/Rasperry Pi Compute Module 5/GPIO19")
+			(pinfunction "Pin_2_2")
+			(pintype "passive")
+			(uuid "7c3a990a-2472-4be3-9181-39664139791d")
+		)
+		(pad "3" thru_hole circle
+			(at 0 1.27)
+			(size 1 1)
+			(drill 0.65)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net "/Rasperry Pi Compute Module 5/GPIO20")
+			(pinfunction "Pin_3_3")
+			(pintype "passive")
+			(uuid "c71cd3fb-6112-4135-ae9d-f7996f535314")
+		)
+		(pad "4" thru_hole circle
+			(at 1.27 1.27)
+			(size 1 1)
+			(drill 0.65)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net "/Rasperry Pi Compute Module 5/GPIO13")
+			(pinfunction "Pin_4_4")
+			(pintype "passive")
+			(uuid "dd23a96f-cf91-42fe-a127-20187aadcaac")
+		)
+		(pad "5" thru_hole circle
+			(at 0 2.54)
+			(size 1 1)
+			(drill 0.65)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net "/Rasperry Pi Compute Module 5/GPIO16")
+			(pinfunction "Pin_5_5")
+			(pintype "passive")
+			(uuid "30212665-2415-420f-80d7-7acc605d6c36")
+		)
+		(pad "6" thru_hole circle
+			(at 1.27 2.54)
+			(size 1 1)
+			(drill 0.65)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net "/Rasperry Pi Compute Module 5/GPIO5")
+			(pinfunction "Pin_6_6")
+			(pintype "passive")
+			(uuid "d5892d5b-ef8c-4d6e-9182-605a18d0b7f5")
+		)
+		(pad "7" thru_hole circle
+			(at 0 3.81)
+			(size 1 1)
+			(drill 0.65)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net "/Rasperry Pi Compute Module 5/GPIO7")
+			(pinfunction "Pin_7_7")
+			(pintype "passive")
+			(uuid "77b0a83f-801f-477c-897a-232bb0bc9279")
+		)
+		(pad "8" thru_hole circle
+			(at 1.27 3.81)
+			(size 1 1)
+			(drill 0.65)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net "/Rasperry Pi Compute Module 5/GPIO9")
+			(pinfunction "Pin_8_8")
+			(pintype "passive")
+			(uuid "722d01c5-1cd9-4a75-b75c-f9fe61966d83")
+		)
+		(pad "9" thru_hole circle
+			(at 0 5.08)
+			(size 1 1)
+			(drill 0.65)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net "/Rasperry Pi Compute Module 5/GPIO10")
+			(pinfunction "Pin_9_9")
+			(pintype "passive")
+			(uuid "aac0b7cf-e189-43a3-b003-136204b78ef2")
+		)
+		(pad "10" thru_hole circle
+			(at 1.27 5.08)
+			(size 1 1)
+			(drill 0.65)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net "/Rasperry Pi Compute Module 5/GPIO22")
+			(pinfunction "Pin_10_10")
+			(pintype "passive")
+			(uuid "fe81db11-c503-437a-9b0f-ee4d618a497d")
+		)
+		(pad "11" thru_hole circle
+			(at 0 6.35)
+			(size 1 1)
+			(drill 0.65)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net "/Rasperry Pi Compute Module 5/GPIO23")
+			(pinfunction "Pin_11_11")
+			(pintype "passive")
+			(uuid "b5a72bef-c910-4403-aca7-a03a1599497f")
+		)
+		(pad "12" thru_hole circle
+			(at 1.27 6.35)
+			(size 1 1)
+			(drill 0.65)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net "/Rasperry Pi Compute Module 5/GPIO27")
+			(pinfunction "Pin_12_12")
+			(pintype "passive")
+			(uuid "080d2dfd-e286-4afa-90fe-c7d6e44ad257")
+		)
+		(pad "13" thru_hole circle
+			(at 0 7.62)
+			(size 1 1)
+			(drill 0.65)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net "/Rasperry Pi Compute Module 5/GPIO18")
+			(pinfunction "Pin_13_13")
+			(pintype "passive")
+			(uuid "756b0c19-e2a2-42cd-b5d3-d402989f567f")
+		)
+		(pad "14" thru_hole circle
+			(at 1.27 7.62)
+			(size 1 1)
+			(drill 0.65)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net "/Rasperry Pi Compute Module 5/GPIO17")
+			(pinfunction "Pin_14_14")
+			(pintype "passive")
+			(uuid "9104c3cf-edea-4c33-9116-f4abdeb1e79f")
+		)
+		(pad "15" thru_hole circle
+			(at 0 8.89)
+			(size 1 1)
+			(drill 0.65)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net "/Rasperry Pi Compute Module 5/GPIO15")
+			(pinfunction "Pin_15_15")
+			(pintype "passive")
+			(uuid "f63e86dd-287c-41f3-85a9-0f31bfbc6e5b")
+		)
+		(pad "16" thru_hole circle
+			(at 1.27 8.89)
+			(size 1 1)
+			(drill 0.65)
+			(layers "*.Cu" "*.Mask")
+			(remove_unused_layers no)
+			(net "/Rasperry Pi Compute Module 5/GPIO4")
+			(pinfunction "Pin_16_16")
+			(pintype "passive")
+			(uuid "3234d5e0-c146-4209-ab83-c600f735fc1c")
+		)
+		(embedded_fonts no)
+		(model "${KICAD10_3DMODEL_DIR}/Connector_PinHeader_1.27mm.3dshapes/PinHeader_2x08_P1.27mm_Vertical.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
+	)
 	(footprint "Capacitor_SMD:C_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "45cdcdfe-64c4-4984-8682-57e83499e45a")
@@ -5224,7 +5700,7 @@
 		(at 146 118)
 		(descr "QFN, 28 Pin, 4x5 mm, ADI/Linear UFD28 (LTC DWG 05-08-1712 Rev C, https://www.analog.com/media/en/technical-documentation/data-sheets/LTC4162-L.pdf#page=50). Copy of the KiCad 10 library footprint QFN-28-1EP_4x5mm_P0.5mm_EP2.65x3.65mm_ThermalVias with the 12 thermal vias drilled 0.3 mm instead of 0.2 mm (0.5 mm pads unchanged) and a project 3D model")
 		(tags "QFN NoLead LTC4162 UFD28")
-		(property "Reference" "U8"
+		(property "Reference" "IC8"
 			(at 3.93 0 0)
 			(layer "F.SilkS")
 			(uuid "13b5dcad-aa58-414d-a648-ff1642e3b294")
@@ -6282,6 +6758,12 @@
 		(path "/eed15416-da11-445b-8a88-e141ebb917f7/c859f9f2-fb5e-4ce4-ba89-fde8e9d02948")
 		(sheetname "/RP2354A/")
 		(sheetfile "rp2354a.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "4" "1" "3" "2")
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -6442,6 +6924,8 @@
 			(size 1.05 1.3)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "/RP2354A/XIN")
+			(pinfunction "CRYSTAL_1_1")
+			(pintype "passive")
 			(uuid "5a272436-8b4c-4f1a-afc1-194c2505a166")
 		)
 		(pad "2" smd rect
@@ -6449,6 +6933,8 @@
 			(size 1.05 1.3)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "GND")
+			(pinfunction "GND_1_2")
+			(pintype "passive")
 			(uuid "a4918870-5dff-4378-9f17-bd49527837d2")
 		)
 		(pad "3" smd rect
@@ -6456,6 +6942,8 @@
 			(size 1.05 1.3)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "Net-(Y1-CRYSTAL_2)")
+			(pinfunction "CRYSTAL_2_3")
+			(pintype "passive")
 			(uuid "d6ec5e20-6d95-41b9-872b-2b6ee09bc2d0")
 		)
 		(pad "4" smd rect
@@ -6463,6 +6951,8 @@
 			(size 1.05 1.3)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "GND")
+			(pinfunction "GND_2_4")
+			(pintype "passive")
 			(uuid "bf5a7fae-f18c-41f1-86a7-e37fec107011")
 		)
 		(embedded_fonts no)
@@ -6484,7 +6974,7 @@
 		(at 111.1 110.4)
 		(descr "4-lead surface-mounted (SMD) DIP package, row spacing 9.53mm (375 mils), Clearance8mm")
 		(tags "SMD DIP DIL PDIP SMDIP 2.54mm 9.53mm 375mil Clearance8mm")
-		(property "Reference" "U7"
+		(property "Reference" "IC7"
 			(at -7.07 0 0)
 			(layer "F.SilkS")
 			(uuid "310d085f-1a68-44d3-9650-a300e485e2df")
@@ -6588,9 +7078,16 @@
 				)
 			)
 		)
+		(property ki_fp_filters "DIP*W7.62mm*")
 		(path "/89d7ac77-fa0c-4bb2-902c-6102b08b0cf6/a6d1edc6-449d-4ec9-84bf-de836a64a7ff")
 		(sheetname "/Power Management/")
 		(sheetfile "power_management.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2" "4" "3")
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -6738,6 +7235,7 @@
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.166667)
 			(net "Net-(U5-VIN+)")
+			(pintype "passive")
 			(uuid "52525ff1-67d1-48b0-8f3b-4e4432fb5704")
 		)
 		(pad "2" smd roundrect
@@ -6746,6 +7244,7 @@
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.166667)
 			(net "Net-(U5-TYP3-DET)")
+			(pintype "passive")
 			(uuid "8433b2da-3cd2-4de6-91f5-6e6011af5386")
 		)
 		(pad "3" smd roundrect
@@ -6754,6 +7253,7 @@
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.166667)
 			(net "GND")
+			(pintype "passive")
 			(uuid "6018958c-c3c8-43a0-aa28-2054e175b0c3")
 		)
 		(pad "4" smd roundrect
@@ -6762,6 +7262,7 @@
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.166667)
 			(net "/Power Management/POE_TYP3_DET")
+			(pintype "passive")
 			(uuid "a42052d7-9ca4-4e65-9ccc-a6b1c707de8c")
 		)
 		(embedded_fonts no)
@@ -6783,7 +7284,7 @@
 		(at 111.1 104.6)
 		(descr "4-lead surface-mounted (SMD) DIP package, row spacing 9.53mm (375 mils), Clearance8mm")
 		(tags "SMD DIP DIL PDIP SMDIP 2.54mm 9.53mm 375mil Clearance8mm")
-		(property "Reference" "U6"
+		(property "Reference" "IC6"
 			(at -7.07 0 0)
 			(layer "F.SilkS")
 			(uuid "73bf52ba-b052-43de-b136-4ea55b995239")
@@ -6887,9 +7388,16 @@
 				)
 			)
 		)
+		(property ki_fp_filters "DIP*W7.62mm*")
 		(path "/89d7ac77-fa0c-4bb2-902c-6102b08b0cf6/fe0b9aea-581e-4aae-8e9e-b23e1318fccf")
 		(sheetname "/Power Management/")
 		(sheetfile "power_management.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2" "4" "3")
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -7037,6 +7545,7 @@
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.166667)
 			(net "Net-(U5-VIN+)")
+			(pintype "passive")
 			(uuid "f2d1d171-32b7-4269-8e1c-14ade6656945")
 		)
 		(pad "2" smd roundrect
@@ -7045,6 +7554,7 @@
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.166667)
 			(net "Net-(U5-TYP2-DET)")
+			(pintype "passive")
 			(uuid "8ee9fea5-b981-455e-864b-c9810e571f0c")
 		)
 		(pad "3" smd roundrect
@@ -7053,6 +7563,7 @@
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.166667)
 			(net "GND")
+			(pintype "passive")
 			(uuid "0eaf5531-ffe3-4780-8aef-b91b07fbf9b8")
 		)
 		(pad "4" smd roundrect
@@ -7061,6 +7572,7 @@
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.166667)
 			(net "/Power Management/POE_TYP2_DET")
+			(pintype "passive")
 			(uuid "35025b3b-8ef3-43b2-9a25-633f939e044a")
 		)
 		(embedded_fonts no)
@@ -7678,7 +8190,7 @@
 		(at 136.6 106.6 180)
 		(descr "Texas instruments QFN Package, datasheet: https://www.ti.com/lit/ds/symlink/tpsm53602.pdf")
 		(tags "Texas instruments QFN")
-		(property "Reference" "U9"
+		(property "Reference" "IC9"
 			(at 5.400001 -1.4 90)
 			(layer "F.SilkS")
 			(uuid "f9984b84-8d32-4fa1-9f22-e068c76481b5")
@@ -11921,6 +12433,309 @@
 			)
 		)
 	)
+	(footprint "Package_LGA:ST_HLGA-10_2x2mm_P0.5mm_LayoutBorder3x2y"
+		(layer "F.Cu")
+		(uuid "9f36971c-6050-4413-8201-b1dfe0dde0cf")
+		(at 174.77 137.36)
+		(descr "ST  HLGA, 10 Pin (https://www.st.com/resource/en/datasheet/lps22hh.pdf#page=55)")
+		(tags "ST HLGA NoLead")
+		(property "Reference" "IC10"
+			(at 0 -1.95 0)
+			(layer "F.SilkS")
+			(uuid "df89e5a1-4275-4578-80ea-bd366fff2df4")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Value" "WSEN-PADS_2511020213301"
+			(at 0 1.95 0)
+			(layer "F.Fab")
+			(uuid "dee66204-2abb-4077-bfce-5f88d4ee9e77")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Datasheet" "https://www.we-online.com/components/products/manual/2511020213301_WSEN-PADS%202511020213301%20Manual_rev2.2.pdf"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "106a69dc-b03e-4aab-bb63-c957b890c81c")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "MEMS nano pressure sensor, 260-1260 hPa, absolute digital output baromeeter, 24 bit, SPI, I2C, 0.75 Pa noise rms, ST_HLGA-10L"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "edcccdda-d078-48ac-9aab-d92838c98545")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "KiLib_Generator" "package/no_lead"
+			(at 0 0 0)
+			(layer "F.SilkS")
+			(hide yes)
+			(uuid "8e323569-2945-467c-93c8-5841c3b1c52b")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property ki_fp_filters "ST?HLGA*2x2mm*P0.5mm*LayoutBorder3x2y*")
+		(path "/4112cffa-0e28-4d2a-acd4-e0e3e9e075d8/2d9be078-fced-4f32-9b88-378e05087933")
+		(sheetname "/I2C Peripherals/")
+		(sheetfile "i2c_peripherals.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "10" "1" "3" "8" "9" "4" "5" "2" "6" "7")
+			)
+		)
+		(attr smd)
+		(duplicate_pad_numbers_are_jumpers no)
+		(fp_line
+			(start -1.11 -0.685)
+			(end -1.11 -0.87)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "6179df46-7d40-45e2-a77a-3330795c5b6e")
+		)
+		(fp_line
+			(start -1.11 1.11)
+			(end -1.11 0.685)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "521d65be-f18f-4633-9b0c-b17b35397263")
+		)
+		(fp_line
+			(start -0.935 1.11)
+			(end -1.11 1.11)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "de554b09-e832-4b08-a4f8-9a11520aff37")
+		)
+		(fp_line
+			(start 0.935 -1.11)
+			(end 1.11 -1.11)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "7e9827a9-e219-45c7-bb48-048eda338cb1")
+		)
+		(fp_line
+			(start 1.11 -1.11)
+			(end 1.11 -0.685)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "d80a87b2-783a-4df2-aa3c-5dce5830d854")
+		)
+		(fp_line
+			(start 1.11 0.685)
+			(end 1.11 1.11)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "8554429f-509d-4673-8c73-a2e0cad99bcb")
+		)
+		(fp_line
+			(start 1.11 1.11)
+			(end 0.935 1.11)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "8311f33f-d1b2-4591-bc9b-162cbf6f2afc")
+		)
+		(fp_poly
+			(pts
+				(xy -1.11 -1.11) (xy -1.25 -1.3) (xy -0.97 -1.3)
+			)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(fill yes)
+			(layer "F.SilkS")
+			(uuid "71d0c50f-0eb8-4315-975f-04f34d23bf7f")
+		)
+		(fp_rect
+			(start -1.25 -1.25)
+			(end 1.25 1.25)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(fill no)
+			(layer "F.CrtYd")
+			(uuid "c55b4071-b34a-4f41-aff7-3305a2b9e864")
+		)
+		(fp_poly
+			(pts
+				(xy -0.5 -1) (xy 1 -1) (xy 1 1) (xy -1 1) (xy -1 -0.5)
+			)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(fill no)
+			(layer "F.Fab")
+			(uuid "95b2145f-0f00-45c3-bcb7-081f81b4a9c5")
+		)
+		(fp_text user "${REFERENCE}"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(uuid "af7b058f-d41d-4957-9c93-b8fe1589dc9c")
+			(effects
+				(font
+					(size 0.5 0.5)
+					(thickness 0.08)
+				)
+			)
+		)
+		(pad "1" smd roundrect
+			(at -0.7625 -0.25)
+			(size 0.425 0.35)
+			(layers "F.Cu" "F.Mask" "F.Paste")
+			(roundrect_rratio 0.25)
+			(net "/RP2354A/VREG_VIN")
+			(pinfunction "Vdd_IO_1")
+			(pintype "power_in")
+			(uuid "ab962380-9f17-45f1-b721-4ec7f6aa039e")
+		)
+		(pad "2" smd roundrect
+			(at -0.7625 0.25)
+			(size 0.425 0.35)
+			(layers "F.Cu" "F.Mask" "F.Paste")
+			(roundrect_rratio 0.25)
+			(net "/I2C Peripherals/I2C1_SCL")
+			(pinfunction "SCL_2")
+			(pintype "input")
+			(uuid "20b11cff-ff66-4463-8f9c-22a62157ae2e")
+		)
+		(pad "3" smd roundrect
+			(at -0.5 0.7625)
+			(size 0.35 0.425)
+			(layers "F.Cu" "F.Mask" "F.Paste")
+			(roundrect_rratio 0.25)
+			(net "GND")
+			(pinfunction "GND_3")
+			(pintype "passive")
+			(uuid "aed032bc-8675-45e4-a2b8-4f20d00ad7d8")
+		)
+		(pad "4" smd roundrect
+			(at 0 0.7625)
+			(size 0.35 0.425)
+			(layers "F.Cu" "F.Mask" "F.Paste")
+			(roundrect_rratio 0.25)
+			(net "/I2C Peripherals/I2C1_SDA")
+			(pinfunction "SDA_4")
+			(pintype "bidirectional")
+			(uuid "803bf215-0253-4b50-ae1e-c5762bca7b2a")
+		)
+		(pad "5" smd roundrect
+			(at 0.5 0.7625)
+			(size 0.35 0.425)
+			(layers "F.Cu" "F.Mask" "F.Paste")
+			(roundrect_rratio 0.25)
+			(net "unconnected-(U10-SA0-Pad5)")
+			(pinfunction "SA0_5")
+			(pintype "input+no_connect")
+			(uuid "517bac83-32dd-45aa-af5d-eab902ca6bf9")
+		)
+		(pad "6" smd roundrect
+			(at 0.7625 0.25)
+			(size 0.425 0.35)
+			(layers "F.Cu" "F.Mask" "F.Paste")
+			(roundrect_rratio 0.25)
+			(net "unconnected-(U10-~{CS}-Pad6)")
+			(pinfunction "~{CS}_6")
+			(pintype "input+no_connect")
+			(uuid "1f78a828-358e-4034-bfc3-7d909876070e")
+		)
+		(pad "7" smd roundrect
+			(at 0.7625 -0.25)
+			(size 0.425 0.35)
+			(layers "F.Cu" "F.Mask" "F.Paste")
+			(roundrect_rratio 0.25)
+			(net "/I2C Peripherals/INT_DRDY")
+			(pinfunction "INT_DRDY_7")
+			(pintype "output")
+			(uuid "443adc9e-6f1f-42e1-a689-6ebdfae0494b")
+		)
+		(pad "8" smd roundrect
+			(at 0.5 -0.7625)
+			(size 0.35 0.425)
+			(layers "F.Cu" "F.Mask" "F.Paste")
+			(roundrect_rratio 0.25)
+			(net "GND")
+			(pinfunction "GND_8")
+			(pintype "power_in")
+			(uuid "f363ddc5-240c-435b-b75a-1a16f47ae38a")
+		)
+		(pad "9" smd roundrect
+			(at 0 -0.7625)
+			(size 0.35 0.425)
+			(layers "F.Cu" "F.Mask" "F.Paste")
+			(roundrect_rratio 0.25)
+			(net "GND")
+			(pinfunction "GND_9")
+			(pintype "passive")
+			(uuid "3860f1d4-c7a6-484c-8a47-b24e9eb89092")
+		)
+		(pad "10" smd roundrect
+			(at -0.5 -0.7625)
+			(size 0.35 0.425)
+			(layers "F.Cu" "F.Mask" "F.Paste")
+			(roundrect_rratio 0.25)
+			(net "/RP2354A/VREG_VIN")
+			(pinfunction "VDD_10")
+			(pintype "power_in")
+			(uuid "42f8d342-4068-408a-8086-0e164e27805c")
+		)
+		(embedded_fonts no)
+		(model "${KICAD10_3DMODEL_DIR}/Package_LGA.3dshapes/ST_HLGA-10_2x2mm_P0.5mm_LayoutBorder3x2y.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
+	)
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "a2231a84-cc4b-41a9-8f28-b9f152e45dad")
@@ -12946,7 +13761,7 @@
 			(roundrect_rratio 0.25)
 			(net "/VBUS")
 			(pinfunction "VBUS_A4")
-			(pintype "passive+no_connect")
+			(pintype "passive")
 			(uuid "ec9a7edf-db10-4c70-8039-f81d9aa83fd0")
 		)
 		(pad "A5" smd roundrect
@@ -12993,7 +13808,7 @@
 			(roundrect_rratio 0.25)
 			(net "/VBUS")
 			(pinfunction "VBUS_A9")
-			(pintype "passive+no_connect")
+			(pintype "passive")
 			(uuid "5be203f6-11d7-4ed8-aaac-e4ba195222a8")
 		)
 		(pad "A12" smd roundrect
@@ -13023,7 +13838,7 @@
 			(roundrect_rratio 0.25)
 			(net "/VBUS")
 			(pinfunction "VBUS_B4")
-			(pintype "passive+no_connect")
+			(pintype "passive")
 			(uuid "b6077084-fa52-4640-be72-9f1144862d40")
 		)
 		(pad "B5" smd roundrect
@@ -13070,7 +13885,7 @@
 			(roundrect_rratio 0.25)
 			(net "/VBUS")
 			(pinfunction "VBUS_B9")
-			(pintype "passive+no_connect")
+			(pintype "passive")
 			(uuid "39b25b54-6d8a-44aa-864b-06d93df5e532")
 		)
 		(pad "B12" smd roundrect
@@ -13346,15 +14161,14 @@
 			)
 		)
 	)
-	(footprint "Connector_PinHeader_2.54mm:PinHeader_2x07_P2.54mm_Vertical"
-		(locked yes)
+	(footprint "Connector_PinHeader_1.27mm:PinHeader_2x07_P1.27mm_Vertical"
 		(layer "F.Cu")
 		(uuid "b3bf6b44-8f05-49ff-9fe3-c82c382905b9")
 		(at 90.51 51.2)
-		(descr "Through hole straight pin header, 2x07, 2.54mm pitch, double rows")
-		(tags "Through hole pin header THT 2x07 2.54mm double row")
+		(descr "Through hole straight pin header, 2x07, 1.27mm pitch, double rows")
+		(tags "Through hole pin header THT 2x07 1.27mm double row")
 		(property "Reference" "J7"
-			(at 4.995 7.62 90)
+			(at 0.635 -1.745 0)
 			(layer "F.SilkS")
 			(uuid "c40b5c1d-f7fd-48b5-a2ea-c632ecafbe73")
 			(effects
@@ -13365,9 +14179,8 @@
 			)
 		)
 		(property "Value" "Conn_02x07_Odd_Even"
-			(at 1.27 17.62 0)
+			(at 0.635 9.365 0)
 			(layer "F.Fab")
-			(hide yes)
 			(uuid "72715ef5-9718-4a87-bc9e-42afcbdef6e9")
 			(effects
 				(font
@@ -13398,12 +14211,24 @@
 				)
 			)
 		)
+		(property "KiLib_Generator" "connector/pin_header_socket"
+			(at 0 0 0)
+			(layer "F.SilkS")
+			(hide yes)
+			(uuid "628774cc-97ae-448b-8aab-64c74f3b8534")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
 		(property "Manufacturer" "Wurth Elektronik"
 			(at 0 0 0)
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "628774cc-97ae-448b-8aab-64c74f3b8534")
+			(uuid "1ad56995-0e4b-4edf-99bc-366035bdaaf3")
 			(effects
 				(font
 					(size 1 1)
@@ -13416,7 +14241,7 @@
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "ca5507e5-22ee-41d8-afe9-344410d88ac9")
+			(uuid "d803e838-5e98-4b7c-92ef-375d59f6159c")
 			(effects
 				(font
 					(size 1 1)
@@ -13429,7 +14254,7 @@
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "687ab97f-cb95-4318-98be-d72709b52063")
+			(uuid "7d3e6ddb-d929-4f42-b32d-01a511fe715a")
 			(effects
 				(font
 					(size 1 1)
@@ -13442,7 +14267,7 @@
 			(unlocked yes)
 			(layer "F.Fab")
 			(hide yes)
-			(uuid "835969e7-c8b1-44d2-b2d5-e00b55640428")
+			(uuid "d5b7eb27-f4b4-4bee-bb24-48e8045d2916")
 			(effects
 				(font
 					(size 1 1)
@@ -13463,8 +14288,8 @@
 		(attr through_hole)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
-			(start -1.38 -1.38)
-			(end 0 -1.38)
+			(start -1.18 -0.81)
+			(end 0 -0.81)
 			(stroke
 				(width 0.12)
 				(type solid)
@@ -13473,38 +14298,8 @@
 			(uuid "488d7e70-c77d-448e-a3e0-f381d9eb2129")
 		)
 		(fp_line
-			(start -1.38 0)
-			(end -1.38 -1.38)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "b885c384-4193-4fec-b6d2-e0b9ff3b4e95")
-		)
-		(fp_line
-			(start -1.38 1.27)
-			(end -1.38 16.62)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "ebcac764-d820-49b6-b586-9f4800cd9cdd")
-		)
-		(fp_line
-			(start -1.38 1.27)
-			(end 1.27 1.27)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "78072f55-6e39-4d52-afdd-4e53a38b9144")
-		)
-		(fp_line
-			(start -1.38 16.62)
-			(end 3.92 16.62)
+			(start -1.18 0)
+			(end -1.18 -0.81)
 			(stroke
 				(width 0.12)
 				(type solid)
@@ -13513,8 +14308,48 @@
 			(uuid "88f46f1b-efc0-4f49-bf41-5448f588487f")
 		)
 		(fp_line
-			(start 1.27 -1.38)
-			(end 3.92 -1.38)
+			(start -1.18 0.81)
+			(end -1.18 8.365)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "78072f55-6e39-4d52-afdd-4e53a38b9144")
+		)
+		(fp_line
+			(start -1.18 0.81)
+			(end -0.666708 0.81)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "f130d291-b885-48da-a439-29a84d43b931")
+		)
+		(fp_line
+			(start -1.18 8.365)
+			(end -0.317923 8.365)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "ebcac764-d820-49b6-b586-9f4800cd9cdd")
+		)
+		(fp_line
+			(start 0.317923 8.365)
+			(end 0.952077 8.365)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "88871143-96f3-4883-b9b3-b164bff73071")
+		)
+		(fp_line
+			(start 1.587923 -0.745)
+			(end 2.45 -0.745)
 			(stroke
 				(width 0.12)
 				(type solid)
@@ -13523,8 +14358,18 @@
 			(uuid "e2c5c77c-3e47-49b0-80c4-c1ecef3f849f")
 		)
 		(fp_line
-			(start 1.27 1.27)
-			(end 1.27 -1.38)
+			(start 1.587923 8.365)
+			(end 2.45 8.365)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "b885c384-4193-4fec-b6d2-e0b9ff3b4e95")
+		)
+		(fp_line
+			(start 2.45 -0.745)
+			(end 2.45 8.365)
 			(stroke
 				(width 0.12)
 				(type solid)
@@ -13532,19 +14377,9 @@
 			(layer "F.SilkS")
 			(uuid "d2958913-57ea-4f68-8ed4-e9ac58f7c7e1")
 		)
-		(fp_line
-			(start 3.92 -1.38)
-			(end 3.92 16.62)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "88871143-96f3-4883-b9b3-b164bff73071")
-		)
 		(fp_rect
-			(start -1.77 -1.78)
-			(end 4.32 17.02)
+			(start -1.57 -1.14)
+			(end 2.84 8.76)
 			(stroke
 				(width 0.05)
 				(type solid)
@@ -13554,28 +14389,18 @@
 			(uuid "684de133-26f9-4d50-83b0-4d9288134acd")
 		)
 		(fp_line
-			(start -1.27 0)
-			(end 0 -1.27)
+			(start -1.07 0.2175)
+			(end -0.2175 -0.635)
 			(stroke
 				(width 0.1)
 				(type solid)
 			)
 			(layer "F.Fab")
-			(uuid "0abb0be2-050d-4d01-874e-620638ff155b")
+			(uuid "fed72710-7336-4fbf-8c4c-8c1cac31ed89")
 		)
 		(fp_line
-			(start -1.27 16.51)
-			(end -1.27 0)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "960dd5c2-1a7d-4d07-be3a-b62cff9d7ba0")
-		)
-		(fp_line
-			(start 0 -1.27)
-			(end 3.81 -1.27)
+			(start -1.07 8.255)
+			(end -1.07 0.2175)
 			(stroke
 				(width 0.1)
 				(type solid)
@@ -13584,8 +14409,18 @@
 			(uuid "8b4721d9-fccb-4672-914e-e6137e01aa21")
 		)
 		(fp_line
-			(start 3.81 -1.27)
-			(end 3.81 16.51)
+			(start -0.2175 -0.635)
+			(end 2.34 -0.635)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(layer "F.Fab")
+			(uuid "960dd5c2-1a7d-4d07-be3a-b62cff9d7ba0")
+		)
+		(fp_line
+			(start 2.34 -0.635)
+			(end 2.34 8.255)
 			(stroke
 				(width 0.1)
 				(type solid)
@@ -13594,17 +14429,17 @@
 			(uuid "b42a25d1-b8ae-4504-806f-742fc38df69e")
 		)
 		(fp_line
-			(start 3.81 16.51)
-			(end -1.27 16.51)
+			(start 2.34 8.255)
+			(end -1.07 8.255)
 			(stroke
 				(width 0.1)
 				(type solid)
 			)
 			(layer "F.Fab")
-			(uuid "fed72710-7336-4fbf-8c4c-8c1cac31ed89")
+			(uuid "0abb0be2-050d-4d01-874e-620638ff155b")
 		)
 		(fp_text user "${REFERENCE}"
-			(at 1.27 7.62 90)
+			(at 0.635 3.81 90)
 			(layer "F.Fab")
 			(uuid "263140d7-055d-442c-b128-b8eb90126996")
 			(effects
@@ -13616,8 +14451,8 @@
 		)
 		(pad "1" thru_hole rect
 			(at 0 0)
-			(size 1.7 1.7)
-			(drill 1)
+			(size 1 1)
+			(drill 0.65)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "GND")
@@ -13626,9 +14461,9 @@
 			(uuid "143edd26-16e6-483a-9278-b4222498afdf")
 		)
 		(pad "2" thru_hole circle
-			(at 2.54 0)
-			(size 1.7 1.7)
-			(drill 1)
+			(at 1.27 0)
+			(size 1 1)
+			(drill 0.65)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "/Rasperry Pi Compute Module 5/nRPIBOOT")
@@ -13637,9 +14472,9 @@
 			(uuid "ebd588b2-936f-452a-b151-b763bf0a827c")
 		)
 		(pad "3" thru_hole circle
-			(at 0 2.54)
-			(size 1.7 1.7)
-			(drill 1)
+			(at 0 1.27)
+			(size 1 1)
+			(drill 0.65)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "GND")
@@ -13648,9 +14483,9 @@
 			(uuid "8d325dc9-60a9-47a3-bfac-43ae55e34e45")
 		)
 		(pad "4" thru_hole circle
-			(at 2.54 2.54)
-			(size 1.7 1.7)
-			(drill 1)
+			(at 1.27 1.27)
+			(size 1 1)
+			(drill 0.65)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "/Rasperry Pi Compute Module 5/EEPROM_nWP")
@@ -13659,9 +14494,9 @@
 			(uuid "fd4e4c09-12db-416b-afc3-98d1492438ce")
 		)
 		(pad "5" thru_hole circle
-			(at 0 5.08)
-			(size 1.7 1.7)
-			(drill 1)
+			(at 0 2.54)
+			(size 1 1)
+			(drill 0.65)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "GND")
@@ -13670,9 +14505,9 @@
 			(uuid "b5283595-3531-425b-a1b2-a58cd0fa65c0")
 		)
 		(pad "6" thru_hole circle
-			(at 2.54 5.08)
-			(size 1.7 1.7)
-			(drill 1)
+			(at 1.27 2.54)
+			(size 1 1)
+			(drill 0.65)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "/Rasperry Pi Compute Module 5/SYNC_OUT")
@@ -13681,9 +14516,9 @@
 			(uuid "82135fd3-70a1-4371-850c-f16b79acf35e")
 		)
 		(pad "7" thru_hole circle
-			(at 0 7.62)
-			(size 1.7 1.7)
-			(drill 1)
+			(at 0 3.81)
+			(size 1 1)
+			(drill 0.65)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "GND")
@@ -13692,9 +14527,9 @@
 			(uuid "69e92433-d71c-4fa6-998b-f0306690a6ce")
 		)
 		(pad "8" thru_hole circle
-			(at 2.54 7.62)
-			(size 1.7 1.7)
-			(drill 1)
+			(at 1.27 3.81)
+			(size 1 1)
+			(drill 0.65)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "unconnected-(J7-Pin_8-Pad8)")
@@ -13703,9 +14538,9 @@
 			(uuid "470e6554-8e9c-4809-b08f-ec0b2bf91360")
 		)
 		(pad "9" thru_hole circle
-			(at 0 10.16)
-			(size 1.7 1.7)
-			(drill 1)
+			(at 0 5.08)
+			(size 1 1)
+			(drill 0.65)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "GND")
@@ -13714,9 +14549,9 @@
 			(uuid "a02a4f8f-63b5-4422-9d26-9fc86aeb7cf5")
 		)
 		(pad "10" thru_hole circle
-			(at 2.54 10.16)
-			(size 1.7 1.7)
-			(drill 1)
+			(at 1.27 5.08)
+			(size 1 1)
+			(drill 0.65)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "/Rasperry Pi Compute Module 5/USBOTG")
@@ -13725,9 +14560,9 @@
 			(uuid "7e4b575f-1079-49d3-8096-df8c7dfa75f2")
 		)
 		(pad "11" thru_hole circle
-			(at 0 12.7)
-			(size 1.7 1.7)
-			(drill 1)
+			(at 0 6.35)
+			(size 1 1)
+			(drill 0.65)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "GND")
@@ -13736,9 +14571,9 @@
 			(uuid "46c5f1d0-42bf-4d9c-b478-ae8ecc0ee090")
 		)
 		(pad "12" thru_hole circle
-			(at 2.54 12.7)
-			(size 1.7 1.7)
-			(drill 1)
+			(at 1.27 6.35)
+			(size 1 1)
+			(drill 0.65)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "/Rasperry Pi Compute Module 5/PMIC_ENABLE")
@@ -13747,9 +14582,9 @@
 			(uuid "627e3dec-27cf-4ab8-ae6c-313220bbfb48")
 		)
 		(pad "13" thru_hole circle
-			(at 0 15.24)
-			(size 1.7 1.7)
-			(drill 1)
+			(at 0 7.62)
+			(size 1 1)
+			(drill 0.65)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "GND")
@@ -13758,9 +14593,9 @@
 			(uuid "4b25dbc4-fb81-4b72-826e-1c27e1d2629a")
 		)
 		(pad "14" thru_hole circle
-			(at 2.54 15.24)
-			(size 1.7 1.7)
-			(drill 1)
+			(at 1.27 7.62)
+			(size 1 1)
+			(drill 0.65)
 			(layers "*.Cu" "*.Mask")
 			(remove_unused_layers no)
 			(net "/Rasperry Pi Compute Module 5/PWR_BUT")
@@ -13769,7 +14604,7 @@
 			(uuid "bfacfac3-9565-40ac-8f66-80fb3681f7c9")
 		)
 		(embedded_fonts no)
-		(model "${KICAD10_3DMODEL_DIR}/Connector_PinHeader_2.54mm.3dshapes/PinHeader_2x07_P2.54mm_Vertical.step"
+		(model "${KICAD10_3DMODEL_DIR}/Connector_PinHeader_1.27mm.3dshapes/PinHeader_2x07_P1.27mm_Vertical.step"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -13787,7 +14622,7 @@
 		(at 123 53 180)
 		(descr "SHT4x")
 		(tags "Integrated Circuit")
-		(property "Reference" "IC2"
+		(property "Reference" "IC12"
 			(at 1.2 -2 0)
 			(layer "F.SilkS")
 			(uuid "ffa83aa4-9167-4a6b-a546-940e091699e0")
@@ -14947,6 +15782,216 @@
 			)
 		)
 	)
+	(footprint "Capacitor_SMD:C_0402_1005Metric"
+		(layer "F.Cu")
+		(uuid "c68823a7-a774-4913-a87c-7ced1dfad983")
+		(at 174.395 140.115)
+		(descr "Capacitor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
+		(tags "capacitor")
+		(property "Reference" "C38"
+			(at 0 -1.16 0)
+			(layer "F.SilkS")
+			(uuid "0450ab11-db94-47cc-96a8-a9e647a0996b")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Value" "100n"
+			(at 0 1.16 0)
+			(layer "F.Fab")
+			(uuid "3b0a8555-dd61-49e8-9e8d-6b5b96d483b9")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Datasheet" "https://pim.murata.com/asset/pim4/ceramicCapacitorSMD/GRM155R71C104KA88-01A-EN_PDF_CERAMICCAPACITORSMD"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "539255fb-402b-4bae-96c3-d26074004020")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "CAP CER 100nF 16V X7R 10% 0402"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "9e248890-3c13-44d9-a83f-e3afef66a67d")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "KiLib_Generator" "SMD_2terminal_chip_molded"
+			(at 0 0 0)
+			(layer "F.SilkS")
+			(hide yes)
+			(uuid "b84891e0-8c22-457d-ab55-0e7920ec97f3")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer" "Murata"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "a4322093-a090-47b6-8898-9170438732f0")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "MPN" "GRM155R71C104KA88D"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "36b61a9a-3bf5-4ef8-a9b4-617712c927f0")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser PN" "81-GRM155R71C104KA88"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "41a52c27-5176-4d7c-8477-103b6bbc931c")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/81-GRM155R71C104KA88"
+			(at 0 0 0)
+			(unlocked yes)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "89dce1f3-6276-492f-8e40-010ee05ec641")
+			(effects
+				(font
+					(size 1 1)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property ki_fp_filters "C_*")
+		(path "/4112cffa-0e28-4d2a-acd4-e0e3e9e075d8/46d00332-ad4f-43b2-b232-5cf0508aa874")
+		(sheetname "/I2C Peripherals/")
+		(sheetfile "i2c_peripherals.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2")
+			)
+		)
+		(attr smd)
+		(duplicate_pad_numbers_are_jumpers no)
+		(fp_line
+			(start -0.107836 -0.36)
+			(end 0.107836 -0.36)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "5178650e-87bf-4ff8-8c3a-981ce1d12940")
+		)
+		(fp_line
+			(start -0.107836 0.36)
+			(end 0.107836 0.36)
+			(stroke
+				(width 0.12)
+				(type solid)
+			)
+			(layer "F.SilkS")
+			(uuid "3c7e541e-9ec6-46c2-b3e3-49e367a2ee5d")
+		)
+		(fp_rect
+			(start -0.91 -0.46)
+			(end 0.91 0.46)
+			(stroke
+				(width 0.05)
+				(type solid)
+			)
+			(fill no)
+			(layer "F.CrtYd")
+			(uuid "f5c01e2b-145a-4546-9d7d-ebb4d1406083")
+		)
+		(fp_rect
+			(start -0.5 -0.25)
+			(end 0.5 0.25)
+			(stroke
+				(width 0.1)
+				(type solid)
+			)
+			(fill no)
+			(layer "F.Fab")
+			(uuid "a22372cc-5daf-4364-b1b4-e2d22eba8013")
+		)
+		(fp_text user "${REFERENCE}"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(uuid "e53f7129-34e5-4610-abe8-4d16fc24ba75")
+			(effects
+				(font
+					(size 0.25 0.25)
+					(thickness 0.04)
+				)
+			)
+		)
+		(pad "1" smd roundrect
+			(at -0.48 0)
+			(size 0.56 0.62)
+			(layers "F.Cu" "F.Mask" "F.Paste")
+			(roundrect_rratio 0.25)
+			(net "/RP2354A/VREG_VIN")
+			(pintype "passive")
+			(uuid "a534b92f-bd83-43e2-991f-73507143ff58")
+		)
+		(pad "2" smd roundrect
+			(at 0.48 0)
+			(size 0.56 0.62)
+			(layers "F.Cu" "F.Mask" "F.Paste")
+			(roundrect_rratio 0.25)
+			(net "GND")
+			(pintype "passive")
+			(uuid "4e51ef9e-9e95-4ab7-b7fd-411a2ed2e604")
+		)
+		(embedded_fonts no)
+		(model "${KICAD10_3DMODEL_DIR}/Capacitor_SMD.3dshapes/C_0402_1005Metric.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
+	)
 	(footprint "Capacitor_SMD:C_1206_3216Metric"
 		(layer "F.Cu")
 		(uuid "c7d64c42-f747-45f1-ac16-1143fa56a5e5")
@@ -15548,7 +16593,7 @@
 		(at 96 111)
 		(descr "QFN, 60 Pin (https://datasheets.raspberrypi.com/rp2350/rp2350-datasheet.pdf)")
 		(tags "QFN NoLead")
-		(property "Reference" "U4"
+		(property "Reference" "IC4"
 			(at -4.4 4.8 0)
 			(layer "F.SilkS")
 			(uuid "e43ff6c2-e8a8-495d-9acc-4e63fc002a79")
@@ -17876,7 +18921,7 @@
 		(at 120.4 121.4 90)
 		(descr "USON-10 2.5x1.0mm_ Pitch 0.5mm http://www.ti.com/lit/ds/symlink/tpd4e02b04.pdf")
 		(tags "USON-10 2.5x1.0mm Pitch 0.5mm")
-		(property "Reference" "U1"
+		(property "Reference" "IC1"
 			(at 2.185 0 0)
 			(layer "F.SilkS")
 			(uuid "fa2126d6-0a4d-4dd8-bcfa-92e1ee1a375f")
@@ -19929,7 +20974,7 @@
 		(at 127 121.4 90)
 		(descr "USON-10 2.5x1.0mm_ Pitch 0.5mm http://www.ti.com/lit/ds/symlink/tpd4e02b04.pdf")
 		(tags "USON-10 2.5x1.0mm Pitch 0.5mm")
-		(property "Reference" "U2"
+		(property "Reference" "IC2"
 			(at 0 2.8 0)
 			(layer "F.SilkS")
 			(uuid "089b12b9-4b29-4cd3-aa5f-e8fe299b8094")
@@ -20631,13 +21676,6 @@
 		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
-		(jumper_pad_groups
-			("1" "107" "108" "113" "114" "119" "120" "125" "126" "13" "131" "132"
-				"137" "138" "14" "144" "150" "155" "156" "161" "162" "167" "168" "173"
-				"174" "179" "180" "185" "186" "191" "192" "197" "198" "2" "22" "23" "32"
-				"33" "42" "43" "52" "53" "59" "60" "65" "66" "7" "71" "74" "8" "98"
-			)
-		)
 		(fp_line
 			(start 33 -51.5)
 			(end 0 -51.5)
@@ -21169,7 +22207,7 @@
 			(at 1.04 -26.9)
 			(size 0.2 0.7)
 			(layers "F.Cu" "F.Mask" "F.Paste")
-			(net "unconnected-(Module1A-GPIO26-Pad24)")
+			(net "/I2C Peripherals/INT_DRDY")
 			(pinfunction "GPIO26_24")
 			(pintype "passive")
 			(uuid "069226f6-7774-41bf-be0f-8b2f9b8b99ba")
@@ -21178,7 +22216,7 @@
 			(at -2.04 -26.5)
 			(size 0.2 0.7)
 			(layers "F.Cu" "F.Mask" "F.Paste")
-			(net "unconnected-(Module1A-GPIO21-Pad25)")
+			(net "/Rasperry Pi Compute Module 5/GPIO21")
 			(pinfunction "GPIO21_25")
 			(pintype "passive")
 			(uuid "17557cff-23c7-4f9c-bd34-d169ddbdf3b1")
@@ -21187,7 +22225,7 @@
 			(at 1.04 -26.5)
 			(size 0.2 0.7)
 			(layers "F.Cu" "F.Mask" "F.Paste")
-			(net "unconnected-(Module1A-GPIO19-Pad26)")
+			(net "/Rasperry Pi Compute Module 5/GPIO19")
 			(pinfunction "GPIO19_26")
 			(pintype "passive")
 			(uuid "5b67bb6c-81ff-4099-bb0d-876653b0eb42")
@@ -21196,7 +22234,7 @@
 			(at -2.04 -26.1)
 			(size 0.2 0.7)
 			(layers "F.Cu" "F.Mask" "F.Paste")
-			(net "unconnected-(Module1A-GPIO20-Pad27)")
+			(net "/Rasperry Pi Compute Module 5/GPIO20")
 			(pinfunction "GPIO20_27")
 			(pintype "passive")
 			(uuid "8a28caf1-5154-41d5-b01e-4b9732406572")
@@ -21205,7 +22243,7 @@
 			(at 1.04 -26.1)
 			(size 0.2 0.7)
 			(layers "F.Cu" "F.Mask" "F.Paste")
-			(net "unconnected-(Module1A-GPIO13-Pad28)")
+			(net "/Rasperry Pi Compute Module 5/GPIO13")
 			(pinfunction "GPIO13_28")
 			(pintype "passive")
 			(uuid "5ef9e14e-9113-42a2-bdb4-ca0880b8d967")
@@ -21214,7 +22252,7 @@
 			(at -2.04 -25.7)
 			(size 0.2 0.7)
 			(layers "F.Cu" "F.Mask" "F.Paste")
-			(net "unconnected-(Module1A-GPIO16-Pad29)")
+			(net "/Rasperry Pi Compute Module 5/GPIO16")
 			(pinfunction "GPIO16_29")
 			(pintype "passive")
 			(uuid "ca23e1e7-07b8-4890-8905-49f432c35b0d")
@@ -21259,7 +22297,7 @@
 			(at 1.04 -24.9)
 			(size 0.2 0.7)
 			(layers "F.Cu" "F.Mask" "F.Paste")
-			(net "unconnected-(Module1A-GPIO5-Pad34)")
+			(net "/Rasperry Pi Compute Module 5/GPIO5")
 			(pinfunction "GPIO5_34")
 			(pintype "passive")
 			(uuid "64a44a46-7b84-4c48-bc65-cfcfdd5f8de8")
@@ -21286,7 +22324,7 @@
 			(at -2.04 -24.1)
 			(size 0.2 0.7)
 			(layers "F.Cu" "F.Mask" "F.Paste")
-			(net "unconnected-(Module1A-GPIO7-Pad37)")
+			(net "/Rasperry Pi Compute Module 5/GPIO7")
 			(pinfunction "GPIO7_37")
 			(pintype "passive")
 			(uuid "452af2d4-4f14-41fd-8256-f8011c70a85d")
@@ -21313,7 +22351,7 @@
 			(at 1.04 -23.7)
 			(size 0.2 0.7)
 			(layers "F.Cu" "F.Mask" "F.Paste")
-			(net "unconnected-(Module1A-GPIO9-Pad40)")
+			(net "/Rasperry Pi Compute Module 5/GPIO9")
 			(pinfunction "GPIO9_40")
 			(pintype "passive")
 			(uuid "5a656164-a0ff-4eca-b67f-0a0c9e27bf99")
@@ -21349,7 +22387,7 @@
 			(at 1.04 -22.9)
 			(size 0.2 0.7)
 			(layers "F.Cu" "F.Mask" "F.Paste")
-			(net "unconnected-(Module1A-GPIO10-Pad44)")
+			(net "/Rasperry Pi Compute Module 5/GPIO10")
 			(pinfunction "GPIO10_44")
 			(pintype "passive")
 			(uuid "e06f2d68-33c5-4d1a-b09e-647ac1ee9094")
@@ -21367,7 +22405,7 @@
 			(at 1.04 -22.5)
 			(size 0.2 0.7)
 			(layers "F.Cu" "F.Mask" "F.Paste")
-			(net "unconnected-(Module1A-GPIO22-Pad46)")
+			(net "/Rasperry Pi Compute Module 5/GPIO22")
 			(pinfunction "GPIO22_46")
 			(pintype "passive")
 			(uuid "f461c3f0-bd7d-4d39-aa2b-cab014aa775d")
@@ -21376,7 +22414,7 @@
 			(at -2.04 -22.1)
 			(size 0.2 0.7)
 			(layers "F.Cu" "F.Mask" "F.Paste")
-			(net "unconnected-(Module1A-GPIO23-Pad47)")
+			(net "/Rasperry Pi Compute Module 5/GPIO23")
 			(pinfunction "GPIO23_47")
 			(pintype "passive")
 			(uuid "daae4d96-8c15-4e15-b75b-9b1eb0411fed")
@@ -21385,7 +22423,7 @@
 			(at 1.04 -22.1)
 			(size 0.2 0.7)
 			(layers "F.Cu" "F.Mask" "F.Paste")
-			(net "unconnected-(Module1A-GPIO27-Pad48)")
+			(net "/Rasperry Pi Compute Module 5/GPIO27")
 			(pinfunction "GPIO27_48")
 			(pintype "passive")
 			(uuid "5c93ef90-7d73-4be1-ba31-250aa98c6b55")
@@ -21394,7 +22432,7 @@
 			(at -2.04 -21.7)
 			(size 0.2 0.7)
 			(layers "F.Cu" "F.Mask" "F.Paste")
-			(net "unconnected-(Module1A-GPIO18-Pad49)")
+			(net "/Rasperry Pi Compute Module 5/GPIO18")
 			(pinfunction "GPIO18_49")
 			(pintype "passive")
 			(uuid "24b8fa25-4af0-49da-91fa-a23e2097d9c2")
@@ -21403,7 +22441,7 @@
 			(at 1.04 -21.7)
 			(size 0.2 0.7)
 			(layers "F.Cu" "F.Mask" "F.Paste")
-			(net "unconnected-(Module1A-GPIO17-Pad50)")
+			(net "/Rasperry Pi Compute Module 5/GPIO17")
 			(pinfunction "GPIO17_50")
 			(pintype "passive")
 			(uuid "8f8a36a9-944d-459f-b328-2d2d8b1c38c4")
@@ -21412,7 +22450,7 @@
 			(at -2.04 -21.3)
 			(size 0.2 0.7)
 			(layers "F.Cu" "F.Mask" "F.Paste")
-			(net "unconnected-(Module1A-GPIO15-Pad51)")
+			(net "/Rasperry Pi Compute Module 5/GPIO15")
 			(pinfunction "GPIO15_51")
 			(pintype "passive")
 			(uuid "78a2435f-ee46-4b57-82ff-eb684724c10d")
@@ -21439,7 +22477,7 @@
 			(at 1.04 -20.9)
 			(size 0.2 0.7)
 			(layers "F.Cu" "F.Mask" "F.Paste")
-			(net "unconnected-(Module1A-GPIO4-Pad54)")
+			(net "/Rasperry Pi Compute Module 5/GPIO4")
 			(pinfunction "GPIO4_54")
 			(pintype "passive")
 			(uuid "672c38a5-b023-43e8-aad7-61662aad2917")
@@ -23064,7 +24102,7 @@
 		(at 128.6 53 180)
 		(descr "14 pin LGA ")
 		(tags "Integrated Circuit")
-		(property "Reference" "IC1"
+		(property "Reference" "IC11"
 			(at 0 -3.084999 0)
 			(layer "F.SilkS")
 			(uuid "1a1ea81b-917b-48aa-b3f3-8e33c15162a6")
@@ -26978,9 +28016,16 @@
 				(justify mirror)
 			)
 		)
+		(property ki_fp_filters "C_*")
 		(path "/89d7ac77-fa0c-4bb2-902c-6102b08b0cf6/619ed2fb-0830-4455-b6b8-1d7a7a479ae0")
 		(sheetname "/Power Management/")
 		(sheetfile "power_management.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2")
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -27043,6 +28088,7 @@
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(roundrect_rratio 0.178571)
 			(net "Net-(U5-VIN+)")
+			(pintype "passive")
 			(uuid "7985daba-9a69-4ed0-b182-c3aea6e502b0")
 		)
 		(pad "2" smd roundrect
@@ -27051,6 +28097,7 @@
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(roundrect_rratio 0.178571)
 			(net "GND")
+			(pintype "passive")
 			(uuid "4e4de996-6d25-4ac2-8659-eeb363b7f254")
 		)
 		(embedded_fonts no)
@@ -27834,9 +28881,16 @@
 				(justify mirror)
 			)
 		)
+		(property ki_fp_filters "C_*")
 		(path "/89d7ac77-fa0c-4bb2-902c-6102b08b0cf6/683e85d3-b0b0-4454-9ac1-0e8089c7e386")
 		(sheetname "/Power Management/")
 		(sheetfile "power_management.kicad_sch")
+		(units
+			(unit
+				(name "A")
+				(pins "1" "2")
+			)
+		)
 		(attr smd)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_line
@@ -27899,6 +28953,7 @@
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(roundrect_rratio 0.178571)
 			(net "Net-(U5-VIN-)")
+			(pintype "passive")
 			(uuid "6225d354-f557-4483-b6fa-d2d0a113a882")
 		)
 		(pad "2" smd roundrect
@@ -27907,6 +28962,7 @@
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(roundrect_rratio 0.178571)
 			(net "GND")
+			(pintype "passive")
 			(uuid "a30e4af3-4ad8-48a6-a7dd-68acfa390fb4")
 		)
 		(embedded_fonts no)
@@ -30164,7 +31220,7 @@
 		(at 125.35 74.91 90)
 		(descr "Silvertel Ag59800-LPB series (Ag59812-LPB, Ag59824-LPB) IEEE 802.3bt Type 4 Class 8 PoE PD module, SMT, 50.6x30 mm. Land pattern from datasheet V2.0 figure 17. The isolation keep-out covers both the tabulated and the drawn stripe, on all copper layers; continue it across the host board. Datasheet p19: solder-mask-defined pads preferred, minimal thermal relief, never reflow the module hanging upside down (on the bottom side: solder it last or by hand) (https://silvertel.com/images/datasheets/Ag59800-LPB%20-datasheet-high%20efficiency%20SMT%20IEEE802_3BT%20100W%20power-over-ethernet%20module.pdf)")
 		(tags "Silvertel PoE PD module power-over-ethernet IEEE802.3bt class 8 Ag59812 Ag59824")
-		(property "Reference" "U5"
+		(property "Reference" "IC5"
 			(at 0 17.1 90)
 			(layer "B.SilkS")
 			(uuid "b5489583-c0b8-4d59-b934-88fcaec1cac7")
@@ -31483,7 +32539,7 @@
 		(layer "Edge.Cuts")
 		(uuid "f9a34a03-fd60-4b93-b28b-e858e820dde4")
 	)
-	(gr_text "FABRICATION\nJLCPCB 4 layers, 1.6 mm, stackup JLC04161H-7628, 1 oz outer / 0.5 oz inner, ENIG.\nVias tented; the exposed-pad vias of U4, U8 and U9 stay open (their paste windows keep clear of the holes).\nImpedance control +-10 %: L1/L4 100 ohm differential, 0.21 mm / 0.19 mm gap (Ethernet TRD*, CSI DPHY0_*);\nL1 90 ohm differential, 0.24 mm / 0.15 mm gap (USB). Min track 0.1 mm, min via 0.45/0.2 mm.\nNo V-score or panel rail on the edge next to J7/J1/J5: U5's courtyard is 0.1 mm from it.\n\nASSEMBLY\nU5 (Ag59824-LPB, bottom) must never reflow hanging upside down: reflow the top side first,\nthen the bottom side with U5 last and upright, or fit U5 by hot air afterwards.\nGlue dot under L2 (1.0-1.6 g) and U9 before the second pass. No wave solder on the U5 side.\nU5 profile: peak 230-245 C, 30-90 s above 217 C, soak 150-180 C 30-90 s, ramp up <= 3 C/s, down <= 6 C/s.\nThrough-hole parts U3 (MagJack), J6, J7 and C20 by hand or selective solder after both reflow passes.\nL1: dot = pad 1 (+1V1).\nCM5: M2.5 screws from below (head <= 4.5 mm), nuts on the CM5 side; a nut under the board hits C20.\n\nTEST\nPoE isolation: 1500 V 10/700 us impulse test only, at normal air pressure. No 1500 Vrms or 2250 Vdc hipot\n(Y-caps C21/C24 and the module are not rated for it). Then >= 2 MOhm at 500 Vdc, primary to GND."
+	(gr_text "FABRICATION\nJLCPCB 4 layers, 1.6 mm, stackup JLC04161H-7628, 1 oz outer / 0.5 oz inner, ENIG.\nVias tented; the exposed-pad vias of IC4, IC8 and IC9 stay open (their paste windows keep clear of the holes).\nImpedance control +-10 %: L1/L4 100 ohm differential, 0.21 mm / 0.19 mm gap (Ethernet TRD*, CSI DPHY0_*);\nL1 90 ohm differential, 0.24 mm / 0.15 mm gap (USB). Min track 0.1 mm, min via 0.45/0.2 mm.\nNo V-score or panel rail on the edge next to J7/J1/J5: IC5's courtyard is 0.1 mm from it.\n\nASSEMBLY\nU5 (Ag59824-LPB, bottom) must never reflow hanging upside down: reflow the top side first,\nthen the bottom side with IC5 last and upright, or fit IC5 by hot air afterwards.\nGlue dot under L2 (1.0-1.6 g) and IC9 before the second pass. No wave solder on the IC5 side.\nU5 profile: peak 230-245 C, 30-90 s above 217 C, soak 150-180 C 30-90 s, ramp up <= 3 C/s, down <= 6 C/s.\nThrough-hole parts IC3 (MagJack), J6, J7 and C20 by hand or selective solder after both reflow passes.\nL1: dot = pad 1 (+1V1).\nCM5: M2.5 screws from below (head <= 4.5 mm), nuts on the CM5 side; a nut under the board hits C20.\n\nTEST\nPoE isolation: 1500 V 10/700 us impulse test only, at normal air pressure. No 1500 Vrms or 2250 Vdc hipot\n(Y-caps C21/C24 and the module are not rated for it). Then >= 2 MOhm at 500 Vdc, primary to GND."
 		(at 160 48.45 0)
 		(layer "Cmts.User")
 		(uuid "0297409f-4181-4257-b79e-0c4e3c6bd988")
