@@ -89,6 +89,21 @@ RP2354A (QFN-60):
 | SWCLK / SWDIO | 24 / 25 | Debug connector J2 |
 | XIN / XOUT | 21 / 22 | 12 MHz crystal Y1 (ABM8-272-T3) |
 
+Breakout headers (1.27 mm pitch; the pin tables are also on the bottom silkscreen):
+
+| Pin | J9, CM5 GPIO | J13, RP2354A GPIO |
+| --- | --- | --- |
+| 1 / 2 | +5 V / GND | +5 V / GND |
+| 3 / 4 | GND / +3.3 V | GND / +3.3 V |
+| 5 / 6 | GPIO9 / GPIO13 | GP29 / GP22 |
+| 7 / 8 | GPIO10 / GPIO17 | GP27 / GP24 |
+| 9 / 10 | GPIO27 / GPIO22 | GP25 / GP26 |
+| 11 / 12 | GPIO18 / GPIO5 | GP23 / GP28 |
+| 13 / 14 | GPIO7 / GPIO23 | |
+| 15 / 16 | GPIO16 / GPIO20 | |
+
+GP26–GP29 on J13 are the RP2354A's ADC inputs.
+
 I2C devices on the CM5's I2C1 bus:
 
 | Device | Address | Notes |
@@ -104,7 +119,7 @@ hardware/
 ├── manafish.kicad_pro      KiCad project
 ├── *.kicad_sch             schematic sheets
 ├── manafish.kicad_pcb      PCB, 4 layers
-├── manafish.kicad_dru      custom DRC rules for the PoE isolation barriers
+├── manafish.kicad_dru      custom DRC rules (PoE isolation barriers, impedance pairs, edge parts)
 ├── sym-lib-table           project symbol libraries
 ├── fp-lib-table            project footprint libraries
 └── custom_components/
@@ -115,11 +130,26 @@ hardware/
 
 ## PCB
 
-`manafish.kicad_pcb` is a 70 × 100 mm, 4-layer board. It sits centred on the
+`manafish.kicad_pcb` is a 70 × 90 mm, 4-layer board. It sits centred on the
 axis of a tube with a 74 mm inner diameter, so a part at lateral distance *d*
 from the axis may stand at most √(37² − *d*²) − 0.8 mm above the board surface.
-Every part fits, checked against the 3D models. The tightest are the USB-C port
-J8 (1.8 mm to the tube wall) and the SWD connector J2 (2.3 mm).
+Every part fits, checked against the 3D models. The tightest is the MagJack IC3
+at the left edge: 13.5 mm tall where 14.0 mm is allowed, so 0.5 mm of margin
+(1.1 mm with the 74.5 mm tube from the board note). Every other part keeps at
+least 2 mm.
+
+The board is split into two halves:
+
+- **Top half:** the CM5, the two camera connectors J5 and J11 side by side on
+  the top edge, the RP2354A and its sensors, and the breakout headers on the
+  left edge.
+- **Bottom half:** the power circuit. The MagJack IC3, the PoE module IC5, the
+  charger IC8, the 5 V buck IC9 and the battery connector J6 sit next to each
+  other.
+
+The SHT45 (IC12) sits on a slotted tongue in the top-left corner, thermally
+decoupled from the board. The tongue has no copper pour and no vias, and only
+four thin tracks cross its 2.5 mm bridge. Four M2 mounting holes are at H1–H4.
 
 ### Stackup
 
@@ -131,19 +161,22 @@ JLCPCB JLC04161H-7628, 1.6 mm, ENIG finish:
 | Prepreg 7628 | 0.21 mm, εr 4.4 | |
 | In1.Cu | 15 µm | Solid GND reference, no tracks |
 | Core | 1.065 mm, εr 4.6 | |
-| In2.Cu | 15 µm | GND, power pours (VSYS, +5 V, 3V3), signals |
+| In2.Cu | 15 µm | GND, power pours (VSYS, 24 V, 3V3), signals; solid GND under the B.Cu pairs |
 | Prepreg 7628 | 0.21 mm, εr 4.4 | |
-| B.Cu | 35 µm | PoE module IC5, PoE input, signals, GND and 24 V pours |
+| B.Cu | 35 µm | PoE module IC5, PoE input, signals, GND, 24 V and battery pours |
 
 Order the board with impedance control:
 
 | Net class | Nets | Width / gap | Target |
 | --- | --- | --- | --- |
 | `DP100` | Ethernet `TRD*`, camera `DPHY0_*` and `DPHY1_*` | 0.21 / 0.19 mm on F.Cu and B.Cu | 100 Ω differential |
-| `USB90` | `USB2_*`, RP2354A `USB_D*` | 0.24 / 0.15 mm on F.Cu | 90 Ω differential |
+| `USB90` | `USB2_*`, RP2354A `USB_D*` | 0.24 / 0.15 mm on F.Cu and B.Cu | 90 Ω differential |
 
 Inside the CM5 connector pin fields the pairs neck down to 0.127 mm for at most
 1.6 mm. Pours keep 0.3 mm from the pairs everywhere.
+
+The default clearance is 0.1 mm (JLCPCB's minimum is 0.09 mm). Power nets and
+the impedance pairs keep 0.2 mm.
 
 ### PoE isolation
 
@@ -154,14 +187,15 @@ enforces:
 - 2.0 mm from primary copper to any other net, on every layer and from every
   hole. The only exception is between the pads of each Y-capacitor
   (C21, C24).
-- A 3.0 mm warning tier, the Silvertel guideline. 21 warnings remain, all
+- A 3.0 mm warning tier, the Silvertel guideline. 58 warnings remain, all
   between 2.0 and 3.0 mm:
-  - the MagJack's own center-tap pads to its shield pins (2.14 mm) and the VC3
-    track next to the shield (2.02 mm);
-  - the Y-capacitors' own pads (2.7 mm) and C21's GND pad to the ferrite beads
-    (2.26 mm);
-  - the RP2354A decoupling GND vias next to the ferrite-bead column (2.38 mm);
-  - R23 next to IC5's VIN+ pad (2.8 mm).
+  - 49 are the optocoupler outputs `POE_TYP2_DET` and `POE_TYP3_DET`
+    (secondary side). They pass IC5's input copper and the MagJack's center
+    taps at 2.04–2.99 mm.
+  - 4 are a +3.3V track next to C24 and the VIN− track (2.6 mm).
+  - The rest are the MagJack's own center-tap pins next to its GND pins
+    (2.14 mm), VC4 next to an IC3 GND pin (2.3 mm), and the Y-capacitors' own
+    pads (2.7 mm).
 - Under IC5's primary half (`PRI_ISLAND_U5`), no vias of other nets and no
   other copper on B.Cu or In2. The module's isolation barrier strip stays
   empty on B.Cu and In2.
@@ -171,23 +205,25 @@ The inner layers are voided 2 mm around primary copper on the next outer layer
 front edge where the VC1 track runs on In2. Only IC5, the optocouplers IC6/IC7 and
 the Y-capacitors C21/C24 cross the barrier.
 
-Connector A of the CM5 lies inside the island, so 16 of its GND pins have no
-via to the GND planes. They connect through the CM5's own ground: the footprint
-`Module1` declares all its GND pads as one jumper pad group.
+Every CM5 GND pin reaches the GND planes except pin 7 of connector A, which is
+boxed in between the Ethernet pairs TRD2 and TRD3. The CM5 ties its GND pins
+together internally, so this pin is the DRC's one expected unconnected item.
 
 ### Assembly
 
-- IC5 (Ag59824-LPB) is on the bottom and must never pass through reflow hanging
-  upside down. Reflow the top side first, then the bottom side with IC5 upright,
-  or fit IC5 afterwards with hot air. Glue L2 (1.0–1.6 g) and IC9 before the
-  second pass.
-- IC5 reflow profile: peak 230–245 °C, 30–90 s above 217 °C, soak 150–180 °C for
-  30–90 s, ramp up at most 3 °C/s and down at most 6 °C/s. No wave solder on the
-  IC5 side.
-- Solder the through-hole parts IC3, J6, J7 and C20 by hand after both reflow
-  passes.
+- All fine-pitch parts are on the top. Reflow the top side only.
+- Solder the bottom side by hand (iron or hot air): IC5, J1–J4, J6, C20, C25,
+  C26, C31, C32, C34–C36, C39, F1–F3 and R21–R27. All of them are 0603 or
+  larger.
+- IC5 (Ag59824-LPB) must never pass through reflow hanging upside down.
+  - Hot-air profile: peak 230–245 °C, 30–90 s above 217 °C, soak 150–180 °C for
+    30–90 s, ramp up at most 3 °C/s and down at most 6 °C/s.
+  - No wave solder on the IC5 side.
+- Solder the through-hole parts IC3, J6, J7, J9, J13 and C20 by hand.
+- The RP2354A's exposed pad has four open vias. They sit in the gaps of its
+  3 × 3 paste grid, so the paste doesn't flow into them.
 - Fit the CM5 with M2.5 screws from below (head at most 4.5 mm across) and the
-  nuts on the CM5 side. A nut under the board would hit C20.
+  nuts on the CM5 side. The board itself mounts with four M2 screws (H1–H4).
 
 The same notes are on the board's User.Comments layer, which isn't part of the
 Gerbers: copy them into the order remarks for the assembler.
@@ -205,7 +241,7 @@ The USB-C port J8 carries data only. Its VBUS isn't connected, so the board
 needs its normal supply while you flash it.
 
 1. Power the board.
-2. Fit a jumper on J7 pins 1–2 (`nRPIBOOT`).
+2. Fit a jumper on J7 pins 9–10 (`nRPIBOOT`).
 3. Connect J8 to a computer and run
    [`rpiboot`](https://github.com/raspberrypi/usbboot)
    `-d mass-storage-gadget64`. The eMMC appears as a USB drive.
@@ -214,16 +250,17 @@ needs its normal supply while you flash it.
 Set `PSU_MAX_CURRENT=5000` in the bootloader EEPROM configuration. The CM5
 isn't powered over USB-C, so it can't detect the supply's capability itself.
 
-Jumper header J7:
+Jumper header J7 (odd pins are GND):
 
 | Pins | Signal | Fitted means |
 | --- | --- | --- |
-| 1–2 | `nRPIBOOT` | Boot from USB, for flashing |
-| 3–4 | `EEPROM_nWP` | Bootloader EEPROM write-protected; blocks EEPROM updates |
-| 5–6 | `SYNC_OUT` | Ethernet timing output; never fit a jumper |
-| 9–10 | `USB_OTG_ID` | USB 2.0 port in host mode; leave open for flashing |
-| 11–12 | `PMIC_ENABLE` | CM5 switched off |
-| 13–14 | `PWR_BUT` | For a push button: short press shuts down or wakes, holding over 5 s forces power-off |
+| 1–2 | `USB_OTG_ID` | USB 2.0 port in host mode; leave open for flashing |
+| 3–4 | `PWR_BUT` | For a push button: short press shuts down or wakes, holding over 5 s forces power-off |
+| 5–6 | `PMIC_ENABLE` | CM5 switched off |
+| 7–8 | Not connected | |
+| 9–10 | `nRPIBOOT` | Boot from USB, for flashing |
+| 11–12 | `EEPROM_nWP` | Bootloader EEPROM write-protected; blocks EEPROM updates |
+| 13–14 | `SYNC_OUT` | Ethernet timing output; never fit a jumper |
 
 ## Opening the project
 

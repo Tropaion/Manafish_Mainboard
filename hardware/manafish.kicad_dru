@@ -42,6 +42,22 @@
 (rule "J8 locating pegs"
 	(constraint hole_clearance (min 0.1mm))
 	(condition "A.memberOfFootprint('J8') && B.memberOfFootprint('J8')"))
+# --- No top-side parts under the CM5 module (it sits 1.5 mm above the board on its connectors).
+(rule "No top parts under the CM5"
+	(constraint disallow footprint)
+	(condition "A.intersectsArea('CM5 outline*') && A.Reference != 'Module1' && A.Layer == 'F.Cu'"))
+# --- WSEN-PADS HLGA-10 vendor land pattern: 0.125 mm between its own pads (JLC minimum 0.1 mm).
+(rule "IC10 HLGA pads"
+	(constraint clearance (min 0.1mm))
+	(condition "A.memberOfFootprint('IC10') && B.memberOfFootprint('IC10')"))
+# --- Edge-mounted parts: fuses F1-F3 and the SWD connector J2 sit 0.35 mm from the milled edge (JLC minimum 0.3 mm).
+(rule "Edge parts"
+	(constraint edge_clearance (min 0.3mm))
+	(condition "A.memberOfFootprint('F1') || A.memberOfFootprint('F2') || A.memberOfFootprint('F3') || A.memberOfFootprint('J2')"))
+# --- C20 (bottom THT bulk cap): its GND pad is solid on the In1 plane; one B.Cu thermal spoke is enough there.
+(rule "C20 thermal spokes"
+	(constraint min_resolved_spokes 1)
+	(condition "A.memberOfFootprint('C20')"))
 # --- PoE primary isolation. Must stay last: KiCad applies the last matching rule per constraint type.
 # 2.0 mm on every layer (pads, tracks, vias, zones, holes) between the PoE input side and anything else,
 # with the Y-caps' own pad gap as the only exception, and a 3.0 mm advisory (Silvertel guide).
