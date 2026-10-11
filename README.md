@@ -220,8 +220,8 @@ together internally, so this pin is the DRC's one expected unconnected item.
     30–90 s, ramp up at most 3 °C/s and down at most 6 °C/s.
   - No wave solder on the IC5 side.
 - Solder the through-hole parts IC3, J6, J7, J9, J13 and C20 by hand.
-- The RP2354A's exposed pad has four open vias. They sit in the gaps of its
-  3 × 3 paste grid, so the paste doesn't flow into them.
+- The RP2354A's exposed pad has four vias, tented on the bottom. They sit in
+  the gaps of its 3 × 3 paste grid, so the paste doesn't flow into them.
 - Fit the CM5 with M2.5 screws from below (head at most 4.5 mm across) and the
   nuts on the CM5 side. The board itself mounts with four M2 screws (H1–H4).
 
