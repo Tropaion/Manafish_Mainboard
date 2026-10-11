@@ -10,4 +10,6 @@
 	(lib (name "FDMC8327L") (type "KiCad") (uri "${KIPRJMOD}/custom_components/symbols/FDMC8327L.kicad_sym") (options "") (descr ""))
 	(lib (name "YAGEO") (type "KiCad") (uri "${KIPRJMOD}/custom_components/symbols/YAGEO.kicad_sym") (options "") (descr "YAGEO/Pulse parts"))
 	(lib (name "TPS22965") (type "KiCad") (uri "${KIPRJMOD}/custom_components/symbols/TPS22965.kicad_sym") (options "") (descr "TI TPS22965 load switch"))
+	(lib (name "VOM1271T") (type "KiCad") (uri "${KIPRJMOD}/custom_components/symbols/VOM1271T.kicad_sym") (options "") (descr "Vishay VOM1271T photovoltaic MOSFET driver"))
+	(lib (name "NTMFS5C404NL") (type "KiCad") (uri "${KIPRJMOD}/custom_components/symbols/NTMFS5C404NL.kicad_sym") (options "") (descr "onsemi NTMFS5C404NL 40 V N-MOSFET"))
 )

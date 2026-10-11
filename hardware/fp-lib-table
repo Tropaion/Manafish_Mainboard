@@ -10,4 +10,6 @@
 	(lib (name "LTC4162") (type "KiCad") (uri "${KIPRJMOD}/custom_components/footprints/LTC4162.pretty") (options "") (descr "LTC4162 charger footprint, copied from the KiCad library"))
 	(lib (name "FDMC86139P") (type "KiCad") (uri "${KIPRJMOD}/custom_components/footprints/FDMC86139P.pretty") (options "") (descr "onsemi WDFN8 3.3x3.3 (Power33) MOSFET footprint"))
 	(lib (name "YAGEO") (type "KiCad") (uri "${KIPRJMOD}/custom_components/footprints/YAGEO.pretty") (options "") (descr "YAGEO/Pulse parts, drawn from the datasheets"))
+	(lib (name "Molex") (type "KiCad") (uri "${KIPRJMOD}/custom_components/footprints/Molex.pretty") (options "") (descr "Molex parts, vendor models (SamacSys)"))
+	(lib (name "Vishay") (type "KiCad") (uri "${KIPRJMOD}/custom_components/footprints/Vishay.pretty") (options "") (descr "Vishay parts, vendor models (SamacSys)"))
 )

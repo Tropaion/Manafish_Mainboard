@@ -32,7 +32,11 @@ flowchart LR
   mcu -->|GP6-GP9| escA["ESC A, 4-in-1 (AM32)"]
   mcu -->|GP18-GP21| escB["ESC B, 4-in-1 (AM32)"]
   poe --> chg["Charger IC8 (LTC4162-L)"]
-  bat["Battery J6 (5S)"] <--> chg
+  bat["Battery J6 (5S, XT60)"] <--> chg
+  bat --> escsw["ESC power switch Q3 / IC16"]
+  mcu -->|GP14| escsw
+  escsw -->|"J14 (XT60)"| escA
+  escsw --> escB
   chg -->|VSYS| buck["5 V buck IC9 (TPSM53604)"]
   mag["Magnet switch board J12"] -->|MAG_ON| lsw
   buck -->|5 V always on| lsw["Load switch IC15 (TPS22965)"]
@@ -43,9 +47,9 @@ flowchart LR
 
 | Sheet | File | Contents | Origin |
 | --- | --- | --- | --- |
-| Manafish (top level) | `manafish.kicad_sch` | Sheet hierarchy, battery input J6, USB-C service port J8, magnet switch connector J12 | Original; USB-C port adapted from the CM5 IO Board |
+| Manafish (top level) | `manafish.kicad_sch` | Sheet hierarchy, battery input J6 (XT60), switched ESC power output J14 (XT60, switch Q3/IC16), USB-C service port J8, magnet switch connector J12 | Original; USB-C port adapted from the CM5 IO Board |
 | Raspberry Pi Compute Module 5 | `cm5.kicad_sch` | CM5 module connectors, boot and EEPROM jumper header J7 | Adapted from the CM5 IO Board |
-| Camera Serial Interface | `csi.kicad_sch` | 22-pin MIPI camera connectors J5 (MIPI0) and J11 (MIPI1), 3.3 V from CM5_3.3V | Adapted from the CM5 IO Board |
+| Camera Serial Interface | `csi.kicad_sch` | 22-pin MIPI camera connectors J5 (MIPI0) and J11 (MIPI1), vertical Molex 501951-2230, 3.3 V from CM5_3.3V with 10 µF at each connector | Adapted from the CM5 IO Board |
 | Ethernet | `ethernet.kicad_sch` | MagJack IC3 (YAGEO JXF0-1012NL, 4-pair PoE center taps), ESD protection IC1/IC2, link LEDs | Adapted from the CM5 IO Board |
 | Serial Peripherals | `serial_peripherals.kicad_sch` | BMI270 IMU (SPI to the RP2354A), SHT45 humidity and temperature sensor, WSEN-PADS pressure sensor IC10, MS5837 connector | Original |
 | RP2354A | `rp2354a.kicad_sch` | RP2354A with core regulator, USB, SWD connector J2, ESC connectors J3/J4 | Original, following *Hardware design with RP2350* |
@@ -83,11 +87,26 @@ RP2354A (QFN-60):
 | --- | --- | --- |
 | GP6–GP9 | 9, 10, 12, 13 | ESC A connector J3 |
 | GP18–GP21 | 29, 31, 32, 33 | ESC B connector J4 |
+| GP14 | 18 | ESC power switch: high = battery on ESC power connector J14 |
 | USB_DP / USB_DM | 52 / 51 | CM5 USB3-1, 27 Ω in series |
 | RUN | 26 | CM5 GPIO24 |
 | QSPI_SS | 60 | CM5 GPIO25 |
 | SWCLK / SWDIO | 24 / 25 | Debug connector J2 |
 | XIN / XOUT | 21 / 22 | 12 MHz crystal Y1 (ABM8-272-T3) |
+
+The ESC power switch connects the battery to J14 (both ESCs) through MOSFET Q3, driven by the
+photovoltaic MOSFET driver IC16 from GP14. It is a static switch: switch it only with the motors
+stopped, and it has no current limit (the battery BMS protects). A soft start ramps the ESC supply
+in about 1.5 s, up to about 12 s worst case. So the firmware must:
+
+- arm the ESCs or allow thrust only 15 s or more after switching on;
+- keep GP14 low for at least 5 s after boot, after the battery is plugged in, and after any off;
+- never switch ESC power back on automatically at boot;
+- drive GP14 at 12 mA.
+
+The camera connectors are vertical, so the cable plugs in from above. Their footprint numbers the pads
+in reverse (pad n = Molex circuit 23 − n), the same way Raspberry Pi numbers the Hirose connector on
+the CM5 IO Board, so a standard Pi 22-pin cable lands pin 1 (GND) on pin 1.
 
 Breakout headers (1.27 mm pitch; the pin tables are also on the bottom silkscreen):
 
