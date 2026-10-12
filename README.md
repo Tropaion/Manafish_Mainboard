@@ -149,26 +149,41 @@ hardware/
 
 ## PCB
 
-`manafish.kicad_pcb` is a 70 × 90 mm, 4-layer board. It sits centred on the
-axis of a tube with a 74 mm inner diameter, so a part at lateral distance *d*
-from the axis may stand at most √(37² − *d*²) − 0.8 mm above the board surface.
-Every part fits, checked against the 3D models. The tightest is the MagJack IC3
-at the left edge: 13.5 mm tall where 14.0 mm is allowed, so 0.5 mm of margin
-(1.1 mm with the 74.5 mm tube from the board note). Every other part keeps at
-least 2 mm.
+`manafish.kicad_pcb` is a 70 × 109.2 mm, 4-layer board (revision 3). It sits
+centred on the axis of a tube with a 74 mm inner diameter, so a part at lateral
+distance *d* from the axis may stand at most √(37² − *d*²) − 0.8 mm above the
+board surface. Every part fits with this conservative rule; the board note
+gives a 74.5 mm tube, which adds margin. The tightest are the CM5 stack at the
+right edge (1.2 mm margin) and the battery connector J6 (2.6 mm). The tall
+parts sit near the centre line: the MagJack IC3 7.7 mm and the bulk capacitor
+C20 6.4 mm off it.
 
-The board is split into two halves:
+Placement:
 
-- **Top half:** the CM5, the two camera connectors J5 and J11 side by side on
-  the top edge, the RP2354A and its sensors, and the breakout headers on the
-  left edge.
-- **Bottom half:** the power circuit. The MagJack IC3, the PoE module IC5, the
-  charger IC8, the 5 V buck IC9 and the battery connector J6 sit next to each
-  other.
+- **Top edge:** the SHT45 (IC12) on a slotted tongue in the top-left corner,
+  the USB-C service port J8, the magnet switch connector J12 and the two camera
+  connectors J5 and J11 side by side.
+- **Top half:** the CM5, with connector B towards the cameras and USB and
+  connector A towards the PoE module. The RP2354A with its regulator, crystal,
+  flash, IMU and pressure sensor IC10 fills the strip left of the CM5.
+- **Below the CM5:** the PoE module IC5 on the bottom side. The PoE input
+  parts (bridges, ferrites, Y-capacitors) sit on the top over its input half.
+  The power section (load switch IC15, 5 V buck IC9, charger IC8 with its
+  inductor L2 at the right edge) is grouped over its output half.
+- **Bottom edge:** the MagJack IC3 towards the centre, the XT60 connectors J14
+  (ESC power) and J6 (battery) with the ESC switch Q3, and C20. The breakout
+  headers J7, J9 and J13, the vertical ESC connectors J3/J4, the SWD
+  connector J2 and the MS5837 connector J1 sit left of the MagJack.
 
-The SHT45 (IC12) sits on a slotted tongue in the top-left corner, thermally
-decoupled from the board. The tongue has no copper pour and no vias, and only
-four thin tracks cross its 2.5 mm bridge. Four M2 mounting holes are at H1–H4.
+All connectors are on the top side. Every part except IC5 is on the top.
+
+The SHT45's tongue has no copper pour and no vias; only four thin tracks cross
+its bridge. Its bypass capacitor C4 sits just outside the tongue. Four M2
+mounting holes are at H1–H4. H3 lies inside the PoE input lines: use a nylon
+screw and a nylon standoff there.
+
+The planes under the charger inductor L2 are cut out on all layers, and nothing
+sits under it on the other side.
 
 ### Stackup
 
@@ -180,9 +195,9 @@ JLCPCB JLC04161H-7628, 1.6 mm, ENIG finish:
 | Prepreg 7628 | 0.21 mm, εr 4.4 | |
 | In1.Cu | 15 µm | Solid GND reference, no tracks |
 | Core | 1.065 mm, εr 4.6 | |
-| In2.Cu | 15 µm | GND, power pours (VSYS, 24 V, 3V3), signals; solid GND under the B.Cu pairs |
+| In2.Cu | 15 µm | GND, power pours (VSYS, MCU 3.3 V, 5 V, battery, ESC power), signals; solid GND under the B.Cu pairs |
 | Prepreg 7628 | 0.21 mm, εr 4.4 | |
-| B.Cu | 35 µm | PoE module IC5, PoE input, signals, GND, 24 V and battery pours |
+| B.Cu | 35 µm | PoE module IC5, PoE input lines, signals, GND and 24 V pours |
 
 Order the board with impedance control:
 
@@ -191,11 +206,11 @@ Order the board with impedance control:
 | `DP100` | Ethernet `TRD*`, camera `DPHY0_*` and `DPHY1_*` | 0.21 / 0.19 mm on F.Cu and B.Cu | 100 Ω differential |
 | `USB90` | `USB2_*`, RP2354A `USB_D*` | 0.24 / 0.15 mm on F.Cu and B.Cu | 90 Ω differential |
 
-Inside the CM5 connector pin fields the pairs neck down to 0.127 mm for at most
-1.6 mm. Pours keep 0.3 mm from the pairs everywhere.
+Inside the CM5 and camera connector pin fields the pairs neck down to
+0.127 mm. Pours keep 0.3 mm from the pairs everywhere.
 
 The default clearance is 0.1 mm (JLCPCB's minimum is 0.09 mm). Power nets and
-the impedance pairs keep 0.2 mm.
+the impedance pairs keep 0.2 mm. All traces use 45° bends.
 
 ### PoE isolation
 
@@ -206,46 +221,47 @@ enforces:
 - 2.0 mm from primary copper to any other net, on every layer and from every
   hole. The only exception is between the pads of each Y-capacitor
   (C21, C24).
-- A 3.0 mm warning tier, the Silvertel guideline. 58 warnings remain, all
-  between 2.0 and 3.0 mm:
-  - 49 are the optocoupler outputs `POE_TYP2_DET` and `POE_TYP3_DET`
-    (secondary side). They pass IC5's input copper and the MagJack's center
-    taps at 2.04–2.99 mm.
-  - 4 are a +3.3V track next to C24 and the VIN− track (2.6 mm).
-  - The rest are the MagJack's own center-tap pins next to its GND pins
-    (2.14 mm), VC4 next to an IC3 GND pin (2.3 mm), and the Y-capacitors' own
-    pads (2.7 mm).
+- A 3.0 mm warning tier, the Silvertel guideline. 85 warnings remain, all
+  between 2.0 and 3.0 mm. Most are inherent to the footprints (the MagJack's
+  center-tap pins next to its GND pins, J7's GND pins next to the VC1 line) or
+  to the Y-capacitors' own connections. The rest are the Ethernet and LED lines
+  crossing the PoE input area and a few secondary lines and vias along the west
+  side of the module (closest 2.06 mm).
 - Under IC5's primary half (`PRI_ISLAND_U5`), no vias of other nets and no
   other copper on B.Cu or In2. The module's isolation barrier strip stays
   empty on B.Cu and In2.
 
-The inner layers are voided 2 mm around primary copper on the next outer layer
-(In2 under primary B.Cu, In1 under primary F.Cu), and In1 stays clear of the
-front edge where the VC1 track runs on In2. Only IC5, the optocouplers IC6/IC7 and
-the Y-capacitors C21/C24 cross the barrier.
-
-Every CM5 GND pin reaches the GND planes except pin 7 of connector A, which is
-boxed in between the Ethernet pairs TRD2 and TRD3. The CM5 ties its GND pins
-together internally, so this pin is the DRC's one expected unconnected item.
+In1 and In2 are voided 2 mm around primary copper. Where the four Ethernet
+pairs cross the PoE input lines, this leaves them without a reference plane
+for about 5.4 mm. Only IC5, the optocouplers IC6/IC7 and the Y-capacitors
+C21/C24 cross the barrier.
 
 ### Assembly
 
-- All fine-pitch parts are on the top. Reflow the top side only.
-- Solder the bottom side by hand (iron or hot air): IC5, J1–J4, J6, C20, C25,
-  C26, C31, C32, C34–C36, C39, F1–F3 and R21–R27. All of them are 0603 or
-  larger.
-- IC5 (Ag59824-LPB) must never pass through reflow hanging upside down.
+- Every part except IC5 is on the top. Reflow the top side only.
+- Solder IC5 (Ag59824-LPB, bottom side) by hand (iron or hot air). It must never
+  pass through reflow hanging upside down.
   - Hot-air profile: peak 230–245 °C, 30–90 s above 217 °C, soak 150–180 °C for
     30–90 s, ramp up at most 3 °C/s and down at most 6 °C/s.
   - No wave solder on the IC5 side.
-- Solder the through-hole parts IC3, J6, J7, J9, J13 and C20 by hand.
-- The RP2354A's exposed pad has four vias, tented on the bottom. They sit in
-  the gaps of its 3 × 3 paste grid, so the paste doesn't flow into them.
+- Solder the through-hole parts IC3, J6, J14, J7, J9, J13, C20 and the four
+  shell tabs of the USB-C port J8 by hand.
+- The exposed-pad vias of IC4, IC8, IC9 and IC15 are open on the top through
+  their pads and tented on the bottom. IC4's four vias sit in the gaps of its
+  3 × 3 paste grid, so the paste doesn't flow into them.
+- The SHT45 and the other symmetric parts have their pin 1 at the silkscreen dot.
 - Fit the CM5 with M2.5 screws from below (head at most 4.5 mm across) and the
-  nuts on the CM5 side. The board itself mounts with four M2 screws (H1–H4).
+  nuts on the CM5 side. The board itself mounts with four M2 screws (H1–H4);
+  H3 needs nylon hardware.
 
 The same notes are on the board's User.Comments layer, which isn't part of the
 Gerbers: copy them into the order remarks for the assembler.
+
+KiCad's DRC shows 0 errors. The warnings are the 85 PoE advisories above and
+13 footprints whose silkscreen or mask the layout changed on the board (marks
+moved off pads or the board edge, IC9's vias tented). Updating footprints from
+the library would undo those changes. The 11 "PTH inside courtyard" items (IC9's
+thermal vias above IC5, on the other side) are excluded with a comment.
 
 ### Testing the isolation
 

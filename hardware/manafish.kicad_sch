@@ -2761,9 +2761,15 @@
 		(at 97.79 91.44)
 		(uuid "ca387ba8-a5fa-415c-8368-771615e79886")
 	)
-	(no_connect
-		(at 72.39 83.82)
-		(uuid "d219d3d3-f0f0-4299-86e2-c74960a605ce")
+	(label "VBUS"
+		(at 72.39 83.82 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "1c8f312f-86b3-48cc-8368-f947807a8ba8")
 	)
 	(wire
 		(pts

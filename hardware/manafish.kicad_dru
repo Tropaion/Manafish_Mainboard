@@ -22,18 +22,19 @@
 (rule "JXF0 front keep-out"
 	(constraint disallow track via pad)
 	(condition "A.intersectsArea('JXF0 front keep-out*') && (A.Type == 'Via' || A.Layer == 'F.Cu')"))
-# --- Impedance pairs: 0.3 mm to pours; necked to 0.127 mm only inside the 0.4 mm pitch CM5 pin fields.
+# --- Impedance pairs: 0.3 mm to pours; necked to 0.127 mm only inside the 0.4 mm pitch CM5 pin fields and the
+# 0.5 mm pitch camera connector pin fields (rule areas 'CM5 pin field A/B', 'CAM pin field J5/J11').
 (rule "pair to pour"
 	(constraint clearance (min 0.3mm))
 	(condition "(A.NetClass == 'DP100' || A.NetClass == 'USB90') && B.Type == 'Zone' && B.NetClass != 'Primary'"))
 (rule "CM5 pin field neck-down"
 	(constraint track_width (min 0.127mm))
-	(condition "(A.NetClass == 'DP100' || A.NetClass == 'USB90') && A.intersectsArea('CM5 pin field*')"))
+	(condition "(A.NetClass == 'DP100' || A.NetClass == 'USB90') && (A.intersectsArea('CM5 pin field*') || A.intersectsArea('CAM pin field*'))"))
 # The 0.1 mm clearance is for the connector pads and the neighbouring lines only; pours keep the 0.3 mm above,
 # also along segments that only reach into a pin field.
 (rule "CM5 pin field neck-down clearance"
 	(constraint clearance (min 0.1mm))
-	(condition "(A.NetClass == 'DP100' || A.NetClass == 'USB90') && A.intersectsArea('CM5 pin field*') && B.Type != 'Zone'"))
+	(condition "(A.NetClass == 'DP100' || A.NetClass == 'USB90') && (A.intersectsArea('CM5 pin field*') || A.intersectsArea('CAM pin field*')) && B.Type != 'Zone'"))
 # --- RP2354A core regulator: VREG_LX between the 0402 VIN/VOUT caps (reference layout).
 (rule "RP2354A VREG_LX"
 	(constraint clearance (min 0.1mm))
@@ -50,14 +51,19 @@
 (rule "IC10 HLGA pads"
 	(constraint clearance (min 0.1mm))
 	(condition "A.memberOfFootprint('IC10') && B.memberOfFootprint('IC10')"))
-# --- Edge-mounted parts: fuses F1-F3 and the SWD connector J2 sit 0.35 mm from the milled edge (JLC minimum 0.3 mm).
+# --- Edge-mounted parts: the SWD connector J2 sits 0.3 mm from the milled edge (JLC minimum 0.3 mm).
 (rule "Edge parts"
 	(constraint edge_clearance (min 0.3mm))
-	(condition "A.memberOfFootprint('F1') || A.memberOfFootprint('F2') || A.memberOfFootprint('F3') || A.memberOfFootprint('J2')"))
-# --- C20 (bottom THT bulk cap): its GND pad is solid on the In1 plane; one B.Cu thermal spoke is enough there.
+	(condition "A.memberOfFootprint('J2')"))
+# --- C20 (THT bulk cap): its GND pad is solid on the In1 plane; one B.Cu thermal spoke is enough there.
 (rule "C20 thermal spokes"
 	(constraint min_resolved_spokes 1)
 	(condition "A.memberOfFootprint('C20')"))
+# --- Hand-soldered THT GND pins (1.27 mm headers, RJ45 shield tabs, USB-C shell tabs) use thermal spokes on every
+# GND layer; between neighbouring pins only one spoke may fit, which still connects them.
+(rule "Hand-soldered THT GND pins: one spoke"
+	(constraint min_resolved_spokes 1)
+	(condition "A.Type == 'Pad' && A.Pad_Type == 'Through-hole' && A.NetName == 'GND' && (A.memberOfFootprint('J7') || A.memberOfFootprint('J9') || A.memberOfFootprint('J13') || A.memberOfFootprint('IC3') || A.memberOfFootprint('J8'))"))
 # --- PoE primary isolation. Must stay last: KiCad applies the last matching rule per constraint type.
 # 2.0 mm on every layer (pads, tracks, vias, zones, holes) between the PoE input side and anything else,
 # with the Y-caps' own pad gap as the only exception, and a 3.0 mm advisory (Silvertel guide).

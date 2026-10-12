@@ -8825,7 +8825,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Connector_JST:JST_GH_SM05B-GHS-TB_1x05-1MP_P1.25mm_Horizontal"
+		(property "Footprint" "Connector_JST:JST_GH_BM05B-GHS-TBT_1x05-1MP_P1.25mm_Vertical"
 			(at 142.24 116.84 0)
 			(hide yes)
 			(show_name no)
@@ -8847,7 +8847,7 @@
 				)
 			)
 		)
-		(property "Description" "CONN JST GH 5P 1.25mm R/A SMD"
+		(property "Description" "CONN JST GH 5P 1.25mm vertical SMD"
 			(at 142.24 116.84 0)
 			(hide yes)
 			(show_name no)
@@ -8869,7 +8869,7 @@
 				)
 			)
 		)
-		(property "MPN" "SM05B-GHS-TB(LF)(SN)"
+		(property "MPN" "BM05B-GHS-TBT(LF)(SN)"
 			(at 142.24 116.84 0)
 			(hide yes)
 			(show_name no)
@@ -8880,7 +8880,7 @@
 				)
 			)
 		)
-		(property "Mouser PN" "306-SM05BGHSTBLFSN"
+		(property "Mouser PN" ""
 			(at 142.24 116.84 0)
 			(hide yes)
 			(show_name no)
@@ -9923,7 +9923,7 @@
 				(justify right)
 			)
 		)
-		(property "Footprint" "Connector_JST:JST_GH_SM05B-GHS-TB_1x05-1MP_P1.25mm_Horizontal"
+		(property "Footprint" "Connector_JST:JST_GH_BM05B-GHS-TBT_1x05-1MP_P1.25mm_Vertical"
 			(at 143.51 147.32 0)
 			(hide yes)
 			(show_name no)
@@ -9945,7 +9945,7 @@
 				)
 			)
 		)
-		(property "Description" "CONN JST GH 5P 1.25mm R/A SMD"
+		(property "Description" "CONN JST GH 5P 1.25mm vertical SMD"
 			(at 143.51 147.32 0)
 			(hide yes)
 			(show_name no)
@@ -9967,7 +9967,7 @@
 				)
 			)
 		)
-		(property "MPN" "SM05B-GHS-TB(LF)(SN)"
+		(property "MPN" "BM05B-GHS-TBT(LF)(SN)"
 			(at 143.51 147.32 0)
 			(hide yes)
 			(show_name no)
@@ -9978,7 +9978,7 @@
 				)
 			)
 		)
-		(property "Mouser PN" "306-SM05BGHSTBLFSN"
+		(property "Mouser PN" ""
 			(at 143.51 147.32 0)
 			(hide yes)
 			(show_name no)
