@@ -15,6 +15,8 @@ the USB-connected Raspberry Pi Pico and the wiring between them with one board:
 > Work in progress. The schematic and the 4-layer PCB layout are drawn, but no
 > board has been built or tested. Don't manufacture from this repository yet.
 
+<img src="https://github.com/Tropaion/Manafish_Mainboard/blob/main/images/pcb_front.png?raw=true" width="45%"></img> <img src="https://github.com/Tropaion/Manafish_Mainboard/blob/main/images/pcb_back.png?raw=true" width="45%"></img>
+
 ## Overview
 View the latest [KiCad Design](https://kicanvas.org/?repo=https%3A%2F%2Fgithub.com%2FTropaion%2FManafish_Mainboard%2Fblob%2Fmain%2Fhardware%2Fmanafish.kicad_pro).
 
