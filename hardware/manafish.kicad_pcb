@@ -9081,15 +9081,15 @@
 			(uuid "659be55a-26db-4be2-bed3-8915c5409762")
 		)
 		(embedded_fonts no)
-		(model "${KICAD10_3DMODEL_DIR}/Connector_AMASS.3dshapes/AMASS_XT60PW-F_1x02_P7.20mm_Horizontal.step"
+		(model "${KIPRJMOD}/custom_components/3d/XT60PW-F.STEP"
 			(offset
-				(xyz 0 0 0)
+				(xyz -3.6 0 0)
 			)
 			(scale
 				(xyz 1 1 1)
 			)
 			(rotate
-				(xyz 0 0 0)
+				(xyz -90 -0 -180)
 			)
 		)
 	)
@@ -10058,15 +10058,15 @@
 			(uuid "b1720520-ad0a-4ec8-9509-849dd046aa0e")
 		)
 		(embedded_fonts no)
-		(model "${KICAD10_3DMODEL_DIR}/Connector_AMASS.3dshapes/AMASS_XT60PW-M_1x02_P7.20mm_Horizontal.step"
+		(model "${KIPRJMOD}/custom_components/3d/XT60PW-M.STEP"
 			(offset
-				(xyz 0 0 0)
+				(xyz 3.6 6 0)
 			)
 			(scale
 				(xyz 1 1 1)
 			)
 			(rotate
-				(xyz 0 0 0)
+				(xyz -90 -0 -180)
 			)
 		)
 	)
@@ -22224,7 +22224,7 @@
 			(uuid "d4b652ad-fb0b-41d3-a2e9-ab9e1deebcd0")
 		)
 		(embedded_fonts no)
-		(model "${KICAD10_3DMODEL_DIR}/Package_SO.3dshapes/ONSemi_SO-8FL_488AA.step"
+		(model "${KIPRJMOD}/custom_components/3d/NTMFS5C410NLT1G.stp"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -22232,7 +22232,7 @@
 				(xyz 1 1 1)
 			)
 			(rotate
-				(xyz 0 0 0)
+				(xyz -0 -0 90)
 			)
 		)
 	)

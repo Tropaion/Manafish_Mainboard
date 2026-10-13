@@ -88,39 +88,7 @@
       ],
       "drc_exclusions": [
         [
-          "pth_inside_courtyard|157250000|110500000|d29d9eac-28da-481f-9e5e-542321eb96c1|e6531c0e-4f33-48fc-acc7-a88bd2047c57",
-          "IC9 thermal via above the PoE module IC5 (opposite side; IC9's vias are tented on the bottom)"
-        ],
-        [
-          "pth_inside_courtyard|157250000|109550000|80e0ff12-73a8-4a67-8ce1-428294aba21b|e6531c0e-4f33-48fc-acc7-a88bd2047c57",
-          "IC9 thermal via above the PoE module IC5 (opposite side; IC9's vias are tented on the bottom)"
-        ],
-        [
-          "pth_inside_courtyard|157250000|108600000|0231d3b4-2417-4eae-9471-ea221ab1e4db|e6531c0e-4f33-48fc-acc7-a88bd2047c57",
-          "IC9 thermal via above the PoE module IC5 (opposite side; IC9's vias are tented on the bottom)"
-        ],
-        [
-          "pth_inside_courtyard|156300000|111450000|5df59502-0977-4781-a44c-cbd552902703|e6531c0e-4f33-48fc-acc7-a88bd2047c57",
-          "IC9 thermal via above the PoE module IC5 (opposite side; IC9's vias are tented on the bottom)"
-        ],
-        [
-          "pth_inside_courtyard|156300000|110500000|ea91e799-ca38-4fb1-92bc-402ea9ddaa38|e6531c0e-4f33-48fc-acc7-a88bd2047c57",
-          "IC9 thermal via above the PoE module IC5 (opposite side; IC9's vias are tented on the bottom)"
-        ],
-        [
-          "pth_inside_courtyard|156300000|109550000|ee9d7d38-a878-456a-be71-49633180d7be|e6531c0e-4f33-48fc-acc7-a88bd2047c57",
-          "IC9 thermal via above the PoE module IC5 (opposite side; IC9's vias are tented on the bottom)"
-        ],
-        [
-          "pth_inside_courtyard|156300000|108600000|2b2681e4-57a6-4dd7-a33e-9eb51250630d|e6531c0e-4f33-48fc-acc7-a88bd2047c57",
-          "IC9 thermal via above the PoE module IC5 (opposite side; IC9's vias are tented on the bottom)"
-        ],
-        [
-          "pth_inside_courtyard|156300000|107650000|16de70f4-05e8-4d0e-943c-2dbbfd973aa1|e6531c0e-4f33-48fc-acc7-a88bd2047c57",
-          "IC9 thermal via above the PoE module IC5 (opposite side; IC9's vias are tented on the bottom)"
-        ],
-        [
-          "pth_inside_courtyard|155350000|110500000|db95761f-ea9e-4953-b3aa-50a5871b1174|e6531c0e-4f33-48fc-acc7-a88bd2047c57",
+          "pth_inside_courtyard|155350000|108600000|4f275002-5dda-45e8-b7c9-4bc895c6c830|e6531c0e-4f33-48fc-acc7-a88bd2047c57",
           "IC9 thermal via above the PoE module IC5 (opposite side; IC9's vias are tented on the bottom)"
         ],
         [
@@ -128,7 +96,39 @@
           "IC9 thermal via above the PoE module IC5 (opposite side; IC9's vias are tented on the bottom)"
         ],
         [
-          "pth_inside_courtyard|155350000|108600000|4f275002-5dda-45e8-b7c9-4bc895c6c830|e6531c0e-4f33-48fc-acc7-a88bd2047c57",
+          "pth_inside_courtyard|155350000|110500000|db95761f-ea9e-4953-b3aa-50a5871b1174|e6531c0e-4f33-48fc-acc7-a88bd2047c57",
+          "IC9 thermal via above the PoE module IC5 (opposite side; IC9's vias are tented on the bottom)"
+        ],
+        [
+          "pth_inside_courtyard|156300000|107650000|16de70f4-05e8-4d0e-943c-2dbbfd973aa1|e6531c0e-4f33-48fc-acc7-a88bd2047c57",
+          "IC9 thermal via above the PoE module IC5 (opposite side; IC9's vias are tented on the bottom)"
+        ],
+        [
+          "pth_inside_courtyard|156300000|108600000|2b2681e4-57a6-4dd7-a33e-9eb51250630d|e6531c0e-4f33-48fc-acc7-a88bd2047c57",
+          "IC9 thermal via above the PoE module IC5 (opposite side; IC9's vias are tented on the bottom)"
+        ],
+        [
+          "pth_inside_courtyard|156300000|109550000|ee9d7d38-a878-456a-be71-49633180d7be|e6531c0e-4f33-48fc-acc7-a88bd2047c57",
+          "IC9 thermal via above the PoE module IC5 (opposite side; IC9's vias are tented on the bottom)"
+        ],
+        [
+          "pth_inside_courtyard|156300000|110500000|ea91e799-ca38-4fb1-92bc-402ea9ddaa38|e6531c0e-4f33-48fc-acc7-a88bd2047c57",
+          "IC9 thermal via above the PoE module IC5 (opposite side; IC9's vias are tented on the bottom)"
+        ],
+        [
+          "pth_inside_courtyard|156300000|111450000|5df59502-0977-4781-a44c-cbd552902703|e6531c0e-4f33-48fc-acc7-a88bd2047c57",
+          "IC9 thermal via above the PoE module IC5 (opposite side; IC9's vias are tented on the bottom)"
+        ],
+        [
+          "pth_inside_courtyard|157250000|108600000|0231d3b4-2417-4eae-9471-ea221ab1e4db|e6531c0e-4f33-48fc-acc7-a88bd2047c57",
+          "IC9 thermal via above the PoE module IC5 (opposite side; IC9's vias are tented on the bottom)"
+        ],
+        [
+          "pth_inside_courtyard|157250000|109550000|80e0ff12-73a8-4a67-8ce1-428294aba21b|e6531c0e-4f33-48fc-acc7-a88bd2047c57",
+          "IC9 thermal via above the PoE module IC5 (opposite side; IC9's vias are tented on the bottom)"
+        ],
+        [
+          "pth_inside_courtyard|157250000|110500000|d29d9eac-28da-481f-9e5e-542321eb96c1|e6531c0e-4f33-48fc-acc7-a88bd2047c57",
           "IC9 thermal via above the PoE module IC5 (opposite side; IC9's vias are tented on the bottom)"
         ]
       ],
@@ -957,7 +957,7 @@
         "uuid": "37283e3e-a087-4659-9b29-171eab26a1f6"
       }
     ],
-    "used_designators": "#FLG1-4,#PWR2-24,#PWR29,#PWR31,#PWR101,#PWR109-111,#PWR130-159,#PWR171-174,#PWR177,FB1-6,Y1-2,C1-38,C41,C47-48,D1-5,IC1-2,J1-11,J13,L1-2,Module1,Q1-2,U1-11,R1-27",
+    "used_designators": "R1-27,#FLG1-4,IC1-2,J1-11,J13,#PWR2-24,#PWR29,#PWR31,#PWR101,#PWR109-111,#PWR130-159,#PWR171-174,#PWR177,D1-5,FB1-6,Y1-2,C1-38,C41,C47-48,L1-2,Module1,Q1-2,U1-11",
     "variants": []
   },
   "sheets": [
