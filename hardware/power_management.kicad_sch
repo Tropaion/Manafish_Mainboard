@@ -7806,6 +7806,28 @@
 				)
 			)
 		)
+		(property "LCSC PN" "C98220"
+			(at 111.76 161.29 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C98220.html"
+			(at 111.76 161.29 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "7ee176e3-4935-4a1e-bb91-0a6d88d371f7")
 		)
@@ -7925,6 +7947,29 @@
 			)
 		)
 		(property "Mouser" "https://mou.sr/4eeUiWP"
+			(at 44.45 115.57 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC PN" "C890957"
+			(at 22.86 610.49 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C890957.html"
 			(at 44.45 115.57 0)
 			(hide yes)
 			(show_name no)
@@ -8145,6 +8190,28 @@
 			)
 		)
 		(property "Mouser" "https://www.mouser.com/ProductDetail/81-GRM32ER71A476KE5L"
+			(at 237.49 127 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC PN" "C84494"
+			(at 237.49 127 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C84494.html"
 			(at 237.49 127 0)
 			(hide yes)
 			(show_name no)
@@ -8434,6 +8501,28 @@
 				)
 			)
 		)
+		(property "LCSC PN" "C19702"
+			(at 243.84 127 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C19702.html"
+			(at 243.84 127 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "154113b4-def5-4c1b-a031-99f8a207721f")
 		)
@@ -8558,6 +8647,28 @@
 				)
 			)
 		)
+		(property "LCSC PN" "C98220"
+			(at 101.6 151.13 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C98220.html"
+			(at 101.6 151.13 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "0368ef1f-97cd-4ad7-b2a6-cc4d158b369a")
 		)
@@ -8672,6 +8783,28 @@
 			)
 		)
 		(property "Mouser" "https://www.mouser.com/ProductDetail/71-WSLP12068L000FEA"
+			(at 22.86 133.35 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC PN" "C2076276"
+			(at 22.86 133.35 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C2076276.html"
 			(at 22.86 133.35 0)
 			(hide yes)
 			(show_name no)
@@ -8809,6 +8942,28 @@
 			)
 		)
 		(property "Mouser" "https://www.mouser.com/ProductDetail/810-C3225X7R1H106250"
+			(at 170.18 120.65 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC PN" "C432929"
+			(at 170.18 120.65 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C432929.html"
 			(at 170.18 120.65 0)
 			(hide yes)
 			(show_name no)
@@ -9011,6 +9166,28 @@
 			)
 		)
 		(property "Mouser" "https://mou.sr/3TGKyxN"
+			(at 72.39 143.51 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC PN" "C3682003"
+			(at 72.39 143.51 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C3682003.html"
 			(at 72.39 143.51 0)
 			(hide yes)
 			(show_name no)
@@ -9313,6 +9490,28 @@
 				)
 			)
 		)
+		(property "LCSC PN" "C85864"
+			(at 85.09 111.76 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C85864.html"
+			(at 85.09 111.76 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "40f12066-b4ea-4a5e-838f-5458457bf668")
 		)
@@ -9594,6 +9793,28 @@
 				)
 			)
 		)
+		(property "LCSC PN" "C861298"
+			(at 226.06 127 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C861298.html"
+			(at 226.06 127 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(property "Note" "0.5% (or better) keeps +5V within 5.00-5.23 V; 1% could exceed the CM5 5.25 V max. Mouser PN follows the Yageo 603- pattern; confirm in the cart."
 			(at 226.06 127 0)
 			(hide yes)
@@ -9731,6 +9952,28 @@
 				)
 			)
 		)
+		(property "LCSC PN" "C136284"
+			(at 212.09 41.91 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C136284.html"
+			(at 212.09 41.91 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "6a36fa43-6b12-461b-8782-092e97a51f4c")
 		)
@@ -9850,6 +10093,30 @@
 			)
 		)
 		(property "Mouser" "https://mou.sr/4ehyeea"
+			(at 45.72 236.83 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "LCSC PN" "C5985855"
+			(at 45.72 236.83 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C5985855.html"
 			(at 45.72 236.83 0)
 			(hide yes)
 			(show_name no)
@@ -10017,6 +10284,28 @@
 				)
 			)
 		)
+		(property "LCSC PN" "C77096"
+			(at 107.95 179.07 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C77096.html"
+			(at 107.95 179.07 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "b87131b3-5fcb-4d09-b267-c1de037662c2")
 		)
@@ -10133,6 +10422,28 @@
 			)
 		)
 		(property "Mouser" "https://www.mouser.com/ProductDetail/810-C3225X7R1H106250"
+			(at 160.02 120.65 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC PN" "C432929"
+			(at 160.02 120.65 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C432929.html"
 			(at 160.02 120.65 0)
 			(hide yes)
 			(show_name no)
@@ -10340,6 +10651,29 @@
 			)
 		)
 		(property "Mouser" "https://mou.sr/4ehyeea"
+			(at 24.13 24.13 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC PN" "C5985855"
+			(at 45.72 519.05 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C5985855.html"
 			(at 24.13 24.13 0)
 			(hide yes)
 			(show_name no)
@@ -10582,6 +10916,28 @@
 				)
 			)
 		)
+		(property "LCSC PN" "C178639"
+			(at 180.34 121.92 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C178639.html"
+			(at 180.34 121.92 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "8cc515b6-c20f-4058-8ada-336e332b411c")
 		)
@@ -10697,6 +11053,28 @@
 			)
 		)
 		(property "Mouser" "https://www.mouser.com/ProductDetail/603-RT0603DRE0710KL"
+			(at 226.06 119.38 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC PN" "C706017"
+			(at 226.06 119.38 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C706017.html"
 			(at 226.06 119.38 0)
 			(hide yes)
 			(show_name no)
@@ -10842,6 +11220,28 @@
 				)
 			)
 		)
+		(property "LCSC PN" "C2183044"
+			(at 138.43 48.26 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C2183044.html"
+			(at 138.43 48.26 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "5253ba85-ebd5-4bbe-9f03-6f9a0f6e69e8")
 		)
@@ -10956,6 +11356,28 @@
 			)
 		)
 		(property "Mouser" "https://www.mouser.com/ProductDetail/80-C1812X472KGRACTU"
+			(at 138.43 83.82 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC PN" "C2183044"
+			(at 138.43 83.82 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C2183044.html"
 			(at 138.43 83.82 90)
 			(hide yes)
 			(show_name no)
@@ -11081,6 +11503,28 @@
 			)
 		)
 		(property "Mouser" "https://www.mouser.com/ProductDetail/595-TPSM53604RDAR"
+			(at 201.93 123.19 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC PN" "C2868001"
+			(at 201.93 123.19 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C2868001.html"
 			(at 201.93 123.19 0)
 			(hide yes)
 			(show_name no)
@@ -11326,6 +11770,30 @@
 			)
 		)
 		(property "Mouser" "https://mou.sr/4ehyeea"
+			(at 22.86 272.39 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "LCSC PN" "C5985855"
+			(at 22.86 272.39 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C5985855.html"
 			(at 22.86 272.39 0)
 			(hide yes)
 			(show_name no)
@@ -11647,6 +12115,28 @@
 				)
 			)
 		)
+		(property "LCSC PN" "C23093"
+			(at 31.75 179.07 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C23093.html"
+			(at 31.75 179.07 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "2844dfd0-e107-49af-821c-0a560bebf83b")
 		)
@@ -11760,6 +12250,28 @@
 			)
 		)
 		(property "Mouser" "https://mou.sr/4rSXzRs"
+			(at 116.84 36.83 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC PN" "C76817"
+			(at 116.84 36.83 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C76817.html"
 			(at 116.84 36.83 90)
 			(hide yes)
 			(show_name no)
@@ -11976,6 +12488,30 @@
 				(justify left top)
 			)
 		)
+		(property "LCSC PN" "C890957"
+			(at 138.43 315.57 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C890957.html"
+			(at 138.43 315.57 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
 		(pin "5"
 			(uuid "ae9946ed-95fd-4306-8ccb-bb414be26995")
 		)
@@ -12109,6 +12645,28 @@
 			)
 		)
 		(property "Mouser" "https://www.mouser.com/ProductDetail/595-TPS22965DSGR"
+			(at 257.81 118.11 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC PN" "C122837"
+			(at 257.81 118.11 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C122837.html"
 			(at 257.81 118.11 0)
 			(hide yes)
 			(show_name no)
@@ -12266,6 +12824,28 @@
 				)
 			)
 		)
+		(property "LCSC PN" "C151246"
+			(at 48.26 54.61 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C151246.html"
+			(at 48.26 54.61 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(property "Note" "Mouser had no stock on 2026-10-09: the identical Bourns SMAJ58A (652-SMAJ58A) or Vishay SMAJ58A-E3/61 (625-SMAJ58A-E3/61) fit."
 			(at 48.26 53.34 0)
 			(hide yes)
@@ -12402,6 +12982,28 @@
 				)
 			)
 		)
+		(property "LCSC PN" "C432929"
+			(at 137.16 152.4 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C432929.html"
+			(at 137.16 152.4 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "c898e9f9-6b67-46b7-815b-8ae7ac3ef5d6")
 		)
@@ -12515,6 +13117,28 @@
 			)
 		)
 		(property "Mouser" "https://mou.sr/4dsGZlx"
+			(at 107.95 135.89 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC PN" "C5355913"
+			(at 107.95 135.89 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C5355913.html"
 			(at 107.95 135.89 90)
 			(hide yes)
 			(show_name no)
@@ -12640,6 +13264,28 @@
 			)
 		)
 		(property "Mouser" "https://www.mouser.com/ProductDetail/81-GRM32ER71A476KE5L"
+			(at 232.41 127 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC PN" "C84494"
+			(at 232.41 127 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C84494.html"
 			(at 232.41 127 0)
 			(hide yes)
 			(show_name no)
@@ -12850,6 +13496,28 @@
 				)
 			)
 		)
+		(property "LCSC PN" "C76817"
+			(at 73.66 72.39 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C76817.html"
+			(at 73.66 72.39 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "e1b2634e-fce2-4de6-9506-04cc957bf786")
 		)
@@ -12963,6 +13631,28 @@
 			)
 		)
 		(property "Mouser" "https://mou.sr/4rSXzRs"
+			(at 116.84 72.39 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC PN" "C76817"
+			(at 116.84 72.39 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C76817.html"
 			(at 116.84 72.39 90)
 			(hide yes)
 			(show_name no)
@@ -13104,6 +13794,30 @@
 				(justify left)
 			)
 		)
+		(property "LCSC PN" "C125121"
+			(at 172.72 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C125121.html"
+			(at 172.72 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
 		(pin "3"
 			(uuid "fcd2952f-faf9-4ad7-93b5-eb4e8b802931")
 		)
@@ -13226,6 +13940,28 @@
 			)
 		)
 		(property "Mouser" "https://www.mouser.com/ProductDetail/603-RC0603FR-07100KL"
+			(at 187.96 120.65 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC PN" "C14675"
+			(at 187.96 120.65 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C14675.html"
 			(at 187.96 120.65 0)
 			(hide yes)
 			(show_name no)
@@ -13439,6 +14175,28 @@
 				)
 			)
 		)
+		(property "LCSC PN" "C41430990"
+			(at 193.04 41.91 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C41430990.html"
+			(at 193.04 41.91 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "449baaf2-660c-48bb-9cd0-99f6a5dccde0")
 		)
@@ -13555,6 +14313,28 @@
 			)
 		)
 		(property "Mouser" "https://www.mouser.com/ProductDetail/80-C1206C104K5R"
+			(at 49.53 179.07 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC PN" "C41430990"
+			(at 49.53 179.07 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C41430990.html"
 			(at 49.53 179.07 0)
 			(hide yes)
 			(show_name no)
@@ -13906,6 +14686,30 @@
 			)
 		)
 		(property "Mouser" "https://mou.sr/4ehyeea"
+			(at 22.86 254.61 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "LCSC PN" "C5985855"
+			(at 22.86 254.61 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C5985855.html"
 			(at 22.86 254.61 0)
 			(hide yes)
 			(show_name no)
@@ -14304,6 +15108,28 @@
 				)
 			)
 		)
+		(property "LCSC PN" "C107185"
+			(at 91.44 179.07 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C107185.html"
+			(at 91.44 179.07 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "582793be-8a3b-4724-b206-690b04c60ef0")
 		)
@@ -14504,6 +15330,28 @@
 				)
 			)
 		)
+		(property "LCSC PN" "C76817"
+			(at 95.25 36.83 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C76817.html"
+			(at 95.25 36.83 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "bd4b93d1-5012-45c9-889d-901fd0b54e24")
 		)
@@ -14627,6 +15475,28 @@
 				)
 			)
 		)
+		(property "LCSC PN" "C76817"
+			(at 95.25 72.39 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C76817.html"
+			(at 95.25 72.39 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "97e9d4e1-205b-43e0-9d9e-a817a0650101")
 		)
@@ -14740,6 +15610,28 @@
 			)
 		)
 		(property "Mouser" "https://mou.sr/4rSXzRs"
+			(at 73.66 36.83 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC PN" "C76817"
+			(at 73.66 36.83 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C76817.html"
 			(at 73.66 36.83 90)
 			(hide yes)
 			(show_name no)
@@ -14930,6 +15822,28 @@
 				)
 			)
 		)
+		(property "LCSC PN" "C77019"
+			(at 275.59 125.73 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C77019.html"
+			(at 275.59 125.73 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(property "Manufacturer" "Murata"
 			(at 275.59 125.73 0)
 			(hide yes)
@@ -15066,6 +15980,28 @@
 			)
 		)
 		(property "Mouser" "https://www.mouser.com/ProductDetail/667-ERJ-8BWFR010V"
+			(at 120.65 140.97 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC PN" "C2076185"
+			(at 120.65 140.97 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C2076185.html"
 			(at 120.65 140.97 0)
 			(hide yes)
 			(show_name no)
@@ -15430,6 +16366,28 @@
 				)
 			)
 		)
+		(property "LCSC PN" "C106222"
+			(at 95.25 133.35 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C106222.html"
+			(at 95.25 133.35 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "16ce6969-84f0-4d6c-b120-a05c90c5661e")
 		)
@@ -15623,6 +16581,28 @@
 			)
 		)
 		(property "Mouser" "https://www.mouser.com/ProductDetail/810-C3225X7R1H106250"
+			(at 127 152.4 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC PN" "C432929"
+			(at 127 152.4 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C432929.html"
 			(at 127 152.4 0)
 			(hide yes)
 			(show_name no)
@@ -15836,6 +16816,28 @@
 				)
 			)
 		)
+		(property "LCSC PN" "C14675"
+			(at 217.17 125.73 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C14675.html"
+			(at 217.17 125.73 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "2"
 			(uuid "3eaeff4b-1a0a-4f8d-8b12-a4736977c605")
 		)
@@ -15952,6 +16954,28 @@
 			)
 		)
 		(property "Mouser" "https://www.mouser.com/ProductDetail/810-C3225X7R1H106250"
+			(at 231.14 41.91 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC PN" "C432929"
+			(at 231.14 41.91 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C432929.html"
 			(at 231.14 41.91 0)
 			(hide yes)
 			(show_name no)
@@ -16165,6 +17189,28 @@
 				)
 			)
 		)
+		(property "LCSC PN" "C432929"
+			(at 143.51 152.4 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C432929.html"
+			(at 143.51 152.4 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(pin "1"
 			(uuid "78b6ee6d-2d9e-4195-9e41-6141ac7f0bbb")
 		)
@@ -16285,6 +17331,30 @@
 			)
 		)
 		(property "Mouser" "https://www.mouser.com/ProductDetail/859-LTV-817S-TA1"
+			(at 172.72 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "LCSC PN" "C125121"
+			(at 172.72 60.96 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C125121.html"
 			(at 172.72 60.96 0)
 			(hide yes)
 			(show_name no)
