@@ -1,0 +1,84 @@
+* ESC power switch Q3 / IC16: switch-on into the ESC input capacitors
+*
+* Compares the VOM1271 datasheet application (Fig. 9: driver straight on the MOSFET, SOFT = 0) with the
+* board's soft-start network C46 / D6 / R32 / D7 (SOFT = 1).
+*
+* Run:   ngspice esc_switch_turnon.cir        (interactive: prints the results and opens the plots)
+*        ngspice -b esc_switch_turnon.cir     (batch: results only)
+* Change the parameters below and run again.
+*
+* Models are approximations:
+*  - Q3 NTMFS5C404NL: VDMOS model fitted to the datasheet (Vth 1.6 V typ, Miller plateau 2.7 V at 50 A,
+*    Ciss 12.2 nF, Crss 80 pF at 25 V). CGDA = 1.0 matches Crss at 25 V (fast, pessimistic for SOFT = 0);
+*    CGDA = 0.2 gives a total gate-drain charge closer to the datasheet's Qgd 23.8 nC (slower, optimistic).
+*    onsemi's own SPICE model can be dropped in instead of the .model line.
+*  - VOM1271 output: photovoltaic source, Isc 15 uA typ / 6 uA min at IF = 10 mA, Voc 8.4 V.
+*  - ESCs: input capacitance CL with 20 mOhm ESR, idle load 0.1 A (RIDLE).
+* Compare the Q3 current and power with its safe operating area (datasheet Fig. 11, T_case = 25 C):
+* about 25 A for 1 ms at VDS = 10 V, about 10 A for 1 ms at 15 V.
+
+.param SOFT  = 1        ; 1 = with C46 / D6 / R32 / D7, 0 = datasheet Fig. 9 circuit
+.param VBAT  = 21       ; battery voltage (5S full)
+.param CL    = 1000u    ; total ESC input capacitance (try 470u ... 2200u)
+.param ISC   = 15u      ; VOM1271 short-circuit current (15u typ, 6u datasheet min, ~3u hot / weak LED drive)
+.param RIDLE = 210      ; ESC idle load (21 V / 0.1 A)
+.param CGDA  = 1.0      ; Q3 Crss shape, see above
+
+.model NTM VDMOS(Vto=1.6 Kp=83 lambda=0.005 Rd=0.25m Rs=0.25m Rg=1.2 Cgdmax=3.3n Cgdmin=55p a={CGDA}
++ Cgs=12n Cjo=9n m=0.6 vj=0.7 ksubthres=0.12 Is=1e-12 Rb=1m)
+.model D4148 D(Is=4n N=1.9 Rs=0.6 Cjo=2p Bv=75 Ibv=1u)
+
+* battery and wiring
+Vbat  batv 0   DC {VBAT}
+Rbat  batv bat 15m
+Vmeas bat  d   DC 0                 ; measures the Q3 drain current
+
+* Q3: drain = BAT_IN, source = ESC_PWR
+M1 d g s NTM
+
+* ESC input capacitors and idle load
+Cl    s   cle {CL}
+Resr  cle 0   20m
+Ridle s   0   {RIDLE}
+
+* IC16 VOM1271 output (pin 4 + = gate, pin 3 - = source); the LED is switched on at t = 1 ms
+Bpv  s g I = (time > 1m) ? {ISC}*(1-(exp(min(v(g,s),9.5)/0.65)-1)/(exp(8.4/0.65)-1)) : 0
+Rleak g s 1G
+
+.if (SOFT == 1)
+* soft start: C46 to BAT_IN, D6 from the gate, R32 resets C46 to the source, D7 clamps Vgs >= -0.6 V
+D6  g x   D4148
+C46 x bat 1u
+R32 x s   2.2Meg
+D7  s g   D4148
+* switched off for a long time: C46 charged to the battery voltage through R32
+.ic v(batv)={VBAT} v(bat)={VBAT} v(d)={VBAT} v(s)=0 v(g)=0 v(x)=0 v(cle)=0
+.tran 200u 6 0 200u uic
+.else
+.ic v(batv)={VBAT} v(bat)={VBAT} v(d)={VBAT} v(s)=0 v(g)=0 v(cle)=0
+.tran 2u 30m 0 2u uic
+.endif
+
+.control
+run
+let id   = i(vmeas)
+let vgs  = v(g) - v(s)
+let pq3  = (v(d) - v(s)) * id
+echo
+echo "=== Q3 during switch-on ==="
+meas tran ipeak  MAX id
+meas tran ppeak  MAX pq3
+meas tran energy INTEG pq3
+meas tran t_out90  WHEN v(s)=18.9 RISE=1
+meas tran t_vgs4v5 WHEN vgs=4.5 RISE=1
+meas tran t_vgs7   WHEN vgs=7 RISE=1
+echo "(times include the 1 ms before the LED switches on)"
+if $?batchmode
+else
+  plot v(s) vgs title 'ESC supply (v(s)) and Q3 gate-source voltage'
+  plot id title 'Q3 drain current (A)'
+  plot pq3 title 'Q3 power (W)'
+end
+.endc
+
+.end

@@ -1,0 +1,61 @@
+* ESC power switch Q3 / IC16: battery unplugged (BAT_IN collapses) - why D7 is there
+*
+* BAT_IN falls from VBAT to 0 V in 1 us at t = 1 ms (worst case: contact bounce or a short on the battery side).
+* C46 couples that step into the soft-start node; D6 then pulls the gate down with it.
+*  - switch off (LEDON = 0): without D7 the gate goes to about -20 V against the source (Q3 Vgs limit +-20 V),
+*    and the VOM1271 output sees the same voltage in reverse (no rating for that). D7 clamps it.
+*  - switch on (LEDON = 1): the ESC capacitors hold the source up, Q3 stays on, no problem either way.
+*
+* Run:   ngspice esc_switch_unplug.cir   (or ngspice -b for results only). Change the parameters and run again.
+* Same Q3 model as esc_switch_turnon.cir (an approximation fitted to the NTMFS5C404NL datasheet).
+
+.param D7ON  = 1        ; 1 = D7 fitted, 0 = D7 left out
+.param LEDON = 0        ; 0 = switch off, 1 = switch on
+.param VBAT  = 21
+.param CL    = 1000u    ; ESC input capacitance
+.param RTOFF = 150k     ; VOM1271 turn-off circuit while the LED is off (estimate: 65 us into 200 pF || 10 MOhm)
+
+.model NTM VDMOS(Vto=1.6 Kp=83 lambda=0.005 Rd=0.25m Rs=0.25m Rg=1.2 Cgdmax=3.3n Cgdmin=55p a=1.0
++ Cgs=12n Cjo=9n m=0.6 vj=0.7 ksubthres=0.12 Is=1e-12 Rb=1m)
+.model D4148 D(Is=4n N=1.9 Rs=0.6 Cjo=2p Bv=75 Ibv=1u)
+
+Vbat  batv 0   PWL(0 {VBAT} 1m {VBAT} 1.001m 0 50m 0)
+Rbat  batv bat 15m
+M1    bat  g   s NTM
+Cl    s    0   {CL}
+Ridle s    0   210
+
+D6  g x   D4148
+C46 x bat 1u
+R32 x s   2.2Meg
+
+.if (D7ON == 1)
+D7  s g   D4148
+.endif
+
+.if (LEDON == 1)
+* VOM1271 output on (Isc 15 uA, Voc 8.4 V); steady state: ESC supply at VBAT, gate 8.2 V above it
+Bpv s g I = 15u*(1-(exp(min(v(g,s),9.5)/0.65)-1)/(exp(8.4/0.65)-1))
+.ic v(batv)={VBAT} v(bat)={VBAT} v(s)={VBAT} v(g)={VBAT+8.2} v(x)={VBAT+7.6}
+.else
+* VOM1271 LED off: its turn-off circuit holds gate to source; switched off for a long time
+Rtoff g s {RTOFF}
+.ic v(batv)={VBAT} v(bat)={VBAT} v(s)=0 v(g)=0 v(x)=0
+.endif
+
+.tran 0.5u 5m 0 0.5u uic
+
+.control
+run
+let vgs = v(g) - v(s)
+echo
+echo "=== Q3 gate-source voltage when BAT_IN collapses (limit +-20 V) ==="
+meas tran vgs_min MIN vgs
+meas tran vgs_max MAX vgs
+if $?batchmode
+else
+  plot vgs v(bat) title 'Q3 Vgs and BAT_IN'
+end
+.endc
+
+.end
