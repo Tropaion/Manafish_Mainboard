@@ -8170,6 +8170,17 @@
 				)
 			)
 		)
+		(property "Description" "Generic connector, double row, 02x06, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 173.99 114.3 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
 		(property "LCSC PN" "C22438121"
 			(at 173.99 114.3 0)
 			(hide yes)
@@ -8182,17 +8193,6 @@
 			)
 		)
 		(property "LCSC" "https://www.lcsc.com/product-detail/C22438121.html"
-			(at 173.99 114.3 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Generic connector, double row, 02x06, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)"
 			(at 173.99 114.3 0)
 			(hide yes)
 			(show_name no)

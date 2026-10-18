@@ -2761,16 +2761,6 @@
 		(at 97.79 91.44)
 		(uuid "ca387ba8-a5fa-415c-8368-771615e79886")
 	)
-	(label "VBUS"
-		(at 72.39 83.82 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "1c8f312f-86b3-48cc-8368-f947807a8ba8")
-	)
 	(wire
 		(pts
 			(xy 90.17 41.91) (xy 85.09 41.91)
@@ -3880,6 +3870,16 @@
 			(justify left bottom)
 		)
 		(uuid "149f7812-d7ef-4ad5-9b31-985833f4dd0e")
+	)
+	(label "VBUS"
+		(at 72.39 83.82 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "1c8f312f-86b3-48cc-8368-f947807a8ba8")
 	)
 	(label "+5V"
 		(at 140.97 97.79 180)
