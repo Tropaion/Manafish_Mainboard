@@ -18,7 +18,7 @@ the USB-connected Raspberry Pi Pico and the wiring between them with one board:
 <img src="https://github.com/Tropaion/Manafish_Mainboard/blob/main/images/pcb_front.png?raw=true" width="45%"></img> <img src="https://github.com/Tropaion/Manafish_Mainboard/blob/main/images/pcb_back.png?raw=true" width="45%"></img>
 
 ## Overview
-View the latest [KiCad Design](https://kicanvas.org/?repo=https%3A%2F%2Fgithub.com%2FTropaion%2FManafish_Mainboard%2Fblob%2Fmain%2Fhardware%2Fmanafish.kicad_pro).
+View the latest [PCB Interactive BOM](https://htmlpreview.github.io/?https://github.com/Tropaion/Manafish_Mainboard/blob/main/hardware/bom/ibom.html) or [KiCad Design](https://kicanvas.org/?repo=https%3A%2F%2Fgithub.com%2FTropaion%2FManafish_Mainboard%2Fblob%2Fmain%2Fhardware%2Fmanafish.kicad_pro).
 
 ```mermaid
 flowchart LR
