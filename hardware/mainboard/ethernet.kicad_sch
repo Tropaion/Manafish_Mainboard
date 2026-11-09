@@ -3117,7 +3117,7 @@
 				)
 			)
 		)
-		(property "LCSC PN" "C114877"
+		(property "LCSC Part #" "C25117"
 			(at 38.1 93.98 0)
 			(hide yes)
 			(show_name no)
@@ -3128,7 +3128,7 @@
 				)
 			)
 		)
-		(property "LCSC" "https://www.lcsc.com/product-detail/C114877.html"
+		(property "LCSC" "https://www.lcsc.com/product-detail/C25117.html"
 			(at 38.1 93.98 0)
 			(hide yes)
 			(show_name no)
@@ -3262,7 +3262,7 @@
 				)
 			)
 		)
-		(property "LCSC PN" "C114877"
+		(property "LCSC Part #" "C25117"
 			(at 38.1 88.9 0)
 			(hide yes)
 			(show_name no)
@@ -3273,7 +3273,7 @@
 				)
 			)
 		)
-		(property "LCSC" "https://www.lcsc.com/product-detail/C114877.html"
+		(property "LCSC" "https://www.lcsc.com/product-detail/C25117.html"
 			(at 38.1 88.9 0)
 			(hide yes)
 			(show_name no)
@@ -3407,7 +3407,7 @@
 				)
 			)
 		)
-		(property "LCSC PN" "C90627"
+		(property "LCSC Part #" "C90627"
 			(at 133.35 31.75 0)
 			(hide yes)
 			(show_name no)
@@ -3578,7 +3578,7 @@
 				)
 			)
 		)
-		(property "LCSC PN" "C71629"
+		(property "LCSC Part #" "C1525"
 			(at 46.99 102.87 0)
 			(hide yes)
 			(show_name no)
@@ -3589,7 +3589,7 @@
 				)
 			)
 		)
-		(property "LCSC" "https://www.lcsc.com/product-detail/C71629.html"
+		(property "LCSC" "https://www.lcsc.com/product-detail/C1525.html"
 			(at 46.99 102.87 0)
 			(hide yes)
 			(show_name no)
@@ -3800,7 +3800,7 @@
 				)
 			)
 		)
-		(property "LCSC PN" "C90627"
+		(property "LCSC Part #" "C90627"
 			(at 133.35 67.31 0)
 			(hide yes)
 			(show_name no)

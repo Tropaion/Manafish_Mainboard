@@ -10452,7 +10452,7 @@
 				)
 			)
 		)
-		(property "LCSC PN" "C19702"
+		(property "LCSC Part #" "C19702"
 			(at 19.05 57.15 0)
 			(hide yes)
 			(show_name no)
@@ -10598,7 +10598,7 @@
 				)
 			)
 		)
-		(property "LCSC PN" "C6782225"
+		(property "LCSC Part #" "C6782225"
 			(at 81.28 88.9 0)
 			(hide yes)
 			(show_name no)
@@ -11350,7 +11350,7 @@
 				)
 			)
 		)
-		(property "LCSC PN" "C71629"
+		(property "LCSC Part #" "C1525"
 			(at 29.21 57.15 0)
 			(hide yes)
 			(show_name no)
@@ -11361,7 +11361,7 @@
 				)
 			)
 		)
-		(property "LCSC" "https://www.lcsc.com/product-detail/C71629.html"
+		(property "LCSC" "https://www.lcsc.com/product-detail/C1525.html"
 			(at 29.21 57.15 0)
 			(hide yes)
 			(show_name no)
@@ -11497,7 +11497,7 @@
 				)
 			)
 		)
-		(property "LCSC PN" "C71629"
+		(property "LCSC Part #" "C1525"
 			(at 31.75 31.75 0)
 			(hide yes)
 			(show_name no)
@@ -11508,7 +11508,7 @@
 				)
 			)
 		)
-		(property "LCSC" "https://www.lcsc.com/product-detail/C71629.html"
+		(property "LCSC" "https://www.lcsc.com/product-detail/C1525.html"
 			(at 31.75 31.75 0)
 			(hide yes)
 			(show_name no)
@@ -11743,6 +11743,28 @@
 			)
 		)
 		(property "Description" "Generic connector, double row, 02x10, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 34.29 134.62 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part #" "C22438125"
+			(at 34.29 134.62 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C22438125.html"
 			(at 34.29 134.62 0)
 			(hide yes)
 			(show_name no)
@@ -12007,7 +12029,7 @@
 				)
 			)
 		)
-		(property "LCSC PN" "C22438122"
+		(property "LCSC Part #" "C22438122"
 			(at 30.48 91.44 0)
 			(hide yes)
 			(show_name no)
@@ -12189,7 +12211,7 @@
 				)
 			)
 		)
-		(property "LCSC PN" "C6782225"
+		(property "LCSC Part #" "C6782225"
 			(at 116.84 83.82 0)
 			(hide yes)
 			(show_name no)
@@ -13095,7 +13117,7 @@
 				)
 			)
 		)
-		(property "LCSC PN" "C71629"
+		(property "LCSC Part #" "C1525"
 			(at 19.05 31.75 0)
 			(hide yes)
 			(show_name no)
@@ -13106,7 +13128,7 @@
 				)
 			)
 		)
-		(property "LCSC" "https://www.lcsc.com/product-detail/C71629.html"
+		(property "LCSC" "https://www.lcsc.com/product-detail/C1525.html"
 			(at 19.05 31.75 0)
 			(hide yes)
 			(show_name no)
@@ -13242,7 +13264,7 @@
 				)
 			)
 		)
-		(property "LCSC PN" "C84494"
+		(property "LCSC Part #" "C84494"
 			(at 43.18 31.75 0)
 			(hide yes)
 			(show_name no)

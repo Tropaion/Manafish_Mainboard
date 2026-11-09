@@ -2514,7 +2514,7 @@
 				)
 			)
 		)
-		(property "LCSC PN" "C71629"
+		(property "LCSC Part #" "C1525"
 			(at 113.03 45.72 0)
 			(hide yes)
 			(show_name no)
@@ -2525,7 +2525,7 @@
 				)
 			)
 		)
-		(property "LCSC" "https://www.lcsc.com/product-detail/C71629.html"
+		(property "LCSC" "https://www.lcsc.com/product-detail/C1525.html"
 			(at 113.03 45.72 0)
 			(hide yes)
 			(show_name no)
@@ -2662,7 +2662,7 @@
 				)
 			)
 		)
-		(property "LCSC PN" "C189895"
+		(property "LCSC Part #" "C189895"
 			(at 39.37 31.75 0)
 			(hide yes)
 			(show_name no)
@@ -2892,7 +2892,7 @@
 				)
 			)
 		)
-		(property "LCSC PN" "C71629"
+		(property "LCSC Part #" "C1525"
 			(at 31.75 116.84 0)
 			(hide yes)
 			(show_name no)
@@ -2903,7 +2903,7 @@
 				)
 			)
 		)
-		(property "LCSC" "https://www.lcsc.com/product-detail/C71629.html"
+		(property "LCSC" "https://www.lcsc.com/product-detail/C1525.html"
 			(at 31.75 116.84 0)
 			(hide yes)
 			(show_name no)
@@ -3008,6 +3008,28 @@
 			)
 		)
 		(property "Mouser" "https://mou.sr/3UkYI7Z"
+			(at 172.72 40.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part #" "C7174514"
+			(at 172.72 40.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://jlcpcb.com/partdetail/WurthElektronik-2511020213301/C7174514"
 			(at 172.72 40.64 0)
 			(hide yes)
 			(show_name no)
@@ -3244,7 +3266,7 @@
 				)
 			)
 		)
-		(property "LCSC PN" "C71629"
+		(property "LCSC Part #" "C1525"
 			(at 195.58 50.8 0)
 			(hide yes)
 			(show_name no)
@@ -3255,7 +3277,7 @@
 				)
 			)
 		)
-		(property "LCSC" "https://www.lcsc.com/product-detail/C71629.html"
+		(property "LCSC" "https://www.lcsc.com/product-detail/C1525.html"
 			(at 195.58 50.8 0)
 			(hide yes)
 			(show_name no)
@@ -3391,7 +3413,7 @@
 				)
 			)
 		)
-		(property "LCSC PN" "C71629"
+		(property "LCSC Part #" "C1525"
 			(at 62.23 116.84 0)
 			(hide yes)
 			(show_name no)
@@ -3402,7 +3424,7 @@
 				)
 			)
 		)
-		(property "LCSC" "https://www.lcsc.com/product-detail/C71629.html"
+		(property "LCSC" "https://www.lcsc.com/product-detail/C1525.html"
 			(at 62.23 116.84 0)
 			(hide yes)
 			(show_name no)
@@ -3705,7 +3727,7 @@
 				)
 			)
 		)
-		(property "LCSC PN" "C2836813"
+		(property "LCSC Part #" "C2836813"
 			(at 69.85 77.47 0)
 			(hide yes)
 			(show_name no)
@@ -4045,6 +4067,28 @@
 			)
 		)
 		(property "Mouser" "https://www.mouser.com/ProductDetail/403-SHT45-AD1F-R2"
+			(at 77.47 36.83 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part #" "C5360602"
+			(at 77.47 36.83 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://jlcpcb.com/partdetail/Sensirion-SHT45_AD1FR2/C5360602"
 			(at 77.47 36.83 0)
 			(hide yes)
 			(show_name no)

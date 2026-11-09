@@ -925,7 +925,7 @@
         {
           "group_by": false,
           "label": "LCSC Part #",
-          "name": "LCSC PN",
+          "name": "LCSC Part #",
           "show": true
         }
       ],
