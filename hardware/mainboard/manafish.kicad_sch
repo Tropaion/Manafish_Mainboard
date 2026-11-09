@@ -2696,7 +2696,7 @@
 		(uuid "8d038b97-ba5a-48ca-adbd-acdec984921a")
 	)
 	(junction
-		(at 74.93 96.52)
+		(at 77.47 96.52)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "92e38c8d-07ef-4045-9f2c-42b8dd7189d6")
@@ -2714,7 +2714,7 @@
 		(uuid "bd8e1bd4-6eeb-4f5f-9620-5f0a35d2f854")
 	)
 	(junction
-		(at 74.93 101.6)
+		(at 77.47 101.6)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "e367fa83-ce2c-4ded-b18a-83d2d49b4dae")
@@ -2738,7 +2738,7 @@
 		(uuid "f20fc3a7-c08c-49ba-b9d4-3ee29daf326d")
 	)
 	(junction
-		(at 53.34 124.46)
+		(at 55.88 124.46)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "f27244d0-bfbb-4084-8e5a-0bb6c2dcec9d")
@@ -2817,7 +2817,7 @@
 	)
 	(wire
 		(pts
-			(xy 74.93 101.6) (xy 74.93 104.14)
+			(xy 77.47 101.6) (xy 77.47 104.14)
 		)
 		(stroke
 			(width 0)
@@ -2937,7 +2937,7 @@
 	)
 	(wire
 		(pts
-			(xy 72.39 101.6) (xy 74.93 101.6)
+			(xy 74.93 101.6) (xy 77.47 101.6)
 		)
 		(stroke
 			(width 0)
@@ -3007,7 +3007,7 @@
 	)
 	(wire
 		(pts
-			(xy 74.93 96.52) (xy 100.33 96.52)
+			(xy 77.47 96.52) (xy 100.33 96.52)
 		)
 		(stroke
 			(width 0)
@@ -3027,7 +3027,7 @@
 	)
 	(wire
 		(pts
-			(xy 86.36 88.9) (xy 72.39 88.9)
+			(xy 88.9 88.9) (xy 74.93 88.9)
 		)
 		(stroke
 			(width 0)
@@ -3127,7 +3127,7 @@
 	)
 	(wire
 		(pts
-			(xy 49.53 124.46) (xy 49.53 121.92)
+			(xy 52.07 124.46) (xy 52.07 121.92)
 		)
 		(stroke
 			(width 0)
@@ -3177,7 +3177,7 @@
 	)
 	(wire
 		(pts
-			(xy 86.36 116.84) (xy 86.36 88.9)
+			(xy 88.9 116.84) (xy 88.9 88.9)
 		)
 		(stroke
 			(width 0)
@@ -3227,7 +3227,7 @@
 	)
 	(wire
 		(pts
-			(xy 77.47 124.46) (xy 77.47 129.54)
+			(xy 80.01 124.46) (xy 80.01 129.54)
 		)
 		(stroke
 			(width 0)
@@ -3257,7 +3257,7 @@
 	)
 	(wire
 		(pts
-			(xy 72.39 104.14) (xy 74.93 104.14)
+			(xy 74.93 104.14) (xy 77.47 104.14)
 		)
 		(stroke
 			(width 0)
@@ -3287,7 +3287,7 @@
 	)
 	(wire
 		(pts
-			(xy 74.93 96.52) (xy 74.93 99.06)
+			(xy 77.47 96.52) (xy 77.47 99.06)
 		)
 		(stroke
 			(width 0)
@@ -3337,7 +3337,7 @@
 	)
 	(wire
 		(pts
-			(xy 49.53 124.46) (xy 53.34 124.46)
+			(xy 52.07 124.46) (xy 55.88 124.46)
 		)
 		(stroke
 			(width 0)
@@ -3457,7 +3457,7 @@
 	)
 	(wire
 		(pts
-			(xy 72.39 96.52) (xy 74.93 96.52)
+			(xy 74.93 96.52) (xy 77.47 96.52)
 		)
 		(stroke
 			(width 0)
@@ -3517,7 +3517,7 @@
 	)
 	(wire
 		(pts
-			(xy 77.47 116.84) (xy 77.47 91.44)
+			(xy 80.01 116.84) (xy 80.01 91.44)
 		)
 		(stroke
 			(width 0)
@@ -3567,7 +3567,7 @@
 	)
 	(wire
 		(pts
-			(xy 53.34 124.46) (xy 57.15 124.46)
+			(xy 55.88 124.46) (xy 59.69 124.46)
 		)
 		(stroke
 			(width 0)
@@ -3587,7 +3587,7 @@
 	)
 	(wire
 		(pts
-			(xy 57.15 124.46) (xy 57.15 121.92)
+			(xy 59.69 124.46) (xy 59.69 121.92)
 		)
 		(stroke
 			(width 0)
@@ -3607,7 +3607,7 @@
 	)
 	(wire
 		(pts
-			(xy 86.36 124.46) (xy 86.36 129.54)
+			(xy 88.9 124.46) (xy 88.9 129.54)
 		)
 		(stroke
 			(width 0)
@@ -3617,7 +3617,7 @@
 	)
 	(wire
 		(pts
-			(xy 74.93 101.6) (xy 100.33 101.6)
+			(xy 77.47 101.6) (xy 100.33 101.6)
 		)
 		(stroke
 			(width 0)
@@ -3657,7 +3657,7 @@
 	)
 	(wire
 		(pts
-			(xy 77.47 91.44) (xy 72.39 91.44)
+			(xy 80.01 91.44) (xy 74.93 91.44)
 		)
 		(stroke
 			(width 0)
@@ -3697,7 +3697,7 @@
 	)
 	(wire
 		(pts
-			(xy 53.34 124.46) (xy 53.34 129.54)
+			(xy 55.88 124.46) (xy 55.88 129.54)
 		)
 		(stroke
 			(width 0)
@@ -3707,7 +3707,7 @@
 	)
 	(wire
 		(pts
-			(xy 72.39 99.06) (xy 74.93 99.06)
+			(xy 74.93 99.06) (xy 77.47 99.06)
 		)
 		(stroke
 			(width 0)
@@ -3846,7 +3846,7 @@
 		(uuid "149f7812-d7ef-4ad5-9b31-985833f4dd0e")
 	)
 	(label "VBUS"
-		(at 72.39 83.82 0)
+		(at 74.93 83.82 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4062,7 +4062,7 @@
 	)
 	(symbol
 		(lib_id "Connector:USB_C_Receptacle_USB2.0_14P")
-		(at 57.15 99.06 0)
+		(at 59.69 99.06 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -4072,7 +4072,7 @@
 		(dnp no)
 		(uuid "2a47e0f0-fd51-44ed-9e2b-cacb548d8578")
 		(property "Reference" "J8"
-			(at 48.006 80.01 0)
+			(at 50.546 80.01 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4082,7 +4082,7 @@
 			)
 		)
 		(property "Value" "USB_C_Receptacle_USB2.0_14P"
-			(at 45.212 99.06 90)
+			(at 47.752 99.06 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4092,7 +4092,7 @@
 			)
 		)
 		(property "Footprint" "Connector_USB:USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal"
-			(at 60.96 99.06 0)
+			(at 63.5 99.06 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4103,7 +4103,7 @@
 			)
 		)
 		(property "Datasheet" "https://gct.co/files/drawings/usb4105.pdf"
-			(at 60.96 99.06 0)
+			(at 63.5 99.06 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4114,7 +4114,7 @@
 			)
 		)
 		(property "Description" "CONN USB-C receptacle USB 2.0 16P SMT"
-			(at 57.15 99.06 0)
+			(at 59.69 99.06 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4125,7 +4125,7 @@
 			)
 		)
 		(property "Manufacturer" "GCT"
-			(at 57.15 99.06 0)
+			(at 59.69 99.06 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4136,7 +4136,7 @@
 			)
 		)
 		(property "MPN" "USB4105-GF-A"
-			(at 57.15 99.06 0)
+			(at 59.69 99.06 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4147,7 +4147,7 @@
 			)
 		)
 		(property "Mouser PN" "640-USB4105-GF-A"
-			(at 57.15 99.06 0)
+			(at 59.69 99.06 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4158,7 +4158,7 @@
 			)
 		)
 		(property "Mouser" "https://www.mouser.com/ProductDetail/640-USB4105-GF-A"
-			(at 57.15 99.06 0)
+			(at 59.69 99.06 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4169,7 +4169,7 @@
 			)
 		)
 		(property "LCSC Part #" "C3020560"
-			(at 57.15 99.06 0)
+			(at 59.69 99.06 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4180,7 +4180,7 @@
 			)
 		)
 		(property "LCSC" "https://www.lcsc.com/product-detail/C3020560.html"
-			(at 57.15 99.06 0)
+			(at 59.69 99.06 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4246,7 +4246,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 77.47 129.54 0)
+		(at 80.01 129.54 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -4256,7 +4256,7 @@
 		(dnp no)
 		(uuid "3224ecba-7206-4ca1-a96c-757e59a19d0c")
 		(property "Reference" "#PWR03"
-			(at 77.47 135.89 0)
+			(at 80.01 135.89 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4267,7 +4267,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 77.597 133.9342 0)
+			(at 80.137 133.9342 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4277,7 +4277,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 77.47 129.54 0)
+			(at 80.01 129.54 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4288,7 +4288,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 77.47 129.54 0)
+			(at 80.01 129.54 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4299,7 +4299,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 77.47 129.54 0)
+			(at 80.01 129.54 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4323,7 +4323,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 86.36 129.54 0)
+		(at 88.9 129.54 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -4333,7 +4333,7 @@
 		(dnp no)
 		(uuid "463d58d5-ab9f-4107-b3c0-48a9ea6b7229")
 		(property "Reference" "#PWR04"
-			(at 86.36 135.89 0)
+			(at 88.9 135.89 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4344,7 +4344,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 86.487 133.9342 0)
+			(at 89.027 133.9342 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4354,7 +4354,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 86.36 129.54 0)
+			(at 88.9 129.54 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4365,7 +4365,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 86.36 129.54 0)
+			(at 88.9 129.54 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4376,7 +4376,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 86.36 129.54 0)
+			(at 88.9 129.54 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4851,7 +4851,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 77.47 120.65 0)
+		(at 80.01 120.65 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -4861,7 +4861,7 @@
 		(dnp no)
 		(uuid "7688ea15-3837-4193-8d60-32ebfd05bc61")
 		(property "Reference" "R14"
-			(at 72.2122 120.65 90)
+			(at 74.7522 120.65 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4871,7 +4871,7 @@
 			)
 		)
 		(property "Value" "5.1kR"
-			(at 74.5236 120.65 90)
+			(at 77.0636 120.65 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4881,7 +4881,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 75.692 120.65 90)
+			(at 78.232 120.65 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4892,7 +4892,7 @@
 			)
 		)
 		(property "Datasheet" "https://yageogroup.com/content/datasheet/asset/file/PYU-RC_GROUP_51_ROHS_L"
-			(at 77.47 120.65 0)
+			(at 80.01 120.65 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4903,7 +4903,7 @@
 			)
 		)
 		(property "Description" "RES 5k1 1% 1/16W 0402"
-			(at 77.47 120.65 0)
+			(at 80.01 120.65 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4914,7 +4914,7 @@
 			)
 		)
 		(property "Manufacturer" "Yageo"
-			(at 77.47 120.65 0)
+			(at 80.01 120.65 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4925,7 +4925,7 @@
 			)
 		)
 		(property "MPN" "RC0402FR-075K1L"
-			(at 77.47 120.65 0)
+			(at 80.01 120.65 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4936,7 +4936,7 @@
 			)
 		)
 		(property "Mouser PN" "603-RC0402FR-075K1L"
-			(at 77.47 120.65 0)
+			(at 80.01 120.65 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4947,7 +4947,7 @@
 			)
 		)
 		(property "Mouser" "https://www.mouser.com/ProductDetail/603-RC0402FR-075K1L"
-			(at 77.47 120.65 0)
+			(at 80.01 120.65 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4958,7 +4958,7 @@
 			)
 		)
 		(property "LCSC Part #" "C25905"
-			(at 77.47 120.65 0)
+			(at 80.01 120.65 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4969,7 +4969,7 @@
 			)
 		)
 		(property "LCSC" "https://www.lcsc.com/product-detail/C25905.html"
-			(at 77.47 120.65 0)
+			(at 80.01 120.65 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5995,7 +5995,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 53.34 129.54 0)
+		(at 55.88 129.54 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -6005,7 +6005,7 @@
 		(dnp no)
 		(uuid "d21d0e03-4dfb-4c1b-bd1f-8f88b620035f")
 		(property "Reference" "#PWR02"
-			(at 53.34 135.89 0)
+			(at 55.88 135.89 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6016,7 +6016,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 53.467 133.9342 0)
+			(at 56.007 133.9342 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6026,7 +6026,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 53.34 129.54 0)
+			(at 55.88 129.54 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6037,7 +6037,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 53.34 129.54 0)
+			(at 55.88 129.54 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6048,7 +6048,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 53.34 129.54 0)
+			(at 55.88 129.54 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6366,7 +6366,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 86.36 120.65 0)
+		(at 88.9 120.65 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -6376,7 +6376,7 @@
 		(dnp no)
 		(uuid "e03925b6-7643-463b-a848-2d3b67f26276")
 		(property "Reference" "R15"
-			(at 81.1022 120.65 90)
+			(at 83.6422 120.65 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6386,7 +6386,7 @@
 			)
 		)
 		(property "Value" "5.1kR"
-			(at 83.4136 120.65 90)
+			(at 85.9536 120.65 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -6396,7 +6396,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 84.582 120.65 90)
+			(at 87.122 120.65 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6407,7 +6407,7 @@
 			)
 		)
 		(property "Datasheet" "https://yageogroup.com/content/datasheet/asset/file/PYU-RC_GROUP_51_ROHS_L"
-			(at 86.36 120.65 0)
+			(at 88.9 120.65 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6418,7 +6418,7 @@
 			)
 		)
 		(property "Description" "RES 5k1 1% 1/16W 0402"
-			(at 86.36 120.65 0)
+			(at 88.9 120.65 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6429,7 +6429,7 @@
 			)
 		)
 		(property "Manufacturer" "Yageo"
-			(at 86.36 120.65 0)
+			(at 88.9 120.65 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6440,7 +6440,7 @@
 			)
 		)
 		(property "MPN" "RC0402FR-075K1L"
-			(at 86.36 120.65 0)
+			(at 88.9 120.65 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6451,7 +6451,7 @@
 			)
 		)
 		(property "Mouser PN" "603-RC0402FR-075K1L"
-			(at 86.36 120.65 0)
+			(at 88.9 120.65 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6462,7 +6462,7 @@
 			)
 		)
 		(property "Mouser" "https://www.mouser.com/ProductDetail/603-RC0402FR-075K1L"
-			(at 86.36 120.65 0)
+			(at 88.9 120.65 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6473,7 +6473,7 @@
 			)
 		)
 		(property "LCSC Part #" "C25905"
-			(at 86.36 120.65 0)
+			(at 88.9 120.65 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6484,7 +6484,7 @@
 			)
 		)
 		(property "LCSC" "https://www.lcsc.com/product-detail/C25905.html"
-			(at 86.36 120.65 0)
+			(at 88.9 120.65 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
