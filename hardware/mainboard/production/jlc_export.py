@@ -52,12 +52,15 @@ CORRECTIONS = {
     'AMASS_XT60PW-F_1x02_P7.20mm_Horizontal':                    (0,   -3.6,   -3.0,   'C428722'),   # J14
 }
 
-# One KiCad footprint, several JLCPCB parts: the CM5 footprint holds both 100-pin connectors.
+# One KiCad footprint, several JLCPCB parts: the CM5 footprint (Raspberry Pi's, as on the CM5 IO Board)
+# holds both 100-pin connectors, so KiCad lists it once.
 # KiCad footprint name: (comment, LCSC part, [(designator suffix, rotation to add, centre x, y in footprint coordinates)])
 SPLIT = {
     'Raspberry-Pi-5-Compute-Module': ('10164227-1001A1RLF', 'C6782225',
                                       [('A', 270, -0.5, -21.5), ('B', 270, 33.5, -21.5)]),
 }
+
+LCSC_CODE = re.compile(r'\bC\d{3,}\b')
 
 GERBER_LAYERS = 'F.Cu,In1.Cu,In2.Cu,B.Cu,F.Mask,B.Mask,F.Paste,B.Paste,F.Silkscreen,B.Silkscreen,Edge.Cuts'
 
@@ -101,15 +104,23 @@ def main():
     cpl = []
     skipped = []
     warnings = []
+    fixed = []
     for fp in sorted(board.GetFootprints(), key=lambda f: natural(f.GetReference())):
         ref = fp.GetReference()
         attrs = fp.GetAttributes()
         if attrs & pcbnew.FP_BOARD_ONLY:
             continue
-        code = field(fp, FIELD)
-        if not code or fp.IsDNP() or attrs & (pcbnew.FP_EXCLUDE_FROM_BOM | pcbnew.FP_EXCLUDE_FROM_POS_FILES):
+        raw = field(fp, FIELD)
+        if not raw or fp.IsDNP() or attrs & (pcbnew.FP_EXCLUDE_FROM_BOM | pcbnew.FP_EXCLUDE_FROM_POS_FILES):
             skipped.append(ref)
             continue
+        # The field sometimes holds an LCSC product URL instead of the bare part number
+        codes = set(LCSC_CODE.findall(raw))
+        if len(codes) != 1:
+            sys.exit(f'{ref}: no single LCSC part number in "{FIELD}" = {raw!r}')
+        code = codes.pop()
+        if raw != code:
+            fixed.append(f'{ref}: {raw} -> {code}')
         if fp.IsFlipped():
             sys.exit(f'{ref} is on the bottom: the corrections here are for top-side parts only')
         fpname = str(fp.GetFPID().GetUniStringLibItemName())
@@ -159,6 +170,8 @@ def main():
 
     print(f'BOM: {len(bom)} lines, CPL: {len(cpl)} placements')
     print('Not in BOM/CPL (no LCSC Part #, DNP or excluded):', ', '.join(skipped) or 'none')
+    for f_ in fixed:
+        print(f'"{FIELD}" is not a bare part number, used', f_)
     for w_ in warnings:
         print('Check rotation:', w_)
 

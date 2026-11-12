@@ -1,6 +1,6 @@
 # JLCPCB production data
 
-Generated 2026-11-08 from `manafish.kicad_pcb` with KiCad 10.0.8 by `jlc_export.py`.
+Generated 2026-11-12 from `manafish.kicad_pcb` with KiCad 10.0.8 by `jlc_export.py`.
 
 | File | Use |
 | --- | --- |
@@ -16,7 +16,8 @@ Generated 2026-11-08 from `manafish.kicad_pcb` with KiCad 10.0.8 by `jlc_export.
    zones while plotting, so the Gerbers never carry a stale fill; the board file is not changed.
 
 The BOM takes each part from its footprint's `LCSC Part #` field, the field name JLCPCB asks for.
-Footprints without that field are left out, and the script lists them.
+Footprints without that field are left out, and the script lists them. If the field holds an LCSC
+product URL instead of the bare `C…` number, the script uses the number from the URL and lists the part.
 
 The CPL is corrected for JLCPCB's footprints. JLCPCB places each part with the footprint from its own
 library (EasyEDA), whose zero rotation and origin often differ from KiCad's. `jlc_export.py` holds the
@@ -25,7 +26,8 @@ every pad of the KiCad footprint against JLCPCB's footprint for the chosen part.
 checked by placing all JLCPCB footprints from it onto the board pads. If you change a part to one
 with a different JLCPCB footprint (connectors, ICs), check its entry.
 
-The CM5 footprint (Module1) contains both 100-pin connectors. The BOM and CPL list them as
+The CM5 footprint (Module1, Raspberry Pi's footprint from the CM5 IO Board) contains both 100-pin
+connectors, so KiCad's own BOM and position files list it once. The BOM and CPL here list them as
 Module1A and Module1B: two Amphenol 10164227-1001A1RLF (C6782225).
 
 ## PCB order settings
@@ -57,6 +59,10 @@ Module1A and Module1B: two Amphenol 10164227-1001A1RLF (C6782225).
     original KEMET part). The original C2183044 is out of stock.
   - IC8 is C3681528 (LTC4162**E**UFD-LAD, an approved alternate per the schematic note). The original
     I-grade part C3682003 is out of stock.
+  - R21 stays C4201041 (Vishay 63.4k 1 % 0402, Extended): JLCPCB has no Basic 0402 63.4k, and the
+    value sets IC8's switching frequency. C38606 (UNI-ROYAL 0402WGF6342TCE) is an equivalent Extended part.
+  - C47 is C15850 (10 µF 25 V **X5R** 0805, Basic). The X7R part C16194871 had only 4 in stock on
+    2026-11-12. X5R is rated to 85 °C, like C42/C44/C45.
 - **Through-hole parts:** C20, J6, J7, J9, J13 and J14 are in the BOM. Deselect them in JLCPCB's BOM
   step if you solder them yourself.
 - Check the placement preview before ordering, especially the connectors and the polarized parts

@@ -7740,7 +7740,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.vishay.com/docs/20035/dcrcwe3.pdf"
+		(property "Datasheet" "https://yageogroup.com/content/datasheet/asset/file/PYU-RC_GROUP_51_ROHS_L"
 			(at 111.76 161.29 0)
 			(hide yes)
 			(show_name no)
@@ -7751,7 +7751,7 @@
 				)
 			)
 		)
-		(property "Description" "RES 10k 1% 1/10W 0603"
+		(property "Description" "RES 10k 1% 1/16W 0402"
 			(at 111.76 161.29 0)
 			(hide yes)
 			(show_name no)
@@ -7762,7 +7762,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "Vishay"
+		(property "Manufacturer" "Yageo"
 			(at 111.76 161.29 0)
 			(hide yes)
 			(show_name no)
@@ -7773,7 +7773,7 @@
 				)
 			)
 		)
-		(property "MPN" "CRCW040210K0FKEE"
+		(property "MPN" "RC0402FR-0710KL"
 			(at 111.76 161.29 0)
 			(hide yes)
 			(show_name no)
@@ -7784,7 +7784,7 @@
 				)
 			)
 		)
-		(property "Mouser PN" "71-CRCW040210K0FKEE"
+		(property "Mouser PN" "603-RC0402FR-0710KL"
 			(at 111.76 161.29 0)
 			(hide yes)
 			(show_name no)
@@ -7795,7 +7795,7 @@
 				)
 			)
 		)
-		(property "Mouser" "https://www.mouser.at/en/ProductDetail/Vishay/CRCW040210K0FKEE?qs=DDCJs2%252BWWG0MuqOioQ9Cow%3D%3D"
+		(property "Mouser" "https://www.mouser.com/ProductDetail/603-RC0402FR-0710KL"
 			(at 111.76 161.29 0)
 			(hide yes)
 			(show_name no)
@@ -7806,7 +7806,7 @@
 				)
 			)
 		)
-		(property "LCSC Part #" "https://www.lcsc.com/product-detail/C843837.html?s_z=n_q_CRCW040210K0FKEE"
+		(property "LCSC Part #" "C25744"
 			(at 111.76 161.29 0)
 			(hide yes)
 			(show_name no)
@@ -7817,7 +7817,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C843837"
+		(property "LCSC" "https://www.lcsc.com/product-detail/C25744.html"
 			(at 111.76 161.29 0)
 			(hide yes)
 			(show_name no)
@@ -8435,7 +8435,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://weblib.samsungsem.com/mlcc/mlcc-ec-data-sheet.do?partNumber=CL21B106KOQNNN"
+		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL21A106KAYNNN.do"
 			(at 243.84 127 0)
 			(hide yes)
 			(show_name no)
@@ -8446,7 +8446,7 @@
 				)
 			)
 		)
-		(property "Description" "CAP CER 10uF 16V X7R 10% 0805"
+		(property "Description" "CAP CER 10uF 25V X5R 10% 0805"
 			(at 243.84 137.16 0)
 			(hide yes)
 			(show_name no)
@@ -8468,7 +8468,7 @@
 				)
 			)
 		)
-		(property "MPN" "CL21B106KOQNNNG"
+		(property "MPN" "CL21A106KAYNNNE"
 			(at 243.84 127 0)
 			(hide yes)
 			(show_name no)
@@ -8479,7 +8479,7 @@
 				)
 			)
 		)
-		(property "Mouser PN" "187-CL21B106KOQNNNG"
+		(property "Mouser PN" "187-CL21A106KAYNNNE"
 			(at 243.84 127 0)
 			(hide yes)
 			(show_name no)
@@ -8490,7 +8490,7 @@
 				)
 			)
 		)
-		(property "Mouser" "https://www.mouser.at/en/ProductDetail/Samsung-Electro-Mechanics/CL21B106KOQNNNG?qs=Wt8QXSv5fpijNSc%252BYtlvng%3D%3D"
+		(property "Mouser" "https://www.mouser.com/ProductDetail/187-CL21A106KAYNNNE"
 			(at 243.84 127 0)
 			(hide yes)
 			(show_name no)
@@ -8501,7 +8501,7 @@
 				)
 			)
 		)
-		(property "LCSC Part #" "C16194871"
+		(property "LCSC Part #" "C15850"
 			(at 243.84 127 0)
 			(hide yes)
 			(show_name no)
@@ -8512,7 +8512,7 @@
 				)
 			)
 		)
-		(property "LCSC" "https://www.lcsc.com/product-detail/C16194871.html?s_z=n_q_CL21B106KOQNNNG"
+		(property "LCSC" "https://www.lcsc.com/product-detail/C15850.html"
 			(at 243.84 127 0)
 			(hide yes)
 			(show_name no)
@@ -8581,7 +8581,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.vishay.com/docs/20035/dcrcwe3.pdf"
+		(property "Datasheet" "https://yageogroup.com/content/datasheet/asset/file/PYU-RC_GROUP_51_ROHS_L"
 			(at 101.6 151.13 0)
 			(hide yes)
 			(show_name no)
@@ -8592,7 +8592,7 @@
 				)
 			)
 		)
-		(property "Description" "RES 10k 1% 1/10W 0402"
+		(property "Description" "RES 10k 1% 1/16W 0402"
 			(at 101.6 151.13 0)
 			(hide yes)
 			(show_name no)
@@ -8603,7 +8603,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "Vishay"
+		(property "Manufacturer" "Yageo"
 			(at 101.6 151.13 0)
 			(hide yes)
 			(show_name no)
@@ -8614,7 +8614,7 @@
 				)
 			)
 		)
-		(property "MPN" "CRCW040210K0FKEE"
+		(property "MPN" "RC0402FR-0710KL"
 			(at 101.6 151.13 0)
 			(hide yes)
 			(show_name no)
@@ -8625,7 +8625,7 @@
 				)
 			)
 		)
-		(property "Mouser PN" "71-CRCW040210K0FKEE"
+		(property "Mouser PN" "603-RC0402FR-0710KL"
 			(at 101.6 151.13 0)
 			(hide yes)
 			(show_name no)
@@ -8636,7 +8636,7 @@
 				)
 			)
 		)
-		(property "Mouser" "https://www.mouser.at/en/ProductDetail/Vishay/CRCW040210K0FKEE?qs=DDCJs2%252BWWG0MuqOioQ9Cow%3D%3D"
+		(property "Mouser" "https://www.mouser.com/ProductDetail/603-RC0402FR-0710KL"
 			(at 101.6 151.13 0)
 			(hide yes)
 			(show_name no)
@@ -8647,7 +8647,7 @@
 				)
 			)
 		)
-		(property "LCSC Part #" "https://www.lcsc.com/product-detail/C843837.html?s_z=n_q_CRCW040210K0FKEE"
+		(property "LCSC Part #" "C25744"
 			(at 101.6 151.13 0)
 			(hide yes)
 			(show_name no)
@@ -8658,7 +8658,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C843837"
+		(property "LCSC" "https://www.lcsc.com/product-detail/C25744.html"
 			(at 101.6 151.13 0)
 			(hide yes)
 			(show_name no)
@@ -9424,7 +9424,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://pim.murata.com/asset/pim4/ceramicCapacitorSMD/GCM155R71H104KE02-01A-EN_PDF_CERAMICCAPACITORSMD"
+		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL05B104KB54PN.do"
 			(at 85.09 111.76 0)
 			(hide yes)
 			(show_name no)
@@ -9446,7 +9446,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "Murata"
+		(property "Manufacturer" "Samsung Electro-Mechanics"
 			(at 85.09 111.76 0)
 			(hide yes)
 			(show_name no)
@@ -9457,7 +9457,7 @@
 				)
 			)
 		)
-		(property "MPN" "GCM155R71H104KE02D"
+		(property "MPN" "CL05B104KB54PNC"
 			(at 85.09 111.76 0)
 			(hide yes)
 			(show_name no)
@@ -9468,7 +9468,7 @@
 				)
 			)
 		)
-		(property "Mouser PN" "81-GCM155R71H104KE2D"
+		(property "Mouser PN" "187-CL05B104KB54PNC"
 			(at 85.09 111.76 0)
 			(hide yes)
 			(show_name no)
@@ -9479,7 +9479,7 @@
 				)
 			)
 		)
-		(property "Mouser" "https://www.mouser.at/en/ProductDetail/Murata-Electronics/GCM155R71H104KE02D?qs=hNud%2FORuBR2sLZsqfoz4Fw%3D%3D"
+		(property "Mouser" "https://www.mouser.com/ProductDetail/187-CL05B104KB54PNC"
 			(at 85.09 111.76 0)
 			(hide yes)
 			(show_name no)
@@ -9490,7 +9490,7 @@
 				)
 			)
 		)
-		(property "LCSC Part #" "https://www.lcsc.com/product-detail/C85858.html?s_z=n_q_GCM155R71H104KE02D"
+		(property "LCSC Part #" "C307331"
 			(at 85.09 111.76 0)
 			(hide yes)
 			(show_name no)
@@ -9501,7 +9501,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C85858"
+		(property "LCSC" "https://www.lcsc.com/product-detail/C307331.html"
 			(at 85.09 111.76 0)
 			(hide yes)
 			(show_name no)
@@ -13884,7 +13884,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.vishay.com/docs/20035/dcrcwe3.pdf"
+		(property "Datasheet" "https://yageogroup.com/content/datasheet/asset/file/PYU-RC_GROUP_51_ROHS_L"
 			(at 187.96 120.65 0)
 			(hide yes)
 			(show_name no)
@@ -13895,7 +13895,7 @@
 				)
 			)
 		)
-		(property "Description" "RES 100k 1% 1/10W 0402"
+		(property "Description" "RES 100k 1% 1/16W 0402"
 			(at 187.96 120.65 0)
 			(hide yes)
 			(show_name no)
@@ -13906,7 +13906,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "Vishay"
+		(property "Manufacturer" "Yageo"
 			(at 187.96 120.65 0)
 			(hide yes)
 			(show_name no)
@@ -13917,7 +13917,7 @@
 				)
 			)
 		)
-		(property "MPN" "CRCW0402100KFKED"
+		(property "MPN" "RC0402FR-07100KL"
 			(at 187.96 120.65 0)
 			(hide yes)
 			(show_name no)
@@ -13928,7 +13928,7 @@
 				)
 			)
 		)
-		(property "Mouser PN" "71-CRCW0402-100K-E3"
+		(property "Mouser PN" "603-RC0402FR-07100KL"
 			(at 187.96 120.65 0)
 			(hide yes)
 			(show_name no)
@@ -13939,7 +13939,7 @@
 				)
 			)
 		)
-		(property "Mouser" "https://www.mouser.at/en/ProductDetail/Vishay/CRCW0402100KFKED?qs=OlqPY1CiralZGKRwQ4Glcg%3D%3D"
+		(property "Mouser" "https://www.mouser.com/ProductDetail/603-RC0402FR-07100KL"
 			(at 187.96 120.65 0)
 			(hide yes)
 			(show_name no)
@@ -13950,7 +13950,7 @@
 				)
 			)
 		)
-		(property "LCSC Part #" "C481918"
+		(property "LCSC Part #" "C25741"
 			(at 187.96 120.65 0)
 			(hide yes)
 			(show_name no)
@@ -13961,7 +13961,7 @@
 				)
 			)
 		)
-		(property "LCSC" "https://www.lcsc.com/product-detail/C481918.html?s_z=n_q_CRCW0402100KFKED"
+		(property "LCSC" "https://www.lcsc.com/product-detail/C25741.html"
 			(at 187.96 120.65 0)
 			(hide yes)
 			(show_name no)
@@ -16300,7 +16300,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.mouser.at/datasheet/3/76/2/GRT155R71H223KE01_01A.pdf"
+		(property "Datasheet" "https://www.lcsc.com/product-detail/C1532.html"
 			(at 95.25 133.35 0)
 			(hide yes)
 			(show_name no)
@@ -16322,7 +16322,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "Murata"
+		(property "Manufacturer" "FH (Guangdong Fenghua Advanced Tech)"
 			(at 95.25 133.35 0)
 			(hide yes)
 			(show_name no)
@@ -16333,7 +16333,7 @@
 				)
 			)
 		)
-		(property "MPN" "GRT155R71H223KE01D"
+		(property "MPN" "0402B223K500NT"
 			(at 95.25 133.35 0)
 			(hide yes)
 			(show_name no)
@@ -16344,7 +16344,7 @@
 				)
 			)
 		)
-		(property "Mouser PN" "81-GRT155R71H223KE1D"
+		(property "Mouser PN" ""
 			(at 95.25 133.35 0)
 			(hide yes)
 			(show_name no)
@@ -16355,7 +16355,7 @@
 				)
 			)
 		)
-		(property "Mouser" "https://www.mouser.at/en/ProductDetail/Murata-Electronics/GRT155R71H223KE01D?qs=qkDYIeTQ%252BEmsLZiZG9WAug%3D%3D"
+		(property "Mouser" ""
 			(at 95.25 133.35 0)
 			(hide yes)
 			(show_name no)
@@ -16366,7 +16366,7 @@
 				)
 			)
 		)
-		(property "LCSC Part #" "https://www.lcsc.com/product-detail/C711092.html?s_z=n_q_GRT155R71H223KE01D"
+		(property "LCSC Part #" "C1532"
 			(at 95.25 133.35 0)
 			(hide yes)
 			(show_name no)
@@ -16377,7 +16377,7 @@
 				)
 			)
 		)
-		(property "LCSC" "C711092"
+		(property "LCSC" "https://www.lcsc.com/product-detail/C1532.html"
 			(at 95.25 133.35 0)
 			(hide yes)
 			(show_name no)
@@ -16750,7 +16750,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.vishay.com/docs/20035/dcrcwe3.pdf"
+		(property "Datasheet" "https://yageogroup.com/content/datasheet/asset/file/PYU-RC_GROUP_51_ROHS_L"
 			(at 217.17 125.73 0)
 			(hide yes)
 			(show_name no)
@@ -16761,7 +16761,7 @@
 				)
 			)
 		)
-		(property "Description" "RES 100k 1% 1/10W 0402"
+		(property "Description" "RES 100k 1% 1/16W 0402"
 			(at 217.17 125.73 0)
 			(hide yes)
 			(show_name no)
@@ -16772,7 +16772,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "Vishay"
+		(property "Manufacturer" "Yageo"
 			(at 217.17 125.73 0)
 			(hide yes)
 			(show_name no)
@@ -16783,7 +16783,7 @@
 				)
 			)
 		)
-		(property "MPN" "CRCW0402100KFKED"
+		(property "MPN" "RC0402FR-07100KL"
 			(at 217.17 125.73 0)
 			(hide yes)
 			(show_name no)
@@ -16794,7 +16794,7 @@
 				)
 			)
 		)
-		(property "Mouser PN" "71-CRCW0402-100K-E3"
+		(property "Mouser PN" "603-RC0402FR-07100KL"
 			(at 217.17 125.73 0)
 			(hide yes)
 			(show_name no)
@@ -16805,7 +16805,7 @@
 				)
 			)
 		)
-		(property "Mouser" "https://www.mouser.at/en/ProductDetail/Vishay/CRCW0402100KFKED?qs=OlqPY1CiralZGKRwQ4Glcg%3D%3D"
+		(property "Mouser" "https://www.mouser.com/ProductDetail/603-RC0402FR-07100KL"
 			(at 217.17 125.73 0)
 			(hide yes)
 			(show_name no)
@@ -16816,7 +16816,7 @@
 				)
 			)
 		)
-		(property "LCSC Part #" "C481918"
+		(property "LCSC Part #" "C25741"
 			(at 217.17 125.73 0)
 			(hide yes)
 			(show_name no)
@@ -16827,7 +16827,7 @@
 				)
 			)
 		)
-		(property "LCSC" "https://www.lcsc.com/product-detail/C481918.html?s_z=n_q_CRCW0402100KFKED"
+		(property "LCSC" "https://www.lcsc.com/product-detail/C25741.html"
 			(at 217.17 125.73 0)
 			(hide yes)
 			(show_name no)

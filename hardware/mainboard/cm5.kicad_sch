@@ -10501,7 +10501,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "4cd9c994-0971-451e-818e-ada4b27c17e5")
-		(property "Reference" "ModuleB1"
+		(property "Reference" "Module1"
 			(at 220.98 15.24 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10521,7 +10521,7 @@
 				)
 			)
 		)
-		(property "Footprint" "CM5IO:Raspberry-Pi-5-Compute-ModuleB"
+		(property "Footprint" "CM5IO:Raspberry-Pi-5-Compute-Module"
 			(at 223.52 115.57 0)
 			(hide yes)
 			(show_name no)
@@ -11234,7 +11234,7 @@
 		(instances
 			(project "manafish"
 				(path "/37283e3e-a087-4659-9b29-171eab26a1f6/66118e41-f515-4bf7-aa29-701c06daff5b"
-					(reference "ModuleB1")
+					(reference "Module1")
 					(unit 2)
 				)
 			)
@@ -12134,7 +12134,7 @@
 				)
 			)
 		)
-		(property "Footprint" "CM5IO:Raspberry-Pi-5-Compute-ModuleA"
+		(property "Footprint" "CM5IO:Raspberry-Pi-5-Compute-Module"
 			(at 259.08 110.49 0)
 			(hide yes)
 			(show_name no)
