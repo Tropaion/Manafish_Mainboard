@@ -18,7 +18,7 @@ the USB-connected Raspberry Pi Pico and the wiring between them with one board:
 <img src="https://github.com/Tropaion/Manafish_Mainboard/blob/main/images/pcb_front.png?raw=true" width="45%"></img> <img src="https://github.com/Tropaion/Manafish_Mainboard/blob/main/images/pcb_back.png?raw=true" width="45%"></img>
 
 ## Overview
-View the latest [PCB Interactive BOM](https://htmlpreview.github.io/?https://github.com/Tropaion/Manafish_Mainboard/blob/main/hardware/bom/ibom.html) or [KiCad Design](https://kicanvas.org/?repo=https%3A%2F%2Fgithub.com%2FTropaion%2FManafish_Mainboard%2Fblob%2Fmain%2Fhardware%2Fmanafish.kicad_pro).
+View the latest [PCB Interactive BOM](https://htmlpreview.github.io/?https://github.com/Tropaion/Manafish_Mainboard/blob/main/hardware/mainboard/bom/ibom.html) or [KiCad Design](https://kicanvas.org/?repo=https%3A%2F%2Fgithub.com%2FTropaion%2FManafish_Mainboard%2Fblob%2Fmain%2Fhardware%2Fmainboard%2Fmanafish.kicad_pro).
 
 ```mermaid
 flowchart LR
@@ -137,16 +137,22 @@ I2C devices on the CM5's I2C1 bus:
 
 ```text
 hardware/
-├── manafish.kicad_pro      KiCad project
-├── *.kicad_sch             schematic sheets
-├── manafish.kicad_pcb      PCB, 4 layers
-├── manafish.kicad_dru      custom DRC rules (PoE isolation barriers, impedance pairs, edge parts)
-├── sym-lib-table           project symbol libraries
-├── fp-lib-table            project footprint libraries
-└── custom_components/
-    ├── symbols/            CM5IO, BMI270, SHT45, ABM8-272-T3, Silvertel, V6K100DUHM3, FDMC8327L, LTC4162, YAGEO symbols
-    ├── footprints/         CM5IO, BMI270, SHT45, ABM8-272-T3, RP2350_Minimal, Silvertel, V6K100DUHM3, FDMC86139P, LTC4162, YAGEO footprints
-    └── 3d/                 STEP models
+├── mainboard/
+│   ├── manafish.kicad_pro      KiCad project
+│   ├── *.kicad_sch             schematic sheets
+│   ├── manafish.kicad_pcb      PCB, 4 layers
+│   ├── manafish.kicad_dru      custom DRC rules (PoE isolation barriers, impedance pairs, edge parts)
+│   ├── manafish.csv            BOM exported from KiCad
+│   ├── sym-lib-table           project symbol libraries
+│   ├── fp-lib-table            project footprint libraries
+│   ├── custom_components/
+│   │   ├── symbols/            CM5IO, BMI270, SHT45, ABM8-272-T3, Silvertel, V6K100DUHM3, FDMC8327L, LTC4162, YAGEO symbols
+│   │   ├── footprints/         CM5IO, BMI270, SHT45, ABM8-272-T3, RP2350_Minimal, Silvertel, V6K100DUHM3, FDMC86139P, LTC4162, YAGEO footprints
+│   │   └── 3d/                 STEP models
+│   ├── production/             JLCPCB Gerbers, BOM and CPL, and jlc_export.py that writes them
+│   ├── simulation/             ngspice simulations of the ESC switch soft start
+│   └── bom/                    interactive HTML BOM
+└── magnetic_switch/            magnet switch PCB (2 layers, hand-soldered); JLCPCB Gerbers in production/
 ```
 
 ## PCB
@@ -303,7 +309,7 @@ Jumper header J7 (odd pins are GND):
 
 1. Install [KiCad](https://www.kicad.org/) 10.0 or newer. The files are saved
    in the KiCad 10 format and won't open in older versions.
-2. Open `hardware/manafish.kicad_pro`. The project libraries in
+2. Open `hardware/mainboard/manafish.kicad_pro`. The project libraries in
    `custom_components/` are registered in `sym-lib-table` and `fp-lib-table`;
    everything else comes from KiCad's standard libraries.
 
@@ -318,7 +324,6 @@ Datasheets aren't stored in the repository. Use the links below.
 - [RP2350 product brief](https://datasheets.raspberrypi.com/rp2350/rp2350-product-brief.pdf)
 - [Bosch BMI270 datasheet](https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bmi270-ds000.pdf)
 - [Sensirion SHT45 product page and datasheet](https://sensirion.com/products/catalog/SHT45)
-- [Silvertel Ag5700-LPB (Ag5724-LPB) PoE module datasheet](https://silvertel.com/images/datasheets/Ag5700LPB-datasheet-minature%20IEEE802_3At%2024W%20power-over-ethernet%20module.pdf)
 - [Silvertel Ag59800 (Ag59824-LPB) PoE++ module datasheet](https://silvertel.com/images/datasheets/Ag59800-LPB%20-datasheet-high%20efficiency%20SMT%20IEEE802_3BT%20100W%20power-over-ethernet%20module.pdf)
 - [Vishay V6K100DU dual Schottky diode datasheet](https://www.vishay.com/docs/87418/v6k100du.pdf)
 - [Analog Devices LTC4162-L battery charger datasheet](https://www.analog.com/media/en/technical-documentation/data-sheets/LTC4162-L.pdf)

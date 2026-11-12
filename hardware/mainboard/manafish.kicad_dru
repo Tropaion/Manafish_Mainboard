@@ -6,9 +6,6 @@
 (rule "Ag59800 isolation barrier"
 	(constraint disallow track via pad zone)
 	(condition "A.intersectsArea('Ag59800 isolation barrier*') && (A.Type == 'Via' || A.Type == 'Pad' || A.Layer == 'B.Cu' || A.Layer == 'In2.Cu')"))
-(rule "Ag5700 isolation barrier"
-	(constraint disallow track via pad)
-	(condition "A.intersectsArea('Ag5700 isolation barrier*')"))
 # --- Under the module's primary half (barrier strip to input pins, +2 mm): Silvertel ANX-POE-Isolation-Barrier
 # forbids other-side conductors on the module-facing layer. No secondary vias at all, and no secondary
 # tracks on B.Cu/In2.
