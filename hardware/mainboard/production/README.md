@@ -15,7 +15,16 @@ Generated 2026-11-12 from `manafish.kicad_pcb` with KiCad 10.0.8 by `jlc_export.
 2. Optional, after layout changes: update the teardrops and zone fills and save them into the board with
    `kicad-cli pcb drc --refill-zones --save-board -o drc.rpt ../manafish.kicad_pcb`. The refill rebuilds
    every teardrop, the same as Refill All Zones in KiCad.
-3. Run `python3 jlc_export.py` in this folder. It needs KiCad's Python module `pcbnew`. It refills the
+3. Run `python3 jlc_export.py` in this folder.
+4. Optional: regenerate the interactive BOM `../bom/ibom.html` with the InteractiveHtmlBom plugin, using
+   KiCad's Python and the settings of the published file:
+
+   ```text
+   generate_interactive_bom.py --no-browser --dark-mode --show-pads --show-fabrication --show-silkscreen
+     --highlight-pin1 selected --checkboxes "Sourced,Placed" --bom-view left-right --layer-view FB
+     --show-fields "Value,Footprint,LCSC,LCSC Part #,Mouser,Mouser PN" --include-tracks --include-nets
+     --dest-dir bom --name-format ibom ../manafish.kicad_pcb
+   ``` It needs KiCad's Python module `pcbnew`. It refills the
    zones while plotting, so the Gerbers never carry a stale fill; the board file is not changed.
 
 The BOM takes each part from its footprint's `LCSC Part #` field, the field name JLCPCB asks for.
