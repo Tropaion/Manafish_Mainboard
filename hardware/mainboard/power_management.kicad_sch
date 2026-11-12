@@ -9815,7 +9815,7 @@
 				)
 			)
 		)
-		(property "Note" "0.5% (or better) keeps +5V within 5.00-5.23 V; 1% could exceed the CM5 5.25 V max. Mouser PN follows the Yageo 603- pattern; confirm in the cart."
+		(property "Note" "0.5% (or better). With R25 also 0.5% the +5V stays within 5.00-5.23 V; with R25 at 1% (C25804) about 4.98-5.25 V. Mouser PN follows the Yageo 603- pattern; confirm in the cart."
 			(at 226.06 127 0)
 			(hide yes)
 			(show_name no)
@@ -10997,7 +10997,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.futureelectronics.com/p/passives--resistors--fixed-resistors/rt0603dre0710kl-yageo-4276713"
+		(property "Datasheet" "https://www.lcsc.com/product-detail/C25804.html"
 			(at 226.06 119.38 0)
 			(hide yes)
 			(show_name no)
@@ -11008,7 +11008,7 @@
 				)
 			)
 		)
-		(property "Description" "RES 10k 0.5% 1/10W 50ppm thin film 0603 (IC9 FB)"
+		(property "Description" "RES 10k 1% 1/10W 100ppm thick film 0603 (IC9 FB)"
 			(at 226.06 119.38 0)
 			(hide yes)
 			(show_name no)
@@ -11019,7 +11019,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "Yageo"
+		(property "Manufacturer" "UNI-ROYAL"
 			(at 226.06 119.38 0)
 			(hide yes)
 			(show_name no)
@@ -11030,7 +11030,7 @@
 				)
 			)
 		)
-		(property "MPN" "RT0603DRE0710KL"
+		(property "MPN" "0603WAF1002T5E"
 			(at 226.06 119.38 0)
 			(hide yes)
 			(show_name no)
@@ -11041,7 +11041,7 @@
 				)
 			)
 		)
-		(property "Mouser PN" "603-RT0603DRE0710KL"
+		(property "Mouser PN" ""
 			(at 226.06 119.38 0)
 			(hide yes)
 			(show_name no)
@@ -11052,7 +11052,7 @@
 				)
 			)
 		)
-		(property "Mouser" "https://www.mouser.com/ProductDetail/603-RT0603DRE0710KL"
+		(property "Mouser" ""
 			(at 226.06 119.38 0)
 			(hide yes)
 			(show_name no)
@@ -11063,7 +11063,7 @@
 				)
 			)
 		)
-		(property "LCSC Part #" "C706017"
+		(property "LCSC Part #" "C25804"
 			(at 226.06 119.38 0)
 			(hide yes)
 			(show_name no)
@@ -11074,7 +11074,7 @@
 				)
 			)
 		)
-		(property "LCSC" "https://www.lcsc.com/product-detail/C706017.html"
+		(property "LCSC" "https://www.lcsc.com/product-detail/C25804.html"
 			(at 226.06 119.38 0)
 			(hide yes)
 			(show_name no)
@@ -11085,7 +11085,7 @@
 				)
 			)
 		)
-		(property "Note" "0.5% (or better), see R24. Mouser PN follows the Yageo 603- pattern; confirm in the cart."
+		(property "Note" "JLCPCB Basic 1% part (2026-11-12). With R24 at 0.5% the +5V worst case widens from 5.00-5.23 V to about 4.98-5.25 V, at the CM5 5.25 V max before temperature drift; a 0.5% part (e.g. C706017 RT0603DRE0710KL) restores the margin."
 			(at 226.06 119.38 0)
 			(hide yes)
 			(show_name no)

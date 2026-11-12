@@ -9924,7 +9924,7 @@
 				)
 			)
 		)
-		(property "Value" "ABM8-272-T3"
+		(property "Value" "TX322512M4DBDE2T"
 			(at 193.04 68.58 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9946,7 +9946,7 @@
 				(justify left top)
 			)
 		)
-		(property "Datasheet" "https://abracon.com/datasheets/ABM8-272-T3.pdf"
+		(property "Datasheet" "https://www.lcsc.com/product-detail/C5310728.html"
 			(at 209.55 268.58 0)
 			(hide yes)
 			(show_name no)
@@ -9958,7 +9958,7 @@
 				(justify left top)
 			)
 		)
-		(property "Description" "XTAL 12.000MHz 10pF 3.2x2.5mm"
+		(property "Description" "XTAL 12.000MHz 10pF 60R +-10ppm 3.2x2.5mm (replaces ABM8-272-T3, out of stock 2026-11-12)"
 			(at 172.72 73.66 0)
 			(hide yes)
 			(show_name no)
@@ -9969,7 +9969,7 @@
 				)
 			)
 		)
-		(property "Height" "0.8"
+		(property "Height" "0.7"
 			(at 209.55 468.58 0)
 			(hide yes)
 			(show_name no)
@@ -9981,7 +9981,7 @@
 				(justify left top)
 			)
 		)
-		(property "Manufacturer" "Abracon"
+		(property "Manufacturer" "Shenzhen Yajingxin"
 			(at 172.72 73.66 0)
 			(hide yes)
 			(show_name no)
@@ -9992,7 +9992,7 @@
 				)
 			)
 		)
-		(property "MPN" "ABM8-272-T3"
+		(property "MPN" "TX322512M4DBDE2T"
 			(at 172.72 73.66 0)
 			(hide yes)
 			(show_name no)
@@ -10003,7 +10003,7 @@
 				)
 			)
 		)
-		(property "Mouser PN" "815-ABM8-272-T3"
+		(property "Mouser PN" ""
 			(at 172.72 73.66 0)
 			(hide yes)
 			(show_name no)
@@ -10014,7 +10014,7 @@
 				)
 			)
 		)
-		(property "Mouser" "https://www.mouser.com/ProductDetail/815-ABM8-272-T3"
+		(property "Mouser" ""
 			(at 172.72 73.66 0)
 			(hide yes)
 			(show_name no)
@@ -10025,7 +10025,7 @@
 				)
 			)
 		)
-		(property "LCSC Part #" "C20625731"
+		(property "LCSC Part #" "C5310728"
 			(at 172.72 73.66 0)
 			(hide yes)
 			(show_name no)
@@ -10036,7 +10036,7 @@
 				)
 			)
 		)
-		(property "LCSC" "https://www.lcsc.com/product-detail/C20625731.html"
+		(property "LCSC" "https://www.lcsc.com/product-detail/C5310728.html"
 			(at 172.72 73.66 0)
 			(hide yes)
 			(show_name no)

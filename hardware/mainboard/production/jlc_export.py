@@ -54,10 +54,13 @@ CORRECTIONS = {
 
 # One KiCad footprint, several JLCPCB parts: the CM5 footprint (Raspberry Pi's, as on the CM5 IO Board)
 # holds both 100-pin connectors, so KiCad lists it once.
-# KiCad footprint name: (comment, LCSC part, [(designator suffix, rotation to add, centre x, y in footprint coordinates)])
+# KiCad footprint name: (comment, LCSC part, [(designator, rotation to add, centre x, y in footprint coordinates)])
+# The designators share one prefix and differ only in the number: JLCPCB's BOM check reads letter suffixes
+# such as Module1A/Module1B as different part types ("there may be multiple part types").
 SPLIT = {
     'Raspberry-Pi-5-Compute-Module': ('10164227-1001A1RLF', 'C6782225',
-                                      [('A', 270, -0.5, -21.5), ('B', 270, 33.5, -21.5)]),
+                                      [('Module1', 270, -0.5, -21.5),    # connector A, pins 1-100
+                                       ('Module2', 270, 33.5, -21.5)]),  # connector B, pins 101-200
 }
 
 LCSC_CODE = re.compile(r'\bC\d{3,}\b')
@@ -129,9 +132,9 @@ def main():
             if code != split_code:
                 warnings.append(f'{ref}: {code}, but the split was measured for {split_code}')
             refs = []
-            for suffix, rot_add, ox, oy in parts:
-                cpl.append((ref + suffix,) + place(fp, rot_add, ox, oy))
-                refs.append(ref + suffix)
+            for designator, rot_add, ox, oy in parts:
+                cpl.append((designator,) + place(fp, rot_add, ox, oy))
+                refs.append(designator)
         else:
             rot_add, ox, oy, measured = CORRECTIONS.get(fpname, (0, 0.0, 0.0, None))
             if measured and code != measured:

@@ -9025,7 +9025,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://www.futureelectronics.com/p/passives--resistors--fixed-resistors/rt0603dre0710kl-yageo-4276713"
+		(property "Datasheet" "https://www.lcsc.com/product-detail/C25804.html"
 			(at 0 0 270)
 			(layer "F.Fab")
 			(hide yes)
@@ -9036,7 +9036,7 @@
 				)
 			)
 		)
-		(property "Description" "RES 10k 0.5% 1/10W 50ppm thin film 0603 (IC9 FB)"
+		(property "Description" "RES 10k 1% 1/10W 100ppm thick film 0603 (IC9 FB)"
 			(at 0 0 270)
 			(layer "F.Fab")
 			(hide yes)
@@ -9047,7 +9047,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "Yageo"
+		(property "Manufacturer" "UNI-ROYAL"
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -9060,7 +9060,7 @@
 				)
 			)
 		)
-		(property "MPN" "RT0603DRE0710KL"
+		(property "MPN" "0603WAF1002T5E"
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -9073,7 +9073,7 @@
 				)
 			)
 		)
-		(property "Mouser PN" "603-RT0603DRE0710KL"
+		(property "Mouser PN" ""
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -9086,7 +9086,7 @@
 				)
 			)
 		)
-		(property "Mouser" "https://www.mouser.com/ProductDetail/603-RT0603DRE0710KL"
+		(property "Mouser" ""
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -9099,7 +9099,7 @@
 				)
 			)
 		)
-		(property "LCSC Part #" "C706017"
+		(property "LCSC Part #" "C25804"
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -9112,7 +9112,7 @@
 				)
 			)
 		)
-		(property "LCSC" "https://www.lcsc.com/product-detail/C706017.html"
+		(property "LCSC" "https://www.lcsc.com/product-detail/C25804.html"
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -9125,7 +9125,7 @@
 				)
 			)
 		)
-		(property "Note" "0.5% (or better), see R24. Mouser PN follows the Yageo 603- pattern; confirm in the cart."
+		(property "Note" "JLCPCB Basic 1% part (2026-11-12). With R24 at 0.5% the +5V worst case widens from 5.00-5.23 V to about 4.98-5.25 V, at the CM5 5.25 V max before temperature drift; a 0.5% part (e.g. C706017 RT0603DRE0710KL) restores the margin."
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -14638,7 +14638,7 @@
 				)
 			)
 		)
-		(property "Value" "ABM8-272-T3"
+		(property "Value" "TX322512M4DBDE2T"
 			(at 0 0 0)
 			(layer "F.SilkS")
 			(hide yes)
@@ -14650,7 +14650,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://abracon.com/datasheets/ABM8-272-T3.pdf"
+		(property "Datasheet" "https://www.lcsc.com/product-detail/C5310728.html"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -14661,7 +14661,7 @@
 				)
 			)
 		)
-		(property "Description" "XTAL 12.000MHz 10pF 3.2x2.5mm"
+		(property "Description" "XTAL 12.000MHz 10pF 60R +-10ppm 3.2x2.5mm (replaces ABM8-272-T3, out of stock 2026-11-12)"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -14672,7 +14672,7 @@
 				)
 			)
 		)
-		(property "Height" "0.8"
+		(property "Height" "0.7"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -14684,7 +14684,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "Abracon"
+		(property "Manufacturer" "Shenzhen Yajingxin"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -14696,7 +14696,7 @@
 				)
 			)
 		)
-		(property "MPN" "ABM8-272-T3"
+		(property "MPN" "TX322512M4DBDE2T"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -14708,7 +14708,7 @@
 				)
 			)
 		)
-		(property "Mouser PN" "815-ABM8-272-T3"
+		(property "Mouser PN" ""
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -14720,7 +14720,7 @@
 				)
 			)
 		)
-		(property "Mouser" "https://www.mouser.com/ProductDetail/815-ABM8-272-T3"
+		(property "Mouser" ""
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -14732,7 +14732,7 @@
 				)
 			)
 		)
-		(property "LCSC Part #" "C20625731"
+		(property "LCSC Part #" "C5310728"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -14744,7 +14744,7 @@
 				)
 			)
 		)
-		(property "LCSC" "https://www.lcsc.com/product-detail/C20625731.html"
+		(property "LCSC" "https://www.lcsc.com/product-detail/C5310728.html"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -19390,7 +19390,7 @@
 				)
 			)
 		)
-		(property "Note" "0.5% (or better) keeps +5V within 5.00-5.23 V; 1% could exceed the CM5 5.25 V max. Mouser PN follows the Yageo 603- pattern; confirm in the cart."
+		(property "Note" "0.5% (or better). With R25 also 0.5% the +5V stays within 5.00-5.23 V; with R25 at 1% (C25804) about 4.98-5.25 V. Mouser PN follows the Yageo 603- pattern; confirm in the cart."
 			(at 0 0 270)
 			(unlocked yes)
 			(layer "F.Fab")

@@ -40,7 +40,9 @@ with a different JLCPCB footprint (connectors, ICs), check its entry.
 
 The CM5 footprint (Module1, Raspberry Pi's footprint from the CM5 IO Board) contains both 100-pin
 connectors, so KiCad's own BOM and position files list it once. The BOM and CPL here list them as
-Module1A and Module1B: two Amphenol 10164227-1001A1RLF (C6782225).
+Module1 (connector A, pins 1–100) and Module2 (connector B, pins 101–200): two Amphenol
+10164227-1001A1RLF (C6782225). With letter suffixes (Module1A/Module1B), JLCPCB's BOM check warns that
+the line may hold several part types.
 
 ## PCB order settings
 
@@ -54,11 +56,16 @@ Module1A and Module1B: two Amphenol 10164227-1001A1RLF (C6782225).
 - **Not in the BOM/CPL:**
   - IC5 (Ag59824-LPB, bottom side): solder it by hand.
   - IC3 (JXF0-1012NL MagJack): JLCPCB doesn't stock it, so solder it by hand or consign it.
-- **Out of stock at JLCPCB on 2026-11-08:**
-  - IC4 RP2354A (C41378174). There is no substitute; the RP2354B is a different package.
-  - IC10 WSEN-PADS 2511020213301 (C7174514).
-
-  Use JLCPCB's parts pre-order or global sourcing, or consign the parts.
+- **Stock at JLCPCB on 2026-11-12:**
+  - Out of stock: IC10 WSEN-PADS 2511020213301 (C7174514). Use JLCPCB's parts pre-order or global
+    sourcing, or consign it.
+  - Low: IC8 LTC4162EUFD (C3681528, 11 left) and D2–D5 V6K100DUHM3 (C5985855, 76 left, 4 per board).
+  - IC4 RP2354A (C41378174) is back in stock. There is no substitute; the RP2354B is a different package.
+- **Y1** is C5310728 (Yajingxin TX322512M4DBDE2T, 12 MHz 10 pF, ESR 60 Ω), because the ABM8-272-T3
+  (C20625731) ran out. It keeps the load (C18/C19 15 pF), pinout and pads, and JLCPCB's footprint has the
+  same pad numbering, so its rotation is unchanged. Its ESR is 60 Ω instead of 50 Ω: check on the first
+  boards that the oscillator starts reliably, also cold; if it is slow, raise
+  `PICO_XOSC_STARTUP_DELAY_MULTIPLIER` in the firmware.
 - **No JLCPCB footprint:** JLCPCB's library has no footprint for D2–D5 (V6K100DUHM3/H), IC10, R1, R20 and C21/C24,
   so JLCPCB's engineers place them by hand. The CPL gives their pad centre and KiCad's rotation. Check
   D2–D5 and IC10 for pin 1 in the placement preview.
@@ -66,7 +73,9 @@ Module1A and Module1B: two Amphenol 10164227-1001A1RLF (C6782225).
   original part. Exceptions, checked 2026-11-09:
   - C26/C28/C30/C33/C34/C40 stay C432929 (10 µF 50 V X7R 1210). JLCPCB's Basic library has no 1210
     MLCC, and the Basic 1206 parts keep only about a quarter to a half of the capacitance at 24 V.
-  - R25 stays C706017 (0.5 %). Every Basic resistor is 1 %, which can take the 5 V rail above 5.25 V.
+  - R25 is C25804 (10k 1 %, Basic) since 2026-11-12, against R24's 0.5 %. The +5V worst case widens
+    from 5.00–5.23 V to about 4.98–5.25 V, at the CM5's 5.25 V maximum before temperature drift. The
+    0.5 % part C706017 (RT0603DRE0710KL) restores the margin.
   - C21/C24 are C3037690 (Fenghua 1812B472K202AT, 4.7 nF 2 kV X7R, flexible termination like the
     original KEMET part). The original C2183044 is out of stock.
   - IC8 is C3681528 (LTC4162**E**UFD-LAD, an approved alternate per the schematic note). The original
