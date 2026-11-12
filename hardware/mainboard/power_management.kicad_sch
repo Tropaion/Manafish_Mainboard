@@ -7729,7 +7729,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 113.538 161.29 90)
 			(hide yes)
 			(show_name no)
@@ -7740,7 +7740,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://yageogroup.com/content/datasheet/asset/file/PYU-RC_GROUP_51_ROHS_L"
+		(property "Datasheet" "https://www.vishay.com/docs/20035/dcrcwe3.pdf"
 			(at 111.76 161.29 0)
 			(hide yes)
 			(show_name no)
@@ -7762,7 +7762,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "Yageo"
+		(property "Manufacturer" "Vishay"
 			(at 111.76 161.29 0)
 			(hide yes)
 			(show_name no)
@@ -7773,7 +7773,7 @@
 				)
 			)
 		)
-		(property "MPN" "RC0603FR-0710KL"
+		(property "MPN" "CRCW040210K0FKEE"
 			(at 111.76 161.29 0)
 			(hide yes)
 			(show_name no)
@@ -7784,7 +7784,7 @@
 				)
 			)
 		)
-		(property "Mouser PN" "603-RC0603FR-0710KL"
+		(property "Mouser PN" "71-CRCW040210K0FKEE"
 			(at 111.76 161.29 0)
 			(hide yes)
 			(show_name no)
@@ -7795,7 +7795,7 @@
 				)
 			)
 		)
-		(property "Mouser" "https://www.mouser.com/ProductDetail/603-RC0603FR-0710KL"
+		(property "Mouser" "https://www.mouser.at/en/ProductDetail/Vishay/CRCW040210K0FKEE?qs=DDCJs2%252BWWG0MuqOioQ9Cow%3D%3D"
 			(at 111.76 161.29 0)
 			(hide yes)
 			(show_name no)
@@ -7806,7 +7806,7 @@
 				)
 			)
 		)
-		(property "LCSC Part #" "C25804"
+		(property "LCSC Part #" "https://www.lcsc.com/product-detail/C843837.html?s_z=n_q_CRCW040210K0FKEE"
 			(at 111.76 161.29 0)
 			(hide yes)
 			(show_name no)
@@ -7817,7 +7817,7 @@
 				)
 			)
 		)
-		(property "LCSC" "https://www.lcsc.com/product-detail/C25804.html"
+		(property "LCSC" "C843837"
 			(at 111.76 161.29 0)
 			(hide yes)
 			(show_name no)
@@ -8424,7 +8424,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
 			(at 243.84 127 0)
 			(hide yes)
 			(show_name no)
@@ -8435,7 +8435,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://product.samsungsem.com/mlcc/CL10A106KP8NNN.do"
+		(property "Datasheet" "https://weblib.samsungsem.com/mlcc/mlcc-ec-data-sheet.do?partNumber=CL21B106KOQNNN"
 			(at 243.84 127 0)
 			(hide yes)
 			(show_name no)
@@ -8446,7 +8446,7 @@
 				)
 			)
 		)
-		(property "Description" "CAP CER 10uF 10V X5R 10% 0603"
+		(property "Description" "CAP CER 10uF 16V X7R 10% 0805"
 			(at 243.84 137.16 0)
 			(hide yes)
 			(show_name no)
@@ -8468,7 +8468,7 @@
 				)
 			)
 		)
-		(property "MPN" "CL10A106KP8NNNC"
+		(property "MPN" "CL21B106KOQNNNG"
 			(at 243.84 127 0)
 			(hide yes)
 			(show_name no)
@@ -8479,7 +8479,7 @@
 				)
 			)
 		)
-		(property "Mouser PN" "187-CL10A106KP8NNNC"
+		(property "Mouser PN" "187-CL21B106KOQNNNG"
 			(at 243.84 127 0)
 			(hide yes)
 			(show_name no)
@@ -8490,7 +8490,7 @@
 				)
 			)
 		)
-		(property "Mouser" "https://www.mouser.com/ProductDetail/187-CL10A106KP8NNNC"
+		(property "Mouser" "https://www.mouser.at/en/ProductDetail/Samsung-Electro-Mechanics/CL21B106KOQNNNG?qs=Wt8QXSv5fpijNSc%252BYtlvng%3D%3D"
 			(at 243.84 127 0)
 			(hide yes)
 			(show_name no)
@@ -8501,7 +8501,7 @@
 				)
 			)
 		)
-		(property "LCSC Part #" "C19702"
+		(property "LCSC Part #" "C16194871"
 			(at 243.84 127 0)
 			(hide yes)
 			(show_name no)
@@ -8512,7 +8512,7 @@
 				)
 			)
 		)
-		(property "LCSC" "https://www.lcsc.com/product-detail/C19702.html"
+		(property "LCSC" "https://www.lcsc.com/product-detail/C16194871.html?s_z=n_q_CL21B106KOQNNNG"
 			(at 243.84 127 0)
 			(hide yes)
 			(show_name no)
@@ -8570,7 +8570,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 101.6 149.352 90)
 			(hide yes)
 			(show_name no)
@@ -8581,7 +8581,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://yageogroup.com/content/datasheet/asset/file/PYU-RC_GROUP_51_ROHS_L"
+		(property "Datasheet" "https://www.vishay.com/docs/20035/dcrcwe3.pdf"
 			(at 101.6 151.13 0)
 			(hide yes)
 			(show_name no)
@@ -8592,7 +8592,7 @@
 				)
 			)
 		)
-		(property "Description" "RES 10k 1% 1/10W 0603"
+		(property "Description" "RES 10k 1% 1/10W 0402"
 			(at 101.6 151.13 0)
 			(hide yes)
 			(show_name no)
@@ -8603,7 +8603,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "Yageo"
+		(property "Manufacturer" "Vishay"
 			(at 101.6 151.13 0)
 			(hide yes)
 			(show_name no)
@@ -8614,7 +8614,7 @@
 				)
 			)
 		)
-		(property "MPN" "RC0603FR-0710KL"
+		(property "MPN" "CRCW040210K0FKEE"
 			(at 101.6 151.13 0)
 			(hide yes)
 			(show_name no)
@@ -8625,7 +8625,7 @@
 				)
 			)
 		)
-		(property "Mouser PN" "603-RC0603FR-0710KL"
+		(property "Mouser PN" "71-CRCW040210K0FKEE"
 			(at 101.6 151.13 0)
 			(hide yes)
 			(show_name no)
@@ -8636,7 +8636,7 @@
 				)
 			)
 		)
-		(property "Mouser" "https://www.mouser.com/ProductDetail/603-RC0603FR-0710KL"
+		(property "Mouser" "https://www.mouser.at/en/ProductDetail/Vishay/CRCW040210K0FKEE?qs=DDCJs2%252BWWG0MuqOioQ9Cow%3D%3D"
 			(at 101.6 151.13 0)
 			(hide yes)
 			(show_name no)
@@ -8647,7 +8647,7 @@
 				)
 			)
 		)
-		(property "LCSC Part #" "C25804"
+		(property "LCSC Part #" "https://www.lcsc.com/product-detail/C843837.html?s_z=n_q_CRCW040210K0FKEE"
 			(at 101.6 151.13 0)
 			(hide yes)
 			(show_name no)
@@ -8658,7 +8658,7 @@
 				)
 			)
 		)
-		(property "LCSC" "https://www.lcsc.com/product-detail/C25804.html"
+		(property "LCSC" "C843837"
 			(at 101.6 151.13 0)
 			(hide yes)
 			(show_name no)
@@ -9413,7 +9413,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 85.09 111.76 0)
 			(hide yes)
 			(show_name no)
@@ -9424,7 +9424,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://pim.murata.com/asset/pim4/ceramicCapacitorSMD/GCM188R71H104KA57-01A-EN_PDF_CERAMICCAPACITORSMD"
+		(property "Datasheet" "https://pim.murata.com/asset/pim4/ceramicCapacitorSMD/GCM155R71H104KE02-01A-EN_PDF_CERAMICCAPACITORSMD"
 			(at 85.09 111.76 0)
 			(hide yes)
 			(show_name no)
@@ -9435,7 +9435,7 @@
 				)
 			)
 		)
-		(property "Description" "CAP CER 100nF 50V X7R 10% 0603"
+		(property "Description" "CAP CER 100nF 50V X7R 10% 0402"
 			(at 95.25 111.76 0)
 			(hide yes)
 			(show_name no)
@@ -9457,7 +9457,7 @@
 				)
 			)
 		)
-		(property "MPN" "GCM188R71H104KA57D"
+		(property "MPN" "GCM155R71H104KE02D"
 			(at 85.09 111.76 0)
 			(hide yes)
 			(show_name no)
@@ -9468,7 +9468,7 @@
 				)
 			)
 		)
-		(property "Mouser PN" "81-GCM188R71H104KA7D"
+		(property "Mouser PN" "81-GCM155R71H104KE2D"
 			(at 85.09 111.76 0)
 			(hide yes)
 			(show_name no)
@@ -9479,7 +9479,7 @@
 				)
 			)
 		)
-		(property "Mouser" "https://www.mouser.com/ProductDetail/81-GCM188R71H104KA7D"
+		(property "Mouser" "https://www.mouser.at/en/ProductDetail/Murata-Electronics/GCM155R71H104KE02D?qs=hNud%2FORuBR2sLZsqfoz4Fw%3D%3D"
 			(at 85.09 111.76 0)
 			(hide yes)
 			(show_name no)
@@ -9490,7 +9490,7 @@
 				)
 			)
 		)
-		(property "LCSC Part #" "C14663"
+		(property "LCSC Part #" "https://www.lcsc.com/product-detail/C85858.html?s_z=n_q_GCM155R71H104KE02D"
 			(at 85.09 111.76 0)
 			(hide yes)
 			(show_name no)
@@ -9501,7 +9501,7 @@
 				)
 			)
 		)
-		(property "LCSC" "https://www.lcsc.com/product-detail/C14663.html"
+		(property "LCSC" "C85858"
 			(at 85.09 111.76 0)
 			(hide yes)
 			(show_name no)
@@ -12038,7 +12038,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 33.528 179.07 90)
 			(hide yes)
 			(show_name no)
@@ -12049,7 +12049,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://yageogroup.com/content/datasheet/asset/file/PYU-RC_GROUP_51_ROHS_L"
+		(property "Datasheet" "https://www.vishay.com/docs/20035/dcrcwe3.pdf"
 			(at 31.75 179.07 0)
 			(hide yes)
 			(show_name no)
@@ -12060,7 +12060,7 @@
 				)
 			)
 		)
-		(property "Description" "RES 63k4 1% 1/10W 0603"
+		(property "Description" "RES 63k4 1% 1/10W 0402"
 			(at 31.75 179.07 0)
 			(hide yes)
 			(show_name no)
@@ -12071,7 +12071,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "Yageo"
+		(property "Manufacturer" "Vishay"
 			(at 31.75 179.07 0)
 			(hide yes)
 			(show_name no)
@@ -12082,7 +12082,7 @@
 				)
 			)
 		)
-		(property "MPN" "RC0603FR-0763K4L"
+		(property "MPN" "CRCW040263K4FKED"
 			(at 31.75 179.07 0)
 			(hide yes)
 			(show_name no)
@@ -12093,7 +12093,7 @@
 				)
 			)
 		)
-		(property "Mouser PN" "603-RC0603FR-0763K4L"
+		(property "Mouser PN" "71-CRCW0402-63.4K-E3"
 			(at 31.75 179.07 0)
 			(hide yes)
 			(show_name no)
@@ -12104,7 +12104,7 @@
 				)
 			)
 		)
-		(property "Mouser" "https://www.mouser.com/ProductDetail/603-RC0603FR-0763K4L"
+		(property "Mouser" "https://www.mouser.at/en/ProductDetail/Vishay/CRCW040263K4FKED?qs=DKbL89i6OErTbf0Wmhbm1A%3D%3D"
 			(at 31.75 179.07 0)
 			(hide yes)
 			(show_name no)
@@ -12115,7 +12115,7 @@
 				)
 			)
 		)
-		(property "LCSC Part #" "C23093"
+		(property "LCSC Part #" "C4201041"
 			(at 31.75 179.07 0)
 			(hide yes)
 			(show_name no)
@@ -12126,7 +12126,7 @@
 				)
 			)
 		)
-		(property "LCSC" "https://www.lcsc.com/product-detail/C23093.html"
+		(property "LCSC" "https://www.lcsc.com/product-detail/C4201041.html?s_z=n_q_CRCW040263K4FKED"
 			(at 31.75 179.07 0)
 			(hide yes)
 			(show_name no)
@@ -13873,7 +13873,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 187.96 120.65 0)
 			(hide yes)
 			(show_name no)
@@ -13884,7 +13884,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://yageogroup.com/content/datasheet/asset/file/PYU-RC_GROUP_51_ROHS_L"
+		(property "Datasheet" "https://www.vishay.com/docs/20035/dcrcwe3.pdf"
 			(at 187.96 120.65 0)
 			(hide yes)
 			(show_name no)
@@ -13895,7 +13895,7 @@
 				)
 			)
 		)
-		(property "Description" "RES 100k 1% 1/10W 0603"
+		(property "Description" "RES 100k 1% 1/10W 0402"
 			(at 187.96 120.65 0)
 			(hide yes)
 			(show_name no)
@@ -13906,7 +13906,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "Yageo"
+		(property "Manufacturer" "Vishay"
 			(at 187.96 120.65 0)
 			(hide yes)
 			(show_name no)
@@ -13917,7 +13917,7 @@
 				)
 			)
 		)
-		(property "MPN" "RC0603FR-07100KL"
+		(property "MPN" "CRCW0402100KFKED"
 			(at 187.96 120.65 0)
 			(hide yes)
 			(show_name no)
@@ -13928,7 +13928,7 @@
 				)
 			)
 		)
-		(property "Mouser PN" "603-RC0603FR-07100KL"
+		(property "Mouser PN" "71-CRCW0402-100K-E3"
 			(at 187.96 120.65 0)
 			(hide yes)
 			(show_name no)
@@ -13939,7 +13939,7 @@
 				)
 			)
 		)
-		(property "Mouser" "https://www.mouser.com/ProductDetail/603-RC0603FR-07100KL"
+		(property "Mouser" "https://www.mouser.at/en/ProductDetail/Vishay/CRCW0402100KFKED?qs=OlqPY1CiralZGKRwQ4Glcg%3D%3D"
 			(at 187.96 120.65 0)
 			(hide yes)
 			(show_name no)
@@ -13950,7 +13950,7 @@
 				)
 			)
 		)
-		(property "LCSC Part #" "C25803"
+		(property "LCSC Part #" "C481918"
 			(at 187.96 120.65 0)
 			(hide yes)
 			(show_name no)
@@ -13961,7 +13961,7 @@
 				)
 			)
 		)
-		(property "LCSC" "https://www.lcsc.com/product-detail/C25803.html"
+		(property "LCSC" "https://www.lcsc.com/product-detail/C481918.html?s_z=n_q_CRCW0402100KFKED"
 			(at 187.96 120.65 0)
 			(hide yes)
 			(show_name no)
@@ -16289,7 +16289,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0603_1608Metric"
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
 			(at 95.25 133.35 0)
 			(hide yes)
 			(show_name no)
@@ -16300,7 +16300,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://pim.murata.com/asset/pim4/ceramicCapacitorSMD/GCM188R71H223KA37-01A-EN_PDF_CERAMICCAPACITORSMD"
+		(property "Datasheet" "https://www.mouser.at/datasheet/3/76/2/GRT155R71H223KE01_01A.pdf"
 			(at 95.25 133.35 0)
 			(hide yes)
 			(show_name no)
@@ -16311,7 +16311,7 @@
 				)
 			)
 		)
-		(property "Description" "CAP CER 22nF 50V X7R 10% 0603"
+		(property "Description" "CAP CER 22nF 50V X7R 10% 0402"
 			(at 105.41 133.35 0)
 			(hide yes)
 			(show_name no)
@@ -16333,7 +16333,7 @@
 				)
 			)
 		)
-		(property "MPN" "GCM188R71H223KA37D"
+		(property "MPN" "GRT155R71H223KE01D"
 			(at 95.25 133.35 0)
 			(hide yes)
 			(show_name no)
@@ -16344,7 +16344,7 @@
 				)
 			)
 		)
-		(property "Mouser PN" "81-GCM188R71H223K37D"
+		(property "Mouser PN" "81-GRT155R71H223KE1D"
 			(at 95.25 133.35 0)
 			(hide yes)
 			(show_name no)
@@ -16355,7 +16355,7 @@
 				)
 			)
 		)
-		(property "Mouser" "https://www.mouser.com/ProductDetail/81-GCM188R71H223K37D"
+		(property "Mouser" "https://www.mouser.at/en/ProductDetail/Murata-Electronics/GRT155R71H223KE01D?qs=qkDYIeTQ%252BEmsLZiZG9WAug%3D%3D"
 			(at 95.25 133.35 0)
 			(hide yes)
 			(show_name no)
@@ -16366,7 +16366,7 @@
 				)
 			)
 		)
-		(property "LCSC Part #" "C21122"
+		(property "LCSC Part #" "https://www.lcsc.com/product-detail/C711092.html?s_z=n_q_GRT155R71H223KE01D"
 			(at 95.25 133.35 0)
 			(hide yes)
 			(show_name no)
@@ -16377,7 +16377,7 @@
 				)
 			)
 		)
-		(property "LCSC" "https://www.lcsc.com/product-detail/C21122.html"
+		(property "LCSC" "C711092"
 			(at 95.25 133.35 0)
 			(hide yes)
 			(show_name no)
@@ -16739,7 +16739,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric"
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
 			(at 217.17 125.73 0)
 			(hide yes)
 			(show_name no)
@@ -16750,7 +16750,7 @@
 				)
 			)
 		)
-		(property "Datasheet" "https://yageogroup.com/content/datasheet/asset/file/PYU-RC_GROUP_51_ROHS_L"
+		(property "Datasheet" "https://www.vishay.com/docs/20035/dcrcwe3.pdf"
 			(at 217.17 125.73 0)
 			(hide yes)
 			(show_name no)
@@ -16761,7 +16761,7 @@
 				)
 			)
 		)
-		(property "Description" "RES 100k 1% 1/10W 0603"
+		(property "Description" "RES 100k 1% 1/10W 0402"
 			(at 217.17 125.73 0)
 			(hide yes)
 			(show_name no)
@@ -16772,7 +16772,7 @@
 				)
 			)
 		)
-		(property "Manufacturer" "Yageo"
+		(property "Manufacturer" "Vishay"
 			(at 217.17 125.73 0)
 			(hide yes)
 			(show_name no)
@@ -16783,7 +16783,7 @@
 				)
 			)
 		)
-		(property "MPN" "RC0603FR-07100KL"
+		(property "MPN" "CRCW0402100KFKED"
 			(at 217.17 125.73 0)
 			(hide yes)
 			(show_name no)
@@ -16794,7 +16794,7 @@
 				)
 			)
 		)
-		(property "Mouser PN" "603-RC0603FR-07100KL"
+		(property "Mouser PN" "71-CRCW0402-100K-E3"
 			(at 217.17 125.73 0)
 			(hide yes)
 			(show_name no)
@@ -16805,7 +16805,7 @@
 				)
 			)
 		)
-		(property "Mouser" "https://www.mouser.com/ProductDetail/603-RC0603FR-07100KL"
+		(property "Mouser" "https://www.mouser.at/en/ProductDetail/Vishay/CRCW0402100KFKED?qs=OlqPY1CiralZGKRwQ4Glcg%3D%3D"
 			(at 217.17 125.73 0)
 			(hide yes)
 			(show_name no)
@@ -16816,7 +16816,7 @@
 				)
 			)
 		)
-		(property "LCSC Part #" "C25803"
+		(property "LCSC Part #" "C481918"
 			(at 217.17 125.73 0)
 			(hide yes)
 			(show_name no)
@@ -16827,7 +16827,7 @@
 				)
 			)
 		)
-		(property "LCSC" "https://www.lcsc.com/product-detail/C25803.html"
+		(property "LCSC" "https://www.lcsc.com/product-detail/C481918.html?s_z=n_q_CRCW0402100KFKED"
 			(at 217.17 125.73 0)
 			(hide yes)
 			(show_name no)
