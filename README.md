@@ -152,7 +152,8 @@ hardware/
 │   ├── production/             JLCPCB Gerbers, BOM and CPL, and jlc_export.py that writes them
 │   ├── simulation/             ngspice simulations of the ESC switch soft start
 │   └── bom/                    interactive HTML BOM
-└── magnetic_switch/            magnet switch PCB (2 layers, hand-soldered); JLCPCB Gerbers in production/
+└── magnetic_switch/            magnet switch PCB (2 layers, hand-soldered): BOM in Magnetic Switch.csv and bom/ibom.html,
+                                JLCPCB Gerbers in production/
 ```
 
 ## PCB

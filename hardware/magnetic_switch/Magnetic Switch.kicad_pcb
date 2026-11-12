@@ -78,7 +78,6 @@
 		)
 		(capping no)
 		(filling no)
-		(zone_defaults)
 		(pcbplotparams
 			(layerselection 0x00000000_00000000_55555555_575555af)
 			(plot_on_all_layers_selection 0x00000000_00000000_00000000_00000000)
@@ -144,7 +143,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "https://www.lcsc.com/product-detail/C25744.html"
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
@@ -155,7 +154,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "RES 10k 1% 1/16W 0402"
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
@@ -175,6 +174,72 @@
 				(font
 					(size 1 1)
 					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer" "UNI-ROYAL"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "8fc6b7cd-17a9-472d-8dea-e923c406b55c")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0402WGF1002TCE"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "41b2910d-b1b2-46cb-9a13-ef309606b791")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "2cd9aea3-fa05-4670-8fa0-ec937661c453")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "642a8fdf-3712-470b-8f23-c817ab1760b4")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part #" "C25744"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "4ec9129f-ecbb-44de-9a58-60d313f10aaf")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C25744.html"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "ca20be42-3531-44d2-b6ab-9ca100bf5063")
+			(effects
+				(font
+					(size 1.27 1.27)
 				)
 			)
 		)
@@ -325,6 +390,72 @@
 				(font
 					(size 1.27 1.27)
 					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer" "Allegro MicroSystems"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "04df9d69-da13-4ab9-9792-75ceeb741854")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "A1104LLHLT-T"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "635645f6-7c24-419d-a225-1427317179b4")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "2e7ba9ac-b78d-4fc5-9c41-e42a0d69a88a")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "75cfc871-8c11-41d6-930a-2d5080061a43")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part #" "C459229"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "4110f403-424f-4af4-b0cd-f481f73d2f0f")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C459229.html"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "7fe94e52-3aad-4055-b408-d340ac447909")
+			(effects
+				(font
+					(size 1.27 1.27)
 				)
 			)
 		)
@@ -676,7 +807,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/cd4013b.pdf"
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
@@ -688,7 +819,7 @@
 				)
 			)
 		)
-		(property "Description" ""
+		(property "Description" "IC FLIP-FLOP DUAL D-TYPE CD4000B 3-18V SOIC-14"
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
@@ -697,6 +828,72 @@
 				(font
 					(size 1.27 1.27)
 					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer" "Texas Instruments"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d0053be3-2938-4ba2-9c5d-f9fdab4633ce")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "CD4013BM96"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "53a65031-e7af-4f38-82d6-99359e3887a7")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "595-CD4013BM96"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "09b79c73-b66f-4571-9327-ff7713a033e2")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/595-CD4013BM96"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "82edda1b-3a7e-487d-994c-f838e2cd80ca")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part #" "C13527"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "5a2e50af-2ca2-4b6f-9917-755613997d1a")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C13527.html"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "8d2c305b-50c0-481d-b207-f39cd24006d7")
+			(effects
+				(font
+					(size 1.27 1.27)
 				)
 			)
 		)
@@ -1197,7 +1394,7 @@
 				)
 			)
 		)
-		(property "LCSC PN" "C514175"
+		(property "LCSC Part #" "C514175"
 			(at 0 0 90)
 			(unlocked yes)
 			(layer "F.Fab")
@@ -1624,7 +1821,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "https://www.lcsc.com/product-detail/C1525.html"
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
@@ -1635,7 +1832,7 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "CAP CER 100nF 16V X7R 10% 0402"
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
@@ -1655,6 +1852,72 @@
 				(font
 					(size 1 1)
 					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer" "Samsung Electro-Mechanics"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "bfb0bbee-315a-4b30-8d83-fd53aeb77fc9")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "CL05B104KO5NNNC"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f20193a2-af21-4839-a88f-a57ad3c3c5f6")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "187-CL05B104KO5NNNC"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "25492387-7e21-4fe8-8554-5163820ef437")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/187-CL05B104KO5NNNC"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "0f86eb32-2f0b-4edf-be38-6b6554b825b3")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part #" "C1525"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "5975f759-4ffa-4f90-a292-328825b3f6fa")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C1525.html"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "11b07f12-9bb5-4743-841b-cce0cdcdba3f")
+			(effects
+				(font
+					(size 1.27 1.27)
 				)
 			)
 		)
@@ -1870,7 +2133,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "https://www.lcsc.com/product-detail/C25741.html"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -1881,7 +2144,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "RES 100k 1% 1/16W 0402"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -1901,6 +2164,72 @@
 				(font
 					(size 1 1)
 					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer" "UNI-ROYAL"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "b8b70d71-762f-4f5a-8fa9-84fca7a92f0a")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0402WGF1003TCE"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "315078fc-e230-40de-9025-3ca01ae166d4")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "969c0aaf-4c78-4b08-829c-c9781254840a")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "15560577-4ded-494f-ab9d-5f7ec3af646a")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part #" "C25741"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "3841a8fa-30ac-47ed-8b3e-1b26ab1a9684")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C25741.html"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "18566505-979f-468c-9761-76ccc3bb9141")
+			(effects
+				(font
+					(size 1.27 1.27)
 				)
 			)
 		)
@@ -2028,7 +2357,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "https://www.lcsc.com/product-detail/C11702.html"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -2039,7 +2368,7 @@
 				)
 			)
 		)
-		(property "Description" "Resistor"
+		(property "Description" "RES 1k 1% 1/16W 0402"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -2059,6 +2388,72 @@
 				(font
 					(size 1 1)
 					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer" "UNI-ROYAL"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "2ddd928c-71e3-4ea1-a2e5-534da38977b0")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "0402WGF1001TCE"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "2f50f1cb-5b93-4f92-926d-60c9feb7ad0c")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "14b283fd-f666-4856-b8a3-e56ee9497588")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d6742b3c-5613-42ad-8a7a-32482a26643f")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part #" "C11702"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "ee2816f1-27bc-4a4e-b233-5880d2132665")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C11702.html"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "94ad1793-3a7c-49ff-b2ad-89e8a215b9d0")
+			(effects
+				(font
+					(size 1.27 1.27)
 				)
 			)
 		)
@@ -2186,7 +2581,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "https://www.lcsc.com/product-detail/C1525.html"
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
@@ -2197,7 +2592,7 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "CAP CER 100nF 16V X7R 10% 0402"
 			(at 0 0 90)
 			(layer "F.Fab")
 			(hide yes)
@@ -2217,6 +2612,72 @@
 				(font
 					(size 1 1)
 					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer" "Samsung Electro-Mechanics"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "89278092-bfb9-4383-9d89-4ea7b5fee717")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "CL05B104KO5NNNC"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "188031ff-771f-482e-bc77-6ce083d5fe27")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "187-CL05B104KO5NNNC"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "070b50b9-79e9-4306-9951-5c16ed4213d1")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/187-CL05B104KO5NNNC"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "a56c97e5-0fef-4a30-aab8-cf69cc102e1f")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part #" "C1525"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "35facd02-9651-44df-b350-d29a7a8d95fb")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C1525.html"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "0eca7804-3fe6-4201-ae76-ec171efcabad")
+			(effects
+				(font
+					(size 1.27 1.27)
 				)
 			)
 		)
@@ -2344,7 +2805,7 @@
 				)
 			)
 		)
-		(property "Datasheet" ""
+		(property "Datasheet" "https://www.lcsc.com/product-detail/C1525.html"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -2355,7 +2816,7 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor"
+		(property "Description" "CAP CER 100nF 16V X7R 10% 0402"
 			(at 0 0 0)
 			(layer "F.Fab")
 			(hide yes)
@@ -2375,6 +2836,72 @@
 				(font
 					(size 1 1)
 					(thickness 0.15)
+				)
+			)
+		)
+		(property "Manufacturer" "Samsung Electro-Mechanics"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "cb83da5f-33db-431e-b8fc-7825e8befbd4")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "CL05B104KO5NNNC"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "4664ecc0-95a2-4ce6-9ac2-0eb5eaca2ade")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser PN" "187-CL05B104KO5NNNC"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "160e7f8c-8e2a-46f5-96b6-2bb2e13cd4e8")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Mouser" "https://www.mouser.com/ProductDetail/187-CL05B104KO5NNNC"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "f3740bae-546b-415c-b816-d4d183073636")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC Part #" "C1525"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "26375034-3b26-4615-a649-a3f100d73d40")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "https://www.lcsc.com/product-detail/C1525.html"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "137dbac8-aafc-4b32-b741-374009c8f7d1")
+			(effects
+				(font
+					(size 1.27 1.27)
 				)
 			)
 		)
@@ -3194,166 +3721,6 @@
 		)
 	)
 	(segment
-		(start 128.8 94.53)
-		(end 128.73 94.6)
-		(width 0.2)
-		(layer "F.Cu")
-		(net "GND")
-		(uuid "ab63caa0-c633-4d04-9c47-18215079e929")
-	)
-	(segment
-		(start 128.41 90.1)
-		(end 128.4 90.09)
-		(width 0.2)
-		(layer "F.Cu")
-		(net "Net-(U2-V_{OUT})")
-		(uuid "3557aeb3-0387-4eab-a0a8-c3b7c1d34818")
-	)
-	(segment
-		(start 129.49 90.1)
-		(end 128.41 90.1)
-		(width 0.2)
-		(layer "F.Cu")
-		(net "Net-(U2-V_{OUT})")
-		(uuid "667248fe-410b-43fd-9982-3a81befba466")
-	)
-	(segment
-		(start 128.4 88.7)
-		(end 128.4 90.09)
-		(width 0.2)
-		(layer "F.Cu")
-		(net "Net-(U2-V_{OUT})")
-		(uuid "bfc8856b-d541-4fb8-8fbc-df33f1dbe5c8")
-	)
-	(segment
-		(start 135.08 94.6)
-		(end 135.08 85.332684)
-		(width 0.2)
-		(layer "F.Cu")
-		(net "/SWITCH")
-		(uuid "039f7eef-fd97-47d7-aada-09dcd112ad1d")
-	)
-	(segment
-		(start 137.512684 82.9)
-		(end 140.15 82.9)
-		(width 0.2)
-		(layer "F.Cu")
-		(net "/SWITCH")
-		(uuid "1b987eaa-4e99-4135-b006-822343e4bc3f")
-	)
-	(segment
-		(start 135.08 85.332684)
-		(end 137.512684 82.9)
-		(width 0.2)
-		(layer "F.Cu")
-		(net "/SWITCH")
-		(uuid "c998487a-0f04-4d21-9ee1-9794cf558c6b")
-	)
-	(segment
-		(start 133.2 96.2)
-		(end 133.81 95.59)
-		(width 0.2)
-		(layer "F.Cu")
-		(net "Net-(U1A-D)")
-		(uuid "0caa88e2-cdfe-40b8-b34e-3f5b2b0b7edc")
-	)
-	(segment
-		(start 133.7 94.71)
-		(end 133.81 94.6)
-		(width 0.2)
-		(layer "F.Cu")
-		(net "Net-(U1A-D)")
-		(uuid "4668838e-7908-4bb2-b37f-f257b240521a")
-	)
-	(segment
-		(start 130 94.6)
-		(end 130 95.7)
-		(width 0.2)
-		(layer "F.Cu")
-		(net "Net-(U1A-D)")
-		(uuid "4cc46da4-0a1f-4568-8a19-b064238d8ac3")
-	)
-	(segment
-		(start 133.81 95.59)
-		(end 133.81 94.6)
-		(width 0.2)
-		(layer "F.Cu")
-		(net "Net-(U1A-D)")
-		(uuid "633856cf-971c-489d-8131-34851a8da68f")
-	)
-	(segment
-		(start 130.5 96.2)
-		(end 133.2 96.2)
-		(width 0.2)
-		(layer "F.Cu")
-		(net "Net-(U1A-D)")
-		(uuid "c02c7365-0393-4900-93d1-9bd7af8402d1")
-	)
-	(segment
-		(start 130 95.7)
-		(end 130.5 96.2)
-		(width 0.2)
-		(layer "F.Cu")
-		(net "Net-(U1A-D)")
-		(uuid "dde3883b-d5d0-476a-8a7b-080d910c354b")
-	)
-	(segment
-		(start 132.54 91.34)
-		(end 132.54 94.6)
-		(width 0.2)
-		(layer "F.Cu")
-		(net "/HALL_OUT")
-		(uuid "6e46689d-a9c6-4871-8e5a-c8e66eaac2d9")
-	)
-	(segment
-		(start 130.51 90.1)
-		(end 131.3 90.1)
-		(width 0.2)
-		(layer "F.Cu")
-		(net "/HALL_OUT")
-		(uuid "8936dba0-d854-401a-ba8d-664094ebd0ce")
-	)
-	(segment
-		(start 131.3 90.1)
-		(end 132.54 91.34)
-		(width 0.2)
-		(layer "F.Cu")
-		(net "/HALL_OUT")
-		(uuid "ea83f49b-dced-402a-9f16-9a7c6b6fe8bc")
-	)
-	(segment
-		(start 131.27 92.61)
-		(end 131.3 92.58)
-		(width 0.2)
-		(layer "F.Cu")
-		(net "Net-(U1A-R)")
-		(uuid "5a1b4303-04c5-4ada-9517-63c8ed88b3e0")
-	)
-	(segment
-		(start 131.27 94.6)
-		(end 131.27 92.61)
-		(width 0.2)
-		(layer "F.Cu")
-		(net "Net-(U1A-R)")
-		(uuid "96156bbc-8cfd-4619-bd36-d15ba15e2024")
-	)
-	(segment
-		(start 130.31 92.6)
-		(end 131.28 92.6)
-		(width 0.2)
-		(layer "F.Cu")
-		(net "Net-(U1A-R)")
-		(uuid "9f9f5603-34bc-477d-8588-d748dc4193e4")
-	)
-	(segment
-		(start 131.28 92.6)
-		(end 131.3 92.58)
-		(width 0.2)
-		(layer "F.Cu")
-		(net "Net-(U1A-R)")
-		(uuid "f79ed118-ce06-4fe9-b44f-d6f7db67f2d9")
-	)
-	(segment
 		(start 136.8 99.58)
 		(end 135.11 99.58)
 		(width 0.2)
@@ -3508,6 +3875,166 @@
 		(filling no)
 		(net "+5V0")
 		(uuid "dfb6e913-7e02-4762-bd43-ae518a728204")
+	)
+	(segment
+		(start 128.41 90.1)
+		(end 128.4 90.09)
+		(width 0.2)
+		(layer "F.Cu")
+		(net "Net-(U2-V_{OUT})")
+		(uuid "3557aeb3-0387-4eab-a0a8-c3b7c1d34818")
+	)
+	(segment
+		(start 129.49 90.1)
+		(end 128.41 90.1)
+		(width 0.2)
+		(layer "F.Cu")
+		(net "Net-(U2-V_{OUT})")
+		(uuid "667248fe-410b-43fd-9982-3a81befba466")
+	)
+	(segment
+		(start 128.4 88.7)
+		(end 128.4 90.09)
+		(width 0.2)
+		(layer "F.Cu")
+		(net "Net-(U2-V_{OUT})")
+		(uuid "bfc8856b-d541-4fb8-8fbc-df33f1dbe5c8")
+	)
+	(segment
+		(start 128.8 94.53)
+		(end 128.73 94.6)
+		(width 0.2)
+		(layer "F.Cu")
+		(net "GND")
+		(uuid "ab63caa0-c633-4d04-9c47-18215079e929")
+	)
+	(segment
+		(start 135.08 94.6)
+		(end 135.08 85.332684)
+		(width 0.2)
+		(layer "F.Cu")
+		(net "/SWITCH")
+		(uuid "039f7eef-fd97-47d7-aada-09dcd112ad1d")
+	)
+	(segment
+		(start 137.512684 82.9)
+		(end 140.15 82.9)
+		(width 0.2)
+		(layer "F.Cu")
+		(net "/SWITCH")
+		(uuid "1b987eaa-4e99-4135-b006-822343e4bc3f")
+	)
+	(segment
+		(start 135.08 85.332684)
+		(end 137.512684 82.9)
+		(width 0.2)
+		(layer "F.Cu")
+		(net "/SWITCH")
+		(uuid "c998487a-0f04-4d21-9ee1-9794cf558c6b")
+	)
+	(segment
+		(start 133.2 96.2)
+		(end 133.81 95.59)
+		(width 0.2)
+		(layer "F.Cu")
+		(net "Net-(U1A-D)")
+		(uuid "0caa88e2-cdfe-40b8-b34e-3f5b2b0b7edc")
+	)
+	(segment
+		(start 133.7 94.71)
+		(end 133.81 94.6)
+		(width 0.2)
+		(layer "F.Cu")
+		(net "Net-(U1A-D)")
+		(uuid "4668838e-7908-4bb2-b37f-f257b240521a")
+	)
+	(segment
+		(start 130 94.6)
+		(end 130 95.7)
+		(width 0.2)
+		(layer "F.Cu")
+		(net "Net-(U1A-D)")
+		(uuid "4cc46da4-0a1f-4568-8a19-b064238d8ac3")
+	)
+	(segment
+		(start 133.81 95.59)
+		(end 133.81 94.6)
+		(width 0.2)
+		(layer "F.Cu")
+		(net "Net-(U1A-D)")
+		(uuid "633856cf-971c-489d-8131-34851a8da68f")
+	)
+	(segment
+		(start 130.5 96.2)
+		(end 133.2 96.2)
+		(width 0.2)
+		(layer "F.Cu")
+		(net "Net-(U1A-D)")
+		(uuid "c02c7365-0393-4900-93d1-9bd7af8402d1")
+	)
+	(segment
+		(start 130 95.7)
+		(end 130.5 96.2)
+		(width 0.2)
+		(layer "F.Cu")
+		(net "Net-(U1A-D)")
+		(uuid "dde3883b-d5d0-476a-8a7b-080d910c354b")
+	)
+	(segment
+		(start 132.54 91.34)
+		(end 132.54 94.6)
+		(width 0.2)
+		(layer "F.Cu")
+		(net "/HALL_OUT")
+		(uuid "6e46689d-a9c6-4871-8e5a-c8e66eaac2d9")
+	)
+	(segment
+		(start 130.51 90.1)
+		(end 131.3 90.1)
+		(width 0.2)
+		(layer "F.Cu")
+		(net "/HALL_OUT")
+		(uuid "8936dba0-d854-401a-ba8d-664094ebd0ce")
+	)
+	(segment
+		(start 131.3 90.1)
+		(end 132.54 91.34)
+		(width 0.2)
+		(layer "F.Cu")
+		(net "/HALL_OUT")
+		(uuid "ea83f49b-dced-402a-9f16-9a7c6b6fe8bc")
+	)
+	(segment
+		(start 131.27 92.61)
+		(end 131.3 92.58)
+		(width 0.2)
+		(layer "F.Cu")
+		(net "Net-(U1A-R)")
+		(uuid "5a1b4303-04c5-4ada-9517-63c8ed88b3e0")
+	)
+	(segment
+		(start 131.27 94.6)
+		(end 131.27 92.61)
+		(width 0.2)
+		(layer "F.Cu")
+		(net "Net-(U1A-R)")
+		(uuid "96156bbc-8cfd-4619-bd36-d15ba15e2024")
+	)
+	(segment
+		(start 130.31 92.6)
+		(end 131.28 92.6)
+		(width 0.2)
+		(layer "F.Cu")
+		(net "Net-(U1A-R)")
+		(uuid "9f9f5603-34bc-477d-8588-d748dc4193e4")
+	)
+	(segment
+		(start 131.28 92.6)
+		(end 131.3 92.58)
+		(width 0.2)
+		(layer "F.Cu")
+		(net "Net-(U1A-R)")
+		(uuid "f79ed118-ce06-4fe9-b44f-d6f7db67f2d9")
 	)
 	(zone
 		(net "GND")

@@ -1,0 +1,8 @@
+"Reference","Qty","Value","Footprint","Manufacturer","MPN","LCSC Part #","Mouser PN","Description","Datasheet","DNP"
+"C1,C2,C3","3","100n 16V X7R 10%","Capacitor_SMD:C_0402_1005Metric","Samsung Electro-Mechanics","CL05B104KO5NNNC","C1525","187-CL05B104KO5NNNC","CAP CER 100nF 16V X7R 10% 0402","https://www.lcsc.com/product-detail/C1525.html",""
+"J12","1","Magnet","Connector_JST:JST_GH_SM03B-GHS-TB_1x03-1MP_P1.25mm_Horizontal","JST","SM03B-GHS-TB(LF)(SN)","C514175","306-SM03BGHSTBLFSN","CONN JST GH 3P 1.25mm R/A SMD (magnet switch board: 1 = +5V_AON, 2 = MAG_ON, 3 = GND)","https://www.jst-mfg.com/product/pdf/eng/eGH.pdf",""
+"R3","1","10k 1/16W 1%","Resistor_SMD:R_0402_1005Metric","UNI-ROYAL","0402WGF1002TCE","C25744","","RES 10k 1% 1/16W 0402","https://www.lcsc.com/product-detail/C25744.html",""
+"R5","1","100k 1/16W 1%","Resistor_SMD:R_0402_1005Metric","UNI-ROYAL","0402WGF1003TCE","C25741","","RES 100k 1% 1/16W 0402","https://www.lcsc.com/product-detail/C25741.html",""
+"R6","1","1k 1/16W 1%","Resistor_SMD:R_0402_1005Metric","UNI-ROYAL","0402WGF1001TCE","C11702","","RES 1k 1% 1/16W 0402","https://www.lcsc.com/product-detail/C11702.html",""
+"U1","1","CD4013","Package_SO:SOIC-14_3.9x8.7mm_P1.27mm","Texas Instruments","CD4013BM96","C13527","595-CD4013BM96","IC FLIP-FLOP DUAL D-TYPE CD4000B 3-18V SOIC-14","https://www.ti.com/lit/ds/symlink/cd4013b.pdf",""
+"U2","1","A1104xLH","Package_TO_SOT_SMD:SOT-23","Allegro MicroSystems","A1104LLHLT-T","C459229","","Hall effect switch, unipolar (south-polarity), Bop=70-350G, Brp=50-330G, 3.8-24V supply, SOT-23W","https://www.allegromicro.com/-/media/files/datasheets/a110x-datasheet.ashx",""

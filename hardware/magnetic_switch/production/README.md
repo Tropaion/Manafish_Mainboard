@@ -1,7 +1,10 @@
 # JLCPCB production data: magnetic switch
 
 Generated 2026-11-12 from `Magnetic Switch.kicad_pcb` with KiCad 10.0.8 by `gerber_export.py`.
-Bare PCB only: there is no BOM or CPL, the parts are soldered by hand.
+Bare PCB only: there is no assembly BOM or CPL, the parts are soldered by hand. The parts list is
+`../Magnetic Switch.csv` (manufacturer, MPN, LCSC and Mouser numbers), and `../bom/ibom.html` is an
+interactive BOM to place them by. Both are exported from the schematic and board as for the mainboard
+(see `hardware/mainboard/production/README.md`).
 
 | File | Use |
 | --- | --- |
