@@ -38,6 +38,8 @@ jobs:
         uses: DeterminateSystems/magic-nix-cache-action@f69a2d3e148e90223fe63ab6e3f6331f2e7e33dc # main
         with:
           diagnostic-endpoint: ""
+          # No FlakeHub account; the GitHub Actions cache is enough.
+          use-flakehub: false
 
       - name: Build the SD image
         run: nix build .#sdImage --accept-flake-config --max-jobs 4 --cores 4 -L
