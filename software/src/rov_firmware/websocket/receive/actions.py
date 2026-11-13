@@ -1,0 +1,85 @@
+"""WebSocket action handlers for the ROV firmware."""
+
+import time
+
+from ...constants import THRUSTER_TEST_TOAST_ID
+from ...log import log_info, log_warn
+from ...models.actions import DirectionVector
+from ...models.config import ThrusterTest
+from ...models.toast import ToastVariant
+from ...rov_state import RovState
+from ...toast import ToastContent, toast_content
+
+
+async def handle_direction_vector(
+    state: RovState,
+    payload: DirectionVector,
+) -> None:
+    """Handle direction vector message.
+
+    Args:
+        state: The ROV state.
+        payload: The direction vector.
+    """
+    if state.mcu_flashing or state.esc_firmware_recovery_required:
+        state.thrusters.direction_vector = None
+        return
+    state.thrusters.direction_vector = payload.root
+    state.thrusters.last_direction_time = time.time()
+
+
+async def handle_start_thruster_test(
+    state: RovState,
+    payload: ThrusterTest,
+) -> None:
+    """Handle start thruster test message.
+
+    Args:
+        state: The ROV state.
+        payload: The thruster test index.
+    """
+    if not state.system_status.thruster_control_ready:
+        log_warn(f"Rejecting thruster test {payload}: thruster control is not ready")
+        toast_content(
+            identifier=THRUSTER_TEST_TOAST_ID,
+            variant=ToastVariant.ERROR,
+            content=ToastContent(
+                message_key="toasts_thruster_test_unavailable",
+                description_key="toasts_thruster_test_unavailable_description",
+            ),
+            action=None,
+        )
+        return
+
+    log_info(f"Queueing thruster test: {payload}")
+    state.thrusters.test_request_id += 1
+    state.thrusters.test_thruster = payload
+    state.thrusters.test_start_time = None
+    state.thrusters.last_remaining = 0
+
+
+async def handle_cancel_thruster_test(
+    state: RovState,
+    payload: ThrusterTest,
+) -> None:
+    """Handle cancel thruster test message.
+
+    Args:
+        state: The ROV state.
+        payload: The thruster test configuration.
+    """
+    log_info(f"Cancelling thruster test: {payload}")
+    state.thrusters.test_request_id += 1
+    if state.pico is not None:
+        await state.pico.cancel_thruster_test()
+    else:
+        state.thrusters.test_thruster = None
+        state.thrusters.test_start_time = None
+    toast_content(
+        identifier=THRUSTER_TEST_TOAST_ID,
+        variant=ToastVariant.INFO,
+        content=ToastContent(
+            message_key="toasts_thruster_test_cancelled",
+        ),
+        action=None,
+    )

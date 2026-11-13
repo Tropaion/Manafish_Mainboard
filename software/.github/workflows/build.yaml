@@ -1,0 +1,133 @@
+name: Release Build
+
+on:
+  push:
+    tags:
+      - v[0-9]+.[0-9]+.[0-9]+*
+
+permissions:
+  contents: write
+
+jobs:
+  build-sd-image:
+    runs-on: ubuntu-26.04-arm
+    env:
+      ARTIFACT_PREFIX: pi3-imx477
+      RELEASES_PREFIX: releases
+      RETAIN_STABLE: "4"
+      RETAIN_PRERELEASE: "3"
+      # The last release for ROVs with the IMU on the white JST connector (I2C).
+      # App users can always install it, so it is never pruned.
+      LEGACY_RELEASE: v1.1.6
+      VERSION: ${{ github.ref_name }}
+      FIRMWARE_RELEASE_BASE_URL: https://s3.manafishrov.com/manafishrov-firmware
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Validate release identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag="${GITHUB_REF_NAME}"
+          if [[ ! "$tag" =~ ^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-[0-9A-Za-z]+([.-][0-9A-Za-z]+)*)?(\+[0-9A-Za-z]+([.-][0-9A-Za-z]+)*)?$ ]]; then
+            echo "Release tag is not SemVer: $tag" >&2
+            exit 1
+          fi
+          if [[ "${tag,,}" == *-rc* ]] && [[ ! "$tag" =~ ^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)-rc\.[1-9][0-9]*(\+[0-9A-Za-z]+([.-][0-9A-Za-z]+)*)?$ ]]; then
+            echo "Release candidates must use vX.Y.Z-rc.N: $tag" >&2
+            exit 1
+          fi
+          declared_version="$(sed -nE 's/^version = "([^"]+)"$/\1/p' pyproject.toml | head -n 1)"
+          if [[ "${tag#v}" != "$declared_version" ]]; then
+            echo "Tag $tag does not match pyproject.toml ($declared_version)" >&2
+            exit 1
+          fi
+
+      - name: Build, sign and upload firmware artifacts
+        uses: ./.github/actions/build-and-upload
+        with:
+          version: ${{ env.VERSION }}
+          artifact-prefix: ${{ env.ARTIFACT_PREFIX }}
+          releases-prefix: ${{ env.RELEASES_PREFIX }}
+          release-base-url: ${{ env.FIRMWARE_RELEASE_BASE_URL }}
+          signing-key: ${{ secrets.FIRMWARE_SIGNING_PRIVATE_KEY }}
+          rclone-conf: ${{ secrets.RCLONE_CONF }}
+
+      - name: Prune old cloud releases
+        env:
+          RCLONE_CONF_CONTENT: ${{ secrets.RCLONE_CONF }}
+        run: |
+          set -euo pipefail
+
+          nix profile install nixpkgs#rclone
+
+          mkdir -p ~/.config/rclone
+          printf '%s' "$RCLONE_CONF_CONTENT" > ~/.config/rclone/rclone.conf
+
+          # Stable and prerelease versions are retained independently so a long
+          # run of prereleases never purges a stable version the app still
+          # shows. A prerelease tag carries a '-' suffix (e.g. v1.2.0-rc.1);
+          # everything else is stable. Each list is sorted oldest-first so the
+          # oldest entries beyond the retention count are the ones deleted.
+          # The legacy release is left out so it is never deleted.
+          mapfile -t STABLE_DIRS < <(rclone lsf "remote:${RELEASES_PREFIX}" --dirs-only | tr -d '/' | awk -v legacy="$LEGACY_RELEASE" '/^v/ && !/-/ && $0 != legacy' | sort -V)
+          mapfile -t PRERELEASE_DIRS < <(rclone lsf "remote:${RELEASES_PREFIX}" --dirs-only | tr -d '/' | awk '/^v/ && /-/' | sort -V)
+
+          prune_kind() {
+            local retain="$1"
+            shift
+            local dirs=("$@")
+            if [ "${#dirs[@]}" -le "$retain" ]; then
+              return 0
+            fi
+            local delete_count=$(( ${#dirs[@]} - retain ))
+            local old_release
+            for old_release in "${dirs[@]:0:${delete_count}}"; do
+              rclone purge "remote:${RELEASES_PREFIX}/${old_release}"
+            done
+          }
+
+          if [ "${#STABLE_DIRS[@]}" -gt 0 ]; then
+            prune_kind "$RETAIN_STABLE" "${STABLE_DIRS[@]}"
+          fi
+          if [ "${#PRERELEASE_DIRS[@]}" -gt 0 ]; then
+            prune_kind "$RETAIN_PRERELEASE" "${PRERELEASE_DIRS[@]}"
+          fi
+
+      - name: Generate release notes
+        run: |
+          set -euo pipefail
+
+          BASE_URL="${FIRMWARE_RELEASE_BASE_URL%/}/${RELEASES_PREFIX}/${VERSION}"
+          MANIFEST_NAME="${ARTIFACT_PREFIX}-${VERSION}.json"
+          CHECKSUM_NAME="${ARTIFACT_PREFIX}-${VERSION}.sha256"
+
+          # The block between the <!-- assets:start --> / <!-- assets:end -->
+          # markers is the auto-generated artifact list. The desktop app strips
+          # everything between these markers from the release notes it shows, so
+          # the markers must stay exactly as-is (the visible heading text can
+          # change freely without breaking the app).
+          cat > release-notes.md <<EOF
+          <!-- assets:start -->
+          ## Downloads
+
+          - [${ARTIFACT_PREFIX}-${VERSION}.img.zst](${BASE_URL}/${ARTIFACT_PREFIX}-${VERSION}.img.zst)
+          - [${CHECKSUM_NAME}](${BASE_URL}/${CHECKSUM_NAME})
+          - [${MANIFEST_NAME}](${BASE_URL}/${MANIFEST_NAME})
+          - [${ARTIFACT_PREFIX}-${VERSION}.img.zst.minisig](${BASE_URL}/${ARTIFACT_PREFIX}-${VERSION}.img.zst.minisig)
+          - [${CHECKSUM_NAME}.minisig](${BASE_URL}/${CHECKSUM_NAME}.minisig)
+          - [${MANIFEST_NAME}.minisig](${BASE_URL}/${MANIFEST_NAME}.minisig)
+          <!-- assets:end -->
+          EOF
+
+      - name: Create or update draft release
+        uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          body_path: release-notes.md
+          draft: true
+          prerelease: ${{ contains(github.ref_name, '-') }}

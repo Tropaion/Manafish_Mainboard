@@ -1,0 +1,199 @@
+{
+  nixConfig = {
+    extra-substituters = [
+      "https://cache.nixos.org"
+      "https://nix-community.cachix.org"
+      "https://nixos-raspberrypi.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      "nixos-raspberrypi.cachix.org-1:4iMO9LXa8BqhU+Rpg6LQKiGa2lsNh/j2oiYLNOQ5sPI="
+    ];
+  };
+
+  inputs = {
+    # Rev-pinned so flake.lock can't drift on local nix commands. Renovate's
+    # nix manager bumps this string, gated by minimumReleaseAge in
+    # .github/renovate.json so nixos-raspberrypi.cachix.org has time to
+    # populate aarch64 substitutes before we move.
+    nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/1b9ac7d374d1cd5e6e09593f399979b7f99d454d";
+    nixpkgs.follows = "nixos-raspberrypi/nixpkgs";
+    impermanence = {
+      url = "github:nix-community/impermanence";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    ms5837-src = {
+      url = "github:bluerobotics/ms5837-python";
+      flake = false;
+    };
+    numpydantic-src = {
+      url = "github:p2p-ld/numpydantic";
+      flake = false;
+    };
+    bmi270-src = {
+      url = "github:CoRoLab-Berlin/bmi270_python";
+      flake = false;
+    };
+    mcu-firmware-pico = {
+      url = "https://github.com/manafishrov/mcu-firmware/releases/download/v1.0.4-rc.3/pico-v1.0.4-rc.3.uf2";
+      flake = false;
+    };
+    mcu-firmware-pico2 = {
+      url = "https://github.com/manafishrov/mcu-firmware/releases/download/v1.0.4-rc.3/pico2-v1.0.4-rc.3.uf2";
+      flake = false;
+    };
+    esc-firmware = {
+      url = "https://github.com/manafishrov/esc-firmware/releases/download/v2.21.1-rc.1/AM32_SKYSTARS_AM60_V2_F421_2.21.1.bin";
+      flake = false;
+    };
+  };
+
+  outputs = {
+    self,
+    nixpkgs,
+    nixos-raspberrypi,
+    impermanence,
+    treefmt-nix,
+    ...
+  } @ inputs: let
+    lockedInputs = (builtins.fromJSON (builtins.readFile ./flake.lock)).nodes;
+    releaseVersionFromLock = inputName: let
+      url = lockedInputs.${inputName}.locked.url or "";
+      matched = builtins.match ".*/download/(v[^/]+)/.*" url;
+      version =
+        if matched == null
+        then ""
+        else builtins.head matched;
+      semver = builtins.match "v(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(-[0-9A-Za-z]+([.-][0-9A-Za-z]+)*)?(\\+[0-9A-Za-z]+([.-][0-9A-Za-z]+)*)?" version;
+      rcLike = builtins.match ".*-[rR][cC].*" version != null;
+      canonicalRc = builtins.match "v(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)-rc\\.[1-9][0-9]*(\\+[0-9A-Za-z]+([.-][0-9A-Za-z]+)*)?" version;
+    in
+      if matched == null || semver == null || (rcLike && canonicalRc == null)
+      then throw "${inputName} must be locked to a versioned GitHub release URL"
+      else version;
+    mcuFirmwareVersion = let
+      pico = releaseVersionFromLock "mcu-firmware-pico";
+      pico2 = releaseVersionFromLock "mcu-firmware-pico2";
+    in
+      if pico == pico2
+      then pico
+      else throw "Pico and Pico 2 firmware inputs must use the same release version";
+    escFirmwareVersion = releaseVersionFromLock "esc-firmware";
+    supportedSystems = [
+      "aarch64-linux"
+      "x86_64-linux"
+      "aarch64-darwin"
+    ];
+
+    version = self.shortRev or self.dirtyShortRev or "dev";
+
+    forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
+  in {
+    nixosConfigurations.pi3-imx477 = nixos-raspberrypi.lib.nixosSystem {
+      specialArgs = {
+        inherit inputs version nixos-raspberrypi mcuFirmwareVersion escFirmwareVersion;
+      };
+      modules = [
+        nixos-raspberrypi.nixosModules.raspberry-pi-3.base
+        nixos-raspberrypi.nixosModules.sd-image
+        impermanence.nixosModules.impermanence
+        {
+          system.stateVersion = "25.11";
+          image.fileName = "pi3-imx477-${version}.img";
+          documentation = {
+            enable = false;
+            doc.enable = false;
+            info.enable = false;
+            man.enable = false;
+            nixos.enable = false;
+          };
+        }
+        ./nix/camera.nix
+        ./nix/sensors.nix
+        ./nix/mcu.nix
+        ./nix/networking.nix
+        ./nix/firmware.nix
+        ./nix/system.nix
+        ./nix/impermanence.nix
+      ];
+    };
+
+    packages = forAllSystems (_: {
+      inherit (self.nixosConfigurations.pi3-imx477.config.system.build) sdImage;
+      default = self.nixosConfigurations.pi3-imx477.config.system.build.sdImage;
+    });
+
+    checks = forAllSystems (system: let
+      pkgs = nixpkgs.legacyPackages.${system};
+      cameraPkgs = self.nixosConfigurations.pi3-imx477.pkgs;
+      headlessFlags = map (backend: "-Denable_${backend}=disabled") [
+        "libav"
+        "drm"
+        "egl"
+        "wayland"
+        "qt"
+        "opencv"
+      ];
+      isHeadless = package: builtins.all (flag: builtins.elem flag package.mesonFlags) headlessFlags;
+    in {
+      camera-headless = assert nixpkgs.lib.assertMsg
+      (builtins.all isHeadless [cameraPkgs.rpicam-apps cameraPkgs.rpi.rpicam-apps])
+      "Both rpicam-apps variants must keep every headless backend disabled";
+        pkgs.runCommand "camera-headless" {} "touch $out";
+    });
+
+    formatter = forAllSystems (system:
+      (treefmt-nix.lib.evalModule nixpkgs.legacyPackages.${system} {
+        projectRootFile = "flake.nix";
+        programs = {
+          alejandra.enable = true;
+          statix.enable = true;
+          deadnix.enable = true;
+        };
+      })
+      .config
+      .build
+      .wrapper);
+
+    devShells = forAllSystems (system: let
+      pkgs = nixpkgs.legacyPackages.${system};
+    in {
+      default = pkgs.mkShell {
+        buildInputs = [
+          pkgs.minisign
+          pkgs.uv
+          pkgs.python313
+        ];
+        env = {
+          UV_PYTHON_DOWNLOADS = "never";
+          UV_PYTHON = nixpkgs.lib.getExe pkgs.python313;
+          LD_LIBRARY_PATH = nixpkgs.lib.makeLibraryPath [pkgs.stdenv.cc.cc.lib pkgs.zlib];
+        };
+        # uv installs ruff and ty (pinned in pyproject.toml) as prebuilt PyPI
+        # wheels whose ELF interpreter is /lib64/ld-linux-x86-64.so.2, which
+        # NixOS lacks. Patch the venv binaries to the nix loader so `uv run
+        # ruff` / `uv run ty` work the same on NixOS as on every other OS — one
+        # invocation path everywhere (local, pre-commit, CI). No-op off NixOS.
+        shellHook = ''
+          if [ -e /etc/NIXOS ] && [ -f pyproject.toml ]; then
+            ${pkgs.lib.getExe pkgs.uv} sync --quiet
+            _loader="${pkgs.stdenv.cc.libc}/lib/ld-linux-x86-64.so.2"
+            for _bin in ruff ty; do
+              _path=".venv/bin/$_bin"
+              if [ -f "$_path" ] && \
+                 [ "$(${pkgs.patchelf}/bin/patchelf --print-interpreter "$_path" 2>/dev/null)" != "$_loader" ]; then
+                ${pkgs.patchelf}/bin/patchelf --set-interpreter "$_loader" "$_path" || true
+              fi
+            done
+            unset _loader _bin _path
+          fi
+        '';
+      };
+    });
+  };
+}

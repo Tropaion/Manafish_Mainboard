@@ -1,0 +1,264 @@
+{
+  "nodes": {
+    "argononed": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1729566243,
+        "narHash": "sha256-DPNI0Dpk5aym3Baf5UbEe5GENDrSmmXVdriRSWE+rgk=",
+        "owner": "nvmd",
+        "repo": "argononed",
+        "rev": "16dbee54d49b66d5654d228d1061246b440ef7cf",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nvmd",
+        "repo": "argononed",
+        "type": "github"
+      }
+    },
+    "bmi270-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1682671935,
+        "narHash": "sha256-IxkMWWcrsglFV5HGDMK0GBx5o0svNfRXqhW8/ZWpsUk=",
+        "owner": "CoRoLab-Berlin",
+        "repo": "bmi270_python",
+        "rev": "8309e687d6b346455833c5d0c2734eeb56e98789",
+        "type": "github"
+      },
+      "original": {
+        "owner": "CoRoLab-Berlin",
+        "repo": "bmi270_python",
+        "type": "github"
+      }
+    },
+    "esc-firmware": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-BMO+BSOUF9NT7uy1S+nCfF61TjLGsfnpSUjJaISbQKk=",
+        "type": "file",
+        "url": "https://github.com/manafishrov/esc-firmware/releases/download/v2.21.1-rc.1/AM32_SKYSTARS_AM60_V2_F421_2.21.1.bin"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://github.com/manafishrov/esc-firmware/releases/download/v2.21.1-rc.1/AM32_SKYSTARS_AM60_V2_F421_2.21.1.bin"
+      }
+    },
+    "flake-compat": {
+      "locked": {
+        "lastModified": 1767039857,
+        "narHash": "sha256-vNpUSpF5Nuw8xvDLj2KCwwksIbjua2LZCqhV1LNRDns=",
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "rev": "5edf11c44bc78a0d334f6334cdaf7d60d732daab",
+        "type": "github"
+      },
+      "original": {
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "type": "github"
+      }
+    },
+    "home-manager": {
+      "inputs": {
+        "nixpkgs": [
+          "impermanence",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1768598210,
+        "narHash": "sha256-kkgA32s/f4jaa4UG+2f8C225Qvclxnqs76mf8zvTVPg=",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "c47b2cc64a629f8e075de52e4742de688f930dc6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "impermanence": {
+      "inputs": {
+        "home-manager": "home-manager",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1792739756,
+        "narHash": "sha256-s0TeXWG5Ci75Y/Hzon0Z7NrN/fG773Rc54/z6oPFszQ=",
+        "owner": "nix-community",
+        "repo": "impermanence",
+        "rev": "fa627f4c8b8e92f58f58a73d99ee4e1304e64eb2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "impermanence",
+        "type": "github"
+      }
+    },
+    "mcu-firmware-pico": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-pvNoPR29FeWzrXy3rWrriTPNf9BsmkKXvaAD17OpTGU=",
+        "type": "file",
+        "url": "https://github.com/manafishrov/mcu-firmware/releases/download/v1.0.4-rc.3/pico-v1.0.4-rc.3.uf2"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://github.com/manafishrov/mcu-firmware/releases/download/v1.0.4-rc.3/pico-v1.0.4-rc.3.uf2"
+      }
+    },
+    "mcu-firmware-pico2": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-NZyludLc/WzbRQ7AXI3fFyve1+Cxsq5nk8BW9rYDixc=",
+        "type": "file",
+        "url": "https://github.com/manafishrov/mcu-firmware/releases/download/v1.0.4-rc.3/pico2-v1.0.4-rc.3.uf2"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://github.com/manafishrov/mcu-firmware/releases/download/v1.0.4-rc.3/pico2-v1.0.4-rc.3.uf2"
+      }
+    },
+    "ms5837-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1751318302,
+        "narHash": "sha256-LBwM9sTvr7IaBcY8PcsPZcAbNRWBa4hj7tUC4oOr4eM=",
+        "owner": "bluerobotics",
+        "repo": "ms5837-python",
+        "rev": "02996d71d2f08339b3d317b3f4da0a83781c706e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "bluerobotics",
+        "repo": "ms5837-python",
+        "type": "github"
+      }
+    },
+    "nixos-images": {
+      "inputs": {
+        "nixos-stable": [
+          "nixos-raspberrypi",
+          "nixpkgs"
+        ],
+        "nixos-unstable": [
+          "nixos-raspberrypi",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1747747741,
+        "narHash": "sha256-LUOH27unNWbGTvZFitHonraNx0JF/55h30r9WxqrznM=",
+        "owner": "nvmd",
+        "repo": "nixos-images",
+        "rev": "cbbd6db325775096680b65e2a32fb6187c09bbb4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nvmd",
+        "ref": "sdimage-installer",
+        "repo": "nixos-images",
+        "type": "github"
+      }
+    },
+    "nixos-raspberrypi": {
+      "inputs": {
+        "argononed": "argononed",
+        "flake-compat": "flake-compat",
+        "nixos-images": "nixos-images",
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1792882320,
+        "narHash": "sha256-dUxZ2udts6oGklz99xrz0pkH3XVUuXc932e1NLiIQew=",
+        "owner": "nvmd",
+        "repo": "nixos-raspberrypi",
+        "rev": "1b9ac7d374d1cd5e6e09593f399979b7f99d454d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nvmd",
+        "repo": "nixos-raspberrypi",
+        "rev": "1b9ac7d374d1cd5e6e09593f399979b7f99d454d",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1792615934,
+        "narHash": "sha256-MlvRfa1O5Cqc2/a+gG+l9TSuowEoCKCmrJ1d9oAVm0I=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "da6dc0e7b26060f2f71ce3ef7088fb56ee44fa36",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-26.05",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "numpydantic-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1792733624,
+        "narHash": "sha256-OTl61FD5zs3nrkqYkRzIYIlg+Y3Z/w6Q55Dvq8QM2hQ=",
+        "owner": "p2p-ld",
+        "repo": "numpydantic",
+        "rev": "b4e33faadd7963c319ff487293d180390adf1f29",
+        "type": "github"
+      },
+      "original": {
+        "owner": "p2p-ld",
+        "repo": "numpydantic",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "bmi270-src": "bmi270-src",
+        "esc-firmware": "esc-firmware",
+        "impermanence": "impermanence",
+        "mcu-firmware-pico": "mcu-firmware-pico",
+        "mcu-firmware-pico2": "mcu-firmware-pico2",
+        "ms5837-src": "ms5837-src",
+        "nixos-raspberrypi": "nixos-raspberrypi",
+        "nixpkgs": [
+          "nixos-raspberrypi",
+          "nixpkgs"
+        ],
+        "numpydantic-src": "numpydantic-src",
+        "treefmt-nix": "treefmt-nix"
+      }
+    },
+    "treefmt-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1791885023,
+        "narHash": "sha256-C3alQ2MEt0zVrUSho5NUDo3jmhbff72++bfwoqT9Omo=",
+        "owner": "numtide",
+        "repo": "treefmt-nix",
+        "rev": "0d6d739a833ba9a9c93034862e4a7b061a062a1c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "treefmt-nix",
+        "type": "github"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}

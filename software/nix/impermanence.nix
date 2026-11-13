@@ -1,0 +1,101 @@
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}: let
+  piUser = config.users.users.pi;
+  lsblk = lib.getExe' pkgs.util-linux "lsblk";
+  sfdisk = lib.getExe' pkgs.util-linux "sfdisk";
+  partprobe = lib.getExe' pkgs.parted "partprobe";
+  udevadm = lib.getExe' pkgs.systemd "udevadm";
+  resize2fs = lib.getExe' pkgs.e2fsprogs "resize2fs";
+in {
+  sdImage.expandOnBoot = false;
+  # The SD root is mounted here; / itself is tmpfs and hides this file.
+  sdImage.nixPathRegistrationFile = "/persistent/nix-path-registration";
+
+  fileSystems = {
+    "/" = lib.mkForce {
+      device = "none";
+      fsType = "tmpfs";
+      options = ["defaults" "size=512M" "mode=755"];
+    };
+    "/persistent" = {
+      device = "/dev/disk/by-label/NIXOS_SD";
+      fsType = "ext4";
+      neededForBoot = true;
+    };
+    # U-Boot reads extlinux entries from the SD partition, not the tmpfs root.
+    "/boot" = {
+      device = "/persistent/boot";
+      fsType = "none";
+      options = ["bind"];
+      depends = ["/persistent"];
+      neededForBoot = true;
+    };
+    "/nix" = {
+      device = "/persistent/nix";
+      fsType = "none";
+      options = ["bind"];
+      neededForBoot = true;
+    };
+  };
+
+  environment.persistence."/persistent" = {
+    hideMounts = true;
+    directories = [
+      {
+        directory = piUser.home;
+        user = piUser.name;
+        inherit (piUser) group;
+        mode = "u=rwx,g=,o=";
+      }
+      "/var/log"
+      "/var/lib/nixos"
+      "/var/lib/systemd"
+      "/var/lib/NetworkManager"
+      "/var/lib/iwd"
+    ];
+    files = [
+      "/etc/machine-id"
+      "/etc/ssh/ssh_host_ed25519_key"
+      "/etc/ssh/ssh_host_ed25519_key.pub"
+    ];
+  };
+
+  systemd.tmpfiles.rules = [
+    "z /etc/ssh/ssh_host_ed25519_key 0600 root root -"
+    "z /etc/ssh/ssh_host_ed25519_key.pub 0644 root root -"
+  ];
+
+  systemd.services.grow-persistent = {
+    description = "Grow persistent SD card partition";
+    wantedBy = ["multi-user.target"];
+    after = ["local-fs.target"];
+    before = ["manafish-setup.service" "manafish-firmware.service"];
+    unitConfig.ConditionPathExists = "!/persistent/.partition-expanded";
+    serviceConfig = {
+      Type = "oneshot";
+    };
+    script = ''
+      set -euo pipefail
+
+      persistent_part="/dev/disk/by-label/NIXOS_SD"
+      stamp="/persistent/.partition-expanded"
+      boot_device="$(${lsblk} -npo PKNAME "$persistent_part")"
+      part_number="$(${lsblk} -npo PARTN "$persistent_part")"
+
+      if [ -z "$boot_device" ] || [ -z "$part_number" ]; then
+        echo "Could not resolve persistent partition parent device; skipping grow."
+        exit 0
+      fi
+
+      echo ",+," | ${sfdisk} -N"$part_number" --no-reread "$boot_device"
+      ${partprobe} "$boot_device" || true
+      ${udevadm} settle || true
+      ${resize2fs} "$persistent_part"
+      touch "$stamp"
+    '';
+  };
+}
