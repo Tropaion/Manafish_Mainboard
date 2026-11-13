@@ -1,0 +1,58 @@
+name: Software image
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "software/flake.nix"
+      - "software/flake.lock"
+      - "software/nix/**"
+      - ".github/workflows/software-image.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: software
+
+jobs:
+  sd-image:
+    runs-on: ubuntu-26.04-arm
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@9383ce2bf08796b65508822f5982f49151badc4e # main
+        with:
+          diagnostic-endpoint: ""
+
+      - name: Magic Nix Cache
+        uses: DeterminateSystems/magic-nix-cache-action@f69a2d3e148e90223fe63ab6e3f6331f2e7e33dc # main
+        with:
+          diagnostic-endpoint: ""
+
+      - name: Build the SD image
+        run: nix build .#sdImage --accept-flake-config --max-jobs 4 --cores 4 -L
+
+      - name: Copy the image out of the Nix store
+        run: |
+          mkdir -p dist
+          cp -L result/sd-image/*.img.zst dist/
+
+      - name: Upload the image
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: sd-image
+          path: software/dist/*.img.zst
+          if-no-files-found: error
+          retention-days: 7
+          # The image is already zstd-compressed.
+          compression-level: 0

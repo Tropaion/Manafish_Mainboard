@@ -1,0 +1,65 @@
+name: Firmware CI
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "firmware/**"
+      - ".github/workflows/firmware-ci.yml"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "firmware/**"
+      - ".github/workflows/firmware-ci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: firmware
+
+jobs:
+  check:
+    runs-on: ubuntu-26.04
+    env:
+      CLANG_FORMAT: clang-format-19
+      CLANG_TIDY: clang-tidy-19
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Run unit tests
+        run: make test
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang-format-19 clang-tidy-19 cmake build-essential gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib
+          "$CLANG_FORMAT" --version
+          "$CLANG_TIDY" --version
+
+      - name: Run clang-format check
+        run: make format-check
+
+      - name: Run clang-tidy lint and verify Pico memory
+        run: make lint-check
+        env:
+          CMAKE_BUILD_PARALLEL_LEVEL: 4
+
+      - name: Build Pico and verify memory
+        run: make build-pico
+        env:
+          CMAKE_BUILD_PARALLEL_LEVEL: 4
+
+      - name: Build Pico 2 and verify memory
+        run: make build-pico2
+        env:
+          CMAKE_BUILD_PARALLEL_LEVEL: 4

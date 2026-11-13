@@ -38,9 +38,11 @@ and the `manafish_mainboard` MCU target are still to come.
 
 ## Quality gates
 
-Run them by hand before every commit. Until Phase 1 adds the root workflows
-there is no CI, and there is no pre-commit config: don't run `pre-commit install`
-(a hook without a config fails every commit).
+Run them by hand before every commit; CI (`.github/workflows/firmware-ci.yml`,
+`software-ci.yml`, `software-image.yml`) repeats them after a push. The root
+`.pre-commit-config.yaml` runs ruff, ty and clang-format 19; install it only if
+the owner wants the hook (`software/.venv/bin/pre-commit install`).
+`actionlint` checks workflow edits.
 
 Firmware, from the repo root (the dev shell provides the LLVM 19 baseline; the
 host clang-format formats differently, so never format with it):
