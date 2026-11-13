@@ -1,0 +1,60 @@
+"""WebSocket telemetry send handlers for the ROV firmware."""
+
+from ...constants import THRUSTER_POLES
+from ...models.rov_telemetry import RovTelemetry
+from ...rov_state import RovState
+from ..message import Telemetry
+
+
+def build_telemetry(state: RovState) -> Telemetry:
+    """Build a telemetry message from the current ROV state.
+
+    Args:
+        state: The ROV state.
+
+    Returns:
+        The telemetry message ready to be sent.
+    """
+    valid_esc_temperatures = [
+        temperature
+        for temperature in state.mcu_telemetry.temperature
+        if temperature > 0
+    ]
+    electronics_temperature = (
+        float(max(valid_esc_temperatures)) if valid_esc_temperatures else 0.0
+    )
+
+    if state.system_status.depth_hold:
+        desired_depth = state.regulator.desired_depth
+    elif state.regulator.pending_desired_depth is not None:
+        desired_depth = state.regulator.pending_desired_depth
+    else:
+        desired_depth = state.pressure.depth
+    thruster_rpms = [0] * len(state.mcu_telemetry.erpm)
+    rpm_divisor = THRUSTER_POLES // 2
+    for index, erpm in enumerate(state.mcu_telemetry.erpm):
+        thruster_rpms[index] = int(erpm / rpm_divisor)
+
+    payload = RovTelemetry(
+        pitch=state.regulator.pitch,
+        roll=state.regulator.roll,
+        yaw=state.regulator.yaw,
+        depth=state.pressure.depth,
+        desired_pitch=state.regulator.desired_pitch,
+        desired_roll=state.regulator.desired_roll,
+        desired_yaw=state.regulator.desired_yaw,
+        desired_depth=desired_depth,
+        water_temperature=state.pressure.temperature,
+        electronics_temperature=electronics_temperature,
+        thruster_rpms=thruster_rpms,
+        thruster_signal_qualities=[
+            quality if valid else None
+            for quality, valid in zip(
+                state.mcu_telemetry.signal_quality,
+                state.mcu_telemetry.signal_quality_valid,
+                strict=True,
+            )
+        ],
+        work_indicator_percentage=state.thrusters.work_indicator_percentage,
+    )
+    return Telemetry(payload=payload)

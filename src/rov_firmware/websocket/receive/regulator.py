@@ -1,0 +1,159 @@
+"""WebSocket regulator handlers for the ROV firmware."""
+
+import math
+import time
+
+from ...constants import AUTO_TUNING_TOAST_ID, MAX_AUTO_TUNING_ROLL_PITCH_DEGREES
+from ...log import log_error, log_info
+from ...models.toast import ToastContent, ToastVariant
+from ...motor_safety import motor_firmware_operation_blocker
+from ...rov_state import RovState
+from ...toast import (
+    cancel_regulator_auto_tuning_action,
+    toast_content,
+    toast_error,
+    toast_warn,
+)
+
+
+async def handle_start_regulator_auto_tuning(
+    state: RovState,
+) -> None:
+    """Handle starting regulator auto tuning.
+
+    Args:
+        state: The ROV state.
+    """
+    log_info("Starting regulator auto tuning")
+
+    firmware_blocker = motor_firmware_operation_blocker(state)
+    if firmware_blocker is not None:
+        log_error(f"Cannot start auto tuning because {firmware_blocker}")
+        toast_error(
+            identifier=AUTO_TUNING_TOAST_ID,
+            content=ToastContent(
+                message_key="toasts_auto_tuning_failed",
+                description_key="toasts_auto_tuning_failed_firmware_operation",
+            ),
+            action=None,
+        )
+        return
+
+    if not state.system_health.imu_healthy:
+        log_error("IMU not healthy, cannot start auto tuning")
+        toast_error(
+            identifier=AUTO_TUNING_TOAST_ID,
+            content=ToastContent(
+                message_key="toasts_auto_tuning_failed",
+                description_key="toasts_auto_tuning_failed_imu_unhealthy",
+            ),
+            action=None,
+        )
+        return
+
+    if not state.system_health.pressure_sensor_healthy:
+        log_error("Pressure sensor not healthy, cannot start auto tuning")
+        toast_error(
+            identifier=AUTO_TUNING_TOAST_ID,
+            content=ToastContent(
+                message_key="toasts_auto_tuning_failed",
+                description_key="toasts_auto_tuning_failed_pressure_unhealthy",
+            ),
+            action=None,
+        )
+        return
+
+    if abs(state.regulator.roll) > MAX_AUTO_TUNING_ROLL_PITCH_DEGREES:
+        log_error(
+            f"ROV roll too high: {state.regulator.roll}°, cannot start auto tuning"
+        )
+        toast_error(
+            identifier=AUTO_TUNING_TOAST_ID,
+            content=ToastContent(
+                message_key="toasts_auto_tuning_failed",
+                description_key="toasts_auto_tuning_failed_roll_not_level",
+                description_args={"roll": round(state.regulator.roll, 1)},
+            ),
+            action=None,
+        )
+        return
+
+    if abs(state.regulator.pitch) > MAX_AUTO_TUNING_ROLL_PITCH_DEGREES:
+        log_error(
+            f"ROV pitch too high: {state.regulator.pitch}°, cannot start auto tuning"
+        )
+        toast_error(
+            identifier=AUTO_TUNING_TOAST_ID,
+            content=ToastContent(
+                message_key="toasts_auto_tuning_failed",
+                description_key="toasts_auto_tuning_failed_pitch_not_level",
+                description_args={"pitch": round(state.regulator.pitch, 1)},
+            ),
+            action=None,
+        )
+        return
+
+    state.regulator.desired_depth = state.pressure.depth
+    state.regulator.auto_tuning_active = True
+    state.regulator.auto_tuning_start_time = time.time()
+    toast_content(
+        identifier=AUTO_TUNING_TOAST_ID,
+        variant=ToastVariant.LOADING,
+        content=ToastContent(
+            message_key="toasts_auto_tuning_starting",
+            description_key="toasts_auto_tuning_finding_zero",
+        ),
+        action=cancel_regulator_auto_tuning_action(),
+    )
+
+
+async def handle_cancel_regulator_auto_tuning(
+    state: RovState,
+) -> None:
+    """Handle cancelling regulator auto tuning.
+
+    Args:
+        state: The ROV state.
+    """
+    log_info("Cancelling regulator auto tuning")
+    state.regulator.auto_tuning_active = False
+    toast_content(
+        identifier=AUTO_TUNING_TOAST_ID,
+        variant=ToastVariant.INFO,
+        content=ToastContent(
+            message_key="toasts_auto_tuning_cancelled",
+        ),
+        action=None,
+    )
+
+
+async def handle_set_desired_depth(
+    state: RovState,
+    depth: float,
+) -> None:
+    """Update the regulator target depth from a websocket command."""
+    if not math.isfinite(depth):
+        log_error(f"Invalid desired depth received: {depth}")
+        return
+
+    desired_depth = max(0.0, depth)
+    if state.pico is not None:
+        try:
+            await state.set_desired_depth(desired_depth)
+        except Exception as error:
+            log_error(f"Desired depth was not confirmed by Pico: {error}")
+            toast_warn(
+                identifier=None,
+                content=ToastContent(
+                    message_key="toasts_invoke_failed",
+                    message_args={"command": "setDesiredDepth"},
+                    description_key="toasts_disruptive_config_blocked_description",
+                    description_args={"reason": str(error)},
+                ),
+                action=None,
+            )
+            raise
+    state.regulator.pending_desired_depth = desired_depth
+    if state.system_status.depth_hold:
+        state.regulator.desired_depth = desired_depth
+    log_info(f"Set desired depth to {desired_depth}")

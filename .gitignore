@@ -1,0 +1,19 @@
+# misc
+.DS_Store
+.direnv
+
+# python
+__pycache__
+*.egg-info/
+
+# build files
+result
+dist
+
+# config
+config.json
+config-backup.json
+
+# nix
+keys
+nixos.qcow2
