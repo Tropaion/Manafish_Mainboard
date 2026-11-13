@@ -1,0 +1,83 @@
+;
+; DShot bidirectional PIO program (Betaflight-derived timing).
+; Single state machine handles TX (16-bit DShot frame) + RX (oversampled telemetry).
+;
+; TX: 125 PIO cycles per DShot bit (matches Betaflight DSHOT_BIDIR_BIT_PERIOD).
+;   Inverted frame (active-low with pull-up), non-branching set/out/set encoding:
+;     set LOW [42] -> out DATA [41] -> set HIGH [42]
+;     Bit '0' (inverted='1'): 42 low + 83 high = 33.6% duty (matches Betaflight)
+;     Bit '1' (inverted='0'): 83 low + 42 high = 66.4% duty (matches Betaflight)
+;
+; RX: ~5.6x oversampling via edge detection (Betaflight-derived).
+;   128 samples at 18 PIO cycles each, autopushed as 4 x 32-bit words.
+;   RX bit period = 100 cycles (5/4 ratio). 128 samples cover ~23 bits (need 21).
+;   Run-length decoder in C converts edge positions to GCR bits.
+;
+; Clock divider: sys_clk / (dshot_speed * 125).
+;   Pico 1 (125 MHz): 3.333 (fractional — calibration compensates)
+;   Pico 2 (150 MHz): 4.0   (integer — exact timing, matches Betaflight)
+;
+; Normal path: 5 words in RX FIFO (4 autopush + 1 completion marker).
+; Timeout path: 0 words (C-side bounded reads detect empty FIFO).
+; Uses jmp pin for edge detection (safe for multiplexed SM design).
+; C-side bounded reads + SM restart provide additional safety.
+;
+; 29 instructions (max 32).
+;
+
+.program pio_dshot
+.wrap_target
+    ; --- TX phase: send 16-bit DShot frame ---
+    set pindirs, 1          ; Drive pin as output
+    pull                    ; Load inverted frame from TX FIFO
+
+    set x, 15              ; 16 bits to transmit
+tx_loop:
+    set pins, 0     [31]   ; T1a: pin LOW for 32 cycles
+    nop             [9]    ; T1b: pin LOW for 10 more = 42 total LOW
+    out pins, 1     [31]   ; T2a: pin = data bit for 32 cycles
+    nop             [8]    ; T2b: same for 9 more = 41 total DATA
+    set pins, 1     [31]   ; T3a: pin HIGH for 32 cycles
+    nop             [8]    ; T3b: pin HIGH for 9 more (+1 for jmp = 42 total HIGH)
+    jmp x-- tx_loop
+
+    ; --- Inter-frame gap: wait for ESC to prepare response ---
+    pull                    ; Load wait cycle count from TX FIFO
+    mov x, osr
+waitloop_after_tx:
+    jmp x-- waitloop_after_tx
+
+    ; --- RX phase: oversampled edge detection ---
+    set pindirs, 0          ; Switch pin to input (pull-up keeps line high)
+
+    ; Wait for falling edge (start of response) with timeout
+    ; 32 iterations × 9 cycles = 288 cycles / 37.5MHz ≈ 7.7us at DShot300
+    set x, 31              ; Timeout counter
+waitloop_for_rx:
+    jmp pin check_timeout   ; Pin high = idle, keep waiting
+    jmp start_rx            ; Pin low = falling edge detected (2 cycles from edge to sampling)
+check_timeout:
+    jmp x-- waitloop_for_rx [7] ; 8 cycles delay (extends timeout without delaying edge detection)
+    jmp cleanup             ; Timeout: skip to cleanup (C handles as timeout)
+
+    ; --- Oversample 128 bits at 18 PIO cycles each ---
+    ; Autopush at 32 bits pushes 4 words to RX FIFO during sampling
+start_rx:
+    set x, 3               ; 4 outer loop iterations
+outer_loop:
+    set y, 31              ; 32 inner loop iterations
+inner_loop:
+    in pins, 1      [14]  ; Sample pin + 14 delay = 15 cycles
+    jmp y-- detour         ; 1 cycle (inner continue)
+    jmp x-- outer_loop     ; 1 cycle (outer continue)
+    push                    ; All 128 samples done — push completion marker (5th word)
+    jmp cleanup             ; Jump over detour to cleanup
+detour:
+    jmp inner_loop  [1]    ; 1 + 1 delay = 2 cycles (total per sample: 18 cycles)
+
+    ; --- Cleanup: return to output idle ---
+cleanup:
+    set pindirs, 1          ; Return to output mode
+    set pins, 1     [2]   ; Drive pin high (idle state)
+
+.wrap
