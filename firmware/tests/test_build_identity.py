@@ -52,7 +52,7 @@ class BuildIdentityTests(unittest.TestCase):
                     ["git", "rev-parse", "--short=12", "HEAD"], cwd=ROOT, text=True
                 ).strip()
                 dirty = subprocess.check_output(
-                    ["git", "status", "--porcelain"], cwd=ROOT, text=True
+                    ["git", "status", "--porcelain", "--", "."], cwd=ROOT, text=True
                 ).strip()
                 expected = f"pico-control-dev:{commit}" + ("-dirty" if dirty else "")
             self.assertEqual(definition, f'CONTROL_BUILD_IDENTITY="{expected}"')

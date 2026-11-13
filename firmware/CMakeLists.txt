@@ -22,7 +22,7 @@ execute_process(COMMAND git rev-parse --short=12 HEAD
 if(NOT CONTROL_GIT_ID)
     set(CONTROL_GIT_ID "source-export")
 endif()
-execute_process(COMMAND git status --porcelain
+execute_process(COMMAND git status --porcelain -- .
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     OUTPUT_VARIABLE CONTROL_GIT_DIRTY OUTPUT_STRIP_TRAILING_WHITESPACE)
 if(CONTROL_GIT_DIRTY)
