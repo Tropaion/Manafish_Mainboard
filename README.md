@@ -5,15 +5,19 @@ The Manafish Mainboard is the main electronics board of the
 the USB-connected Raspberry Pi Pico and the wiring between them with one board:
 
 - a **Raspberry Pi Compute Module 5** for the tether network, the camera and
-  the vehicle firmware ([manafishrov/firmware](https://github.com/manafishrov/firmware)),
+  the vehicle software in [`software/`](software/) (upstream:
+  [manafishrov/firmware](https://github.com/manafishrov/firmware)),
 - an **RP2354A** microcontroller that drives the eight thrusters over
-  bidirectional DShot ([manafishrov/mcu-firmware](https://github.com/manafishrov/mcu-firmware)),
+  bidirectional DShot, with the firmware in [`firmware/`](firmware/) (upstream:
+  [manafishrov/mcu-firmware](https://github.com/manafishrov/mcu-firmware)),
 - two camera connectors, Ethernet with PoE-capable magnetics, a magnet power
   switch input, and the on-board sensors.
 
 > [!WARNING]
 > Work in progress. The schematic and the 4-layer PCB layout are drawn, but no
 > board has been built or tested. Don't manufacture from this repository yet.
+> `firmware/` and `software/` still build upstream's Pico and Raspberry Pi 3
+> targets; the ports to this board are in progress.
 
 <img src="https://github.com/Tropaion/Manafish_Mainboard/blob/main/images/pcb_front.png?raw=true" width="45%"></img> <img src="https://github.com/Tropaion/Manafish_Mainboard/blob/main/images/pcb_back.png?raw=true" width="45%"></img>
 
@@ -28,12 +32,14 @@ flowchart LR
   cm5 -->|MIPI0| cam["Camera connector J5"]
   cm5 -->|MIPI1| cam2["Camera connector J11"]
   cm5 -->|"USB 2.0 (data only)"| service["USB-C service port J8"]
-  cm5 -->|I2C1| sensors["BMI270, SHT45, MS5837 connector"]
+  cm5 -->|I2C1| sensors["SHT45, WSEN-PADS, MS5837 connector"]
   cm5 -->|"USB 2.0 (USB3-1 port)"| mcu["RP2354A"]
-  cm5 -->|"GPIO24 RUN, GPIO25 BOOTSEL"| mcu
+  cm5 -->|"GPIO24 RUN, GPIO25 BOOTSEL, GPIO8/11 SWD"| mcu
+  mcu -->|SPI1| imu["BMI270 IMU"]
   mcu -->|GP6-GP9| escA["ESC A, 4-in-1 (AM32)"]
   mcu -->|GP18-GP21| escB["ESC B, 4-in-1 (AM32)"]
-  poe --> chg["Charger IC8 (LTC4162-L)"]
+  poe --> chg["Charger IC8 (LTC4162-LAD)"]
+  cm5 -->|I2C1| chg
   bat["Battery J6 (5S, XT60)"] <--> chg
   bat --> escsw["ESC power switch Q3 / IC16"]
   mcu -->|GP14| escsw
@@ -50,12 +56,12 @@ flowchart LR
 | Sheet | File | Contents | Origin |
 | --- | --- | --- | --- |
 | Manafish (top level) | `manafish.kicad_sch` | Sheet hierarchy, battery input J6 (XT60), switched ESC power output J14 (XT60, switch Q3/IC16), USB-C service port J8, magnet switch connector J12 | Original; USB-C port adapted from the CM5 IO Board |
-| Raspberry Pi Compute Module 5 | `cm5.kicad_sch` | CM5 module connectors, boot and EEPROM jumper header J7 | Adapted from the CM5 IO Board |
+| Raspberry Pi Compute Module 5 | `cm5.kicad_sch` | CM5 module connectors, boot and EEPROM jumper header J7, breakout header J9 | Adapted from the CM5 IO Board |
 | Camera Serial Interface | `csi.kicad_sch` | 22-pin MIPI camera connectors J5 (MIPI0) and J11 (MIPI1), vertical Molex 501951-2230, 3.3 V from CM5_3.3V with 10 µF at each connector | Adapted from the CM5 IO Board |
-| Ethernet | `ethernet.kicad_sch` | MagJack IC3 (YAGEO JXF0-1012NL, 4-pair PoE center taps), ESD protection IC1/IC2, link LEDs | Adapted from the CM5 IO Board |
-| Serial Peripherals | `serial_peripherals.kicad_sch` | BMI270 IMU (SPI to the RP2354A), SHT45 humidity and temperature sensor, WSEN-PADS pressure sensor IC10, MS5837 connector | Original |
-| RP2354A | `rp2354a.kicad_sch` | RP2354A with core regulator, USB, SWD connector J2, ESC connectors J3/J4 | Original, following *Hardware design with RP2350* |
-| Power Management | `power_management.kicad_sch` | PoE bridges D2–D5, PoE module IC5, LTC4162-L charger IC8, 5 V buck IC9, load switch IC15 | Original |
+| Ethernet | `ethernet.kicad_sch` | MagJack IC3 (YAGEO JXF0-1012NL, 4-pair PoE center taps), ESD protection IC1/IC2, MagJack LEDs (green = activity from CM5 `nLED3`, yellow = link speed from `nLED2`) | Adapted from the CM5 IO Board |
+| Serial Peripherals | `serial_peripherals.kicad_sch` | BMI270 IMU IC11 (SPI to the RP2354A), SHT45 humidity and temperature sensor IC12, WSEN-PADS pressure sensor IC10, MS5837 connector J1 | Original |
+| RP2354A | `rp2354a.kicad_sch` | RP2354A with core regulator, 12 MHz crystal Y1, USB, SWD connector J2, ESC connectors J3/J4, breakout header J13 | Original, following *Hardware design with RP2350* |
+| Power Management | `power_management.kicad_sch` | PoE bridges D2–D5, TVS D1, PoE module IC5, PoE type optocouplers IC6/IC7, LTC4162-LAD charger IC8 with FETs Q1/Q2 (R1 8 mΩ: 4.0 A input limit; R20 10 mΩ: 3.2 A charge maximum), 5 V buck IC9, load switch IC15 | Original |
 
 "Adapted from the CM5 IO Board" means the sheet started from Raspberry Pi's
 reference design; see [Origin and attribution](#origin-and-attribution).
@@ -67,9 +73,12 @@ Compute Module 5:
 | Signal | CM5 pin | Connects to |
 | --- | --- | --- |
 | Ethernet pairs 0–3 | 3–12 | MagJack IC3 |
-| GPIO2 / GPIO3 (I2C1) | 58 / 56 | BMI270, SHT45, MS5837 connector |
-| GPIO24 | 45 | RP2354A `RUN` |
-| GPIO25 | 41 | RP2354A `QSPI_SS` (BOOTSEL) |
+| GPIO2 / GPIO3 (I2C1) | 58 / 56 | SHT45 IC12, WSEN-PADS IC10, LTC4162 IC8, MS5837 connector J1 |
+| GPIO24 | 45 | RP2354A `RUN` through 330 Ω R9 (4.7 kΩ pull-up R11) |
+| GPIO25 | 41 | RP2354A `QSPI_SS` (BOOTSEL) through 1 kΩ R12 (10 kΩ pull-up R13) |
+| GPIO11 / GPIO8 | 38 / 39 | RP2354A `SWCLK` / `SWDIO` through 33 Ω R16/R17 (shared with J2) |
+| GPIO6 / GPIO12 | 30 / 31 | PoE type detect TYP2 / TYP3 through optocouplers IC6/IC7 (active low; enable the CM5 pull-ups) |
+| GPIO4, 5, 7, 9, 10, 13, 16–23, 26, 27 | 24–29, 34, 37, 40, 44, 46–50, 54 | Breakout header J9 |
 | USB3-1 D+ / D− (USB 2.0 pair) | 163 / 165 | RP2354A USB |
 | MIPI0 data and clock lanes | 115–141 | Camera connector J5 |
 | SDA0 / SCL0 | 82 / 80 | Camera connector J5 |
@@ -89,12 +98,19 @@ RP2354A (QFN-60):
 | --- | --- | --- |
 | GP6–GP9 | 9, 10, 12, 13 | ESC A connector J3 |
 | GP18–GP21 | 29, 31, 32, 33 | ESC B connector J4 |
+| GP10–GP13 (SPI1) | 14, 15, 16, 17 | BMI270 IMU IC11: SCK, MOSI (SDX), MISO (SDO), CS; INT1/INT2 not connected |
 | GP14 | 18 | ESC power switch: high = battery on ESC power connector J14 |
+| GP22–GP29 | 34–37, 40–43 | Breakout header J13 |
 | USB_DP / USB_DM | 52 / 51 | CM5 USB3-1, 27 Ω in series |
-| RUN | 26 | CM5 GPIO24 |
-| QSPI_SS | 60 | CM5 GPIO25 |
-| SWCLK / SWDIO | 24 / 25 | Debug connector J2 |
-| XIN / XOUT | 21 / 22 | 12 MHz crystal Y1 (ABM8-272-T3) |
+| RUN | 26 | CM5 GPIO24 through 330 Ω R9, 4.7 kΩ pull-up R11 |
+| QSPI_SS | 60 | CM5 GPIO25 through 1 kΩ R12, 10 kΩ pull-up R13 |
+| SWCLK / SWDIO | 24 / 25 | Debug connector J2, and CM5 GPIO11 / GPIO8 through 33 Ω R16/R17 |
+| XIN / XOUT | 21 / 22 | 12 MHz crystal Y1 (TX322512M4DBDE2T, on the ABM8-272-T3 footprint) |
+
+RUN and BOOTSEL are active low and driven straight from the CM5 GPIOs, without
+transistors. Drive GPIO24 low to reset the RP2354A; hold GPIO25 low while RUN
+goes high to start its USB bootloader. Otherwise leave both pins as inputs: the
+pull-ups hold them high.
 
 The ESC power switch connects the battery to J14 (both ESCs) through MOSFET Q3, driven by the
 photovoltaic MOSFET driver IC16 from GP14. It is a static switch: switch it only with the motors
@@ -110,51 +126,75 @@ The camera connectors are vertical, so the cable plugs in from above. Their foot
 in reverse (pad n = Molex circuit 23 − n), the same way Raspberry Pi numbers the Hirose connector on
 the CM5 IO Board, so a standard Pi 22-pin cable lands pin 1 (GND) on pin 1.
 
-Breakout headers (1.27 mm pitch; the pin tables are also on the bottom silkscreen):
+Breakout headers (1.27 mm pitch; J9 is 2 × 10, J13 is 2 × 6). The pin tables
+are also on the bottom silkscreen, under wrong headings (see
+[Next revision notes](#next-revision-notes)):
 
 | Pin | J9, CM5 GPIO | J13, RP2354A GPIO |
 | --- | --- | --- |
-| 1 / 2 | +5 V / GND | +5 V / GND |
-| 3 / 4 | GND / +3.3 V | GND / +3.3 V |
-| 5 / 6 | GPIO9 / GPIO13 | GP29 / GP22 |
-| 7 / 8 | GPIO10 / GPIO17 | GP27 / GP24 |
-| 9 / 10 | GPIO27 / GPIO22 | GP25 / GP26 |
-| 11 / 12 | GPIO18 / GPIO5 | GP23 / GP28 |
-| 13 / 14 | GPIO7 / GPIO23 | |
-| 15 / 16 | GPIO16 / GPIO20 | |
+| 1 / 2 | +5 V / +3.3 V | +5 V / +3.3 V |
+| 3 / 4 | GND / GND | GND / GND |
+| 5 / 6 | GPIO26 / GPIO21 | GP29 / GP22 |
+| 7 / 8 | GPIO19 / GPIO20 | GP27 / GP24 |
+| 9 / 10 | GPIO13 / GPIO16 | GP25 / GP26 |
+| 11 / 12 | GPIO5 / GPIO7 | GP23 / GP28 |
+| 13 / 14 | GPIO9 / GPIO10 | |
+| 15 / 16 | GPIO22 / GPIO23 | |
+| 17 / 18 | GPIO27 / GPIO18 | |
+| 19 / 20 | GPIO17 / GPIO4 | |
 
-GP26–GP29 on J13 are the RP2354A's ADC inputs.
++5 V is the switched 5 V after IC15, +3.3 V is CM5_3.3V. GP26–GP29 on J13 are
+the RP2354A's ADC inputs.
 
-I2C devices on the CM5's I2C1 bus:
+I2C devices on the CM5's I2C1 bus (GPIO2/GPIO3). The board has no pull-ups; the
+CM5 has 1.8 kΩ on both lines:
 
 | Device | Address | Notes |
 | --- | --- | --- |
-| BMI270 IMU | `0x68` | `0x69` if SDO is pulled to VDDIO |
-| SHT45-AD1F (with PTFE membrane) | `0x44` | |
-| MS5837-30BA pressure sensor (external module) | `0x76` | Fixed address |
+| SHT45-AD1F humidity and temperature sensor IC12 (with membrane) | `0x44` | |
+| WSEN-PADS pressure sensor IC10 | `0x5C` | SA0 tied to GND; CS tied high selects I2C |
+| LTC4162-LAD charger IC8 | `0x68` | Fixed address; `SMBALERT` isn't connected, so poll |
+| MS5837-30BA pressure sensor (external module, connector J1) | `0x76` | Fixed address |
+
+The BMI270 IMU IC11 isn't on this bus. It sits on the RP2354A's SPI1
+(GP10–GP13).
 
 ## Repository layout
 
 ```text
+CLAUDE.md                       rules for coding agents: commits, quality gates, tags, upstream sync
+.github/workflows/              CI: firmware-ci.yml, software-ci.yml, software-image.yml
+.pre-commit-config.yaml         pre-commit hooks for firmware/ and software/
+docs/wiki/                      arc42 architecture docs, source of the Gitea wiki
 hardware/
 ├── mainboard/
 │   ├── manafish.kicad_pro      KiCad project
-│   ├── *.kicad_sch             schematic sheets
+│   ├── *.kicad_sch             schematic sheets (i2c_peripherals.kicad_sch is an old copy, not in the hierarchy)
 │   ├── manafish.kicad_pcb      PCB, 4 layers
 │   ├── manafish.kicad_dru      custom DRC rules (PoE isolation barriers, impedance pairs, edge parts)
 │   ├── manafish.csv            BOM exported from KiCad
 │   ├── sym-lib-table           project symbol libraries
 │   ├── fp-lib-table            project footprint libraries
 │   ├── custom_components/
-│   │   ├── symbols/            CM5IO, BMI270, SHT45, ABM8-272-T3, Silvertel, V6K100DUHM3, FDMC8327L, LTC4162, YAGEO symbols
-│   │   ├── footprints/         CM5IO, BMI270, SHT45, ABM8-272-T3, RP2350_Minimal, Silvertel, V6K100DUHM3, FDMC86139P, LTC4162, YAGEO footprints
+│   │   ├── symbols/            CM5IO, BMI270, SHT45-AD1F-R2, ABM8-272-T3, Silvertel, V6K100DUHM3_H, FDMC8327L,
+│   │   │                       NTMFS5C404NL, LTC4162, TPS22965, VOM1271T, YAGEO symbols
+│   │   ├── footprints/         CM5IO, BMI270, SHT45, ABM8-272-T3, RP2350_Minimal, Silvertel, V6K100DUHM3,
+│   │   │                       FDMC86139P, LTC4162, Molex, Vishay, YAGEO footprints
 │   │   └── 3d/                 STEP models
 │   ├── production/             JLCPCB Gerbers, BOM and CPL, and jlc_export.py that writes them
 │   ├── simulation/             ngspice simulations of the ESC switch soft start
 │   └── bom/                    interactive HTML BOM
 └── magnetic_switch/            magnet switch PCB (2 layers, hand-soldered): BOM in Magnetic Switch.csv and bom/ibom.html,
                                 JLCPCB Gerbers in production/
+firmware/                       RP2354A firmware (C11, Pico SDK 2.3.1), adapted from manafishrov/mcu-firmware
+software/                       CM5 software: Python package rov_firmware and the NixOS SD image,
+                                adapted from manafishrov/firmware
+images/                         board pictures for this README
 ```
+
+[`firmware/`](firmware/) and [`software/`](software/) each have their own
+README, LICENSE and Nix flake. The architecture docs start at
+[docs/wiki/Home.md](docs/wiki/Home.md).
 
 ## PCB
 
@@ -174,7 +214,7 @@ Placement:
   connectors J5 and J11 side by side.
 - **Top half:** the CM5, with connector B towards the cameras and USB and
   connector A towards the PoE module. The RP2354A with its regulator, crystal,
-  flash, IMU and pressure sensor IC10 fills the strip left of the CM5.
+  IMU and pressure sensor IC10 fills the strip left of the CM5.
 - **Below the CM5:** the PoE module IC5 on the bottom side. The PoE input
   parts (bridges, ferrites, Y-capacitors) sit on the top over its input half.
   The power section (load switch IC15, 5 V buck IC9, charger IC8 with its
@@ -229,13 +269,13 @@ enforces:
 
 - 2.0 mm from primary copper to any other net, on every layer and from every
   hole. The only exception is between the pads of each Y-capacitor
-  (C21, C24).
-- A 3.0 mm warning tier, the Silvertel guideline. 85 warnings remain, all
-  between 2.0 and 3.0 mm. Most are inherent to the footprints (the MagJack's
-  center-tap pins next to its GND pins, J7's GND pins next to the VC1 line) or
-  to the Y-capacitors' own connections. The rest are the Ethernet and LED lines
-  crossing the PoE input area and a few secondary lines and vias along the west
-  side of the module (closest 2.06 mm).
+  (C21, C24). Four violations are still open; see [DRC results](#drc-results).
+- A 3.0 mm warning tier, the Silvertel guideline. 43 warnings remain. Ten are
+  below 2.0 mm, the same spots as the DRC errors below. Most of the others are
+  inherent to the footprints (the MagJack's center-tap pins next to its shield
+  pins, 2.14 mm; J7's pins next to the VC1 and VC4 lines) or to the
+  Y-capacitors' own connections. The rest are the RP2354A SWD lines and a VIN+
+  via near the PoE input (closest 2.68 mm).
 - Under IC5's primary half (`PRI_ISLAND_U5`), no vias of other nets and no
   other copper on B.Cu or In2. The module's isolation barrier strip stays
   empty on B.Cu and In2.
@@ -266,11 +306,25 @@ C21/C24 cross the barrier.
 The same notes are on the board's User.Comments layer, which isn't part of the
 Gerbers: copy them into the order remarks for the assembler.
 
-KiCad's DRC shows 0 errors. The warnings are the 85 PoE advisories above and
-13 footprints whose silkscreen or mask the layout changed on the board (marks
-moved off pads or the board edge, IC9's vias tented). Updating footprints from
-the library would undo those changes. The 11 "PTH inside courtyard" items (IC9's
-thermal vias above IC5, on the other side) are excluded with a comment.
+### DRC results
+
+KiCad's DRC shows 7 errors, still open:
+
+- 4 PoE clearance errors below the 2.0 mm rule: the VC1 line on B.Cu passes
+  J7's GND pin 1 at 1.59 mm and 1.95 mm, and the VC3 line passes the MagJack
+  IC3's shield pin 19 at 1.93 mm (two segments). With "Report all errors for
+  each track" these two spots give 17 items, because the VC1 line runs along
+  all of J7's odd (GND) pins.
+- 3 starved thermals: J9 pin 2 (3.3 V) on the In2 pour, and pad 1 of C23 and
+  C41 on the F.Cu 5 V pour, each with one of two spokes.
+
+The warnings are the 43 PoE advisories above, 13 footprints whose silkscreen or
+mask the layout changed on the board (marks moved off pads or the board edge,
+IC9's vias tented), and 27 silkscreen items (12 silk over copper, 15 silk
+overlap, mostly reference designators around IC15, C41 and C47). Updating
+footprints from the library would undo those changes. The 11 "PTH inside
+courtyard" items (IC9's thermal vias above IC5, on the other side) are excluded
+with a comment.
 
 ### Testing the isolation
 
@@ -278,6 +332,39 @@ Use the 1500 V 10/700 µs impulse test only, at normal air pressure. Don't run
 a 1500 Vrms or 2250 Vdc hipot: the Ag59824 is rated only for the impulse
 test, and 2250 V exceeds the Y-capacitors' 2 kV rating. Afterwards the primary
 side must measure at least 2 MΩ to GND at 500 Vdc.
+
+### Next revision notes
+
+Known issues in this design (layout revision 3, silkscreen v1.0), to fix in the
+next board revision:
+
+- The bottom-silkscreen pin tables are headed `J10 MCU GPIO`, `J5 CM5 CFG` and
+  `J6 CM5 GPIO`. They belong to J13, J7 and J9 (J5 is camera 1, J6 the
+  battery). The pin lists under the headings are correct.
+- The cable connectors have no ESD protection: J1 (MS5837, I2C1 and 3.3 V),
+  J3/J4 (ESC signals, straight to RP2354A GP6–GP9 and GP18–GP21 without series
+  resistors), J8 (USB-C data, straight to the CM5) and J12 (magnet switch).
+  Only the Ethernet pairs have it (IC1/IC2).
+- On the magnet switch board the unused half of the CD4013 U1 floats: inputs
+  S, D, R and CLK (pins 8, 9, 10 and 11) are marked no-connect. CMOS inputs
+  must not float; tie them to GND.
+- The CM5 can't read the charger's `SMBALERT` (IC8 pin 12, not connected), the
+  5 V buck's `PGOOD` (IC9 pin 6, only pulled up by R23 to IC9's own V5V pin) or
+  `MAG_ON` (J12 pin 2, only drives IC15's ON pin). Software must poll the
+  LTC4162 alert registers over I2C, and it gets no warning before the magnet
+  switch cuts the 5 V supply.
+- The charger has no battery thermistor. R26 and R27 (10 kΩ each) hold its NTC
+  input at the 25 °C point, and J6 (XT60) has no NTC pin, so charging isn't
+  temperature-qualified.
+- The net names `ETH_LEDG` and `ETH_LEDY` are swapped. `ETH_LEDG` (CM5
+  `nLED2`, speed) drives the MagJack's yellow LED, `ETH_LEDY` (`nLED3`,
+  activity) the green one. The colours match the CM5 datasheet; only the names
+  are wrong.
+- The VC1 line on B.Cu passes J7's GND pins at 1.59 mm and the VC3 line passes
+  the MagJack's shield pin 19 at 1.93 mm, below the 2.0 mm PoE isolation rule.
+  Move both lines. J9 pin 2, C23 and C41 connect to their pours with one
+  thermal spoke. J9 pin 2 changed from GND to 3.3 V, so the one-spoke DRC
+  exception for GND header pins no longer covers it.
 
 ## Flashing the Compute Module
 
@@ -327,17 +414,29 @@ Datasheets aren't stored in the repository. Use the links below.
 - [Sensirion SHT45 product page and datasheet](https://sensirion.com/products/catalog/SHT45)
 - [Silvertel Ag59800 (Ag59824-LPB) PoE++ module datasheet](https://silvertel.com/images/datasheets/Ag59800-LPB%20-datasheet-high%20efficiency%20SMT%20IEEE802_3BT%20100W%20power-over-ethernet%20module.pdf)
 - [Vishay V6K100DU dual Schottky diode datasheet](https://www.vishay.com/docs/87418/v6k100du.pdf)
-- [Analog Devices LTC4162-L battery charger datasheet](https://www.analog.com/media/en/technical-documentation/data-sheets/LTC4162-L.pdf)
+- [Analog Devices LTC4162-L battery charger datasheet](https://www.analog.com/media/en/technical-documentation/data-sheets/LTC4162-L.pdf) (covers the LTC4162-LAD)
 - [YAGEO (Pulse) JXF0-xx12NL MagJack datasheet J520](https://www.yageogroup.com/content/datasheet/asset/file/DATASHEET_J520)
+- [Würth Elektronik WSEN-PADS 2511020213301 user manual](https://www.we-online.com/components/products/manual/Manual-um-wsen-pads-2511020213301%20%28rev3.1%29.pdf)
+- [TI TPSM53604 buck module datasheet](https://www.ti.com/lit/ds/symlink/tpsm53604.pdf)
+- [TI TPS22965 load switch datasheet](https://www.ti.com/lit/ds/symlink/tps22965.pdf)
+- [Vishay VOM1271 photovoltaic MOSFET driver datasheet](https://www.vishay.com/docs/83469/vom1271.pdf)
+- [TI CD4013B flip-flop datasheet](https://www.ti.com/lit/ds/symlink/cd4013b.pdf) (magnet switch board)
 
 ## Related repositories
 
-- [manafishrov/firmware](https://github.com/manafishrov/firmware): vehicle
-  firmware running on the Compute Module
-- [manafishrov/mcu-firmware](https://github.com/manafishrov/mcu-firmware):
-  thruster firmware running on the RP2354A (Pico 2 build)
+The code for the two processors lives in this repository. Both folders are
+adapted copies of Manafish upstreams and are kept in sync with `git subtree`
+(see [CLAUDE.md](CLAUDE.md)):
+
+- [`software/`](software/): vehicle software running on the Compute Module
+  (Python service and NixOS image). Upstream:
+  [manafishrov/firmware](https://github.com/manafishrov/firmware).
+- [`firmware/`](firmware/): thruster firmware running on the RP2354A. Upstream:
+  [manafishrov/mcu-firmware](https://github.com/manafishrov/mcu-firmware)
+  (Pico and Pico 2 builds).
 - [manafishrov/esc-firmware](https://github.com/manafishrov/esc-firmware):
-  AM32 firmware for the ESCs
+  AM32 firmware for the ESCs. The software image bundles one of its release
+  binaries.
 
 ## Origin and attribution
 
@@ -377,3 +476,11 @@ with or endorsed by Raspberry Pi Ltd.
 The original work in this repository is licensed under the GNU Affero General
 Public License v3.0 or later; see [LICENSE](LICENSE). Third-party files keep
 their own terms, listed in [NOTICE.md](NOTICE.md).
+
+[`firmware/`](firmware/) and [`software/`](software/) are adapted copies of
+[manafishrov/mcu-firmware](https://github.com/manafishrov/mcu-firmware) and
+[manafishrov/firmware](https://github.com/manafishrov/firmware). Both upstreams
+are licensed under AGPL-3.0-or-later, and each folder keeps its own copy of the
+license: [firmware/LICENSE](firmware/LICENSE) and
+[software/LICENSE](software/LICENSE). Changes made here are under the same
+license.

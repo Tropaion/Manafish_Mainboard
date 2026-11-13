@@ -1,5 +1,13 @@
 # Manafish Firmware
 
+> **Mainboard fork.** An adapted copy of
+> [manafishrov/firmware](https://github.com/manafishrov/firmware) at `9e282b5`
+> in the [Manafish Mainboard](../README.md) repository. Planned here: a CM5
+> NixOS image, the new I2C sensors and charger (SHT45, WSEN-PADS, LTC4162) and
+> MCU recovery over the RP2354A's RUN and BOOTSEL lines. The root
+> [CLAUDE.md](../CLAUDE.md) governs commits, tags and releases; upstream sync
+> uses `git subtree`. Run the commands below from `software/`.
+
 NixOS image and Python service for the Raspberry Pi 3B and IMX477 camera in the
 Manafish ROV.
 
@@ -38,6 +46,10 @@ that address in the app.
 uv sync
 uv run pre-commit install
 ```
+
+The hooks come from the root
+[`.pre-commit-config.yaml`](../.pre-commit-config.yaml), which covers both
+`software/` and `firmware/`.
 
 `nix develop` provides the Python version pinned in `pyproject.toml`. Without
 Nix, install it first with `uv python install <version>`.

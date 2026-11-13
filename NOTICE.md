@@ -152,6 +152,102 @@ licence:
 The `LTC4162` symbol was drawn for this board from the LTC4162-L datasheet and
 is covered by this repository's license.
 
+## Manafish upstream code
+
+- **Copyright:** the Manafish contributors. The files carry no copyright line.
+- **License:** AGPL-3.0-or-later, as stated in each upstream README (and in
+  `software/pyproject.toml`). `firmware/LICENSE` and `software/LICENSE` hold
+  the unmodified GNU AGPL v3 text.
+
+Imported with `git subtree --squash` and adapted for this board:
+
+| Folder | Upstream | Imported at |
+| --- | --- | --- |
+| `firmware/` | <https://github.com/manafishrov/mcu-firmware> | `88bd6a08a38bc79a3231bba4728303374ed3dd9e` |
+| `software/` | <https://github.com/manafishrov/firmware> | `9e282b5084bb8402c37d2adccdd348fd09f855a1` |
+
+Changes made here are under the same license. Until the mainboard MCU target
+exists, the software image also bundles upstream's released Pico and Pico 2
+UF2 files (`software/flake.nix`, inputs `mcu-firmware-pico` and
+`mcu-firmware-pico2`).
+
+## Bosch BMI270 SensorAPI
+
+- **Copyright:** © 2023 and © 2025 Bosch Sensortec GmbH (per file).
+- **Source:** <https://github.com/boschsensortec/BMI270_SensorAPI>, commit
+  `41129fcfe39c583ee5462d79195741945d51c1fe`.
+- **License:** BSD-3-Clause. The full text is in
+  `firmware/third_party/bmi270/LICENSE`. Clause 2 requires the notice with
+  every binary distribution, so [CLAUDE.md](CLAUDE.md) lists it as an asset of
+  every MCU firmware release.
+
+Copied unchanged into `firmware/third_party/bmi270/`: `bmi2.c`, `bmi2.h`,
+`bmi2_defs.h`, `bmi270.c` (with Bosch's 8192-byte BMI270 configuration image),
+`bmi270.h` and `LICENSE`. `bmi2.c` and `bmi270.c` are compiled into the MCU
+firmware. `firmware/third_party/bmi270/README.md` lists their SHA-256 hashes.
+
+## Unity test framework
+
+- **Copyright:** © 2007-26 Mike Karlesky, Mark VanderVoord, & Greg Williams
+  (ThrowTheSwitch.org).
+- **Source:** <https://github.com/ThrowTheSwitch/Unity>, version 2.6.3 per the
+  `UNITY_VERSION_*` macros.
+- **License:** MIT, from `SPDX-License-Identifier: MIT` in each file header.
+  There is no separate license file.
+
+Files: `firmware/tests/unity/unity.c`, `unity.h` and `unity_internals.h`.
+They build only the host tests and are not part of the MCU firmware.
+
+## Pico SDK and TinyUSB
+
+CMake downloads these at build time; they are not stored in this repository.
+They are compiled into the MCU firmware (UF2):
+
+| Component | Version | Copyright | License |
+| --- | --- | --- | --- |
+| [Raspberry Pi Pico SDK](https://github.com/raspberrypi/pico-sdk) | 2.3.1, pinned in `firmware/pico_sdk_import.cmake` | © 2020 Raspberry Pi (Trading) Ltd. | BSD-3-Clause, `LICENSE.TXT` in the SDK |
+| [TinyUSB](https://github.com/hathach/tinyusb) | 0.18.0, the SDK's `lib/tinyusb` submodule | © 2018 hathach (tinyusb.org) | MIT, `lib/tinyusb/LICENSE` in the SDK |
+
+The BSD-3-Clause license asks binary distributions to reproduce its notice;
+the MIT license asks every copy to include its notice.
+
+## DShot driver sources
+
+The header of `firmware/src/dshot/dshot.c` says:
+
+> TX derived from pio-dshot by Simon Wunderlich (MIT License).
+> RX uses Betaflight-style oversampled edge detection with run-length decoding.
+>
+> EDT handling follows Betaflight's dshot.c:
+> <https://github.com/betaflight/betaflight/blob/master/src/main/drivers/dshot.c>
+>
+> Oversampled telemetry decoding adapted from Betaflight's dshot_bidir_pico.c:
+> <https://github.com/betaflight/betaflight/blob/master/src/platform/PICO/dshot_bidir_pico.c>
+
+`dshot.h` says "Derived from pio-dshot by Simon Wunderlich" and "Protocol
+handling follows the Betaflight implementation"; `dshot.pio` calls its timing
+"Betaflight-derived". None of the three files carries the original copyright
+lines or license texts.
+
+| Source | Copyright | License |
+| --- | --- | --- |
+| [pio-dshot](https://github.com/simonwunderlich/pio-dshot) | © 2023 Simon Wunderlich | MIT, as the header says (also the repository's `LICENSE`) |
+| [Betaflight](https://github.com/betaflight/betaflight) | Betaflight contributors | GPL-3.0-or-later. The header names no license; this is from Betaflight's `LICENSE` and the header of `dshot_bidir_pico.c` |
+
+## AM32 ESC firmware
+
+- **Source:** <https://github.com/manafishrov/esc-firmware>, a fork of
+  <https://github.com/am32-firmware/AM32>. The `esc-firmware` input in
+  `software/flake.nix` downloads the release asset
+  `AM32_SKYSTARS_AM60_V2_F421_2.21.1.bin` of release `v2.21.1-rc.1`.
+- **License:** GPL-3.0. The `LICENSE` file of manafishrov/esc-firmware is the
+  GNU GPL v3 text; its parent AM32 is also GPL-3.0.
+
+The binary is not stored in this repository. The SD image built from
+`software/` contains it, and a boot service (`software/nix/system.nix`) copies
+it to `/home/pi/esc-firmware/esc-v2.21.1-rc.1.bin`. Its source is the
+`v2.21.1-rc.1` tag of manafishrov/esc-firmware.
+
 ## Trademarks
 
 Raspberry Pi is a trademark of Raspberry Pi Ltd. Other product names are
