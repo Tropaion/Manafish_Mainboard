@@ -21,7 +21,8 @@ import package `rov_firmware` (distribution name `manafish`) and its device path
 
 Port status: `software/flake.nix` still builds upstream's Raspberry Pi 3 image
 (`pi3-imx477`) and bundles upstream's pico/pico2 UF2s; the CM5 configuration
-and the `manafish_mainboard` MCU target are still to come.
+and bundling the mainboard UF2 from a `firmware-v…-mb.N` release are still to
+come.
 
 ## Owner rules
 
@@ -52,7 +53,7 @@ Firmware, from the repo root (the dev shell provides the LLVM 19 baseline; the
 host clang-format formats differently, so never format with it):
 
 ```sh
-nix develop ./firmware -c make -C firmware test format-check lint-check build-pico build-pico2
+nix develop ./firmware -c make -C firmware test format-check lint-check build-pico build-pico2 build-mainboard
 ```
 
 Software, from `software/`:
@@ -102,16 +103,18 @@ PICO_CONTROLLER_SOURCE=$PWD/../firmware/src/control/controller.c uv run pytest
 ## Tags and releases
 
 Never tag or release unless asked; confirm the version and the notes first.
-Upstream version strings are never edited. The release workflow
-(`.github/workflows/firmware-release.yml`) and `make build-mainboard` arrive in
-Phase 2.1; don't tag before they exist.
+Upstream version strings are never edited.
 
 - MCU: `firmware-vX.Y.Z-mb.N`. X.Y.Z comes from the
   `MCU_FIRMWARE_VERSION_MAJOR/MINOR/PATCH` macros in `firmware/src/version.h`
   (not its `"…-rc.N"` fallback string); don't bump them. N counts mainboard
   releases of that X.Y.Z. **Never put `-rc` in it**: `version.py` rejects
-  `X.Y.Z-rc.N-mb.N`. Assets: `mainboard-vX.Y.Z-mb.N.uf2` (the software flake URL
-  depends on this name) and the BMI270 license; published, not a draft.
+  `X.Y.Z-rc.N-mb.N`. The tag runs `.github/workflows/firmware-release.yml`.
+  Assets: `mainboard-vX.Y.Z-mb.N.uf2` (the software flake URL depends on this
+  name) and the third-party notices (`NOTICE.md`, BMI270, Pico SDK, pico_printf,
+  TinyUSB and pio-dshot licenses); published, not a draft. The workflow's
+  generated notes are only a compare link: once it has published, set the
+  confirmed notes with `gh release edit <tag> --notes-file <file>`.
 - Software: `software-v<pyproject version>-mb.N`, e.g.
   `software-v1.2.0-rc.3-mb.1`. Never write `-mb` into `pyproject.toml`.
 - Push one tag at a time (`git push origin <tag>`), never `git push --tags`.

@@ -16,7 +16,7 @@ import unittest
 
 
 RAM_START = 0x20000000
-RAM_LENGTH = {"pico": 0x40000, "pico2": 0x80000}
+RAM_LENGTH = {"pico": 0x40000, "pico2": 0x80000, "mainboard": 0x80000}
 
 
 def require(condition, message):
@@ -142,6 +142,11 @@ class MemoryVerifierTests(unittest.TestCase):
     def test_both_platforms(self):
         for board in RAM_LENGTH:
             verify(board, *self.fixture(board))
+
+    def test_mainboard_has_rp2350_ram(self):
+        # The RP2354A is an RP2350A die plus in-package flash: Pico 2's 512 KiB SRAM.
+        self.assertEqual(RAM_LENGTH["mainboard"], RAM_LENGTH["pico2"])
+        verify("mainboard", *self.fixture("mainboard"))
 
     def test_emulated_tls_needs_no_native_storage(self):
         symbols, sections, memory = self.fixture("pico")

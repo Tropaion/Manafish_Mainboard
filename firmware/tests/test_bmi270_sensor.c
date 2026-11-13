@@ -3,6 +3,8 @@
  *   tests/test_bmi270_sensor.c third_party/bmi270/bmi2.c \
  *   third_party/bmi270/bmi270.c -lm -o /tmp/test_bmi270_sensor
  * /tmp/test_bmi270_sensor
+ * make test runs it twice: with the default axis map and with a non-default
+ * -DMANAFISH_IMU_AXIS_* / -DMANAFISH_IMU_SIGN_* map.
  * No hardware or Pico SDK is used. Guarded to coexist with the Unity wildcard.
  */
 #ifdef BMI270_SENSOR_TEST
@@ -170,6 +172,10 @@ static bool spi_is_readable(spi_hw_t *spi) {
 
 extern const uint8_t bmi270_config_file[];
 
+/* The wrapper's board map: output (FRD) axis i = map_sign[i] * raw axis map_axis[i]. */
+static const size_t map_axis[3] = {MANAFISH_IMU_AXIS_X, MANAFISH_IMU_AXIS_Y, MANAFISH_IMU_AXIS_Z};
+static const double map_sign[3] = {MANAFISH_IMU_SIGN_X, MANAFISH_IMU_SIGN_Y, MANAFISH_IMU_SIGN_Z};
+
 static void reset_fixture(void) {
     peripheral = (spi_hw_t){0};
     clock_us = 0;
@@ -244,9 +250,10 @@ static void test_raw_conversion(void) {
     set_sample(diagnostics.sensor_time + 51u, words);
     assert(bmi270_sensor_read(accel, gyro, &temperature));
     for (size_t axis = 0; axis < 3; ++axis) {
-        const double sign = axis == 0 ? 1.0 : -1.0;
-        const double a = sign * (double)words[axis] / 32768.0 * (2 * 9.81288);
-        const double g = sign * 0.017453292519943295 * (double)words[3 + axis] / 32768.0 * 1000.0;
+        const double sign = map_sign[axis];
+        const size_t source = map_axis[axis];
+        const double a = sign * (double)words[source] / 32768.0 * (2 * 9.81288);
+        const double g = sign * 0.017453292519943295 * (double)words[3 + source] / 32768.0 * 1000.0;
         assert(fabs((double)accel[axis] - a) < 0.000003);
         assert(fabs((double)gyro[axis] - g) < 0.000003);
     }
@@ -296,13 +303,30 @@ static void test_full_int16_domain(void) {
         const double expected_accel = (double)value / 32768.0 * (2.0 * 9.81288);
         const double expected_gyro = 0.017453292519943295 * (double)value / 32768.0 * 1000.0;
         for (size_t axis = 0; axis < 3; ++axis) {
-            const double sign = axis == 0 ? 1.0 : -1.0;
+            const double sign = map_sign[axis];
             assert(fabs((double)accel[axis] - sign * expected_accel) < 0.000003);
             assert(fabs((double)gyro[axis] - sign * expected_gyro) < 0.000003);
         }
         assert(fabs((double)temperature - ((double)thermal * 0.001952594 + 23.0)) < 0.00001);
     }
     assert(diagnostics.samples == 65536);
+}
+
+static void test_axis_map(void) {
+    reset_fixture();
+    assert(bmi270_sensor_init());
+    /* Distinct positive raw axes expose any wrong permutation or sign. */
+    const int16_t words[7] = {1000, 2000, 3000, 4000, 5000, 6000, 0};
+    set_sample(diagnostics.sensor_time + 51u, words);
+    float accel[3], gyro[3], temperature;
+    assert(bmi270_sensor_read(accel, gyro, &temperature));
+    const double accel_lsb = (2 * 9.81288) / 32768.0;
+    const double gyro_lsb = 0.017453292519943295 * 1000.0 / 32768.0;
+    for (size_t axis = 0; axis < 3; ++axis) {
+        const size_t source = map_axis[axis];
+        assert(fabs((double)accel[axis] - map_sign[axis] * words[source] * accel_lsb) < 0.000003);
+        assert(fabs((double)gyro[axis] - map_sign[axis] * words[3 + source] * gyro_lsb) < 0.000003);
+    }
 }
 
 static void test_init_failures(void) {
@@ -409,6 +433,7 @@ int main(void) {
     test_initialization();
     test_raw_conversion();
     test_full_int16_domain();
+    test_axis_map();
     test_init_failures();
     test_runtime_faults();
     test_transport_bounds();

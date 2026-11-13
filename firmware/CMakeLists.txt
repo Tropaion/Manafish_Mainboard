@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.13)
 
+# boards/manafish_mainboard.h (-DPICO_BOARD=manafish_mainboard). The SDK reads the board
+# header while it is imported, so this has to come first.
+set(PICO_BOARD_HEADER_DIRS ${CMAKE_CURRENT_LIST_DIR}/boards)
 include(pico_sdk_import.cmake)
 
 project(microcontroller_firmware)
@@ -42,6 +45,7 @@ configure_file(
 
 add_executable(${FIRMWARE_EXE_NAME}
     src/main.c
+    src/esc_power.c
     src/control/controller.c
     src/control/protocol.c
     src/control/runtime.c

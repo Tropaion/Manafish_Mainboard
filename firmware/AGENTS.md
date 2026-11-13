@@ -3,8 +3,9 @@
 ## Purpose
 
 Thruster firmware for the Raspberry Pi Pico / Pico 2 used by the Manafish
-ROV. Single binary supports two runtime-selectable ESC protocols: DShot
-(digital) and PWM (analog). Communicates with the host firmware over USB CDC.
+ROV, and for the RP2354A on the Manafish mainboard. Single binary supports two
+runtime-selectable ESC protocols: DShot (digital) and PWM (analog).
+Communicates with the host firmware over USB CDC.
 
 ## Stack
 
@@ -17,19 +18,32 @@ ROV. Single binary supports two runtime-selectable ESC protocols: DShot
 ## Structure
 
 - `src/` — firmware sources (`main.c`, `usb_comm.*`, `runtime_config.*`,
-  `log.*`, `dshot/`, `pwm/`, `control/`, `imu/`). Core 1 owns SPI and pure
-  control; core 0 owns USB, motor outputs and safety arbitration.
+  `log.*`, `esc_power.*`, `dshot/`, `pwm/`, `control/`, `imu/`). Core 1 owns
+  SPI and pure control; core 0 owns USB, motor outputs and safety arbitration.
+- `src/esc_power.*` — mainboard ESC power switch (GP14) state machine with time
+  passed in; a stub without `MANAFISH_ESC_POWER_PIN` (pico/pico2). Its
+  unconditional `<hardware/gpio.h>` include brings in the board header, and
+  `esc_power_wire_state()` exists only with the pin, so a mainboard build that
+  compiled the stub fails to link. Read the ESC power section of
+  `docs/PICO_CONTROL_PROTOCOL.md` before changing it.
+- `boards/manafish_mainboard.h` — mainboard board header (RP2354A, 2 MB flash,
+  crystal start-up delay, USB product, ESC power pin, IMU axis map);
+  preprocessor only, found through `PICO_BOARD_HEADER_DIRS` in `CMakeLists.txt`.
 - `third_party/bmi270/` — pinned official Bosch driver/config image and license;
   excluded from project formatting and lint fixes.
 - `docs/PICO_CONTROL_PROTOCOL.md` — read before changing control math, USB
   framing/settings, cross-core ownership, or maintenance transitions.
 - `scripts/control_smoke.py` — coordinator-operated neutral-output hardware smoke
   test; requires explicit `--execute`, stopped Pi service and disconnected ESCs.
+- `scripts/mainboard_bringup.py` — coordinator-operated mainboard bench helper
+  (`info`, `imu`, `esc on|off|watch`); imports `control_smoke.py`, requires
+  `--execute` and a stopped Pi service; port `/dev/manafish-mcu`.
 - `tests/` — Unity tests (`test_*.c`), `mocks/`, `stubs/`, `support/`,
   `unity/`, and `test_startup_commands.py` (compiles the real startup function
   with recording C stubs), the standalone Bosch SPI/USB buffer emulators, and
   `test_control_runtime.py` (real runtime/transport against a fake SDK),
-  `test_control_smoke.py` (offline checks of bench evidence handling), and
+  `test_control_smoke.py` (offline checks of bench evidence handling),
+  `test_mainboard_bringup.py` (offline checks of the mainboard bench helper), and
   `test_build_identity.py` (CMake release/development metadata and real USB replies;
   requires host CMake, not the Pico SDK).
 - `CMakeLists.txt`, `pico_sdk_import.cmake` — build setup
@@ -45,8 +59,11 @@ ROV. Single binary supports two runtime-selectable ESC protocols: DShot
 Use the dev shell (`direnv allow` in repo, or `nix develop`). Then:
 
 - Help: `make help`
-- Build: `make build-pico` / `make build-pico2`
-- Flash: `make flash-pico` / `make flash-pico2`
+- Build: `make build-pico` / `make build-pico2` / `make build-mainboard`
+- Flash: `make flash-pico` / `make flash-pico2` / `make flash-mainboard`. The
+  mainboard has no BOOTSEL button and `flash-mainboard` no `-f`: the RP2354A must
+  already be in BOOTSEL, entered by the CM5 through GPIO24 (RUN) and GPIO25
+  (QSPI_SS); see `docs/PICO_CONTROL_HANDOFF.md`.
 - Clean: `make clean`
 - Debug serial: `picocom -b 115200 /dev/ttyACM0` (Linux) or
   `/dev/tty.usbmodem*` (Darwin)
@@ -55,10 +72,11 @@ Use the dev shell (`direnv allow` in repo, or `nix develop`). Then:
 
 ```sh
 make format-check
-make lint-check          # clang-tidy with -Werror
+make lint-check          # clang-tidy with -Werror on the mainboard compile DB
 make test                # Unity, Python/C regressions and memory-verifier tests
 make build-pico         # includes real ELF/map memory verification
 make build-pico2        # includes real ELF/map memory verification
+make build-mainboard    # includes real ELF/map memory verification
 ```
 
 Auto-fix: `make format`, `make lint`.
@@ -80,10 +98,11 @@ Pre-commit hook runs `clang-format` on staged files. Install once:
 - In lint commands, keep GCC-internal headers after target libc and Clang headers
   with `-idirafter`; prioritizing GCC's `stdint.h` breaks Clang constant macros.
 - Don't widen the toolchain (extra deps, alternative SDKs) without reason.
-- Don't push without being asked. Required PR CI builds both Pico and Pico 2
-  and runs `tests/test_linker_memory.py` on each ELF/map. Release builds run the
-  same verification. A host/mock test or a build against an older SDK does not
-  validate an SDK upgrade. Record the actual configured SDK path/version.
+- Don't push without being asked. Required CI builds Pico, Pico 2 and the
+  mainboard and runs `tests/test_linker_memory.py` on each ELF/map. Release
+  builds run the same verification. A host/mock test or a build against an
+  older SDK does not validate an SDK upgrade. Record the actual configured SDK
+  path/version.
 
 ## Releases
 
@@ -92,7 +111,8 @@ and release notes back to the user before doing anything.**
 
 In the Manafish mainboard monorepo the root `CLAUDE.md` overrides this file on
 commits (plain capitalised sentences, no Conventional Commits), tags, releases,
-CI and pre-commit; this section is a summary.
+CI and pre-commit; its "Tags and releases" section is authoritative and this
+section is a summary.
 
 - Tag: `firmware-vX.Y.Z-mb.N`. X.Y.Z comes from the
   `MCU_FIRMWARE_VERSION_MAJOR/MINOR/PATCH` macros in `src/version.h`; don't bump
@@ -102,14 +122,14 @@ CI and pre-commit; this section is a summary.
   never `git push --tags`.
 - The tag triggers the root `.github/workflows/firmware-release.yml`. It checks
   X.Y.Z against `src/version.h`, builds with
-  `-DMANAFISH_RELEASE_VERSION=X.Y.Z-mb.N` and publishes (not as a draft)
-  `mainboard-vX.Y.Z-mb.N.uf2` and the BMI270 license.
-- The quality gates above, plus `make build-mainboard`, must pass first.
-- `make build-mainboard` and `firmware-release.yml` are added together with the
-  mainboard board target; don't tag before they exist.
+  `-DMANAFISH_RELEASE_VERSION=X.Y.Z-mb.N` and publishes (not as a draft, not as
+  a prerelease) `mainboard-vX.Y.Z-mb.N.uf2` with the third-party notices
+  (`NOTICE.md`, BMI270, Pico SDK, pico_printf, TinyUSB and pio-dshot licenses).
+- The quality gates above must pass first.
 
 Workflow before tagging: confirm the version with the user, confirm the release
-notes text, then tag and push the tag.
+notes text, then tag and push the tag. Once the workflow has published, set the
+confirmed notes with `gh release edit <tag> --notes-file <file>`.
 
 ## Commits
 

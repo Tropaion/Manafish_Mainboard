@@ -5,6 +5,7 @@
 #include "dshot/dshot.h"
 #include "dshot/telemetry_usb.h"
 #include "esc_firmware/update.h"
+#include "esc_power.h"
 #include "log.h"
 #include "motors.h"
 #include "pwm/control.h"
@@ -13,7 +14,9 @@
 #include "usb_comm.h"
 #include "usb_rx.h"
 #include "usb_tx.h"
+#include <hardware/gpio.h>
 #include <hardware/pio.h>
+#include <hardware/structs/io_bank0.h>
 #include <pico/stdio.h>
 #include <pico/time.h>
 #include <pico/types.h>
@@ -68,6 +71,9 @@ static bool pwm_initialized = false;
 static bool dshot_initialized = false;
 static bool runtime_config_received = false;
 static bool protocol_initialized = false;
+// Mainboard: the motor lines sit low on SIO while esc_power_lines_live() is false (unpowered or
+// booting ESCs). Separate from protocol_initialized, so settings keep reconciling meanwhile.
+static bool outputs_parked = false;
 static bool all_motor_telemetry_seen = false;
 static bool dshot_telemetry_warning_pending = false;
 static absolute_time_t dshot_telemetry_warning_time;
@@ -92,6 +98,11 @@ typedef enum {
 
 static runtime_config_transition_t runtime_config_transition = RUNTIME_CONFIG_TRANSITION_NONE;
 static absolute_time_t runtime_config_transition_deadline;
+
+// A packet that passed its validity check: restarts the ESC power host-loss timer.
+static void note_host_activity(void) {
+    esc_power_host_activity(to_ms_since_boot(get_absolute_time()));
+}
 
 static void send_quality_reports(void) {
     uint32_t now_ms = to_ms_since_boot(get_absolute_time());
@@ -154,6 +165,20 @@ static void deinit_protocol(thruster_protocol_t protocol) {
     }
 }
 
+// Unpowered ESCs: drive every motor line low through SIO. This sends no waveform, does not
+// back-power the AT32s and avoids AM32's idle-high bootloader trap. Level and direction are set
+// before the mux switches, so no line glitches high. The protocol state stays as it is.
+static void park_outputs(void) {
+    for (uint i = 0; i < NUM_MOTORS; ++i) {
+        uint pin = i < NUM_MOTORS_0 ? MOTOR0_PIN_BASE + i : MOTOR1_PIN_BASE + i - NUM_MOTORS_0;
+        gpio_put(pin, false);
+        gpio_set_dir(pin, GPIO_OUT);
+        gpio_set_function(pin, GPIO_FUNC_SIO);
+        gpio_disable_pulls(pin);
+    }
+    outputs_parked = true;
+}
+
 static void init_pwm_protocol(void) {
     uint pins[NUM_MOTORS] = {MOTOR0_PIN_BASE,     MOTOR0_PIN_BASE + 1, MOTOR0_PIN_BASE + 2,
                              MOTOR0_PIN_BASE + 3, MOTOR1_PIN_BASE,     MOTOR1_PIN_BASE + 1,
@@ -180,12 +205,17 @@ static void init_dshot_protocol(uint16_t dshot_speed) {
         edt_enable_time[i] = get_absolute_time();
         quality_warned[i] = false;
     }
-    dshot_send_commands(command_values, &dshot_controller0, &dshot_controller1);
-    dshot_run_frame_cycles(&dshot_controller0, &dshot_controller1, NUM_MOTORS * 4);
-    // AM60 firmware owns persistent input settings. EDT is a volatile session
-    // handshake and must still be enabled after ESC resets.
-    dshot_send_command_to_all(&dshot_controller0, &dshot_controller1,
-                              DSHOT_EXTENDED_TELEMETRY_ENABLE, 10);
+    // Parked lines lead to unpowered ESCs, and this blocking preamble would also outlast a live
+    // session's stall guard when the lines go live. The main loop then sends neutral frames and
+    // dshot_enable_edt_if_idle() enables EDT instead.
+    if (!outputs_parked) {
+        dshot_send_commands(command_values, &dshot_controller0, &dshot_controller1);
+        dshot_run_frame_cycles(&dshot_controller0, &dshot_controller1, NUM_MOTORS * 4);
+        // AM60 firmware owns persistent input settings. EDT is a volatile session
+        // handshake and must still be enabled after ESC resets.
+        dshot_send_command_to_all(&dshot_controller0, &dshot_controller1,
+                                  DSHOT_EXTENDED_TELEMETRY_ENABLE, 10);
+    }
     dshot_initialized = true;
     dshot_telemetry_warning_time =
         delayed_by_ms(get_absolute_time(), DSHOT_TELEMETRY_WARNING_DELAY_MS);
@@ -198,6 +228,52 @@ static void init_current_protocol(void) {
         init_dshot_protocol(current_config.dshot_speed);
     } else {
         init_pwm_protocol();
+    }
+    // Protocol init muxes the motor pins to PIO/PWM; unpowered ESCs keep them parked.
+    if (outputs_parked) {
+        park_outputs();
+    }
+}
+
+// The lines may go live (ESCs powered and past the signal delay): restart the initialized
+// protocol on the freshly booted ESCs. Still flagged parked here, so DShot skips its blocking
+// preamble and forgets the EDT and telemetry state of the previous power cycle.
+static void unpark_outputs(void) {
+    if (dshot_initialized) {
+        init_dshot_protocol(current_config.dshot_speed);
+        all_motor_telemetry_seen = false;
+    } else if (pwm_initialized) {
+        init_pwm_protocol();
+    }
+    outputs_parked = false;
+}
+
+static uint32_t esc_power_busy_reasons(void) {
+    uint32_t reasons = 0;
+    if (!runtime_config_received) {
+        reasons |= ESC_POWER_BUSY_SETTINGS;
+    }
+    if (runtime_config_transition != RUNTIME_CONFIG_TRANSITION_NONE) {
+        reasons |= ESC_POWER_BUSY_TRANSITION;
+    }
+    if (esc_firmware_update_receiving()) {
+        reasons |= ESC_POWER_BUSY_UPDATE;
+    }
+    if (esc_firmware_recovery_mode) {
+        reasons |= ESC_POWER_BUSY_RECOVERY;
+    }
+    return reasons;
+}
+
+// Once per main-loop pass. A no-op on pico/pico2, where the lines are always live.
+static void service_esc_power(void) {
+    esc_power_set_busy(esc_power_busy_reasons());
+    esc_power_service(to_ms_since_boot(get_absolute_time()));
+    bool live = esc_power_lines_live();
+    if (live && outputs_parked) {
+        unpark_outputs();
+    } else if (!live && !outputs_parked) {
+        park_outputs();
     }
 }
 
@@ -274,6 +350,10 @@ static void log_missing_dshot_telemetry(void) {
 
 static void hold_neutral_before_switch(void) {
     set_all_commands_neutral();
+    // Unpowered ESCs have nothing to hold, and dshot_loop() would mux parked lines back to PIO.
+    if (outputs_parked) {
+        return;
+    }
     if (current_config.protocol == THRUSTER_PROTOCOL_DSHOT && dshot_initialized) {
         dshot_send_commands(command_values, &dshot_controller0, &dshot_controller1);
         for (int i = 0; i < 120; ++i) {
@@ -389,6 +469,7 @@ static void handle_command_packet(uint8_t *command_buf, uint32_t received_us) {
                           &last_comm_time)) {
         return;
     }
+    note_host_activity();
 
     if ((control_runtime_extended_active() || control_runtime_maintenance_latched()) &&
         !all_commands_neutral()) {
@@ -422,6 +503,7 @@ static void handle_config_packet(uint8_t *config_buf) {
     if (!mcu_runtime_config_parse_packet(config_buf, USB_CONFIG_PACKET_SIZE, &request)) {
         return;
     }
+    note_host_activity();
 
     if (request.command == MCU_CONTROL_COMMAND_GET_CONTROL_CAPABILITIES) {
         control_runtime_capabilities(request.request_id);
@@ -500,6 +582,13 @@ static void handle_esc_firmware_begin(bool recovery_request) {
         return;
     }
 
+    // AM32 needs powered, booted ESCs; its bootloader entry would otherwise drive the lines high
+    // into unpowered ones. Always true on pico/pico2.
+    if (!esc_power_thrust_permitted()) {
+        fail_esc_firmware_update(ESC_FIRMWARE_UPDATE_ERROR_ESC_POWER_OFF, 0);
+        return;
+    }
+
     if (!runtime_dshot_ready()) {
         if (recovery_request) {
             esc_version_discovery_active = false;
@@ -530,6 +619,14 @@ static void handle_esc_firmware_begin(bool recovery_request) {
 
 static bool esc_firmware_commit_is_safe(bool recovery_transaction,
                                         esc_firmware_update_error_t *error) {
+    if (!esc_power_thrust_permitted()) {
+        // Nothing was flashed: repeat whether recovery is still required, as a failed flash
+        // does (the host clears its recovery journal on 0).
+        bool recovery_required = recovery_transaction || esc_firmware_recovery_mode;
+        fail_esc_firmware_update(ESC_FIRMWARE_UPDATE_ERROR_ESC_POWER_OFF,
+                                 recovery_required ? 1u : 0u);
+        return false;
+    }
     if (!recovery_transaction && !runtime_dshot_ready()) {
         fail_esc_firmware_update(ESC_FIRMWARE_UPDATE_ERROR_NOT_DSHOT, 0);
         return false;
@@ -608,6 +705,8 @@ static void commit_esc_firmware_update(esc_firmware_update_error_t *error) {
     bool flashed =
         am32_bootloader_flash_all(esc_firmware_update_image(), esc_firmware_update_image_size(),
                                   error, &failed_motor, &modified);
+    // The flash blocked the main loop for minutes; the host-loss timer must not count that.
+    note_host_activity();
     if (flashed) {
         finish_successful_esc_firmware_flash();
     } else {
@@ -628,6 +727,7 @@ static void handle_esc_firmware_control_packet(const uint8_t *packet) {
         esc_firmware_update_send_status(ESC_FIRMWARE_UPDATE_STATUS_FAILED, UINT8_MAX, error, 0);
         return;
     }
+    note_host_activity();
 
     if (command == ESC_FIRMWARE_UPDATE_COMMAND_ABORT) {
         esc_firmware_update_send_status(ESC_FIRMWARE_UPDATE_STATUS_ABORTED, UINT8_MAX,
@@ -664,6 +764,7 @@ static void handle_esc_firmware_data_packet(const uint8_t *packet) {
         request_esc_firmware_versions_if_idle();
         return;
     }
+    note_host_activity();
     esc_firmware_update_send_status(ESC_FIRMWARE_UPDATE_STATUS_RECEIVED, UINT8_MAX,
                                     ESC_FIRMWARE_UPDATE_ERROR_NONE,
                                     esc_firmware_update_received_size());
@@ -691,7 +792,9 @@ static void service_dshot_protocol(void) {
     dshot_loop_async_start(&dshot_controller1);
     dshot_loop_async_complete(&dshot_controller0);
     dshot_loop_async_complete(&dshot_controller1);
-    if (esc_firmware_upload_active) {
+    // ESCs still booting (ARMING) or stopping: version discovery, quality reports and telemetry
+    // warnings wait until thrust is permitted (always on pico/pico2).
+    if (esc_firmware_upload_active || !esc_power_thrust_permitted()) {
         return;
     }
 
@@ -772,20 +875,26 @@ static bool control_recovery_required(void) {
     return esc_firmware_recovery_mode;
 }
 static bool control_outputs_initialized(void) {
-    return protocol_initialized;
+    return protocol_initialized && !outputs_parked;
 }
 static uint16_t control_output_protocol(void) {
     return (uint16_t)current_config.protocol;
 }
+#ifdef MANAFISH_ESC_POWER_PIN
+static uint32_t control_esc_power_request(uint32_t on) {
+    return (uint32_t)esc_power_request(on, to_ms_since_boot(get_absolute_time()));
+}
+#endif
 
 static void service_current_reporting(void) {
     static uint32_t last_report_ms;
     static bool reported;
     uint32_t now_ms = to_ms_since_boot(get_absolute_time());
     bool upload_active = esc_firmware_update_receiving();
+    // Until thrust is permitted the ESCs are unpowered or booting: no baseline, current -1.
     bool enabled = runtime_config_received && protocol_initialized &&
                    current_config.protocol == THRUSTER_PROTOCOL_DSHOT &&
-                   !esc_firmware_recovery_mode && !upload_active;
+                   !esc_firmware_recovery_mode && !upload_active && esc_power_thrust_permitted();
     current_sensing_service(command_values, enabled, now_ms);
     if (esc_firmware_recovery_mode || upload_active ||
         (reported && now_ms - last_report_ms < 100u)) {
@@ -804,6 +913,8 @@ static void service_current_reporting(void) {
 }
 
 int main(void) {
+    // Mainboard: ESC_PWR_EN low before anything else runs (the off hold starts here).
+    esc_power_init(to_ms_since_boot(get_absolute_time()));
     stdio_init_all();
     usb_rx_init();
     log_init();
@@ -814,6 +925,11 @@ int main(void) {
         .recovery_required = control_recovery_required,
         .outputs_initialized = control_outputs_initialized,
         .output_protocol = control_output_protocol,
+#ifdef MANAFISH_ESC_POWER_PIN
+        .thrust_permitted = esc_power_thrust_permitted,
+        .esc_power_request = control_esc_power_request,
+        .esc_power_state = esc_power_wire_state,
+#endif
     };
     control_runtime_init(&control_hooks);
 
@@ -840,11 +956,15 @@ int main(void) {
 
     while (true) {
         control_runtime_check_stall();
+        // First, so the lines are parked before the first packet can initialize a protocol.
+        service_esc_power();
         usb_packet_kind_t packet_kind = usb_poll(readers, sizeof(readers) / sizeof(readers[0]));
 
         if (packet_kind == USB_PACKET_CONTROL) {
-            control_runtime_receive_at(control_buf, readers[0].packet_size,
-                                       (uint32_t)to_us_since_boot(readers[0].last_byte_time));
+            if (control_runtime_receive_at(control_buf, readers[0].packet_size,
+                                           (uint32_t)to_us_since_boot(readers[0].last_byte_time))) {
+                note_host_activity();
+            }
         } else if (packet_kind == USB_PACKET_INVALID) {
             control_runtime_inhibit();
         } else if (packet_kind == USB_PACKET_COMMAND) {
@@ -871,6 +991,13 @@ int main(void) {
         }
 
         if (esc_firmware_recovery_mode) {
+            continue;
+        }
+
+        if (outputs_parked) {
+            // No waveform for unpowered ESCs, but neutral bookkeeping and USB keep running.
+            control_runtime_output_serviced();
+            usb_tx_service();
             continue;
         }
 

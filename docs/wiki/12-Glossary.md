@@ -24,9 +24,9 @@ Terms and abbreviations used across these docs. Status labels are explained on
 | BMS | Battery management system inside the pack. The only overcurrent protection on the ESC branch. |
 | BOOTSEL | RP2354A boot ROM mode that accepts new firmware over USB (2e8a:000f). Entered when QSPI_SS is low while the chip leaves reset. On this board: hardware BOOTSEL (GPIO24 RUN, GPIO25 QSPI_SS). |
 | Bx | Bring-up step x of phase 6, from B0 (inspection without power) to B16 (EMI). |
-| BUSY | ACK result 3. For ESC_POWER: hold not over, settings not applied, stopping, upload, recovery or protocol transition. The host retries. |
+| BUSY | ACK result 3. For ESC_POWER ON: hold not over, settings not applied, stopping, upload, recovery or protocol transition; for OFF: ESC firmware recovery. The host retries. |
 | cachix | Binary cache for Nix. The builds use the nix-community and nixos-raspberrypi caches. |
-| CAPS | Capability exchange. The host sends the legacy C5 request GET_CONTROL_CAPABILITIES; the MCU answers with frame 0x81: schema, sizes, feature bits (0x1f today; 0x20 = ESC power **[planned: Phase 2]**) and build identity. |
+| CAPS | Capability exchange. The host sends the legacy C5 request GET_CONTROL_CAPABILITIES; the MCU answers with frame 0x81: schema, sizes, feature bits (0x1f today; 0x20 = ESC power **[done]**) and build identity. |
 | capability catalog | The dynamic list of readings and actions the rov_firmware service offers the app. New mainboard values (`rov.*` readings, `rov.escPower.set`) use it, so the app contract stays unchanged. |
 | CC/CV | Constant-current then constant-voltage charging. |
 | CDC | USB communications device class (serial). The CM5 to MCU link; Linux driver `cdc_acm`. |
@@ -42,13 +42,13 @@ Terms and abbreviations used across these docs. Status labels are explained on
 | `en_jeita` | LTC4162 register 0x29 bit 0, default 1. Must be 0 so the charge current and voltage settings stick. Reading 1 after clearing it means the chip lost its registers. |
 | ESC | Electronic speed controller. Two 4-in-1 boards: ESC A on J3 (M1-M4), ESC B on J4 (M5-M8). |
 | ESC power switch (GP14 / ESC_PWR_EN) | Q3 driven by the photovoltaic MOSFET driver IC16 from GP14. Connects the battery to J14 (both ESCs). Static, no current limit. |
-| ESC_POWER | MCU request 0x26, payload u32 0/1 **[planned: Phase 2]**. Never answered with NOT_READY. |
+| ESC_POWER | MCU request 0x26, payload u32 0/1 **[done]**. Never answered with NOT_READY. |
 | FRD | Forward-right-down body frame of the IMU data. Level means acceleration of about (0, 0, -9.81) m/s². |
 | `force_telemetry_on` | LTC4162 `config_bits` (0x14) bit 2. Keeps the measurement system running on battery only. The one charger write allowed before B9. |
 | go2rtc | Streaming server on the CM5. Streams `cam` (camera 1) **[upstream]** and `cam2` (camera 2) **[planned: Phase 3]**; API :1984, WebRTC :8555. |
-| health bits | ATTITUDE `health_flags`: bit 0 IMU healthy, bit 1 pressure healthy, bit 2 output permitted by all gates, bit 3 raw override **[upstream]**. Bits 4-6: ESC power state 0 absent, 1 off (hold), 2 off (ready), 3 starting or arming, 4 on, 5 stopping **[planned: Phase 2]**. The host reads only bits 0 and 3 today. |
+| health bits | ATTITUDE `health_flags`: bit 0 IMU healthy, bit 1 pressure healthy, bit 2 output permitted by all gates, bit 3 raw override **[upstream]**. Bits 4-6: ESC power state 0 absent, 1 off (hold), 2 off (ready), 3 starting or arming, 4 on, 5 stopping **[done]**. The host reads only bits 0 and 3 today. |
 | HELLO | Host frame 0x01 that opens a session. The MCU neutralizes outputs and needs a settings commit before control. |
-| host-loss timer | The MCU switches ESC power off 30 s after the last valid host packet; paused during an ESC update or recovery **[planned: Phase 2]**. |
+| host-loss timer | The MCU switches ESC power off 30 s after the last valid host packet; paused only during ESC firmware recovery **[done]**. |
 | HQ camera | Raspberry Pi High Quality camera (Sony imx477). Needs a 22-to-15 pin cable on this board. |
 | I2C1 | CM5 I2C bus on GPIO2/GPIO3, at most 400 kHz: LTC4162, SHT45, WSEN-PADS, MS5837. |
 | impermanence | NixOS module that mounts `/` as tmpfs and bind-mounts listed paths from the persistent partition. |
@@ -92,7 +92,7 @@ Terms and abbreviations used across these docs. Status labels are explained on
 | SWD | Serial Wire Debug of the RP2354A: CM5 GPIO8 (SWDIO), GPIO11 (SWCLK) and connector J2. |
 | `system_status` | LTC4162 register 0x39: bit 1 `vin_gt_4p2v` (PoE present), bit 2 `vin_gt_vbat`, bit 8 `en_chg`. |
 | `telemetry_valid` | LTC4162 register 0x4A bit 0. Telemetry counts as valid only after it is set and one conversion has passed. |
-| `thrust_permitted` | MCU runtime hook that gates motor output on the ESC power state **[planned: Phase 2]**. |
+| `thrust_permitted` | MCU runtime hook that gates motor output on the ESC power state **[done]**. |
 | tmpfs | RAM file system. The CM5 root file system. |
 | ty | Python type checker used in the software gate. |
 | TYP2, TYP3 | Ag59800 type-detect outputs, read through optocouplers on CM5 GPIO6 and GPIO12, active low. |
@@ -102,7 +102,7 @@ Terms and abbreviations used across these docs. Status labels are explained on
 | uv | Python package and environment manager used in `software/`. |
 | VSYS | Charger output rail; feeds the 5 V buck IC9. |
 | WSEN-PADS | Würth absolute pressure sensor (IC10) at I2C 0x5C, WHO_AM_I 0xB3. Measures hull pressure. |
-| XOSC | Crystal oscillator of the RP2354A. Its start-up delay multiplier is raised to 64 for Y1 **[planned: Phase 2]**. |
+| XOSC | Crystal oscillator of the RP2354A. Its start-up delay multiplier is raised to 64 for Y1 **[done]**. |
 
 ## 12.2 Board reference designators
 

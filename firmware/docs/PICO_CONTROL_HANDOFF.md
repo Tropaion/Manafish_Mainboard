@@ -180,19 +180,50 @@ The implementation agents must not run the commands in this section. The
 coordinator owns hardware, backup, deployment and rollback. ESCs must remain
 disconnected for this smoke test. Stop if the Pi is inaccessible.
 
+In this repository the target is the Manafish mainboard's RP2354A
+(`make build-mainboard`, `build/mainboard/firmware.uf2`, port
+`/dev/manafish-mcu`). It has no BOOTSEL button and is never flashed with `picotool -f`: the CM5 enters BOOTSEL in
+hardware through GPIO24 (RUN, low = reset) and GPIO25 (QSPI_SS, low during
+reset = BOOTSEL). Never drive either line high; release it to an input. Never
+drive GPIO25 low while the firmware runs (it is the flash chip select). On the
+CM5:
+
+```sh
+pinctrl set 24 op dl   # RUN low: reset
+pinctrl set 25 op dl   # QSPI_SS low
+sleep 0.01
+pinctrl set 24 ip pn   # release RUN; the ROM samples QSPI_SS
+sleep 0.1
+pinctrl set 25 ip pn   # release QSPI_SS
+lsusb -d 2e8a:000f     # BOOTSEL device present
+```
+
+The same sequence works on a blank, hung or bricked MCU. Before it, ESC power
+must be off: stop the service and wait at least 35 s (host-loss auto-off 30 s
+plus the 2 s stop), or send `python3 scripts/mainboard_bringup.py --execute esc off`
+and wait for state 1 or 2 (`esc watch`). Never while ESC firmware recovery is
+required (the Pi's recovery journal is set): the MCU then holds ESC power on,
+answers off with BUSY and ignores host loss, and a reset forgets its recovery
+state, so the next ESC power-on starts the partly programmed ESC firmware (see
+the ESC power section of `PICO_CONTROL_PROTOCOL.md`).
+
 1. Preserve the installed Pi source/config, service unit and environment, and
    installed Pico UF2 artifacts. Record hashes. A UF2 filename is not proof of
    the running binary. Keep credentials outside logs and repository artifacts.
 2. Stop `manafish-firmware.service`; verify no service, terminal or other process
    owns `/dev/ttyACM0`. Confirm the USB device is the intended original RP2040
-   Pico, not Pico 2 and not another board.
-3. With ESCs disconnected, save the actual Pico flash before replacing it:
-   `picotool save -a pico-before.uf2 -f`. This command deliberately enters the
-   bootloader; record the result/hash. If a recoverable backup cannot be made,
-   stop rather than assume the installed RC6-named file matches running flash.
-4. Copy the verified new `build/pico/firmware.uf2` to the Pi/test host; compare
-   SHA-256 on both ends. Use `picotool load -f firmware.uf2`, then
-   `picotool reboot`. Wait for the CDC device and verify capability identity.
+   Pico, not Pico 2 and not another board. On the mainboard: `/dev/manafish-mcu`,
+   2e8a:0009 with product "Manafish Mainboard".
+3. With ESCs disconnected, save the actual Pico flash before replacing it: enter
+   BOOTSEL with the GPIO24/GPIO25 sequence above, then
+   `picotool save -a pico-before.uf2`; record the result/hash. If a recoverable
+   backup cannot be made, stop rather than assume the installed RC6-named file
+   matches running flash.
+4. Copy the verified new `build/pico/firmware.uf2` (mainboard:
+   `build/mainboard/firmware.uf2`) to the Pi/test host; compare SHA-256 on both
+   ends. Enter BOOTSEL with the GPIO24/GPIO25 sequence again, then
+   `picotool load -v -x firmware.uf2` (verify, then run). Wait for the CDC
+   device and verify capability identity.
 5. Run the isolated smoke test with the existing host pyserial environment:
 
    ```sh
@@ -204,7 +235,9 @@ disconnected for this smoke test. Stop if the Pi is inaccessible.
    Pressure in this isolated smoke is explicitly synthetic, not a Pi pressure
    sensor measurement. It verifies capability, atomic settings, invalid settings
    rejection/QUERY, quaternion/depth setters, raw IMU, statistics, host expiry
-   and sticky neutral maintenance. It never programs an ESC.
+   and sticky neutral maintenance. It never programs an ESC. On the mainboard use
+   `--port /dev/manafish-mcu`; `scripts/mainboard_bringup.py` (same port
+   default, also `--execute`) adds `info`, `imu` and `esc on|off|watch`.
 6. Install the paired Python worktree separately from the preserved deployment,
    enable the explicit development override, and start only that isolated test
    service. Verify real Pi I2C pressure at 15Hz, source commands at 60Hz, and the
@@ -245,9 +278,10 @@ loaded behavior, ESC detection and programming require powered-ESC testing.
 ## Rollback and recovery
 
 - Stop the test Pi service and every serial client first. Disconnect ESCs.
-- Restore the saved `pico-before.uf2` with `picotool load -f`, then reboot. If CDC
-  is unavailable, hold the Pico BOOTSEL button while reconnecting USB and load
-  through the ROM bootloader. Do not substitute a Pico 2 artifact.
+- Restore the saved `pico-before.uf2`: enter BOOTSEL with the GPIO24/GPIO25
+  sequence above, then `picotool load -v -x pico-before.uf2`. There is no
+  button; the hardware sequence also works when CDC is unavailable or the flash
+  is blank. Do not substitute an artifact built for another board.
 - Restore the paired original Pi source/config/service environment and remove
   the development override before restarting the original service. Restoring
   only one side can leave incompatible control/configuration behavior.

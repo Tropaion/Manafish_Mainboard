@@ -208,6 +208,27 @@ static bool outputs_initialized(void) {
 static uint16_t output_protocol(void) {
     return mock_protocol;
 }
+static bool mock_thrust_permitted = true;
+static uint8_t mock_esc_power_state = 2;
+static uint32_t mock_esc_power_result = RESULT_APPLIED, last_esc_power_on = UINT32_MAX;
+static unsigned esc_power_requests;
+static bool thrust_permitted_mock(void) {
+    return mock_thrust_permitted;
+}
+static uint32_t esc_power_request_mock(uint32_t on) {
+    esc_power_requests++;
+    last_esc_power_on = on;
+    return on > 1 ? RESULT_INVALID : mock_esc_power_result;
+}
+static uint8_t esc_power_state_mock(void) {
+    return mock_esc_power_state;
+}
+/* Mainboard build: main.c adds the ESC power hooks. */
+static void esc_power_hooks(void) {
+    callbacks.thrust_permitted = thrust_permitted_mock;
+    callbacks.esc_power_request = esc_power_request_mock;
+    callbacks.esc_power_state = esc_power_state_mock;
+}
 static void flush_tx(void) {
     for (unsigned i = 0; i < 4096; ++i)
         usb_tx_service();
@@ -252,9 +273,13 @@ static void receive(uint32_t sequence, uint8_t type, const uint8_t *payload, uin
     control_runtime_receive_at(wire, count, time_us_32());
 }
 static void init_runtime(void) {
-    const control_runtime_hooks_t hooks = {request_protocol,    protocol_ready,
-                                           maintenance_active,  recovery_required,
-                                           outputs_initialized, output_protocol};
+    /* The ESC power hooks stay NULL as in a pico/pico2 build; esc_power_hooks() adds them. */
+    const control_runtime_hooks_t hooks = {.request_protocol = request_protocol,
+                                           .protocol_ready = protocol_ready,
+                                           .maintenance_active = maintenance_active,
+                                           .recovery_required = recovery_required,
+                                           .outputs_initialized = outputs_initialized,
+                                           .output_protocol = output_protocol};
     control_runtime_init(&hooks);
     usb_rx_init();
     assert(core1_entry && irq_callback && rx_callback);
@@ -366,6 +391,43 @@ static void assert_neutral(void) {
     control_runtime_get_motors(motors);
     for (size_t i = 0; i < 8; ++i)
         assert(motors[i] == 1000);
+}
+static void esc_power(uint32_t sequence, uint32_t on) {
+    uint8_t payload[4];
+    control_put_u32(payload, on);
+    receive(sequence, 0x26, payload, sizeof(payload));
+}
+/* Payload of the last frame of this type sent since clear_tx(), or NULL. */
+static const uint8_t *last_frame(uint8_t type, uint16_t length) {
+    static control_frame_t frame;
+    bool found = false;
+    flush_tx();
+    for (size_t at = 0; at < sent_length;) {
+        size_t size = CONTROL_FRAME_OVERHEAD + control_get_u16(sent + at + 4);
+        control_frame_t candidate;
+        assert(size <= sent_length - at && control_frame_decode(sent + at, size, &candidate));
+        if (candidate.type == type) {
+            assert(candidate.length == length);
+            frame = candidate;
+            found = true;
+        }
+        at += size;
+    }
+    return found ? frame.payload : NULL;
+}
+static uint32_t caps_features(void) {
+    clear_tx();
+    control_runtime_capabilities(7);
+    const uint8_t *caps = last_frame(FRAME_CAPS, 12 + sizeof(CONTROL_BUILD_IDENTITY) - 1);
+    assert(caps != NULL);
+    return control_get_u32(caps + 8);
+}
+static uint32_t attitude_health(void) {
+    clear_tx();
+    service_for(20000); /* publish_telemetry() runs at most every 16.7 ms. */
+    const uint8_t *attitude = last_frame(FRAME_ATTITUDE, 84);
+    assert(attitude != NULL);
+    return control_get_u32(attitude + 52);
 }
 
 static void test_commit_ack_releases_control_immediately(void) {
@@ -1091,6 +1153,147 @@ static void test_neutral_stall_service_only(void) {
     neutral_stall(2, false);
 }
 
+static void test_esc_power_unsupported(void) {
+    /* pico/pico2 leave the hooks NULL: upstream features and an unsupported 0x26. */
+    assert(caps_features() == 0x1f);
+    hello();
+    esc_power(2, 1);
+    assert(find_ack(2, 0x26, NULL) == RESULT_UNSUPPORTED);
+    assert(active_session == SESSION && pending_sequence == 0);
+    assert((attitude_health() & 0x70u) == 0);
+}
+
+static void test_esc_power_request_results(void) {
+    esc_power_hooks();
+    assert(caps_features() == 0x3f);
+    hello();
+    esc_power(2, 1);
+    assert(find_ack(2, 0x26, NULL) == RESULT_APPLIED);
+    assert(esc_power_requests == 1 && last_esc_power_on == 1 && pending_sequence == 0);
+    clear_tx();
+    esc_power(2, 1); /* Lost ACK: the retry gets the cached ACK and switches nothing. */
+    assert(find_ack(2, 0x26, NULL) == RESULT_APPLIED && esc_power_requests == 1);
+    mock_esc_power_result = RESULT_BUSY;
+    esc_power(3, 1);
+    assert(find_ack(3, 0x26, NULL) == RESULT_BUSY && esc_power_requests == 2);
+    esc_power(4, 2);
+    assert(find_ack(4, 0x26, NULL) == RESULT_INVALID && last_esc_power_on == 2);
+    uint8_t payload[8] = {0};
+    receive(5, 0x26, payload, 0);
+    assert(find_ack(5, 0x26, NULL) == RESULT_INVALID);
+    receive(6, 0x26, payload, sizeof(payload));
+    assert(find_ack(6, 0x26, NULL) == RESULT_INVALID && esc_power_requests == 3);
+    mock_esc_power_result = RESULT_APPLIED;
+    esc_power(7, 0);
+    assert(find_ack(7, 0x26, NULL) == RESULT_APPLIED && last_esc_power_on == 0);
+    assert(active_session == SESSION && pending_sequence == 0);
+}
+
+static void test_esc_power_never_not_ready(void) {
+    /* The Pi drops the session on any NOT_READY: 0x26 answers synchronously from the hook in
+     * every state where other requests are not ready yet. */
+    esc_power_hooks();
+    hello();
+    mock_esc_power_result = RESULT_BUSY;
+    esc_power(2, 1); /* No settings yet: CONTROL would be NOT_READY here. */
+    assert(find_ack(2, 0x26, NULL) == RESULT_BUSY);
+    mock_maintenance = true;
+    esc_power(3, 1);
+    assert(find_ack(3, 0x26, NULL) == RESULT_BUSY);
+    mock_maintenance = false;
+    mock_recovery = true;
+    esc_power(4, 0);
+    assert(find_ack(4, 0x26, NULL) == RESULT_BUSY);
+    mock_recovery = false;
+    mock_initialized = false;
+    mock_esc_power_result = RESULT_APPLIED;
+    esc_power(5, 1);
+    assert(find_ack(5, 0x26, NULL) == RESULT_APPLIED);
+    mock_initialized = true;
+    assert(esc_power_requests == 4 && pending_sequence == 0 && active_session == SESSION);
+    /* A settings commit in flight answers BUSY through the generic path. */
+    uint8_t wire[CONTROL_SETTINGS_WIRE_SIZE];
+    settings_image(wire);
+    uint32_t digest = control_crc32c(wire, sizeof(wire));
+    begin(6, 1, digest);
+    chunk(7, 0, wire, sizeof(wire));
+    commit(8, 1, digest);
+    assert(pending_commit && pending_sequence == 8);
+    esc_power(9, 0);
+    assert(find_ack(9, 0x26, NULL) == RESULT_BUSY && esc_power_requests == 4);
+    assert(active_session == SESSION);
+}
+
+static void test_esc_power_thrust_gate(void) {
+    esc_power_hooks();
+    mock_thrust_permitted = false;
+    uint16_t motors[8];
+    for (size_t i = 0; i < 8; ++i)
+        motors[i] = 1200;
+    control_runtime_legacy_input(motors); /* Legacy 0x5A, no session. */
+    control_runtime_get_motors(motors);
+    assert(motors[0] == 1000 && !safety_armed && !control_runtime_output_permitted());
+    mock_thrust_permitted = true;
+    control_runtime_get_motors(motors);
+    assert(motors[0] == 1200 && safety_armed);
+    control_runtime_inhibit();
+    assert_neutral();
+
+    mock_thrust_permitted = false;
+    hello();
+    core1_context_t ctx;
+    apply_initial_settings(&ctx);
+    raw(5, 1200);
+    control_runtime_get_motors(motors);
+    assert(motors[0] == 1000 && !control_runtime_output_permitted());
+    mock_thrust_permitted = true;
+    control_runtime_get_motors(motors);
+    assert(motors[0] == 1200 && control_runtime_output_permitted());
+
+    mock_thrust_permitted = false;
+    control(6, 4);
+    core1_process_events(&ctx, time_us_32(), true);
+    const control_sample_t sample = {.accel = {0, 0, -9.80665f}};
+    core1_sample(&ctx, &sample, 25, time_us_32());
+    core1_snapshot(&ctx, time_us_32());
+    core1_publish(&ctx);
+    control_runtime_service();
+    control_runtime_get_motors(motors);
+    assert(motors[0] == 1000 && !control_runtime_output_permitted());
+    mock_thrust_permitted = true;
+    control_runtime_get_motors(motors);
+    assert(motors[0] == 1250 && control_runtime_output_permitted());
+}
+
+static void test_receive_reports_decoded_frames(void) {
+    /* main.c counts every decoded frame as host activity for the ESC power host-loss timer,
+     * also one the session rejects. */
+    uint8_t wire[CONTROL_FRAME_MAX];
+    size_t count = encode_request(wire, SESSION, 1, MSG_HELLO, NULL, 0);
+    assert(control_runtime_receive_at(wire, count, time_us_32()));
+    assert(find_ack(1, MSG_HELLO, NULL) == RESULT_BUSY); /* No CAPS request yet. */
+    count = encode_request(wire, SESSION + 1, 5, MSG_QUERY, NULL, 0);
+    assert(control_runtime_receive_at(wire, count, time_us_32()));
+    assert(find_ack(5, MSG_QUERY, NULL) == RESULT_NOT_READY);
+    wire[count - 1] ^= 1;
+    assert(!control_runtime_receive_at(wire, count, time_us_32()));
+}
+
+static void test_esc_power_health_bits(void) {
+    esc_power_hooks();
+    hello();
+    for (uint8_t state = 0; state <= 5; ++state) {
+        mock_esc_power_state = state;
+        assert(attitude_health() == (uint32_t)state << 4);
+    }
+    core1_context_t ctx;
+    apply_initial_settings(&ctx);
+    raw(5, 1000);
+    mock_esc_power_state = 3;
+    uint32_t health = attitude_health(); /* Bits 0-3 keep their meaning next to the state. */
+    assert((health & 8u) != 0 && (health & ~0xfu) == 3u << 4);
+}
+
 int main(int argc, char **argv) {
     assert(argc == 2);
     init_runtime();
@@ -1127,6 +1330,12 @@ int main(int argc, char **argv) {
     CASE(neutral_stall_receive_raw)
     CASE(neutral_stall_irq_before_ingress)
     CASE(neutral_stall_service_only)
+    CASE(esc_power_unsupported)
+    CASE(esc_power_request_results)
+    CASE(esc_power_never_not_ready)
+    CASE(esc_power_thrust_gate)
+    CASE(esc_power_health_bits)
+    CASE(receive_reports_decoded_frames)
 #undef CASE
     fprintf(stderr, "Unknown scenario: %s\n", argv[1]);
     return 2;

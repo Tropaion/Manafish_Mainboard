@@ -47,6 +47,7 @@
 #define MSG_COMMIT 0x22u
 #define MSG_ABORT 0x23u
 #define MSG_QUERY 0x24u
+#define MSG_ESC_POWER 0x26u
 #define RESULT_APPLIED 0u
 #define RESULT_STAGED 1u
 #define RESULT_INVALID 2u
@@ -597,7 +598,7 @@ void control_runtime_capabilities(uint8_t request_id) {
     control_put_u16(payload + 2, CONTROL_MAX_PAYLOAD);
     control_put_u16(payload + 4, CONTROL_SETTINGS_WIRE_SIZE);
     control_put_u16(payload + 6, 8);
-    control_put_u32(payload + 8, 0x1f);
+    control_put_u32(payload + 8, callbacks.esc_power_request != NULL ? 0x3fu : 0x1fu);
     memcpy(payload + 12, identity, sizeof(identity) - 1);
     capability_requested = true;
     send_frame(FRAME_CAPS, 0, request_id, payload, sizeof(payload), true);
@@ -840,12 +841,27 @@ static uint32_t decode_command(const control_frame_t *frame, control_event_t *ev
     return RESULT_APPLIED;
 }
 
-static uint32_t command_request(const control_frame_t *frame, uint32_t received) {
-    if (frame->type == MSG_RAW) {
-        return raw_request(frame, received);
+/* Answered at once and never NOT_READY: the host drops its session on NOT_READY. */
+static uint32_t esc_power_switch_request(const control_frame_t *frame) {
+    if (callbacks.esc_power_request == NULL) {
+        return RESULT_UNSUPPORTED;
     }
-    if (frame->type == 0x25u) {
+    if (frame->length != 4) {
+        return RESULT_INVALID;
+    }
+    return callbacks.esc_power_request(control_get_u32(frame->payload));
+}
+
+static uint32_t command_request(const control_frame_t *frame, uint32_t received) {
+    switch (frame->type) {
+    case MSG_RAW:
+        return raw_request(frame, received);
+    case 0x25u:
         return gate_request(frame, received);
+    case MSG_ESC_POWER:
+        return esc_power_switch_request(frame);
+    default:
+        break;
     }
     static control_event_t event;
     memset(&event, 0, sizeof(event));
@@ -890,27 +906,27 @@ static uint32_t command_request(const control_frame_t *frame, uint32_t received)
     return UINT32_MAX;
 }
 
-void control_runtime_receive_at(const uint8_t *packet, size_t length, uint32_t received) {
+bool control_runtime_receive_at(const uint8_t *packet, size_t length, uint32_t received) {
     control_runtime_check_stall();
     static control_frame_t frame;
     if (!control_frame_decode(packet, length, &frame)) {
         control_runtime_inhibit();
-        return;
+        return false;
     }
     if (frame.type == MSG_HELLO) {
         begin_session(&frame);
-        return;
+        return true;
     }
     if (frame.type == 0x25u && frame.session == closed_gate_session &&
         frame.sequence == closed_gate_sequence &&
         control_crc32c(packet, length - 4u) == closed_gate_crc) {
         send_frame(FRAME_ACK, frame.session, frame.sequence, closed_gate_ack,
                    sizeof(closed_gate_ack), true);
-        return;
+        return true;
     }
     if (frame.session == 0 || frame.session != active_session) {
         send_ack(frame.session, frame.sequence, frame.type, RESULT_NOT_READY);
-        return;
+        return true;
     }
     uint32_t request_crc = control_crc32c(packet, length - 4u);
     if (frame.sequence == last_sequence) {
@@ -919,15 +935,15 @@ void control_runtime_receive_at(const uint8_t *packet, size_t length, uint32_t r
         } else if (pending_sequence != frame.sequence && last_ack_valid) {
             send_frame(FRAME_ACK, active_session, frame.sequence, last_ack, sizeof(last_ack), true);
         }
-        return;
+        return true;
     }
     if (frame.sequence == 0 || frame.sequence < last_sequence) {
         send_ack(active_session, frame.sequence, frame.type, RESULT_STALE);
-        return;
+        return true;
     }
     if (pending_sequence != 0) {
         send_ack(active_session, frame.sequence, frame.type, RESULT_BUSY);
-        return;
+        return true;
     }
     last_sequence = frame.sequence;
     last_request_crc = request_crc;
@@ -942,6 +958,7 @@ void control_runtime_receive_at(const uint8_t *packet, size_t length, uint32_t r
         }
         send_ack(active_session, frame.sequence, frame.type, result);
     }
+    return true;
 }
 
 void control_runtime_receive(const uint8_t *packet, size_t length) {
@@ -979,7 +996,8 @@ void control_runtime_get_motors(uint16_t motors[8]) {
     neutral(motors);
     bool ready = callbacks.outputs_initialized() && !callbacks.maintenance_active() &&
                  !callbacks.recovery_required() && !pending_commit &&
-                 !load_shared(&sensor_retry_requested);
+                 !load_shared(&sensor_retry_requested) &&
+                 (callbacks.thrust_permitted == NULL || callbacks.thrust_permitted());
     uint32_t host_time = raw_override ? raw_received_us : latest.command_us;
     uint32_t output_time = raw_override ? now : latest.completed_us;
     bool valid = authority && ready && age_us(now, host_time) <= HOST_TIMEOUT_US &&
@@ -1049,6 +1067,9 @@ static void publish_telemetry(uint32_t now) {
     }
     if (raw_override) {
         health |= 8u;
+    }
+    if (callbacks.esc_power_state != NULL) {
+        health |= (uint32_t)(callbacks.esc_power_state() & 7u) << 4;
     }
     control_put_u32(payload + 52, health);
     control_put_u32(payload + 56, age_us(now, raw_override ? raw_received_us : latest.command_us));

@@ -17,6 +17,42 @@
 #include "hardware/timer.h"
 #endif
 
+/* Board axis map, defined after the SDK includes so a board header can override
+ * it: output axis X/Y/Z (FRD, level accel ~ 0, 0, -9.81) is SIGN times raw
+ * sensor axis AXIS (0 = x, 1 = y, 2 = z). Defaults keep upstream's +x, -y, -z.
+ */
+#ifndef MANAFISH_IMU_AXIS_X
+#define MANAFISH_IMU_AXIS_X 0
+#endif
+#ifndef MANAFISH_IMU_AXIS_Y
+#define MANAFISH_IMU_AXIS_Y 1
+#endif
+#ifndef MANAFISH_IMU_AXIS_Z
+#define MANAFISH_IMU_AXIS_Z 2
+#endif
+#ifndef MANAFISH_IMU_SIGN_X
+#define MANAFISH_IMU_SIGN_X 1
+#endif
+#ifndef MANAFISH_IMU_SIGN_Y
+#define MANAFISH_IMU_SIGN_Y (-1)
+#endif
+#ifndef MANAFISH_IMU_SIGN_Z
+#define MANAFISH_IMU_SIGN_Z (-1)
+#endif
+_Static_assert(MANAFISH_IMU_AXIS_X >= 0 && MANAFISH_IMU_AXIS_X <= 2 && MANAFISH_IMU_AXIS_Y >= 0 &&
+                   MANAFISH_IMU_AXIS_Y <= 2 && MANAFISH_IMU_AXIS_Z >= 0 &&
+                   MANAFISH_IMU_AXIS_Z <= 2 && MANAFISH_IMU_AXIS_X != MANAFISH_IMU_AXIS_Y &&
+                   MANAFISH_IMU_AXIS_X != MANAFISH_IMU_AXIS_Z &&
+                   MANAFISH_IMU_AXIS_Y != MANAFISH_IMU_AXIS_Z,
+               "MANAFISH_IMU_AXIS_X/Y/Z must be a permutation of 0, 1, 2");
+/* An integer whose square is 1 is +1 or -1. */
+_Static_assert((MANAFISH_IMU_SIGN_X * MANAFISH_IMU_SIGN_X) == 1,
+               "MANAFISH_IMU_SIGN_X must be +1 or -1");
+_Static_assert((MANAFISH_IMU_SIGN_Y * MANAFISH_IMU_SIGN_Y) == 1,
+               "MANAFISH_IMU_SIGN_Y must be +1 or -1");
+_Static_assert((MANAFISH_IMU_SIGN_Z * MANAFISH_IMU_SIGN_Z) == 1,
+               "MANAFISH_IMU_SIGN_Z must be +1 or -1");
+
 #define BMI270_SPI_BAUD 4000000u
 #define BMI270_PIN_SCK 10u
 #define BMI270_PIN_MOSI 11u
@@ -329,10 +365,13 @@ bool bmi270_sensor_read(float accel[3], float gyro[3], float *temperature) {
      */
     const float accel_scale = (2.0f * 9.81288f) / 32768.0f;
     const float gyro_scale = (1000.0f * 0.017453292519943295f) / 32768.0f;
+    const size_t sources[3] = {MANAFISH_IMU_AXIS_X, MANAFISH_IMU_AXIS_Y, MANAFISH_IMU_AXIS_Z};
+    const float signs[3] = {MANAFISH_IMU_SIGN_X, MANAFISH_IMU_SIGN_Y, MANAFISH_IMU_SIGN_Z};
     for (size_t axis = 0; axis < 3; ++axis) {
-        const float sign = axis == 0 ? 1.0f : -1.0f;
-        accel[axis] = (float)signed_word(&raw[axis * 2]) * accel_scale * sign;
-        gyro[axis] = (float)signed_word(&raw[6 + (axis * 2)]) * gyro_scale * sign;
+        const float sign = signs[axis];
+        const size_t source = sources[axis];
+        accel[axis] = (float)signed_word(&raw[source * 2]) * accel_scale * sign;
+        gyro[axis] = (float)signed_word(&raw[6 + (source * 2)]) * gyro_scale * sign;
     }
     *temperature = (float)raw_temperature * 0.001952594f + 23.0f;
     diagnostics.sensor_time = timestamp;

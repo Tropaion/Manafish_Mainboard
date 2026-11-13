@@ -20,7 +20,7 @@ sequenceDiagram
   Op->>Pwr: magnet swipe toggles MAG_ON
   Pwr->>CM5: switched +5V through IC15
   CM5->>MCU: CM5_3.3V powers MCU and sensors
-  Note over MCU: planned - GP14 low at 12 mA first, ESC power OFF_HOLD 5 s
+  Note over MCU: GP14 low at 12 mA first, ESC power OFF_HOLD 5 s
   CM5->>CM5: bootloader, kernel, NixOS, systemd units
   CM5->>Svc: start after manafish-setup, manafish-network, go2rtc
   Svc->>MCU: find port, C5 GET_INFO, CAPS, HELLO, settings
@@ -33,7 +33,7 @@ sequenceDiagram
 |---|---|---|
 | Power applied | Charger and +5V_AON run; the magnet switch board comes up OFF | hardware; +5V_AON about 5.115 V **[bring-up]** (B2) |
 | Magnet swipe | The Hall switch toggles the CD4013 flip-flop; MAG_ON enables load switch IC15; +5 V in about 18 ms | **[bring-up]** (B2) |
-| MCU boot | `esc_power_init()` before `stdio_init_all()`: GP14 output, low, 12 mA; then OFF_HOLD | **[planned: Phase 2]**; GP14 stays 0 V for 60 s **[bring-up]** (B7) |
+| MCU boot | `esc_power_init()` before `stdio_init_all()`: GP14 output, low, 12 mA; then OFF_HOLD | **[done]**; GP14 stays 0 V for 60 s **[bring-up]** (B7) |
 | CM5 boot | `grow-persistent` (first boot only), `manafish-setup`, `manafish-network`, `dnsmasq`, `go2rtc`, `manafish-firmware` | **[upstream]** units; CM5 image **[planned: Phase 3]**; first boot **[bring-up]** (B4) |
 | Service start | WebSocket server, `SerialManager.initialize()`, `PressureSensor.initialize()`, then the read, send and diagnostics tasks | **[upstream]** |
 | Board tasks | `ChargerMonitor` and hull sensors at 1 Hz; `EscPowerController` adopts an MCU state of 3 or 4, never sends ON | **[planned: Phase 4]** |
@@ -77,6 +77,10 @@ prerelease, so the plain file wins.
 Every flash path (manual from the app, first boot, version mismatch) goes through
 `flash_mcu_firmware` in `websocket/receive/mcu.py` **[planned: Phase 4]**. Today it runs
 `picotool load -f -v -x` (USB reset into BOOTSEL), with no GPIO step **[upstream]**.
+The firmware side is **[done]**: `make flash-mainboard` runs `picotool load -v -x` without
+`-f` and expects BOOTSEL already; `firmware/docs/PICO_CONTROL_HANDOFF.md` gives the
+GPIO24/GPIO25 sequence for `pinctrl` and `firmware/docs/PICO_CONTROL_PROTOCOL.md` the host
+duties before a flash or reset.
 
 ```mermaid
 sequenceDiagram
@@ -109,13 +113,13 @@ sequenceDiagram
 | Never drive GPIO24 or GPIO25 high; `release` = input with bias off; release in `finally` | The board has pull-ups; GPIO25 is the in-package flash CS | **[planned: Phase 4]** |
 | GPIO25 low only while GPIO24 is low or within 100 ms after its release | Unit test in `mcu_gpio` | **[planned: Phase 4]** |
 | No `-f` | BOOTSEL is already entered by hardware; the same path works on a blank, hung or bricked MCU | **[planned: Phase 4]** |
-| `tools mcu-reset` / `mcu-recover` refuse until `manafish-firmware` has been inactive or failed for 35 s | MCU host-loss auto-off (30 s) plus STOP (2 s) plus margin | **[planned: Phase 4]** |
+| `tools mcu-reset` / `mcu-recover` refuse until `manafish-firmware` has been inactive or failed for 35 s, and while the ESC recovery journal is set | MCU host-loss auto-off (30 s) plus STOP (2 s) plus margin; during ESC recovery the MCU holds ESC power on and a reset forgets its recovery state | **[planned: Phase 4]** |
 | GP14 through RUN pulse and BOOTSEL | Unknown (pad isolation); until measured the "off first" duty is mandatory | **[bring-up]** (B11) |
 | Cold BOOTSEL with the slow-start crystal | 20 reboots plus cold cycles at 0-5 °C | **[bring-up]** (B7) |
 
 ## 6.4 ESC power on and off
 
-MCU state machine in `esc_power` **[planned: Phase 2]**; the safety rules behind it are in
+MCU state machine in `esc_power` **[done]**; the safety rules behind it are in
 [Crosscutting Concepts](08-Crosscutting-Concepts).
 
 ```mermaid
@@ -126,9 +130,9 @@ stateDiagram-v2
   OFF_READY --> STARTING: 0x26 payload 1, GP14 high, lines parked
   STARTING --> ARMING: SIGNAL_DELAY_MS 5 s after GP14 rose
   ARMING --> ON: THRUST_DELAY_MS 15 s after GP14 rose
-  STARTING --> STOPPING: 0x26 payload 0 or host loss
+  STARTING --> OFF_HOLD: 0x26 payload 0 or host loss, GP14 low at once
   ARMING --> STOPPING: 0x26 payload 0 or host loss
-  ON --> STOPPING: 0x26 payload 0 or host loss 30 s
+  ON --> STOPPING: 0x26 payload 0 or host loss 30 s (neither during ESC recovery)
   STOPPING --> OFF_HOLD: STOP_MS 2 s neutral, park lines, GP14 low
   note right of OFF_HOLD : an ON request here gets BUSY
 ```
@@ -144,14 +148,14 @@ stateDiagram-v2
 
 | Rule | Detail | Status |
 |---|---|---|
-| Timers | `OFF_HOLD_MS` 5000, `SIGNAL_DELAY_MS` 5000, `THRUST_DELAY_MS` 15000, `STOP_MS` 2000; wrap-safe unsigned compares | **[planned: Phase 2]** |
+| Timers | `OFF_HOLD_MS` 5000, `SIGNAL_DELAY_MS` 5000, `THRUST_DELAY_MS` 15000, `STOP_MS` 2000; wrap-safe unsigned compares | **[done]** |
 | `SIGNAL_DELAY_MS` final value | At least the measured ESC rail-up time plus 1 s | **[bring-up]** (B12) |
 | CM5 enable checks | Operator `escPower.set true`, CAPS bit 0x20, battery present for 5 s (with PoE: vbat > 12 V, no bat_missing or detection state), charger readable and fresh, `disruptive_motor_operation_blocker` = None, battery not critical | **[planned: Phase 4]** |
-| BUSY | During the hold, before settings apply, while stopping, during upload, recovery or a protocol transition. The CM5 retries with a fresh frame on its own timer; the session stays up | **[planned: Phase 2]**, **[planned: Phase 4]** |
-| Host-loss auto-off | `HOST_LOSS_MS` 30000 without a valid packet (extended frames after CRC and session checks, legacy 0x5A, 0xC5, 0xE7, 0xE8) → STOPPING. Paused during an ESC update or recovery; `esc_power_host_activity()` runs again after the AM32 flash returns. Owner to confirm 30 s | **[planned: Phase 2]** |
+| BUSY | ON: during the hold, before settings apply, while stopping, during upload, recovery or a protocol transition. OFF: only during ESC firmware recovery (the ESCs stay powered in the AM32 bootloader until a recovery flash succeeds; an MCU reset meanwhile forgets the recovery state, and the next power-on on parked low lines starts the partly programmed firmware). The CM5 retries with a fresh frame on its own timer; the session stays up | MCU **[done]**, CM5 **[planned: Phase 4]** |
+| Host-loss auto-off | `HOST_LOSS_MS` 30000 (30 s, confirmed by the owner) without a host packet → STOPPING. A host packet is every extended frame that decodes (length, version, CRC32C), also one the session rejects, and every valid legacy 0x5A, 0xC5, 0xE7 or 0xE8 packet. Paused only during ESC firmware recovery; during an upload every accepted 0xE7/0xE8 packet renews it, and `esc_power_host_activity()` runs again after the AM32 flash returns | **[done]**; auto-off at 30 s **[bring-up]** (B11) |
 | CM5 auto-off | Only when the pack is removed while on PoE, or at the 3.0 V/cell shutdown (6.7) | **[planned: Phase 4]** |
 | Reconnect or service restart | Adopt state 3 or 4 without sending ON; after re-enumeration show OFF; never re-request | **[planned: Phase 4]** |
-| ESC firmware update | Needs state 4. The CM5 checks it before ENTER_MAINTENANCE (0x25 closes the session, so an OFF afterwards needs a new HELLO); the MCU rejects begin/commit with error 11 otherwise | **[planned: Phase 2]**, **[planned: Phase 4]** |
+| ESC firmware update | Needs state 4. The CM5 checks it before ENTER_MAINTENANCE (0x25 closes the session, so an OFF afterwards needs a new HELLO); the MCU rejects begin/commit with error 11 otherwise | MCU **[done]**, CM5 **[planned: Phase 4]**; AM32 passthrough **[bring-up]** (B12) |
 | Measured on the board | BUSY before 5 s, ramp warm and cold, lines at 0 V until 5 s, 3 → 4 at 15 s, off sequence, auto-off at 30 s | **[bring-up]** (B11) |
 
 ## 6.5 Control loop and failsafe
@@ -189,8 +193,8 @@ sequenceDiagram
 | Legacy 0x5A stream stops | 200 ms `usb_check_timeout` sets neutral | **[upstream]** |
 | Pressure older than 500 ms | Depth-dependent control inhibited | **[upstream]** |
 | Bad length, version or CRC | Never executed; an invalid packet inhibits output | **[upstream]** |
-| ESC power not ON | `thrust_permitted` in the `ready` gate keeps neutral; lines parked before ARMING | **[planned: Phase 2]** |
-| Host gone 30 s | ESC power off (6.4) | **[planned: Phase 2]** |
+| ESC power not ON | `thrust_permitted` in the `ready` gate keeps neutral; lines parked before ARMING | **[done]** |
+| Host gone 30 s | ESC power off (6.4) | **[done]**; **[bring-up]** (B11) |
 | Host killed / magnet off while spinning | Neutral within 200 ms / AM32 stops within 0.5 s | **[bring-up]** (B13) |
 
 ## 6.6 Charger policy loop (1 Hz)

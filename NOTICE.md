@@ -207,9 +207,12 @@ They are compiled into the MCU firmware (UF2):
 | --- | --- | --- | --- |
 | [Raspberry Pi Pico SDK](https://github.com/raspberrypi/pico-sdk) | 2.3.1, pinned in `firmware/pico_sdk_import.cmake` | © 2020 Raspberry Pi (Trading) Ltd. | BSD-3-Clause, `LICENSE.TXT` in the SDK |
 | [TinyUSB](https://github.com/hathach/tinyusb) | 0.18.0, the SDK's `lib/tinyusb` submodule | © 2018 hathach (tinyusb.org) | MIT, `lib/tinyusb/LICENSE` in the SDK |
+| pico_printf, the SDK's printf (Marco Paland's tiny printf) | part of the SDK above | © 2014 Marco Paland | MIT, `src/rp2_common/pico_printf/LICENSE` in the SDK |
 
 The BSD-3-Clause license asks binary distributions to reproduce its notice;
-the MIT license asks every copy to include its notice.
+the MIT license asks every copy to include its notice. Every MCU firmware
+release therefore ships these license texts next to the UF2
+(`.github/workflows/firmware-release.yml`).
 
 ## DShot driver sources
 
@@ -227,11 +230,14 @@ The header of `firmware/src/dshot/dshot.c` says:
 `dshot.h` says "Derived from pio-dshot by Simon Wunderlich" and "Protocol
 handling follows the Betaflight implementation"; `dshot.pio` calls its timing
 "Betaflight-derived". None of the three files carries the original copyright
-lines or license texts.
+lines or license texts. The pio-dshot license is in
+`firmware/src/dshot/LICENSE-pio-dshot.txt`, copied unchanged from the
+repository's `LICENSE` at commit `9a6704d16f7259860e9a5d83f1f44c46d4d4394c`,
+and every MCU firmware release ships it.
 
 | Source | Copyright | License |
 | --- | --- | --- |
-| [pio-dshot](https://github.com/simonwunderlich/pio-dshot) | © 2023 Simon Wunderlich | MIT, as the header says (also the repository's `LICENSE`) |
+| [pio-dshot](https://github.com/simonwunderlich/pio-dshot) | © 2023 Simon Wunderlich | MIT, as the header says; text in `firmware/src/dshot/LICENSE-pio-dshot.txt` |
 | [Betaflight](https://github.com/betaflight/betaflight) | Betaflight contributors | GPL-3.0-or-later. The header names no license; this is from Betaflight's `LICENSE` and the header of `dshot_bidir_pico.c` |
 
 ## AM32 ESC firmware

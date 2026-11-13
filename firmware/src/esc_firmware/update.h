@@ -51,6 +51,8 @@ typedef enum {
     ESC_FIRMWARE_UPDATE_ERROR_WRONG_TARGET = 8,
     ESC_FIRMWARE_UPDATE_ERROR_PROGRAM = 9,
     ESC_FIRMWARE_UPDATE_ERROR_VERIFY = 10,
+    // Mainboard: ESC power is not ON (src/esc_power.h), so AM32 cannot reach the ESCs.
+    ESC_FIRMWARE_UPDATE_ERROR_ESC_POWER_OFF = 11,
 } esc_firmware_update_error_t;
 
 void esc_firmware_update_reset(void);

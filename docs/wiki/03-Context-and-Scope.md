@@ -27,7 +27,7 @@ flowchart LR
 | 5S battery | Powers the ROV; charged by the LTC4162 charger when PoE is present. Its BMS is the only overcurrent protection on the ESC branch. |
 | Thrusters and ESCs | Two 4-in-1 ESCs running AM32 firmware, eight thrusters. |
 | Owner workstation | Development, flashing, deployment over a direct cable. Runs every `sudo` step. |
-| GitHub | Main repo, CI **[done]**, release assets: MCU UF2 **[planned: Phase 2]**, CM5 image **[planned: Phase 3]**. |
+| GitHub | Main repo, CI **[done]**, release assets: MCU UF2 (workflow **[done]**, first release waits for the owner), CM5 image **[planned: Phase 3]**. |
 | Upstream repos | Source of `firmware/` and `software/`. Pulled in by subtree; tags are never fetched. |
 
 ## 3.2 Technical context
@@ -82,7 +82,7 @@ flowchart LR
 | E6 | PoE input | MagJack center taps to the Ag59800 PoE module (Ag59824, 24 V) | Fixed Type 4 class 8 PD. The module does no LLDP; some PSEs give at most 15.4 W until they get LLDP. | hardware |
 | E7 | Cameras | 22-pin MIPI CSI-2; J5 = MIPI0, J11 = MIPI1 | Camera 1 (J5) uses the dedicated CAM pins. Camera 2 (J11) uses i2c0 on GPIO0/GPIO1 and GPIO14/GPIO15 as IO0/IO1. HQ camera (imx477) with a 22-to-15 cable. | camera 1 **[upstream]** on the Pi 3; CM5 overlays **[planned: Phase 3]**; both detected **[bring-up]** B8 |
 | E8 | ESC signals | DShot (or PWM): GP6-9 to J3 (ESC A, M1-M4), GP18-21 to J4 (ESC B, M5-M8) | Matches `motors.h` bases 6/18: no remap. Lines are bare. AM32 passthrough updates over the same lines. | **[upstream]**; motor map **[bring-up]** B13 |
-| E9 | ESC power | J14 XT60, switched by Q3 / IC16 from GP14 | Static switch, no current limit, soft start 1.5 s typical, 12 s worst case. | hardware; control **[planned: Phase 2]**; ramp **[bring-up]** B11 |
+| E9 | ESC power | J14 XT60, switched by Q3 / IC16 from GP14 | Static switch, no current limit, soft start 1.5 s typical, 12 s worst case. | hardware; control **[done]**; ramp **[bring-up]** B11 |
 | E10 | Battery | J6 XT60 (pin 2 = BAT_IN), 5S | Through the LTC4162 charger; also feeds the ESC power switch. | hardware |
 | E11 | Magnet switch | J12, MAG_ON to load switch IC15 | Cuts the switched 5 V rail. Not readable by the CM5. | hardware; toggling **[bring-up]** B2 |
 | E12 | Depth sensor | MS5837-30BA module on J1, I2C1 0x76 | Read by the rov_firmware service at 15 Hz and forwarded to the MCU (PRESSURE 0x11). | **[upstream]** |
@@ -93,8 +93,8 @@ flowchart LR
 | ID | Interface | Details | Status |
 |---|---|---|---|
 | I1 | USB CDC | CM5 USB3-1 port (USB 2.0 pins only, no VBUS) to the RP2354A USB (27 Ω series). Pico control protocol v1: extended frames (start 0xF0, CRC32C), CAPS (feature bits 0x1f), HELLO session, 628-byte settings transaction, CONTROL 0x10, PRESSURE 0x11, ATTITUDE 0x90 at 60 Hz, STATS 0x91, IMU 0x92; legacy packets and the ESC firmware upload. See [PICO_CONTROL_PROTOCOL.md](https://github.com/Tropaion/Manafish_Mainboard/blob/main/firmware/docs/PICO_CONTROL_PROTOCOL.md). | **[upstream]** |
-| I2 | ESC power over I1 | Request ESC_POWER 0x26 (u32 0/1; results APPLIED, BUSY, INVALID, UNSUPPORTED, never NOT_READY), CAPS feature bit 0x20, state in ATTITUDE health bits 4-6. | **[planned: Phase 2]** MCU, **[planned: Phase 4]** CM5 |
-| I3 | USB identity | Running: 2e8a:0009 (like a Pico 2), product "Manafish Mainboard", udev symlink `/dev/manafish-mcu`. BOOTSEL: 2e8a:000f. | IDs **[upstream]** (Pico SDK); product string **[planned: Phase 2]**; symlink **[planned: Phase 3]** |
+| I2 | ESC power over I1 | Request ESC_POWER 0x26 (u32 0/1; results APPLIED, BUSY, INVALID, UNSUPPORTED, never NOT_READY), CAPS feature bit 0x20, state in ATTITUDE health bits 4-6. | **[done]** MCU, **[planned: Phase 4]** CM5 |
+| I3 | USB identity | Running: 2e8a:0009 (like a Pico 2), product "Manafish Mainboard", udev symlink `/dev/manafish-mcu`. BOOTSEL: 2e8a:000f. | IDs **[upstream]** (Pico SDK); product string **[done]**; symlink **[planned: Phase 3]** |
 | I4 | GPIO24 to RUN | 330 Ω series, 4.7 kΩ pull-up. Low = reset. Released to input otherwise, never driven high. | hardware; driver **[planned: Phase 4]**; never low during boot **[bring-up]** B5 |
 | I5 | GPIO25 to QSPI_SS | 1 kΩ series, 10 kΩ pull-up. Low during reset = BOOTSEL. Never low while the firmware runs. | same as I4 |
 | I6 | SWD | GPIO8 = SWDIO, GPIO11 = SWCLK, also on J2. Keep SPI0 off. Released after use. | **[bring-up]** B7 |
@@ -135,8 +135,8 @@ bit 1), not from the pins. Pins and vin are checked at **[bring-up]** B9.
 
 | Link | Details | Status |
 |---|---|---|
-| BMI270 IMU | MCU SPI1, GP10 SCK, GP11 MOSI, GP12 MISO, GP13 CS; polled. Axis map per board **[planned: Phase 2]**, measured at **[bring-up]** B13. | **[upstream]** |
-| ESC power switch (GP14 / ESC_PWR_EN) | GP14 through R31 180 Ω to the IC16 LED; 12 mA drive; low by default. | **[planned: Phase 2]** |
+| BMI270 IMU | MCU SPI1, GP10 SCK, GP11 MOSI, GP12 MISO, GP13 CS; polled. Axis map per board **[done]**, measured at **[bring-up]** B13. | **[upstream]** |
+| ESC power switch (GP14 / ESC_PWR_EN) | GP14 through R31 180 Ω to the IC16 LED; 12 mA drive; low by default. | **[done]** |
 | J9 breakout | Free CM5 GPIO 4, 5, 7, 9, 10, 13, 16-23, 26, 27. | hardware |
 | J13 breakout | RP2354A GP22-29 (GP26-29 are ADC inputs); the only UART access. | hardware |
 

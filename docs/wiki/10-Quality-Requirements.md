@@ -33,14 +33,14 @@ flowchart LR
 |---|---|---|---|---|
 | QS-1 | Host (rov_firmware service (manafish-firmware) or the USB link) dies while thrusters run: MCU outputs neutral | Neutral within 200 ms (`HOST_TIMEOUT_US`) | Runtime harness lease-expiry scenarios; B13 on the board | **[upstream]** gate, **[bring-up]** (B13) |
 | QS-2 | Magnet switch turned off while spinning: thrusters stop | AM32 stops within 0.5 s | B13 | **[bring-up]** (B13) |
-| QS-3 | ESC power on: no thrust before the ESC supply is up | Motor lines 0 V until `SIGNAL_DELAY_MS` (5 s); thrust no earlier than 15 s after GP14 rises; state 3 to 4 at 15 s | `test_esc_power.c`, runtime scenarios; B11 scope warm and cold | **[planned: Phase 2]**, **[bring-up]** (B11) |
-| QS-4 | ON request during the hold after boot or off | BUSY before 5 s; session kept | `test_esc_power.c`; `mainboard_bringup.py esc on` at B11 | **[planned: Phase 2]**, **[bring-up]** (B11) |
+| QS-3 | ESC power on: no thrust before the ESC supply is up | Motor lines 0 V until `SIGNAL_DELAY_MS` (5 s); thrust no earlier than 15 s after GP14 rises; state 3 to 4 at 15 s | `test_esc_power.c`, runtime scenarios; B11 scope warm and cold | **[done]** (host tests), **[bring-up]** (B11) |
+| QS-4 | ON request during the hold after boot or off | BUSY before 5 s; session kept | `test_esc_power.c`; `mainboard_bringup.py esc on` at B11 | **[done]** (host tests), **[bring-up]** (B11) |
 | QS-5 | MCU boots, is flashed or resets | GP14 stays 0 V for 60 s; never on without a request | B7 | **[bring-up]** (B7) |
-| QS-6 | Operator turns ESC power off | 2 s neutral, lines parked, GP14 low, then 5 s hold | `test_esc_power.c`; B11 | **[planned: Phase 2]**, **[bring-up]** (B11) |
-| QS-7 | Host goes away with ESC power on | Auto-off after 30 s (owner to confirm); paused during ESC update | `test_esc_power.c`; B11 | **[planned: Phase 2]**, **[bring-up]** (B11) |
+| QS-6 | Operator turns ESC power off | 2 s neutral, lines parked, GP14 low, then 5 s hold | `test_esc_power.c`; B11 | **[done]** (host tests), **[bring-up]** (B11) |
+| QS-7 | Host goes away with ESC power on | Auto-off after 30 s (confirmed by the owner); paused during ESC update | `test_esc_power.c`; B11 | **[done]** (host tests), **[bring-up]** (B11) |
 | QS-8 | Watchdog reboot, RUN pulse or BOOTSEL entry with ESC power on | Record whether GP14 falls and stays low; if not, "off before reset" becomes a documented host rule | B11 scope | **[bring-up]** (B11) |
 | QS-9 | ESC power off, ESCs connected | No back-powering (ESC 3.3 V rail dead) | B12 | **[bring-up]** (B12) |
-| QS-10 | ESC firmware update requested with ESC power off | Fails with MCU error 11, mapped on the CM5; works when on | Unit tests; B12 AM32 passthrough | **[planned: Phase 2]**, **[bring-up]** (B12) |
+| QS-10 | ESC firmware update requested with ESC power off | Fails with MCU error 11, mapped on the CM5; works when on | Unit tests; B12 AM32 passthrough | MCU **[done]**, CM5 mapping **[planned: Phase 4]**, **[bring-up]** (B12) |
 | QS-11 | PoE present, no pack, operator requests ESC power | Refused; missing battery blocks ESC power | pytest with fakes; B10 | **[planned: Phase 4]**, **[bring-up]** (B10) |
 | QS-12 | LTC4162 charger unreadable | ESC enable blocked with a toast; low-battery logic only warns, never powers off | pytest with fakes | **[planned: Phase 4]** |
 | QS-13 | vbat below 3.2 V/cell for 10 s | Toast every 60 s, new enables blocked, ESC power stays on | pytest with fakes and an injectable clock | **[planned: Phase 4]** |
@@ -86,7 +86,7 @@ flowchart LR
 | QC-1 | Existing app connects to the board | Works unchanged; `RovConfig`, `RovStatus`, `SystemHealth` shapes unchanged; new values only in the catalog | Catalog fixture test (exact match) plus key-set equality test; final acceptance at 10.10.10.10:9000 | **[upstream]** fixture, **[planned: Phase 4]** |
 | QM-1 | `git subtree pull --squash` from an upstream | Both gates green after re-removing the deleted paths; no upstream version string edited | Gates in CLAUDE.md; CI | **[done]** procedure and CI |
 | QM-2 | Change under `firmware/src/control/` | C differential test runs, not skipped (`PICO_CONTROLLER_SOURCE` set) | `software-ci.yml` path filter | **[done]** |
-| QM-3 | New board logic | Runs on x86 without hardware: FakeSMBus, fake lgpio, fake sysfs, injectable clock; MCU logic as pure host-tested C | pytest; Unity | **[planned: Phase 2]**, **[planned: Phase 4]** |
+| QM-3 | New board logic | Runs on x86 without hardware: FakeSMBus, fake lgpio, fake sysfs, injectable clock; MCU logic as pure host-tested C | pytest; Unity | MCU **[done]**, CM5 **[planned: Phase 4]** |
 
 ## 10.7 Final acceptance
 

@@ -14,22 +14,22 @@ start of about 1.5 s, up to 12 s worst case
 
 | Rule | Where enforced | Status |
 |---|---|---|
-| Never switch ESC power on automatically: not at boot, not after reconnect, not after a reset | MCU `esc_power` (on only by explicit 0x26 request, nothing persisted); CM5 `EscPowerController` | **[planned: Phase 2]**, **[planned: Phase 4]** |
-| GP14 low for at least 5 s after MCU boot, after any off, and after the battery is plugged in | MCU `OFF_HOLD_MS 5000`; battery-plug part on the CM5 (only it sees the LTC4162): battery present for at least 5 s | **[planned: Phase 2]**, **[planned: Phase 4]** |
-| No thrust earlier than 15 s after GP14 rises | `THRUST_DELAY_MS 15000`; hook `thrust_permitted` added to the one `ready` gate in `control_runtime_get_motors` (covers legacy 0x5A, CONTROL and RAW) | **[planned: Phase 2]** |
-| Switch only with the motors stopped | On: CM5 requires `disruptive_motor_operation_blocker` = None. Off: STOPPING sends neutral for `STOP_MS 2000` before GP14 falls | **[planned: Phase 2]**, **[planned: Phase 4]** |
-| GP14 is driven at 12 mA, low, before anything else runs | `esc_power_init()` is the first statement of `main()`, before `stdio_init_all()`; a source-wiring test checks the order | **[planned: Phase 2]** |
-| Motor lines parked while ESC power is not live | Separate `outputs_parked` flag; 8 motor pins on SIO, low (no back-powering of unpowered ESCs, no AM32 idle-high bootloader trap). Never park through the existing teardowns (they clear `protocol_initialized`). Re-park after every protocol re-init | **[planned: Phase 2]** |
+| Never switch ESC power on automatically: not at boot, not after reconnect, not after a reset | MCU `esc_power` (on only by explicit 0x26 request, nothing persisted); CM5 `EscPowerController` | MCU **[done]**, CM5 **[planned: Phase 4]** |
+| GP14 low for at least 5 s after MCU boot, after any off, and after the battery is plugged in | MCU `OFF_HOLD_MS 5000`; battery-plug part on the CM5 (only it sees the LTC4162): battery present for at least 5 s | MCU **[done]**, CM5 **[planned: Phase 4]** |
+| No thrust earlier than 15 s after GP14 rises | `THRUST_DELAY_MS 15000`; hook `thrust_permitted` added to the one `ready` gate in `control_runtime_get_motors` (covers legacy 0x5A, CONTROL and RAW) | **[done]** |
+| Switch only with the motors stopped | On: CM5 requires `disruptive_motor_operation_blocker` = None. Off: STOPPING sends neutral for `STOP_MS 2000` before GP14 falls | off **[done]** (MCU), on **[planned: Phase 4]** (CM5) |
+| GP14 is driven at 12 mA, low, before anything else runs | `esc_power_init()` is the first statement of `main()`, before `stdio_init_all()`; a source-wiring test checks the order | **[done]**; GP14 0 V for 60 s **[bring-up]** (B7) |
+| Motor lines parked while ESC power is not live | Separate `outputs_parked` flag; 8 motor pins on SIO, low (no back-powering of unpowered ESCs, no AM32 idle-high bootloader trap). Never park through the existing teardowns (they clear `protocol_initialized`). Re-park after every protocol re-init | **[done]**; no back-powering **[bring-up]** (B12) |
 | Never enable on PoE without a pack | CM5: with PoE, vbat > 12 V and no `bat_missing`/detection state for 5 s | **[planned: Phase 4]** |
 | Charger must be readable and fresh to enable | Otherwise blocked, toast "charger unreadable, ESC power blocked" | **[planned: Phase 4]** |
-| Automatic off only on: battery removed while on PoE, the 3.0 V/cell shutdown, or 30 s host loss (MCU) | CM5 policy; MCU `HOST_LOSS_MS 30000` (owner to confirm). The timer pauses during an ESC update or recovery (AM32 flash blocks core 0) | **[planned: Phase 2]**, **[planned: Phase 4]** |
-| ESC firmware update needs ESC power ON | MCU: update begin and commit fail with `ESC_FIRMWARE_UPDATE_ERROR_ESC_POWER_OFF = 11`; CM5 preflight checks state 4 before the maintenance gate | **[planned: Phase 2]**, **[planned: Phase 4]** |
+| Automatic off only on: battery removed while on PoE, the 3.0 V/cell shutdown, or 30 s host loss (MCU) | CM5 policy; MCU `HOST_LOSS_MS 30000` (30 s, confirmed by the owner). The timer pauses only during ESC firmware recovery and restarts when an AM32 flash returns (it blocks core 0); during an upload every accepted 0xE7/0xE8 packet renews it | MCU **[done]**, CM5 **[planned: Phase 4]**; auto-off **[bring-up]** (B11) |
+| ESC firmware update needs ESC power ON | MCU: update begin and commit fail with `ESC_FIRMWARE_UPDATE_ERROR_ESC_POWER_OFF = 11`; CM5 preflight checks state 4 before the maintenance gate | MCU **[done]**, CM5 **[planned: Phase 4]** |
 | GP14 behaviour through watchdog reset, RUN pulse and BOOTSEL | Unknown (RP2350 pad isolation). Until measured, the host sends OFF and waits for state 1/2 before any reset or flash | **[bring-up]** (B11) |
 
 ### ESC power state machine (MCU)
 
 A pure state machine with time passed in and wrap-safe unsigned compares
-**[planned: Phase 2]**. Without `MANAFISH_ESC_POWER_PIN` (pico/pico2 builds) it is a no-op stub.
+**[done]**. Without `MANAFISH_ESC_POWER_PIN` (pico/pico2 builds) it is a no-op stub.
 
 ```mermaid
 stateDiagram-v2
@@ -38,9 +38,9 @@ stateDiagram-v2
     OFF_READY --> STARTING: 0x26 ON, APPLIED
     STARTING --> ARMING: SIGNAL_DELAY_MS, lines live, neutral only
     ARMING --> ON: 15 s after GP14 rose
-    STARTING --> STOPPING: OFF or host loss
+    STARTING --> OFF_HOLD: OFF or host loss, GP14 low at once
     ARMING --> STOPPING: OFF or host loss
-    ON --> STOPPING: OFF or host loss 30 s
+    ON --> STOPPING: OFF or host loss 30 s (neither during ESC recovery)
     STOPPING --> OFF_HOLD: 2 s neutral, park, GP14 low
 ```
 
@@ -57,13 +57,15 @@ plus 1 s **[bring-up]** (B12).
 
 ### 0x26 ESC_POWER request
 
-Payload u32 0/1, reliable. Results: APPLIED, BUSY (hold not over, settings not applied,
-stopping, upload, recovery or protocol transition; the host retries with a fresh frame on its
-own timer), INVALID, UNSUPPORTED (NULL hook). The handler answers synchronously and never
+Payload u32 0/1, reliable. Results: APPLIED, BUSY (ON: hold not over, settings not applied,
+stopping, upload, recovery or protocol transition; OFF: only during ESC firmware recovery, which
+keeps the ESCs powered in the AM32 bootloader until a recovery flash succeeds; the host retries
+with a fresh frame on its own timer), INVALID, UNSUPPORTED (NULL hook). The handler answers synchronously and never
 returns NOT_READY, because the CM5 drops the whole session on any NOT_READY ACK. A 0x26 sent
 after ENTER_MAINTENANCE (0x25) or a safety latch hits a dead session, so the host sends ESC
 requests before the 0x25 gate; an OFF afterwards needs a new HELLO. CAPS feature bit 0x20 marks
-support; it stays out of `REQUIRED_FEATURES` **[planned: Phase 2]**, **[planned: Phase 4]**.
+support; it stays out of `REQUIRED_FEATURES`. MCU **[done]**, CM5 **[planned: Phase 4]**. Contract:
+[firmware/docs/PICO_CONTROL_PROTOCOL.md](https://github.com/Tropaion/Manafish_Mainboard/blob/main/firmware/docs/PICO_CONTROL_PROTOCOL.md).
 
 ### Neutral failsafe
 
@@ -140,7 +142,7 @@ The magnet switch and battery removal cut power without warning.
 | `RovConfig.save()` writes a temp file and renames it over `config.json` (no fsync). Unreadable JSON loads defaults and saves them | **[upstream]** |
 | `manafish-setup` keeps `config.json` when it re-copies a new source tree | **[upstream]** |
 | go2rtc camera wrapper validates every config value with a fallback, so a corrupt config never stops the stream | **[upstream]** |
-| ESC power state is never persisted; every MCU boot starts in OFF_HOLD | **[planned: Phase 2]** |
+| ESC power state is never persisted; every MCU boot starts in OFF_HOLD | **[done]** |
 | Charger settings re-applied by the 1 Hz read-back | **[planned: Phase 4]** |
 | 20 abrupt cuts on the IO Board (spike check 7); 50 cuts on the board incl. during a config save; CM5_3.3V stays above 1.8 V during a +5V cut | **[planned: Phase 3]**, **[bring-up]** (B15) |
 
@@ -151,12 +153,12 @@ One flash path for every case: blank, hung, bricked or running (Decision 9).
 | Step | Detail | Status |
 |---|---|---|
 | Lines | Hardware BOOTSEL (GPIO24 RUN, GPIO25 QSPI_SS). Never drive either line high; release to input with bias off. GPIO25 low only while GPIO24 is low or within 100 ms after its release. `gpio=24,25=ip,pn` in config.txt | **[planned: Phase 3]**, **[planned: Phase 4]** |
-| Before | Neutral, ESC_POWER off, wait for health bits 4-6 = 1 or 2, or 5 s (MCU silent). Runs before `state.mcu_flashing` is set, while the session is live | **[planned: Phase 4]** |
+| Before | Neutral, ESC_POWER off, wait for health bits 4-6 = 1 or 2, or 5 s (MCU silent). Runs before `state.mcu_flashing` is set, while the session is live. Never while the ESC recovery journal is set (OFF answers BUSY then) | **[planned: Phase 4]** |
 | Enter | GPIO24 low, GPIO25 low, 10 ms, release GPIO24, hold GPIO25 100 ms, release, wait for 2e8a:000f | **[planned: Phase 4]** |
-| Load | `picotool load -v -x`, never `-f`. Today upstream uses `-f` **[upstream]** | **[planned: Phase 4]** |
+| Load | `picotool load -v -x`, never `-f`. Today upstream uses `-f` **[upstream]**; `make flash-mainboard` has no `-f` **[done]** | **[planned: Phase 4]** |
 | Paths | Manual, first boot and version mismatch all go through `flash_mcu_firmware` | **[upstream]** path, **[planned: Phase 4]** steps |
 | Startup | 000f present without 0009: one 10 ms `reset()` first | **[planned: Phase 4]** |
-| Tools | `mcu-reset`, `mcu-recover`: refuse until the rov_firmware service (manafish-firmware) is inactive or failed for at least 35 s (host loss 30 s + stop 2 s + margin) | **[planned: Phase 4]** |
+| Tools | `mcu-reset`, `mcu-recover`: refuse until the rov_firmware service (manafish-firmware) is inactive or failed for at least 35 s (host loss 30 s + stop 2 s + margin), and while the ESC recovery journal is set (the MCU then holds ESC power on, and a reset forgets its recovery state) | **[planned: Phase 4]** |
 | Discovery | `/dev/manafish-mcu` udev symlink for 2e8a:0009, then a sysfs scan; no blind `ttyACM*` fallback | **[planned: Phase 3]**, **[planned: Phase 4]** |
 | Auto re-flash | Version mismatch re-flashes only within 60 s of the rov_firmware service (manafish-firmware) start, once per run. `MANAFISH_PICO_CONTROL_DEVELOPMENT=1` keeps only `pico-control-dev` builds; the first-boot path ignores it | **[upstream]** |
 | Last resort | SWD on J2 or CM5 GPIO8/11 (OpenOCD with RP2350 support) | **[bring-up]** (B7) |
@@ -168,8 +170,8 @@ Sequence diagrams: [Runtime View](06-Runtime-View).
 | Channel | Content | Status |
 |---|---|---|
 | ATTITUDE 0x90 health bits 0-3 | IMU healthy, pressure healthy, output permitted by all gates, raw override. The CM5 reads bits 0 and 3 | **[upstream]** |
-| ATTITUDE health bits 4-6 | ESC power state (table in 8.1). `thrust_permitted` also shows in bit 2 | **[planned: Phase 2]** |
-| CAPS feature bit 0x20 | ESC power supported | **[planned: Phase 2]** |
+| ATTITUDE health bits 4-6 | ESC power state (table in 8.1). `thrust_permitted` also shows in bit 2 | **[done]** |
+| CAPS feature bit 0x20 | ESC power supported (mainboard builds report 0x3f) | **[done]** |
 | `SystemHealth`, `RovStatus`, `RovConfig` | Shapes unchanged (app contract) | **[upstream]** |
 | Capability readings | New `rov.*` readings through the dynamic catalog: `batteryVoltage`, `batteryCurrent` (excludes thrusters), `chargerState`, `poeType`, `poeInputVoltage`, `poeInputCurrent`, `chargerTemperature`, `hullTemperature`, `hullHumidity`, `hullPressure`, `socTemperature`, `escPower`; action `rov.escPower.set` (boolean). Every key in `values()` must be in `READING_DEFINITIONS`; the catalog fixture test is an exact match | **[planned: Phase 4]** |
 | Toasts | Plain-text `ToastContent` message/description; no app i18n keys needed | **[upstream]** mechanism, **[planned: Phase 4]** texts |
@@ -193,13 +195,13 @@ Sequence diagrams: [Runtime View](06-Runtime-View).
 
 | Level | What | Status |
 |---|---|---|
-| MCU host tests | Unity suites (142 at the Phase 0 baseline) plus Python harnesses: real runtime against a fake SDK, startup commands, build identity, linker memory. New: `tests/test_esc_power.c` (called from `tests/test_main.c`), runtime scenarios in both `runtime_harness.c` and `test_control_runtime.py`, a source-wiring test | **[upstream]**, **[planned: Phase 2]** |
-| MCU static | `format-check`, `lint-check` on the LLVM 19 baseline; `build-pico`, `build-pico2` (later `build-mainboard`) with the ELF/map memory check | **[upstream]**, **[planned: Phase 2]** |
+| MCU host tests | Unity suites (142 at the Phase 0 baseline, 163 after Phase 2) plus Python harnesses: real runtime against a fake SDK, startup commands, build identity, linker memory, bench helpers. Phase 2 added `tests/test_esc_power.c` (called from `tests/test_main.c`), runtime scenarios in both `runtime_harness.c` and `test_control_runtime.py`, a source-wiring test, an IMU axis-map build and `tests/test_mainboard_bringup.py` | **[upstream]**, **[done]** |
+| MCU static | `format-check`, `lint-check` on the LLVM 19 baseline (mainboard compile DB); `build-pico`, `build-pico2`, `build-mainboard` with the ELF/map memory check | **[upstream]**, **[done]** |
 | CM5 unit tests | pytest (475 at baseline). New board code gets fakes: FakeSMBus, fake lgpio, fake sysfs tree, injectable clock | **[upstream]**, **[planned: Phase 4]** |
 | C differential test | `test_pico_differential.py` compiles `firmware/src/control/controller.c` with host `cc` against hash-pinned Python references; skipped, not passed, without `PICO_CONTROLLER_SOURCE` | **[upstream]** |
 | CI | `firmware-ci.yml`, `software-ci.yml` (python + nix jobs), `software-image.yml` (ubuntu-26.04-arm) | **[done]**; first green run **[planned: Phase 1]** |
 | Image | Spike checks 1-8 on the CM5 IO Board | **[planned: Phase 3]** |
-| Board | `tools board-check`, `mainboard_bringup.py`, `control_smoke.py`; `BRINGUP.md` with a record sheet per board; B0-B16 | **[planned: Phase 5]**, **[bring-up]** |
+| Board | `tools board-check`, `mainboard_bringup.py`, `control_smoke.py`; `BRINGUP.md` with a record sheet per board; B0-B16 | `mainboard_bringup.py` **[done]**, `control_smoke.py` **[upstream]**; `board-check` and `BRINGUP.md` **[planned: Phase 5]**; **[bring-up]** |
 
 Gates per component: root
 [CLAUDE.md](https://github.com/Tropaion/Manafish_Mainboard/blob/main/CLAUDE.md) **[done]**.
@@ -209,7 +211,7 @@ Gates per component: root
 | Item | Rule | Status |
 |---|---|---|
 | MCU tag | `firmware-vX.Y.Z-mb.N`; X.Y.Z from `MCU_FIRMWARE_VERSION_*` in `firmware/src/version.h`, never bumped; never `-rc` in it | **[done]** rule |
-| MCU asset | `mainboard-vX.Y.Z-mb.N.uf2` plus the BMI270 license, published (not draft, `prerelease: false`) by `firmware-release.yml` | **[planned: Phase 2]** |
+| MCU asset | `mainboard-vX.Y.Z-mb.N.uf2` plus the third-party notices (`NOTICE.md`, BMI270, Pico SDK, pico_printf, TinyUSB and pio-dshot licenses), published (not draft, `prerelease: false`) by `firmware-release.yml` | workflow **[done]**; first release waits for the owner |
 | Software tag | `software-v<pyproject version>-mb.N`, e.g. `software-v1.2.0-rc.3-mb.1`; never `-mb` in `pyproject.toml` | **[done]** rule |
 | Image | Version = monorepo `shortRev`; the flake fetches the UF2 from this repo's release URL | **[upstream]**, **[planned: Phase 3]** |
 | Push | One tag at a time, never `git push --tags`; no tag without the owner | **[done]** rule |
@@ -220,7 +222,7 @@ Gates per component: root
 `git subtree pull --squash` per prefix from `--no-tags` remotes; never fetch upstream tags.
 Re-remove the deleted CI/pre-commit paths, keep the local patches, run both gates
 **[done]** (procedure in CLAUDE.md). Board code goes into new files and NULL-checked hooks to
-keep conflicts small **[planned: Phase 2]**, **[planned: Phase 4]**.
+keep conflicts small: MCU **[done]**, CM5 **[planned: Phase 4]**.
 
 ## 8.10 Logging and diagnostics
 

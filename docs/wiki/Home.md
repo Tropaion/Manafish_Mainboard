@@ -104,7 +104,7 @@ Naming trap: upstream's repo called "firmware" lives in `software/`.
 |---|---|---|
 | 0 | Workstation, subtree imports, root `CLAUDE.md`, scoped dirty check | **[done]** |
 | 1 | Root CI workflows, pre-commit, README and NOTICE fixes, this wiki | CI workflows, pre-commit, README and NOTICE fixes, this wiki **[done]**; first green CI run **[planned: Phase 1]** |
-| 2 | RP2354A firmware: `manafish_mainboard` board target, ESC power state machine, protocol 0x26, release workflow | **[planned: Phase 2]** |
+| 2 | RP2354A firmware: `manafish_mainboard` board target, ESC power state machine, protocol 0x26, IMU axis macros, release workflow, `mainboard_bringup.py` | **[done]**; the first `firmware-v…-mb.1` tag waits for the owner; measurements **[bring-up]** (B7, B11-B13) |
 | 3 | CM5 NixOS image (`cm5-mainboard`), software H.264, second camera, one-day spike on the CM5 IO Board | **[planned: Phase 3]** |
 | 4 | CM5 Python: MCU discovery and hardware BOOTSEL, charger, PoE, hull sensors, battery, ESC power, readings | **[planned: Phase 4]** |
 | 5 | Bring-up tooling: `tools board-check`, `BRINGUP.md` | **[planned: Phase 5]** |

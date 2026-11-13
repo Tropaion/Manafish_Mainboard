@@ -79,11 +79,11 @@ Electrical facts the code depends on:
 
 | System | Repo path | Runs on | Stack | Status |
 |---|---|---|---|---|
-| RP2354A firmware | [firmware/](https://github.com/Tropaion/Manafish_Mainboard/tree/main/firmware) | RP2354A (MCU) | C11, Pico SDK 2.3.1, CMake, Unity tests | **[upstream]** mcu-firmware `88bd6a0`, Pico/Pico 2 builds; mainboard target **[planned: Phase 2]** |
+| RP2354A firmware | [firmware/](https://github.com/Tropaion/Manafish_Mainboard/tree/main/firmware) | RP2354A (MCU) | C11, Pico SDK 2.3.1, CMake, Unity tests | **[upstream]** mcu-firmware `88bd6a0`, Pico/Pico 2 builds; mainboard target, ESC power and bring-up script **[done]** (Phase 2) |
 | rov_firmware service (manafish-firmware) | [software/src/rov_firmware](https://github.com/Tropaion/Manafish_Mainboard/tree/main/software/src/rov_firmware) | CM5 | Python 3.13.15, asyncio, pydantic | **[upstream]** firmware `9e282b5`; board code **[planned: Phase 4]** |
 | NixOS image | [software/flake.nix](https://github.com/Tropaion/Manafish_Mainboard/blob/main/software/flake.nix), [software/nix/](https://github.com/Tropaion/Manafish_Mainboard/tree/main/software/nix) | built on workstation or CI, runs on CM5 | Nix flake, nixos-raspberrypi, impermanence | **[upstream]** Pi 3 config; `cm5-mainboard` **[planned: Phase 3]** |
 | ESC firmware | AM32 binary, release asset of manafishrov/esc-firmware | ESCs | flashed through the MCU | **[upstream]** bundled in the image |
-| CI and releases | `.github/` | GitHub Actions | YAML workflows, actionlint, pre-commit | CI **[done]** (Phase 1); release workflow **[planned: Phase 2]** |
+| CI and releases | `.github/` | GitHub Actions | YAML workflows, actionlint, pre-commit | CI **[done]** (Phase 1); `build-mainboard` in CI and the release workflow **[done]** (Phase 2) |
 
 The app is a separate repo. It talks only to the CM5 and is out of scope.
 
@@ -102,7 +102,7 @@ flowchart LR
     cfg["runtime_config"]
     escfw["esc_firmware, am32"]
     out["dshot (PIO) or pwm"]
-    pwrsm["esc_power (planned)"]
+    pwrsm["esc_power"]
   end
   subgraph c1["Core 1: 500 Hz"]
     rt1["control/runtime core1_main"]
@@ -130,17 +130,17 @@ flowchart LR
 | Control protocol | `src/control/protocol.*` | 0 | Extended frame: 0xF0, version 1, 14-byte header, CRC32C, payload max 768; 628-byte settings image | **[upstream]** |
 | Control runtime | [src/control/runtime.c](https://github.com/Tropaion/Manafish_Mainboard/blob/main/firmware/src/control/runtime.c) | 0 and 1 | HELLO, settings BEGIN/CHUNK/COMMIT, CONTROL, PRESSURE, RAW, ENTER_MAINTENANCE; leases (host 200 ms, output 10 ms, pressure 500 ms); one `ready` gate in `control_runtime_get_motors`; ATTITUDE 0x90 and IMU 0x92 at 60 Hz, STATS 0x91 every 5 s; launches core 1; 1 ms safety timer; 1 s watchdog | **[upstream]** |
 | Controller | `src/control/controller.*` | 1 | Pure math without SDK: Mahony AHRS, attitude and depth PID, 8x8 allocation, nullspace, at 500 Hz. Checked by the C-vs-Python differential test in `software/tests` | **[upstream]** |
-| IMU | `src/imu/bmi270_sensor.*`, `third_party/bmi270` | 1 | BMI270 on SPI1 GP10-13, polled, axis signs [+1,-1,-1]. `MANAFISH_IMU_AXIS_*` macros; mainboard values measured at B13 | **[upstream]**; macros **[planned: Phase 2]** |
+| IMU | `src/imu/bmi270_sensor.*`, `third_party/bmi270` | 1 | BMI270 on SPI1 GP10-13, polled. Board axis map `MANAFISH_IMU_AXIS_*` / `MANAFISH_IMU_SIGN_*` (defaults: upstream's axes, signs [+1,-1,-1]) | **[upstream]**; macros **[done]**; mainboard values **[bring-up]** (B13) |
 | DShot | `src/dshot/` (`dshot.c`, `dshot.pio`, `control.c`, `telemetry_usb.c`, `current_sensing.c`) | 0 | Bidirectional DShot on PIO; telemetry (eRPM, voltage, temperature, current, signal quality) to the host as 0xA5/0xA6; board current | **[upstream]** |
 | PWM | `src/pwm/` | 0 | Analog ESC alternative behind the same selector | **[upstream]** |
 | Runtime config | `src/runtime_config.*` | 0 | DShot or PWM selection; legacy 0xC5 config; GET_INFO answer 0xD6 (release version); 0xD5 status | **[upstream]** |
 | ESC firmware | `src/esc_firmware/update.*`, `src/am32/bootloader.*` | 0 | AM32 upload over 0xE7/0xE8, status 0xE9; bit-banged AM32 bootloader on the motor pins; blocks core 0 while flashing | **[upstream]** |
 | Log, version | `src/log.*`, `src/version.h`, `src/release_version.h.in` | 0 | Framed log; X.Y.Z macros and `MANAFISH_RELEASE_VERSION` | **[upstream]** |
-| Board target | `boards/manafish_mainboard.h`, `make build-mainboard` | build | RP2350A, 2 MB flash, XOSC start-up delay x64, USB product "Manafish Mainboard", `MANAFISH_ESC_POWER_PIN 14` | **[planned: Phase 2]** |
-| ESC power | `src/esc_power.*` | 0 | Pure state machine, time passed in; `esc_power_init()` is the first statement of `main()`; no-op stub without the pin macro (pico/pico2) | **[planned: Phase 2]** |
-| Output parking | `outputs_parked` in `main.c` | 0 | 8 motor pins on SIO low while ESC power is not live; re-park after each protocol re-init | **[planned: Phase 2]** |
-| Runtime hooks | `thrust_permitted`, `esc_power_request`, `esc_power_state` | 0 | NULL-checked hooks; `thrust_permitted` joins the `ready` gate; request 0x26; CAPS bit 0x20; health bits 4-6 | **[planned: Phase 2]** |
-| Bench script | `scripts/mainboard_bringup.py` | host | `info`, `imu`, `esc on/off/watch`; needs `--execute` | **[planned: Phase 2]** |
+| Board target | `boards/manafish_mainboard.h`, `make build-mainboard`, `make flash-mainboard` (no `-f`, BOOTSEL first) | build | RP2350A, 2 MB flash, XOSC start-up delay x64, USB product "Manafish Mainboard", `MANAFISH_ESC_POWER_PIN 14`, IMU axis map | **[done]**; on the board **[bring-up]** (B7) |
+| ESC power | `src/esc_power.*` | 0 | Pure state machine, time passed in; `esc_power_init()` is the first statement of `main()`; no-op stub without the pin macro (pico/pico2). Tests: `tests/test_esc_power.c` | **[done]**; timing on the board **[bring-up]** (B11) |
+| Output parking | `outputs_parked` in `main.c` | 0 | 8 motor pins on SIO low while ESC power is not live; re-park after each protocol re-init; the protocol restarts when the lines go live | **[done]**; no back-powering **[bring-up]** (B12) |
+| Runtime hooks | `thrust_permitted`, `esc_power_request`, `esc_power_state` | 0 | NULL-checked hooks; `thrust_permitted` joins the `ready` gate; request 0x26; CAPS bit 0x20; health bits 4-6; ESC update error 11 | **[done]** |
+| Bench script | `scripts/mainboard_bringup.py` | host | `info`, `imu`, `esc on/off/watch`; reuses `control_smoke.py`; needs `--execute`; port `/dev/manafish-mcu`. Offline test `tests/test_mainboard_bringup.py` | **[done]** |
 
 Protocol contract: [firmware/docs/PICO_CONTROL_PROTOCOL.md](https://github.com/Tropaion/Manafish_Mainboard/blob/main/firmware/docs/PICO_CONTROL_PROTOCOL.md).
 

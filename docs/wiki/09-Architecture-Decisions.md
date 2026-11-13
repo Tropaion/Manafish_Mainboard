@@ -46,13 +46,13 @@ from verified rulings that correct the plan. Status labels as in
 - **Consequences:** if they fail, stop and report. Fallback, only with owner approval: Raspberry Pi OS Lite with overlayroot, about 2-3 days; Phase 4 unchanged.
 
 ### ADR-03 One target: CM5 image and mainboard UF2
-- **Status:** accepted **[planned: Phase 2]**, **[planned: Phase 3]**.
+- **Status:** accepted. MCU part **[done]** (Phase 2: CI builds pico, pico2 and the mainboard; `firmware-release.yml` ships only the mainboard UF2); CM5 image **[planned: Phase 3]**.
 - **Context:** upstream targets a Raspberry Pi 3 and Pico/Pico 2 boards.
 - **Decision:** drop the `pi3-imx477` configuration. Keep pico/pico2 builds in CI for host tests, lint and upstream merges; release only the mainboard UF2.
 - **Consequences:** less to maintain; pico/pico2 code paths stay compiled so upstream merges keep working.
 
 ### ADR-04 Separate MCU board target `manafish_mainboard`
-- **Status:** accepted **[planned: Phase 2]**.
+- **Status:** accepted **[done]** (Phase 2); on the board **[bring-up]** (B7).
 - **Context:** the RP2354A has a slow-starting crystal (Y1, ESR 60 Ω, 1 kΩ series), 2 MB in-package flash, the GP14 rules and needs its own USB product string.
 - **Decision:** a preprocessor-only `firmware/boards/manafish_mainboard.h` (RP2350A, 2 MB flash, `PICO_XOSC_STARTUP_DELAY_MULTIPLIER 64`, `USBD_PRODUCT "Manafish Mainboard"`, `MANAFISH_ESC_POWER_PIN 14`, IMU axis macros); no default UART, LED, VBUS, VSYS or SMPS pins. `make build-mainboard`.
 - **Consequences:** stock pico2 images are not used on the board. ESC power code is a no-op stub without the pin macro.
@@ -76,37 +76,37 @@ from verified rulings that correct the plan. Status labels as in
 - **Consequences:** all board code is testable on x86 with fakes (FakeSMBus, fake lgpio).
 
 ### ADR-08 Releases as GitHub release assets, `-mb.N` tags
-- **Status:** accepted; tag scheme approved by the owner on 2026-11-13. Rules **[done]** in CLAUDE.md; workflow **[planned: Phase 2]**.
+- **Status:** accepted; tag scheme approved by the owner on 2026-11-13. Rules **[done]** in CLAUDE.md; workflow `firmware-release.yml` **[done]** (Phase 2); the first tag waits for the owner.
 - **Context:** no access to upstream's S3 and minisign secrets. Upstream version strings must stay unedited for merges and config-migration lineage.
 - **Decision:** `firmware-vX.Y.Z-mb.N` (X.Y.Z from `version.h`, never `-rc`) and `software-v<pyproject version>-mb.N`. The software flake fetches the UF2 from this repo's release URL; the UF2 is never built in Nix (the Pico SDK is fetched over the network).
 - **Consequences:** `releaseVersionFromLock` must accept `firmware-v…` **[planned: Phase 3]**. `-mb.N` sorts below upstream `-rc` in SemVer.
 
 ### ADR-09 MCU always flashed through hardware BOOTSEL
-- **Status:** accepted **[planned: Phase 4]**; ruling: the CM5 path never uses `picotool -f`.
+- **Status:** accepted **[planned: Phase 4]** (CM5 path); `make flash-mainboard` without `-f` and the GPIO24/GPIO25 steps in `firmware/docs/PICO_CONTROL_HANDOFF.md` **[done]** (Phase 2); ruling: the CM5 path never uses `picotool -f`.
 - **Context:** `picotool -f` needs running firmware. A blank, hung or bricked MCU needs another way.
 - **Decision:** hardware BOOTSEL (GPIO24 RUN, GPIO25 QSPI_SS): GPIO24 low, GPIO25 low, 10 ms, release GPIO24, keep GPIO25 low 100 ms, release, wait for 2e8a:000f, `picotool load -v -x`. Never drive either line high. `flash-mainboard` has no `-f` and expects BOOTSEL already.
 - **Consequences:** one path for every case. The workstation targets `flash-pico`/`flash-pico2` stay as upstream.
 
 ### ADR-10 ESC power state in ATTITUDE health bits 4-6
-- **Status:** accepted **[planned: Phase 2]**.
+- **Status:** accepted; MCU **[done]** (Phase 2), CM5 parsing **[planned: Phase 4]**.
 - **Context:** the CM5 reads only health bits 0 and 3 today.
 - **Decision:** `health |= state << 4`.
 - **Consequences:** no frame-size change; old hosts ignore the bits.
 
 ### ADR-11 ESC power owned by an MCU state machine
-- **Status:** accepted **[planned: Phase 2]**; `HOST_LOSS_MS 30000` proposed until the owner confirms.
+- **Status:** accepted **[done]** (Phase 2); `HOST_LOSS_MS 30000` confirmed by the owner on 2026-11-13; timing on the board **[bring-up]** (B11).
 - **Context:** the switch has no current limit and a slow soft start; thrust must wait 15 s.
 - **Decision:** pure `esc_power` module with time passed in: OFF_HOLD 5 s, SIGNAL_DELAY 5 s, THRUST_DELAY 15 s, STOP 2 s. On only by explicit request, nothing persisted, no force-off.
 - **Consequences:** timing is host-testable. The CM5 only requests and adds the battery-plug rule.
 
 ### ADR-12 Park motor lines on SIO low with a separate flag
-- **Status:** accepted **[planned: Phase 2]**.
+- **Status:** accepted **[done]** (Phase 2); back-powering check **[bring-up]** (B12).
 - **Context:** the existing teardowns clear `protocol_initialized`, so settings never reconcile. `outover` does not survive the DShot pin re-init on every channel pass.
 - **Decision:** a separate `outputs_parked` flag; pins on SIO, low. `control_outputs_initialized()` = `protocol_initialized && !outputs_parked`. Re-park after every protocol re-init; re-arm the DShot telemetry warning timer when lines go live.
-- **Consequences:** no back-powering of unpowered ESCs, no AM32 idle-high bootloader trap.
+- **Consequences:** no back-powering of unpowered ESCs, no AM32 idle-high bootloader trap. When the lines go live, the configured protocol restarts on the freshly booted ESCs; DShot then skips its blocking start-up preamble, and the idle path enables EDT.
 
 ### ADR-13 0x26 never answers NOT_READY from its handler
-- **Status:** accepted **[planned: Phase 2]**, **[planned: Phase 4]**.
+- **Status:** accepted; MCU **[done]** (Phase 2), CM5 **[planned: Phase 4]**.
 - **Context:** the CM5 drops the whole session on any NOT_READY ACK.
 - **Decision:** the 0x26 handler answers synchronously (no `pending_sequence`) with APPLIED, BUSY, INVALID or UNSUPPORTED. The host sends ESC requests before the 0x25 gate; BUSY is retried with a fresh frame on a host timer; 0x20 stays out of `REQUIRED_FEATURES`.
 - **Consequences:** session-mismatch NOT_READY remains only for a dead session. ESC off after maintenance needs a new HELLO.
@@ -172,7 +172,7 @@ from verified rulings that correct the plan. Status labels as in
 - **Consequences:** none beyond the label.
 
 ### ADR-24 Firmware releases set `prerelease: false`
-- **Status:** accepted (ruling) **[planned: Phase 2]**.
+- **Status:** accepted (ruling) **[done]** in `firmware-release.yml`.
 - **Context:** upstream's `contains(tag, '-')` would mark every `-mb` tag as a prerelease.
 - **Decision:** set `prerelease: false` and `draft: false` explicitly.
 - **Consequences:** releases are visible as normal releases.

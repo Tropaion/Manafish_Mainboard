@@ -1,0 +1,106 @@
+name: Firmware Release
+
+# Mainboard MCU release for a tag firmware-vX.Y.Z-mb.N (root CLAUDE.md, "Tags and releases").
+# Adapted from manafishrov/mcu-firmware .github/workflows/build.yml.
+on:
+  push:
+    tags:
+      - firmware-v*
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    working-directory: firmware
+
+jobs:
+  build-mainboard:
+    # Same runner and apt toolchain as firmware-ci.yml.
+    runs-on: ubuntu-26.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Validate release version
+        id: version
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag="${GITHUB_REF_NAME}"
+          if [[ "${tag,,}" == *-rc* ]]; then
+            echo "Mainboard tags never carry -rc (version.py rejects X.Y.Z-rc.N-mb.N): $tag" >&2
+            exit 1
+          fi
+          if [[ ! "$tag" =~ ^firmware-v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)-mb\.[1-9][0-9]*$ ]]; then
+            echo "Release tag must be firmware-vX.Y.Z-mb.N: $tag" >&2
+            exit 1
+          fi
+          header_version="$(
+            awk '
+              /MCU_FIRMWARE_VERSION_MAJOR/ { major = $3 }
+              /MCU_FIRMWARE_VERSION_MINOR/ { minor = $3 }
+              /MCU_FIRMWARE_VERSION_PATCH/ { patch = $3 }
+              END { print major "." minor "." patch }
+            ' src/version.h
+          )"
+          version="${tag#firmware-v}"
+          if [[ "${version%%-*}" != "$header_version" ]]; then
+            echo "Tag $tag does not match src/version.h ($header_version)" >&2
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Install Arm GNU Toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake build-essential gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib
+
+      - name: Configure CMake for the mainboard
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          cmake -S . -B build/mainboard -DCMAKE_BUILD_TYPE=Release -DPICO_SDK_FETCH_FROM_GIT=ON -DPICO_BOARD=manafish_mainboard -DMANAFISH_RELEASE_VERSION="$VERSION"
+
+      - name: Build firmware for the mainboard
+        run: |
+          cmake --build build/mainboard --parallel 4
+          python3 tests/test_linker_memory.py mainboard build/mainboard
+
+      - name: Collect release assets
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          # The Pico SDK (BSD-3-Clause) with its pico_printf (MIT), TinyUSB (MIT) and the
+          # pio-dshot-derived DShot driver (MIT) are compiled into the UF2. The SDK license texts
+          # come from the SDK copy that CMake fetched. NOTICE.md lists all of them.
+          sdk=build/mainboard/_deps/pico_sdk-src
+          mkdir -p release
+          cp build/mainboard/firmware.uf2 "release/mainboard-v${VERSION}.uf2"
+          cp ../NOTICE.md release/NOTICE.md
+          cp third_party/bmi270/LICENSE release/LICENSE-bmi270-sensorapi.txt
+          cp "$sdk/LICENSE.TXT" release/LICENSE-pico-sdk.txt
+          cp "$sdk/lib/tinyusb/LICENSE" release/LICENSE-tinyusb.txt
+          cp "$sdk/src/rp2_common/pico_printf/LICENSE" release/LICENSE-pico-printf.txt
+          cp src/dshot/LICENSE-pio-dshot.txt release/LICENSE-pio-dshot.txt
+
+      - name: Create Release
+        uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          draft: false
+          # Explicit: upstream's contains(ref_name, '-') would mark every -mb.N tag a prerelease.
+          prerelease: false
+          generate_release_notes: true
+          fail_on_unmatched_files: true
+          files: |
+            firmware/release/mainboard-v${{ steps.version.outputs.version }}.uf2
+            firmware/release/NOTICE.md
+            firmware/release/LICENSE-bmi270-sensorapi.txt
+            firmware/release/LICENSE-pico-sdk.txt
+            firmware/release/LICENSE-tinyusb.txt
+            firmware/release/LICENSE-pico-printf.txt
+            firmware/release/LICENSE-pio-dshot.txt

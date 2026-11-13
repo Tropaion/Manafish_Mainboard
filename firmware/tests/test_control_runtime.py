@@ -47,6 +47,12 @@ SCENARIOS = (
     "neutral_stall_receive_raw",
     "neutral_stall_irq_before_ingress",
     "neutral_stall_service_only",
+    "esc_power_unsupported",
+    "esc_power_request_results",
+    "esc_power_never_not_ready",
+    "esc_power_thrust_gate",
+    "esc_power_health_bits",
+    "receive_reports_decoded_frames",
 )
 
 

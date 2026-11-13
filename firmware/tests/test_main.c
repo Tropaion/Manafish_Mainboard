@@ -12,6 +12,7 @@ extern void test_pwm_control(void);
 extern void test_pwm_driver(void);
 extern void test_esc_firmware_update(void);
 extern void test_esc_version_telemetry(void);
+extern void test_esc_power(void);
 
 void setUp(void) {
     esc_firmware_update_reset();
@@ -32,5 +33,6 @@ int main(void) {
     test_pwm_driver();
     test_esc_firmware_update();
     test_esc_version_telemetry();
+    test_esc_power();
     return UNITY_END();
 }

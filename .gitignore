@@ -31,6 +31,9 @@ Thumbs.db
 .vscode/
 .idea/
 
+# Python bytecode (firmware/tests imports its Python test modules)
+__pycache__/
+
 # Nix build outputs and direnv caches
 result
 result-*
