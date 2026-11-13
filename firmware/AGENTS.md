@@ -90,18 +90,26 @@ Pre-commit hook runs `clang-format` on staged files. Install once:
 **Never cut a release without being explicitly asked, and confirm the version
 and release notes back to the user before doing anything.**
 
-- Bump the macros in `src/version.h`:
-  `MCU_FIRMWARE_VERSION_MAJOR/MINOR/PATCH` to match `vX.Y.Z`.
-- Commit message: `chore(release): vX.Y.Z`.
-- Tag: `git tag vX.Y.Z` then `git push --tags` — pushing the tag triggers
-  `.github/workflows/build.yml`, which builds Pico and Pico 2 `.uf2`
-  artifacts and creates a **draft** GitHub release with auto-generated
-  notes. Edit and publish manually.
-- Pre-releases use `vX.Y.Z-rc.N` and are auto-marked prerelease.
-- Quality gates above must pass first.
+In the Manafish mainboard monorepo the root `CLAUDE.md` overrides this file on
+commits (plain capitalised sentences, no Conventional Commits), tags, releases,
+CI and pre-commit; this section is a summary.
 
-Workflow before tagging: confirm the bumped version with the user, confirm
-the release notes text, then commit, tag, push.
+- Tag: `firmware-vX.Y.Z-mb.N`. X.Y.Z comes from the
+  `MCU_FIRMWARE_VERSION_MAJOR/MINOR/PATCH` macros in `src/version.h`; don't bump
+  them. N counts mainboard releases of that X.Y.Z, starting at 1. Never put
+  `-rc` in the tag.
+- No release commit. Push only that tag: `git push origin firmware-vX.Y.Z-mb.N`,
+  never `git push --tags`.
+- The tag triggers the root `.github/workflows/firmware-release.yml`. It checks
+  X.Y.Z against `src/version.h`, builds with
+  `-DMANAFISH_RELEASE_VERSION=X.Y.Z-mb.N` and publishes (not as a draft)
+  `mainboard-vX.Y.Z-mb.N.uf2` and the BMI270 license.
+- The quality gates above, plus `make build-mainboard`, must pass first.
+- `make build-mainboard` and `firmware-release.yml` are added together with the
+  mainboard board target; don't tag before they exist.
+
+Workflow before tagging: confirm the version with the user, confirm the release
+notes text, then tag and push the tag.
 
 ## Commits
 
