@@ -10,6 +10,10 @@ on commits, tags, releases, CI and pre-commit.
 | `hardware/` | KiCad: `mainboard/` (4-layer CM5 + RP2354A board), `magnetic_switch/` | — |
 | `firmware/` | RP2354A MCU firmware: thrusters, IMU, control loop (C11, Pico SDK 2.3.1) | manafishrov/mcu-firmware |
 | `software/` | CM5 software: Python 3.13 import package `rov_firmware` + NixOS SD image | manafishrov/firmware |
+| `docs/wiki/` | arc42 architecture docs, source of the Gitea wiki (flat pages, links by page name) | — |
+
+Update the matching `docs/wiki/` pages in the same commit as a design change.
+Publishing them to the Gitea wiki repo is a push: ask the owner first.
 
 **Naming trap:** upstream's repo called "firmware" lives in `software/`. Keep its
 import package `rov_firmware` (distribution name `manafish`) and its device path
