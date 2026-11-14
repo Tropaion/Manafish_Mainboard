@@ -139,9 +139,12 @@ def test_rov_config_rejects_invalid_websocket_port(websocket_port):
         RovConfig(websocket_port=websocket_port)
 
 
-def test_rov_config_rejects_dshot_1200_for_pico():
-    with pytest.raises(ValidationError, match="DShot1200 requires Pico 2"):
-        RovConfig(mcu_board=McuBoard.PICO, dshot_speed=1200)
+def test_rov_config_accepts_dshot_1200_for_pico_as_pico2():
+    # Mainboard: a stored or requested "pico" is the RP2354A (pico2).
+    config = RovConfig.model_validate({"mcuBoard": "pico", "dshotSpeed": 1200})
+
+    assert config.mcu_board is McuBoard.PICO2
+    assert config.dshot_speed == 1200
 
 
 def test_rov_config_accepts_dshot_1200_for_pico2():
@@ -310,11 +313,11 @@ def test_rov_config_round_trip_nullspace_vectors_populated():
 def test_camera_defaults_match_stream_baseline():
     camera = Camera()
 
-    assert camera.width == 1024
-    assert camera.height == 768
+    assert camera.width == 1280
+    assert camera.height == 960
     assert camera.framerate == 30
     assert camera.crop_fov is False
-    assert camera.bitrate == 3_538_944
+    assert camera.bitrate == 4_500_000
     assert camera.keyframe_interval == 30
     assert camera.profile == "baseline"
     assert camera.level == "4.2"

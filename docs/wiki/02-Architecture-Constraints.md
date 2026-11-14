@@ -20,12 +20,12 @@ schematic and netlist; the PCB is fixed for this board revision.
 | The magnet switch is a hard 5 V cut of everything except the charger. The system comes up OFF after a battery or PoE connect. | No clean shutdown can be assumed. The CM5 runs a tmpfs root with a small persistent partition **[upstream]**. Power-cut tests at **[bring-up]** B15. |
 | No RTC battery, no fan, no LEDs. No SMBALERT, PGOOD or MAG_ON wire to the CM5. | The clock is not kept across power cuts. Cooling is passive, so SoC temperature is a reading and a soak test (B14). Status is shown only in the app. Charger and sensors are polled; the CM5 cannot see the magnet switch state. |
 | The IMU INT pins are not connected. | The MCU polls the BMI270 **[upstream]**. |
-| The ESC power switch (GP14 / ESC_PWR_EN) is static: no current limit; soft start ramps in about 1.5 s, 12 s worst case. GP14 drives the IC16 LED through R31 180 Ω. | GP14 needs 12 mA drive and defaults low. Switch only with the motors stopped. Thrust no earlier than 15 s after switch-on; GP14 low for at least 5 s after boot, after a battery plug-in and after any off; never switch on automatically. MCU side **[done]**; the battery plug-in and motors-stopped checks on the CM5 **[planned: Phase 4]**. |
+| The ESC power switch (GP14 / ESC_PWR_EN) is static: no current limit; soft start ramps in about 1.5 s, 12 s worst case. GP14 drives the IC16 LED through R31 180 Ω. | GP14 needs 12 mA drive and defaults low. Switch only with the motors stopped. Thrust no earlier than 15 s after switch-on; GP14 low for at least 5 s after boot, after a battery plug-in and after any off; never switch on automatically. MCU side **[done]**; the battery plug-in and motors-stopped checks on the CM5 **[done]** (Phase 4). |
 | The ESC signal lines GP6-9 and GP18-21 are bare: no series resistors, no TVS. | Parked lines are driven low by SIO so the unpowered ESCs are not back-powered **[done]**; checked at **[bring-up]** B12. |
-| The LTC4162 measures vbat at BAT_IN, ahead of the ESC branch; ibat excludes thruster current (Q3 taps the battery ahead of R20). | vbat sags under thruster load, so battery logic evaluates vbat only after 2 s of neutral motors **[planned: Phase 4]**. |
-| The battery-plug event is visible only to the CM5, through the LTC4162. | The CM5 enforces the "5 s after battery plug-in" rule before it requests ESC power **[planned: Phase 4]**. |
+| The LTC4162 measures vbat at BAT_IN, ahead of the ESC branch; ibat excludes thruster current (Q3 taps the battery ahead of R20). | vbat sags under thruster load, so battery logic evaluates vbat only after 2 s of neutral motors **[done]** (Phase 4). |
+| The battery-plug event is visible only to the CM5, through the LTC4162. | The CM5 enforces the "5 s after battery plug-in" rule before it requests ESC power **[done]** (Phase 4). |
 | J8 USB-C carries data only (no VBUS); the CM5 is not powered over USB. | Flashing with rpiboot needs the normal board supply. The bootloader EEPROM needs `PSU_MAX_CURRENT=5000`. |
-| The RP2354A enumerates as 2e8a:0009, like a Pico 2 (BOOTSEL: 2e8a:000f). | `mcu_board` keeps the values `pico`/`pico2`; `pico` is normalised to `pico2` **[planned: Phase 4]**. |
+| The RP2354A enumerates as 2e8a:0009, like a Pico 2 (BOOTSEL: 2e8a:000f). | `mcu_board` keeps the values `pico`/`pico2`; `pico` is normalised to `pico2` **[done]** (Phase 4). |
 
 ### Software and build
 
@@ -34,7 +34,7 @@ schematic and netlist; the PCB is fixed for this board revision.
 | NixOS image with a tmpfs root (impermanence) **[upstream]**. `/etc` is tmpfs. | `systemctl edit` overrides are lost at reboot. New Python dependencies need an image rebuild. Only `/home/pi`, logs, `/nix` and a few state files persist. |
 | Nix flakes see only git-tracked files. The image version is the monorepo `shortRev`. | New files must be `git add`ed before any `nix` command. Any commit, also under `hardware/`, renames the image. |
 | `requires-python = "==3.13.15"` is written by `software/sync-python-deps.sh` from nixpkgs. | The pin is never edited by hand. A new dependency touches `pyproject.toml`, `nix/firmware.nix`, `sync-python-deps.sh` and `uv.lock`. |
-| `lgpio` is installed only on aarch64. | GPIO code imports it lazily or gets a fake injected, so host tests run on x86_64 **[planned: Phase 4]**. |
+| `lgpio` is installed only on aarch64. | GPIO code imports it lazily or gets a fake injected, so host tests run on x86_64 (`rp1_gpio`) **[done]** (Phase 4). |
 | The host drops the whole MCU session on any NOT_READY ACK **[upstream]**. | New MCU requests (ESC_POWER 0x26) answer BUSY, never NOT_READY **[done]**. |
 | `ruff check` rewrites files (`fix = true`, `unsafe-fixes = true` in `pyproject.toml`). | Gates and CI run `ruff check --no-fix`. |
 | The host `clang-format` formats differently from the LLVM 19 baseline. | C is formatted and linted only inside `nix develop ./firmware`. |

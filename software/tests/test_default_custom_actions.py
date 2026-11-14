@@ -140,6 +140,20 @@ def test_blackbox_records_rows_and_toggles(
             "desiredDepth (m)",
         ]
         assert "thrusterRpms 8 (rpm)" in header
+        assert header[-12:] == [
+            "batteryVoltage (V)",
+            "batteryCurrent (A)",
+            "escPower",
+            "chargerState",
+            "poeType",
+            "poeInputVoltage (V)",
+            "poeInputCurrent (A)",
+            "chargerTemperature (°C)",
+            "hullTemperature (°C)",
+            "hullHumidity (%)",
+            "hullPressure (hPa)",
+            "socTemperature (°C)",
+        ]
         assert all(row[0] != "time (UTC)" and len(row) == len(header) for row in body)
 
 

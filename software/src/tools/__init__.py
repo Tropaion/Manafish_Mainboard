@@ -1,10 +1,14 @@
 """ROV Hardware Tools & Diagnostics."""
 
+import argparse
 import asyncio
+from collections.abc import Sequence
 import logging
+from pathlib import Path
 import sys
 
 from . import (
+    mcu_recovery,
     mock_websocket_server,
     test_packages_available,
     test_pressure_sensor,
@@ -15,7 +19,45 @@ from . import (
 logging.basicConfig(level=logging.INFO)
 
 
-def cli() -> None:
+def _parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        prog="tools",
+        description="ROV tools. Without a command: the interactive menu.",
+    )
+    commands = parser.add_subparsers(dest="command", required=True)
+    commands.add_parser(
+        "mcu-reset",
+        help="pulse the MCU's RUN line (GPIO24); the service must be stopped 35 s",
+    )
+    recover = commands.add_parser(
+        "mcu-recover",
+        help="hardware BOOTSEL (GPIO24/GPIO25), then picotool load -v -x",
+    )
+    recover.add_argument(
+        "uf2",
+        nargs="?",
+        type=Path,
+        help="image to load (default: the bundled ~/mcu-firmware/mainboard-v*.uf2)",
+    )
+    return parser
+
+
+def _run_command(argv: Sequence[str]) -> int:
+    args = _parser().parse_args(argv)
+    if args.command == "mcu-reset":
+        return mcu_recovery.reset_main()
+    return mcu_recovery.recover_main(args.uf2)
+
+
+def cli(argv: Sequence[str] | None = None) -> None:
+    """Run a tool subcommand, or the interactive menu without arguments."""
+    args = sys.argv[1:] if argv is None else list(argv)
+    if args:
+        sys.exit(_run_command(args))
+    _menu()
+
+
+def _menu() -> None:
     """Interactive CLI menu for ROV tools."""
     _ = sys.stdout.write("\n--- ROV Diagnostic Tools ---\n")
     _ = sys.stdout.write("1. Test Pressure Sensor\n")
@@ -23,6 +65,8 @@ def cli() -> None:
     _ = sys.stdout.write("3. Check Required Packages\n")
     _ = sys.stdout.write("4. Run Mock Websocket Server\n")
     _ = sys.stdout.write("5. Run Mock Websocket Server Locally\n")
+    _ = sys.stdout.write("6. Reset the MCU (mcu-reset)\n")
+    _ = sys.stdout.write("7. Recover the MCU with the bundled image (mcu-recover)\n")
     _ = sys.stdout.write("q. Quit\n")
 
     choice = input("\nSelect a tool > ").strip().lower()
@@ -46,6 +90,10 @@ def cli() -> None:
                 asyncio.run(mock_websocket_server.main())
             finally:
                 sys.argv = original_argv
+        elif choice == "6":
+            sys.exit(mcu_recovery.reset_main())
+        elif choice == "7":
+            sys.exit(mcu_recovery.recover_main(None))
         else:
             _ = sys.stdout.write(f"Invalid selection: {choice}")
             sys.exit(1)

@@ -2,7 +2,6 @@
 
 import asyncio
 import contextlib
-from pathlib import Path
 
 from serial_asyncio_fast import open_serial_connection
 
@@ -14,6 +13,7 @@ from .constants import (
 )
 from .diagnostics import log_diagnostic
 from .log import log_error, log_info, log_warn
+from .mcu_usb import BOOTSEL_PRODUCT, find_mcu_port, rp_usb_products
 from .models.toast import ToastContent
 from .rov_state import RovState
 from .toast import toast_error
@@ -42,14 +42,10 @@ class SerialManager:
         self._last_status_diagnostic: tuple[int, int, int, str, int] | None = None
 
     async def _find_mcu_port(self, *, log_missing: bool = True) -> str | None:
-        mcu_ports = list(Path("/dev/serial/by-id/").glob("usb-Raspberry_Pi_Pico*"))
-        if not mcu_ports:
-            mcu_ports = list(Path("/dev/").glob("ttyACM*"))
-        if mcu_ports:
-            return str(mcu_ports[0])
-        if log_missing:
+        port = await asyncio.to_thread(find_mcu_port)
+        if port is None and log_missing:
             log_error("Error: Could not find MCU serial port.")
-        return None
+        return port
 
     async def _clear_connection_unlocked(self) -> None:
         writer = self.writer
@@ -86,6 +82,7 @@ class SerialManager:
                     if (
                         not self._first_boot_flashed
                         and self._first_boot_retries >= MCU_FIRST_BOOT_RETRY_LIMIT
+                        and await self._may_auto_flash()
                     ):
                         await self._auto_flash_first_boot()
                     elif notify:
@@ -102,6 +99,8 @@ class SerialManager:
                 self.reader, self.writer = await open_serial_connection(
                     url=serial_port, baudrate=115200
                 )
+                # Mainboard: the first-boot flash needs 5 misses in a row.
+                self._first_boot_retries = 0
                 self._connection_generation += 1
                 self._mcu_protocol_config = None
                 self._mcu_protocol_request_id = None
@@ -128,6 +127,17 @@ class SerialManager:
                     )
                 return False
 
+    async def _may_auto_flash(self) -> bool:
+        """Mainboard: the first-boot flash resets the MCU through RUN/BOOTSEL.
+
+        Before the first connection of the run any missing MCU qualifies. After
+        it, only an MCU that waits in BOOTSEL (a failed flash): a mid-run USB
+        loss must not reset a live MCU that may still hold ESC power on (wiki 6.2).
+        """
+        if self._connection_generation == 0:
+            return True
+        return BOOTSEL_PRODUCT in await asyncio.to_thread(rp_usb_products)
+
     async def _auto_flash_first_boot(self) -> None:
         from .websocket.receive.mcu import flash_mcu_firmware  # noqa: PLC0415
 
@@ -144,6 +154,8 @@ class SerialManager:
     async def ensure_connection(self) -> bool:
         """Return whether the MCU serial connection is ready for use."""
         if self.state.mcu_flashing:
+            # Mainboard: the 5 misses after a flash start counting at its end.
+            self._first_boot_retries = 0
             return False
         if self.reader is not None and self.writer is not None:
             self.state.system_health.mcu_healthy = True

@@ -45,6 +45,32 @@ IMU = 0x92
 APPLIED = 0
 STAGED = 1
 
+# Mainboard ESC power switch (firmware/docs/PICO_CONTROL_PROTOCOL.md, "ESC power").
+# Request 0x26, payload u32 0 (off) or 1 (on), reliable, answered at once.
+ESC_POWER = 0x26
+# ACK results besides APPLIED and STAGED. The 0x26 handler answers only APPLIED,
+# BUSY, INVALID or UNSUPPORTED; BUSY keeps the session.
+INVALID = 2
+BUSY = 3
+STALE = 4
+NOT_READY = 5
+UNSUPPORTED = 6
+ESC_POWER_RESULTS = (APPLIED, BUSY, INVALID, UNSUPPORTED)
+# CAPS feature bit: ESC power supported (mainboard builds report 0x3f). Never part of
+# REQUIRED_FEATURES: Pico and Pico 2 builds lack it.
+FEATURE_ESC_POWER = 0x20
+# ATTITUDE health bits 4-6 carry the ESC power state (0 on builds without the switch).
+ESC_POWER_HEALTH_SHIFT = 4
+ESC_POWER_HEALTH_MASK = 0x7
+ESC_POWER_ABSENT = 0
+ESC_POWER_OFF_HOLD = 1
+ESC_POWER_OFF_READY = 2
+ESC_POWER_STARTING = 3  # STARTING or ARMING
+ESC_POWER_ON = 4
+ESC_POWER_STOPPING = 5
+# E9 updater error: E7 BEGIN, RECOVER_BEGIN or COMMIT while ESC power is not ON.
+ESC_FIRMWARE_UPDATE_ERROR_ESC_POWER_OFF = 11
+
 
 def _build_crc32c_table() -> tuple[int, ...]:
     table = []

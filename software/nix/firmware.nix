@@ -51,7 +51,8 @@
     export PYTHONPATH=src
     export PICOTOOL_PATH="${lib.getExe pkgs.picotool}"
     export PATH="${lib.makeBinPath [pkgs.picotool]}:$PATH"
-    exec ${lib.getExe' python-env "python3"} -c "from tools import cli; cli()"
+    # Subcommands (mcu-reset, mcu-recover) reach cli() through sys.argv.
+    exec ${lib.getExe' python-env "python3"} -c "from tools import cli; cli()" "$@"
   '';
 in {
   environment.systemPackages = with pkgs; [

@@ -12,6 +12,7 @@ from pathlib import Path
 import time
 from typing import TYPE_CHECKING, cast
 
+from .board_readings import board_diagnostics, board_faults, board_state
 from .constants import THRUSTER_TIMEOUT_MS
 from .log import log_info, log_warn
 from .models.config import CURRENT_FIRMWARE_VERSION
@@ -117,6 +118,9 @@ class FieldDiagnostics:
     ) -> None:
         """Capture only observed values; an old/missing sample is never a zero."""
         state = self.state
+        # rpi_volt toggles under a sagging supply: SocMonitor latches it for 60 s.
+        if state.soc.pi_undervoltage(now) is True:
+            undervoltage = True
         connected = websocket_state.is_client_connected
         new_connection = connected and (
             not self._connected
@@ -155,6 +159,7 @@ class FieldDiagnostics:
             "pico_flashing": state.mcu_flashing,
             "esc_update": state.esc_firmware_update.model_dump(mode="json"),
             "pi_undervoltage": undervoltage,
+            "board": board_state(state, now),
         }
         # Progress itself is logged by the updater, not once per percentage here.
         state_key = json.dumps(
@@ -203,9 +208,10 @@ class FieldDiagnostics:
             "power_probe_s": round(power_probe_s, 4),
             "invalid_usb_packets": self.mcu.invalid_usb_packets,
             "esc": telemetry,
+            "board": board_diagnostics(state, now),
         }
         self._history.append(snapshot)
-        faults = self._faults(telemetry, undervoltage)
+        faults = self._faults(telemetry, undervoltage) | board_faults(state, now)
         new_faults = faults - self._last_faults
         if self._input_was_fresh and watchdog_neutral:
             self._emit("input_watchdog_expired", input_age_s=input_age)

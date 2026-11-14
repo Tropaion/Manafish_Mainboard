@@ -59,19 +59,19 @@ from verified rulings that correct the plan. Status labels as in
 - **Consequences:** stock pico2 images are not used on the board. ESC power code is a no-op stub without the pin macro.
 
 ### ADR-05 App contract unchanged; new values through the dynamic catalog
-- **Status:** accepted **[planned: Phase 4]**; go2rtc streams `cam` and `cam2` **[done]** (Phase 3).
-- **Context:** the pilot app is a separate repo and out of scope.
-- **Decision:** `RovConfig`, `RovStatus`, `SystemHealth` keep their shapes. New values are `rov.*` capability readings; ESC power is the action `rov.escPower.set`. Camera 1 stays go2rtc stream `cam`, camera 2 becomes `cam2`. The streams map to rpicam's camera index, so `cam` is the first camera present; this keeps video if camera 1 fails.
-- **Consequences:** the app works without changes; camera 2 needs app work elsewhere. Every new key must be in `READING_DEFINITIONS` and the catalog fixture.
+- **Status:** accepted; readings and ESC power actions **[done]** (Phase 4); go2rtc streams `cam` and `cam2` **[done]** (Phase 3). ESC power as two actions: owner decision in Phase 4, replacing the plan's `rov.escPower.set`.
+- **Context:** the pilot app is a separate repo and out of scope. The unmodified app (manafishrov/app) offers overlay buttons only for actions with inputType `none` and binds no keys to `rov.*` actions, so a boolean `rov.*` action cannot be triggered there.
+- **Decision:** `RovConfig`, `RovStatus`, `SystemHealth` keep their shapes. New values are `rov.*` capability readings. ESC power is two no-input actions, `rov.escPower.on` and `rov.escPower.off` (mode once, press phase only), plus the string reading `rov.escPower` (unavailable, off, ramping, on, stopping). Camera 1 stays go2rtc stream `cam`, camera 2 becomes `cam2`. The streams map to rpicam's camera index, so `cam` is the first camera present; this keeps video if camera 1 fails.
+- **Consequences:** the app works without changes; camera 2 needs app work elsewhere. Every new key must be in `READING_DEFINITIONS` and the catalog fixture (a key-set test checks `values()` against it). An operator adds the two ESC power buttons as overlay widgets.
 
 ### ADR-06 `mcu_board` keeps `pico`/`pico2`, `pico` normalised to `pico2`
-- **Status:** accepted **[planned: Phase 4]**.
+- **Status:** accepted **[done]** (Phase 4).
 - **Context:** the RP2354A enumerates as 2e8a:0009, like a Pico 2.
 - **Decision:** default `pico2`; a stored or app-sent `pico` becomes `pico2` (`mode="before"` validator, plus normalisation in `flash_mcu_firmware` and `resolve_mcu_firmware`). `_BOARD_PREFIXES = {PICO2: "mainboard"}`.
 - **Consequences:** no new enum value for the app. The `PICO` branch of `validate_dshot_speed_for_board` and its test go.
 
 ### ADR-07 Userspace smbus2 and lgpio, lazy lgpio import
-- **Status:** accepted **[planned: Phase 4]**.
+- **Status:** accepted **[done]** (Phase 4: `sensors/ltc4162.py`, `sensors/hull.py`, `rp1_gpio.py`); on the board **[bring-up]** (B5, B6).
 - **Context:** the LTC4162 charger, SHT45 and WSEN-PADS need I2C; recovery needs GPIO. Both libraries are already dependencies. lgpio installs only on aarch64, and `ty` treats an unresolved import as an error.
 - **Decision:** smbus2 on I2C1, not kernel drivers. lgpio on the chip labelled `pinctrl-rp1`, imported lazily or injected.
 - **Consequences:** all board code is testable on x86 with fakes (FakeSMBus, fake lgpio).
@@ -83,13 +83,13 @@ from verified rulings that correct the plan. Status labels as in
 - **Consequences:** `releaseVersionFromLock` accepts `firmware-v…` **[done]** (Phase 3). `-mb.N` sorts below upstream `-rc` in SemVer.
 
 ### ADR-09 MCU always flashed through hardware BOOTSEL
-- **Status:** accepted **[planned: Phase 4]** (CM5 path); `make flash-mainboard` without `-f` and the GPIO24/GPIO25 steps in `firmware/docs/PICO_CONTROL_HANDOFF.md` **[done]** (Phase 2); ruling: the CM5 path never uses `picotool -f`.
+- **Status:** accepted; CM5 path **[done]** (Phase 4, on the board **[bring-up]** B7); `make flash-mainboard` without `-f` and the GPIO24/GPIO25 steps in `firmware/docs/PICO_CONTROL_HANDOFF.md` **[done]** (Phase 2); ruling: the CM5 path never uses `picotool -f`.
 - **Context:** `picotool -f` needs running firmware. A blank, hung or bricked MCU needs another way.
 - **Decision:** hardware BOOTSEL (GPIO24 RUN, GPIO25 QSPI_SS): GPIO24 low, GPIO25 low, 10 ms, release GPIO24, keep GPIO25 low 100 ms, release, wait for 2e8a:000f, `picotool load -v -x`. Never drive either line high. `flash-mainboard` has no `-f` and expects BOOTSEL already.
 - **Consequences:** one path for every case. The workstation targets `flash-pico`/`flash-pico2` stay as upstream.
 
 ### ADR-10 ESC power state in ATTITUDE health bits 4-6
-- **Status:** accepted; MCU **[done]** (Phase 2), CM5 parsing **[planned: Phase 4]**.
+- **Status:** accepted; MCU **[done]** (Phase 2), CM5 parsing **[done]** (Phase 4, `RovState.esc_power_telemetry`).
 - **Context:** the CM5 reads only health bits 0 and 3 today.
 - **Decision:** `health |= state << 4`.
 - **Consequences:** no frame-size change; old hosts ignore the bits.
@@ -107,33 +107,33 @@ from verified rulings that correct the plan. Status labels as in
 - **Consequences:** no back-powering of unpowered ESCs, no AM32 idle-high bootloader trap. When the lines go live, the configured protocol restarts on the freshly booted ESCs; DShot then skips its blocking start-up preamble, and the idle path enables EDT.
 
 ### ADR-13 0x26 never answers NOT_READY from its handler
-- **Status:** accepted; MCU **[done]** (Phase 2), CM5 **[planned: Phase 4]**.
+- **Status:** accepted; MCU **[done]** (Phase 2), CM5 **[done]** (Phase 4, `PicoControl.request_esc_power`, BUSY retried by `EscPowerController`).
 - **Context:** the CM5 drops the whole session on any NOT_READY ACK.
 - **Decision:** the 0x26 handler answers synchronously (no `pending_sequence`) with APPLIED, BUSY, INVALID or UNSUPPORTED. The host sends ESC requests before the 0x25 gate; BUSY is retried with a fresh frame on a host timer; 0x20 stays out of `REQUIRED_FEATURES`.
 - **Consequences:** session-mismatch NOT_READY remains only for a dead session. ESC off after maintenance needs a new HELLO.
 
 ### ADR-14 LTC4162 telemetry validity via `telemetry_valid`
-- **Status:** accepted (ruling corrects the plan) **[planned: Phase 4]**.
+- **Status:** accepted (ruling corrects the plan) **[done]** (Phase 4).
 - **Context:** `cell_count` reads 0 without input power, so the plan's rule would mark telemetry invalid on battery only, and "suspend unless LAD 5 cells" could deadlock.
-- **Decision:** valid after `telemetry_valid` (0x4A bit 0) plus one conversion wait; fixed 5 cells for scaling; check `chem`/cells only while `en_chg = 1`; never use them to release suspend.
+- **Decision:** valid after `telemetry_valid` (0x4A bit 0) plus one conversion wait (6 s with `tel_low_speed`, 8.2); fixed 5 cells for scaling; check `chem`/cells only while `en_chg = 1` and `cell_count` ≠ 0; three mismatches in a row latch a suspend until the service restarts; never use them to release suspend.
 - **Consequences:** the 5-cell check moves from B6 to B9.
 
 ### ADR-15 PoE presence via `vin_gt_4p2v`, type via GPIO6/12
-- **Status:** accepted (ruling) **[planned: Phase 4]**.
+- **Status:** accepted (ruling) **[done]** (Phase 4).
 - **Context:** GPIO6/12 high/high means Type 1, a non-classifying PSE or no PoE. The vin ADC is slow.
 - **Decision:** present = `system_status` `vin_gt_4p2v` (0x39 bit 1); `vin_gt_vbat` (bit 2) secondary. Type from the Ag59800 PoE module truth table (Table 5).
 - **Consequences:** `ok_to_charge` and similar plan names do not exist and are not used.
 
 ### ADR-16 LTC4162 register write discipline
-- **Status:** accepted (ruling) **[planned: Phase 4]**; writes stay off until B9 **[bring-up]**.
+- **Status:** accepted (ruling) **[done]** (Phase 4); writes stay off until B9 **[bring-up]**.
 - **Context:** JEITA overwrites 0x1A/0x1B every 11 ms while `en_jeita = 1`; there is no pack NTC.
 - **Decision:** write 0x29 (`en_jeita = 0`) before 0x1A/0x1B; RMW of 0x14 clears `run_bsr`; never write 0x19; mask fields; sign-extend; do not port the Linux integer maths. Only `force_telemetry_on` is written before B9.
 - **Consequences:** `en_jeita` reading 1 doubles as a chip-reset detector.
 
 ### ADR-17 Critical battery never cuts ESC power
-- **Status:** proposed (plan open question 2, default "no") **[planned: Phase 4]**.
-- **Context:** vbat is measured at BAT_IN and sags under thruster load. The owner has not yet confirmed the 3.4/3.2/3.0 V/cell thresholds or whether critical should ever cut thrusters.
-- **Decision:** below 3.2 V/cell for 10 s: toast every 60 s and block new enables only. Below 3.0 V/cell for 30 s with no PoE and motors neutral: neutral, ESC off, `systemctl poweroff`.
+- **Status:** accepted (owner, 2026-11-14) **[done]** (Phase 4, `LowBatteryMonitor`). Critical never switches ESC power off (owner decision 2026-11-14), so the code has no switch for it.
+- **Context:** vbat is measured at BAT_IN and sags under thruster load. The owner confirmed the 3.4/3.2/3.0 V/cell thresholds, automatic power-off, and that critical never cuts thrusters.
+- **Decision:** below 3.2 V/cell for 10 s: toast every 60 s and block new enables only. Below 3.0 V/cell for 30 s with no PoE and motors neutral: neutral, ESC off, `systemctl poweroff`. Levels recover only 0.1 V/cell above their threshold for 10 s (Phase 4 choice; the plan left it open).
 - **Consequences:** thrust stays available until the final shutdown, which happens only with motors neutral.
 
 ### ADR-18 Remove the CM5-side BMI270 code
@@ -149,7 +149,7 @@ from verified rulings that correct the plan. Status labels as in
 - **Consequences:** CPU and thermal load, measured at the spike and at B14. See [Crosscutting Concepts](08-Crosscutting-Concepts) 8.11.
 
 ### ADR-20 Mainboard config through pydantic defaults
-- **Status:** accepted **[planned: Phase 4]**.
+- **Status:** accepted; followed by every Phase 4 change **[done]** (only defaults changed; no new config field).
 - **Context:** upstream migrations are keyed by upstream versions, which this repo never edits.
 - **Decision:** mainboard-only fields get pydantic defaults, never version-gated migrations.
 - **Consequences:** old configs load without a migration step.
@@ -157,7 +157,7 @@ from verified rulings that correct the plan. Status labels as in
 ### ADR-21 Auto re-flash only in the first 60 s, once
 - **Status:** accepted (ruling; corrects the plan's B7 wording). Behaviour is **[upstream]**.
 - **Context:** the rov_firmware service (manafish-firmware) would overwrite dev builds on the board with the bundled release.
-- **Decision:** keep upstream's 60 s window and one attempt per run; the dev override (`MANAFISH_PICO_CONTROL_DEVELOPMENT=1`) applies only to `pico-control-dev` builds. The new BOOTSEL flash steps go into the same `flash_mcu_firmware` path **[planned: Phase 4]**.
+- **Decision:** keep upstream's 60 s window and one attempt per run; the dev override (`MANAFISH_PICO_CONTROL_DEVELOPMENT=1`) applies only to `pico-control-dev` builds. The new BOOTSEL flash steps go into the same `flash_mcu_firmware` path **[done]** (Phase 4).
 - **Consequences:** test dev builds with the service stopped or with the override.
 
 ### ADR-22 Software lint gate is `ruff check --no-fix`

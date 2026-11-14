@@ -10,7 +10,8 @@ from typing import cast
 
 from ...constants import FLASH_TOAST_ID
 from ...log import log_error, log_info, log_warn
-from ...models.config import McuBoard
+from ...mcu_gpio import McuGpioError, enter_bootsel
+from ...models.config import McuBoard, normalize_mcu_board
 from ...models.toast import ToastContent
 from ...motor_safety import disruptive_motor_operation_blocker
 from ...rov_state import RovState
@@ -18,9 +19,10 @@ from ...toast import toast_error, toast_loading, toast_success
 from ...version import is_valid_semver, semver_sort_key
 
 
+# Mainboard: one image, mainboard-v<ver>.uf2 from a firmware-v<ver> release. A
+# "pico" board is normalised to PICO2 first (the RP2354A enumerates as 2e8a:0009).
 _BOARD_PREFIXES: dict[McuBoard, str] = {
-    McuBoard.PICO: "pico",
-    McuBoard.PICO2: "pico2",
+    McuBoard.PICO2: "mainboard",
 }
 _COMPLETE_PERCENT = 100
 _USB_DEVICES_PATH = Path("/sys/bus/usb/devices")
@@ -83,7 +85,7 @@ def resolve_mcu_firmware(board: McuBoard) -> tuple[Path, str] | None:
     Returns:
         ``(path, version)`` or ``None`` if no firmware file found.
     """
-    prefix = _BOARD_PREFIXES[board]
+    prefix = _BOARD_PREFIXES[normalize_mcu_board(board)]
     mcu_dir = Path.home() / "mcu-firmware"
     candidates: list[tuple[Path, str]] = []
     for firmware_path in mcu_dir.glob(f"{prefix}-v*.uf2"):
@@ -101,6 +103,7 @@ def _report_flash_error(
     show_toasts: bool,
     unexpected: bool = False,
     toast_identifier: str = FLASH_TOAST_ID,
+    description: str | None = None,
 ) -> None:
     log_error(message)
     if show_toasts:
@@ -112,6 +115,7 @@ def _report_flash_error(
                     if unexpected
                     else "toasts_flash_failed"
                 ),
+                description=description,
             ),
             action=None,
         )
@@ -126,6 +130,28 @@ def _resolve_picotool_path() -> str | None:
         log_warn(f"Configured PICOTOOL_PATH does not exist: {configured_path}")
 
     return shutil.which("picotool")
+
+
+def picotool_load_command(firmware_path: Path) -> list[str] | None:
+    """Return the picotool argv for a flash after hardware BOOTSEL, or None.
+
+    Never ``-f``: the MCU is already in BOOTSEL (Decision 9), and the same command
+    works on a blank, hung or bricked MCU.
+    """
+    picotool_path = _resolve_picotool_path()
+    if picotool_path is None:
+        return None
+    return [picotool_path, "load", "-v", "-x", str(firmware_path)]
+
+
+async def _prepare_mcu_reset(state: RovState) -> str | None:
+    """Neutral, ESC power off and wait (8.4); returns a refusal or None."""
+    esc_power = state.esc_power
+    if esc_power is None:
+        # Only tests and tools build a state without the controller.
+        state.thrusters.direction_vector = None
+        return None
+    return await esc_power.prepare_for_mcu_reset()
 
 
 def _process_flash_output(
@@ -213,7 +239,7 @@ def _flash_write_completed(return_code: int, verification_succeeded: bool) -> bo
     return return_code == 0 or verification_succeeded
 
 
-async def flash_mcu_firmware(  # noqa: PLR0911 - each flash phase has a fail-closed exit
+async def flash_mcu_firmware(  # noqa: C901, PLR0911 - each flash phase has a fail-closed exit
     state: RovState,
     board: McuBoard,
     *,
@@ -221,6 +247,11 @@ async def flash_mcu_firmware(  # noqa: PLR0911 - each flash phase has a fail-clo
     toast_identifier: str = FLASH_TOAST_ID,
 ) -> bool:
     """Flash MCU firmware for the given board.
+
+    Every path (manual, first boot, version mismatch) ends here. With the
+    session still live: neutral, ESC power off, wait for off or a silent MCU;
+    then ``mcu_flashing``, hardware BOOTSEL (GPIO24/GPIO25) and
+    ``picotool load -v -x`` without ``-f``.
 
     Args:
         state: The ROV state.
@@ -231,6 +262,7 @@ async def flash_mcu_firmware(  # noqa: PLR0911 - each flash phase has a fail-clo
     Returns:
         True if flash succeeded, False otherwise.
     """
+    board = normalize_mcu_board(board)
     if state.mcu_flash_lock.locked():
         log_warn("Ignoring MCU flash request because another flash is already running.")
         return False
@@ -258,29 +290,39 @@ async def flash_mcu_firmware(  # noqa: PLR0911 - each flash phase has a fail-clo
         if attached_board is not None:
             _report_flash_error(
                 f"Firmware flash refused: {board.value} firmware cannot run on the "
-                f"attached {attached_board.value}. Select {attached_board.value} "
-                "as the MCU board and flash again.",
+                f"attached {attached_board.value}, and this image flashes only "
+                "the mainboard's RP2354A (pico2).",
                 show_toasts=show_toasts,
                 toast_identifier=toast_identifier,
             )
             return False
-        picotool_path = _resolve_picotool_path()
+        command = picotool_load_command(firmware_path)
 
         log_info(f"Flashing firmware '{board.value}' from {firmware_path}")
         try:
-            if picotool_path is None:
+            if command is None:
                 _report_flash_error(
                     "Firmware flash failed: picotool not found",
                     show_toasts=show_toasts,
                     toast_identifier=toast_identifier,
                 )
                 return False
+            refusal = await _prepare_mcu_reset(state)
+            if refusal is not None:
+                _report_flash_error(
+                    f"Firmware flash refused: {refusal}",
+                    show_toasts=show_toasts,
+                    toast_identifier=toast_identifier,
+                    description=refusal,
+                )
+                return False
 
             state.mcu_flashing = True
             state.system_status.thruster_control_ready = False
             state.thrusters.direction_vector = None
+            await asyncio.to_thread(enter_bootsel)
             process = subprocess.Popen(  # noqa: S603
-                [picotool_path, "load", "-f", "-v", "-x", str(firmware_path)],
+                command,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
                 text=True,
@@ -314,6 +356,14 @@ async def flash_mcu_firmware(  # noqa: PLR0911 - each flash phase has a fail-clo
                 f"Firmware flash failed (rc={rc}):\n{output}",
                 show_toasts=show_toasts,
                 toast_identifier=toast_identifier,
+            )
+            return False
+        except McuGpioError as error:
+            _report_flash_error(
+                f"Firmware flash failed: {error}",
+                show_toasts=show_toasts,
+                toast_identifier=toast_identifier,
+                description=str(error),
             )
             return False
         except Exception as ex:

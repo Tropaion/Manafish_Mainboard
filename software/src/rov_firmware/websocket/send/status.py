@@ -2,11 +2,11 @@
 
 import time
 
+from ...battery import battery_voltage
 from ...constants import MCU_TELEMETRY_STALE_TIMEOUT_S
 from ...models.config import ThrusterProtocol
 from ...models.rov_status import RovStatus
 from ...rov_state import RovState
-from ...sensors.pi_power import is_pi_undervoltage_detected
 from ..message import StatusUpdate
 
 
@@ -45,8 +45,8 @@ def build_status_update(state: RovState) -> StatusUpdate:
     Returns:
         The status update message ready to be sent.
     """
-    voltages_v = [v for v in state.mcu_telemetry.voltage if v > 0]
-    average_voltage_v = sum(voltages_v) / len(voltages_v) if voltages_v else 0
+    now = time.monotonic()
+    average_voltage_v = battery_voltage(state, now)  # mainboard: LTC4162 first
     min_v = state.rov_config.power.min_battery_voltage
     max_v = state.rov_config.power.max_battery_voltage
     state.system_status.battery_percentage = (
@@ -61,7 +61,8 @@ def build_status_update(state: RovState) -> StatusUpdate:
         depth_hold=state.system_status.depth_hold,
         battery_percentage=int(state.system_status.battery_percentage),
         current_draw=current_draw,
-        pi_undervoltage=is_pi_undervoltage_detected(),
+        # Latched by SocMonitor (rpi_volt toggles); unavailable is not an alarm.
+        pi_undervoltage=state.soc.pi_undervoltage(now) is True,
         thruster_control_ready=state.system_status.thruster_control_ready,
         thruster_protocol_state=state.system_status.thruster_protocol_state,
         thruster_protocol_error=state.system_status.thruster_protocol_error,

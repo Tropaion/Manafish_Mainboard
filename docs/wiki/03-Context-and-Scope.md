@@ -93,13 +93,13 @@ flowchart LR
 | ID | Interface | Details | Status |
 |---|---|---|---|
 | I1 | USB CDC | CM5 USB3-1 port (USB 2.0 pins only, no VBUS) to the RP2354A USB (27 Ω series). Pico control protocol v1: extended frames (start 0xF0, CRC32C), CAPS (feature bits 0x1f), HELLO session, 628-byte settings transaction, CONTROL 0x10, PRESSURE 0x11, ATTITUDE 0x90 at 60 Hz, STATS 0x91, IMU 0x92; legacy packets and the ESC firmware upload. See [PICO_CONTROL_PROTOCOL.md](https://github.com/Tropaion/Manafish_Mainboard/blob/main/firmware/docs/PICO_CONTROL_PROTOCOL.md). | **[upstream]** |
-| I2 | ESC power over I1 | Request ESC_POWER 0x26 (u32 0/1; results APPLIED, BUSY, INVALID, UNSUPPORTED, never NOT_READY), CAPS feature bit 0x20, state in ATTITUDE health bits 4-6. | **[done]** MCU, **[planned: Phase 4]** CM5 |
+| I2 | ESC power over I1 | Request ESC_POWER 0x26 (u32 0/1; results APPLIED, BUSY, INVALID, UNSUPPORTED, never NOT_READY), CAPS feature bit 0x20, state in ATTITUDE health bits 4-6. | **[done]** MCU, **[done]** CM5 (Phase 4) |
 | I3 | USB identity | Running: 2e8a:0009 (like a Pico 2), product "Manafish Mainboard", udev symlink `/dev/manafish-mcu`. BOOTSEL: 2e8a:000f. | IDs **[upstream]** (Pico SDK); product string **[done]**; symlink **[done]** (Phase 3 udev rule), on the board **[bring-up]** B7 |
-| I4 | GPIO24 to RUN | 330 Ω series, 4.7 kΩ pull-up. Low = reset. Released to input otherwise, never driven high. | hardware; driver **[planned: Phase 4]**; never low during boot **[bring-up]** B5 |
+| I4 | GPIO24 to RUN | 330 Ω series, 4.7 kΩ pull-up. Low = reset. Released to input otherwise, never driven high. | hardware; driver (`rp1_gpio`, `mcu_gpio`) **[done]** (Phase 4); never low during boot **[bring-up]** B5 |
 | I5 | GPIO25 to QSPI_SS | 1 kΩ series, 10 kΩ pull-up. Low during reset = BOOTSEL. Never low while the firmware runs. | same as I4 |
 | I6 | SWD | GPIO8 = SWDIO, GPIO11 = SWCLK, also on J2. Keep SPI0 off. Released after use. | **[bring-up]** B7 |
 
-Hardware BOOTSEL sequence (GPIO24 RUN, GPIO25 QSPI_SS) **[planned: Phase 4]**:
+Hardware BOOTSEL sequence (GPIO24 RUN, GPIO25 QSPI_SS) **[done]** (Phase 4), on the board **[bring-up]** B7:
 GPIO24 low, GPIO25 low, wait 10 ms, release GPIO24, hold GPIO25 low 100 ms
 more, release GPIO25, wait for 2e8a:000f, `picotool load -v -x` without `-f`.
 
@@ -107,9 +107,9 @@ more, release GPIO25, wait for 2e8a:000f, `picotool load -v -x` without `-f`.
 
 | Address | Device | Use | Status |
 |---|---|---|---|
-| 0x44 | SHT45 | Hull temperature and humidity: command 0xFD, wait 10 ms, 6 bytes, CRC-8 (0x31, init 0xFF) | **[planned: Phase 4]** |
-| 0x5C | WSEN-PADS | Hull pressure: WHO_AM_I 0xB3, CTRL_1 = 0x12 (1 Hz, BDU), 5 bytes from 0x28 | **[planned: Phase 4]** |
-| 0x68 | LTC4162 charger | vbat, ibat, vin, iin, die temperature, `system_status`, charger settings; word access, low byte first | **[planned: Phase 4]** |
+| 0x44 | SHT45 | Hull temperature and humidity: command 0xFD, wait 10 ms, 6 bytes in a separate read, CRC-8 (0x31, init 0xFF) | **[done]** (Phase 4, `sensors/hull.py`) |
+| 0x5C | WSEN-PADS | Hull pressure: DEVICE_ID (WHO_AM_I) 0xB3, CTRL_1 = 0x12 (1 Hz, BDU), 5 bytes from 0x28 | **[done]** (Phase 4, `sensors/hull.py`) |
+| 0x68 | LTC4162 charger | vbat, ibat, vin, iin, die temperature, `system_status`, charger settings; word access, low byte first | **[done]** (Phase 4, `sensors/ltc4162.py`, `sensors/charger.py`); writes from **[bring-up]** B9 |
 | 0x76 | MS5837 (on J1) | Depth and water temperature | **[upstream]** |
 
 No pull-ups on the board; the CM5 module has 1.8 kΩ. All four addresses and
@@ -118,7 +118,7 @@ the rise time are checked at **[bring-up]** B6.
 ### PoE type pins (GPIO6 = TYP2, GPIO12 = TYP3)
 
 Optocouplers IC6/IC7, active low, no board pull-ups: the CM5 needs
-`gpio=6,12=ip,pu` **[done]** (Phase 3). Decoding **[planned: Phase 4]**.
+`gpio=6,12=ip,pu` **[done]** (Phase 3). Decoding **[done]** (Phase 4, `power_policy.poe_type`).
 Truth table (Ag59800 Table 5):
 
 | GPIO6 (TYP2) | GPIO12 (TYP3) | PSE | Charger input limit code |

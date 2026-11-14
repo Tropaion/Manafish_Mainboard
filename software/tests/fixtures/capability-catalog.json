@@ -218,6 +218,114 @@
       "staleAfterMs": null
     },
     {
+      "id": "rov.batteryVoltage",
+      "name": "Battery voltage",
+      "valueType": "number",
+      "customActionId": null,
+      "unit": "V",
+      "widget": null,
+      "staleAfterMs": null
+    },
+    {
+      "id": "rov.batteryCurrent",
+      "name": "Battery current",
+      "valueType": "number",
+      "customActionId": null,
+      "unit": "A",
+      "widget": null,
+      "staleAfterMs": null
+    },
+    {
+      "id": "rov.chargerState",
+      "name": "Charger state",
+      "valueType": "string",
+      "customActionId": null,
+      "unit": null,
+      "widget": null,
+      "staleAfterMs": null
+    },
+    {
+      "id": "rov.poeType",
+      "name": "PoE type",
+      "valueType": "string",
+      "customActionId": null,
+      "unit": null,
+      "widget": null,
+      "staleAfterMs": null
+    },
+    {
+      "id": "rov.poeInputVoltage",
+      "name": "PoE input voltage",
+      "valueType": "number",
+      "customActionId": null,
+      "unit": "V",
+      "widget": null,
+      "staleAfterMs": null
+    },
+    {
+      "id": "rov.poeInputCurrent",
+      "name": "PoE input current",
+      "valueType": "number",
+      "customActionId": null,
+      "unit": "A",
+      "widget": null,
+      "staleAfterMs": null
+    },
+    {
+      "id": "rov.chargerTemperature",
+      "name": "Charger temperature",
+      "valueType": "number",
+      "customActionId": null,
+      "unit": "°C",
+      "widget": null,
+      "staleAfterMs": null
+    },
+    {
+      "id": "rov.hullTemperature",
+      "name": "Hull temperature",
+      "valueType": "number",
+      "customActionId": null,
+      "unit": "°C",
+      "widget": null,
+      "staleAfterMs": null
+    },
+    {
+      "id": "rov.hullHumidity",
+      "name": "Hull humidity",
+      "valueType": "number",
+      "customActionId": null,
+      "unit": "%",
+      "widget": null,
+      "staleAfterMs": null
+    },
+    {
+      "id": "rov.hullPressure",
+      "name": "Hull pressure",
+      "valueType": "number",
+      "customActionId": null,
+      "unit": "hPa",
+      "widget": null,
+      "staleAfterMs": null
+    },
+    {
+      "id": "rov.socTemperature",
+      "name": "SoC temperature",
+      "valueType": "number",
+      "customActionId": null,
+      "unit": "°C",
+      "widget": null,
+      "staleAfterMs": null
+    },
+    {
+      "id": "rov.escPower",
+      "name": "ESC power",
+      "valueType": "string",
+      "customActionId": null,
+      "unit": null,
+      "widget": null,
+      "staleAfterMs": null
+    },
+    {
       "id": "water_sensor.wet",
       "name": "Water detected",
       "valueType": "boolean",
@@ -377,6 +485,28 @@
       "intervalMs": 250
     },
     {
+      "id": "rov.escPower.on",
+      "name": "ESC power on",
+      "inputType": "none",
+      "customActionId": null,
+      "modes": [
+        "once"
+      ],
+      "mode": "once",
+      "intervalMs": 250
+    },
+    {
+      "id": "rov.escPower.off",
+      "name": "ESC power off",
+      "inputType": "none",
+      "customActionId": null,
+      "modes": [
+        "once"
+      ],
+      "mode": "once",
+      "intervalMs": 250
+    },
+    {
       "id": "dispenser.dispense",
       "name": "Dispense",
       "inputType": "none",
@@ -430,70 +560,70 @@
   "samples": [
     {
       "id": "rov.pitch",
-      "value": 0,
+      "value": 0.0,
       "sequence": 1,
       "timestamp": 0,
       "ageMs": 0
     },
     {
       "id": "rov.roll",
-      "value": 0,
+      "value": 0.0,
       "sequence": 2,
       "timestamp": 0,
       "ageMs": 0
     },
     {
       "id": "rov.yaw",
-      "value": 0,
+      "value": 0.0,
       "sequence": 3,
       "timestamp": 0,
       "ageMs": 0
     },
     {
       "id": "rov.depth",
-      "value": 0,
+      "value": 0.0,
       "sequence": 4,
       "timestamp": 0,
       "ageMs": 0
     },
     {
       "id": "rov.desiredPitch",
-      "value": 0,
+      "value": 0.0,
       "sequence": 5,
       "timestamp": 0,
       "ageMs": 0
     },
     {
       "id": "rov.desiredRoll",
-      "value": 0,
+      "value": 0.0,
       "sequence": 6,
       "timestamp": 0,
       "ageMs": 0
     },
     {
       "id": "rov.desiredYaw",
-      "value": 0,
+      "value": 0.0,
       "sequence": 7,
       "timestamp": 0,
       "ageMs": 0
     },
     {
       "id": "rov.desiredDepth",
-      "value": 0,
+      "value": 0.0,
       "sequence": 8,
       "timestamp": 0,
       "ageMs": 0
     },
     {
       "id": "rov.waterTemperature",
-      "value": 0,
+      "value": 0.0,
       "sequence": 9,
       "timestamp": 0,
       "ageMs": 0
     },
     {
       "id": "rov.electronicsTemperature",
-      "value": 0,
+      "value": 0.0,
       "sequence": 10,
       "timestamp": 0,
       "ageMs": 0
@@ -641,16 +771,100 @@
       "ageMs": 0
     },
     {
+      "id": "rov.batteryVoltage",
+      "value": null,
+      "sequence": 25,
+      "timestamp": 0,
+      "ageMs": 0
+    },
+    {
+      "id": "rov.batteryCurrent",
+      "value": null,
+      "sequence": 26,
+      "timestamp": 0,
+      "ageMs": 0
+    },
+    {
+      "id": "rov.chargerState",
+      "value": null,
+      "sequence": 27,
+      "timestamp": 0,
+      "ageMs": 0
+    },
+    {
+      "id": "rov.poeType",
+      "value": null,
+      "sequence": 28,
+      "timestamp": 0,
+      "ageMs": 0
+    },
+    {
+      "id": "rov.poeInputVoltage",
+      "value": null,
+      "sequence": 29,
+      "timestamp": 0,
+      "ageMs": 0
+    },
+    {
+      "id": "rov.poeInputCurrent",
+      "value": null,
+      "sequence": 30,
+      "timestamp": 0,
+      "ageMs": 0
+    },
+    {
+      "id": "rov.chargerTemperature",
+      "value": null,
+      "sequence": 31,
+      "timestamp": 0,
+      "ageMs": 0
+    },
+    {
+      "id": "rov.hullTemperature",
+      "value": null,
+      "sequence": 32,
+      "timestamp": 0,
+      "ageMs": 0
+    },
+    {
+      "id": "rov.hullHumidity",
+      "value": null,
+      "sequence": 33,
+      "timestamp": 0,
+      "ageMs": 0
+    },
+    {
+      "id": "rov.hullPressure",
+      "value": null,
+      "sequence": 34,
+      "timestamp": 0,
+      "ageMs": 0
+    },
+    {
+      "id": "rov.socTemperature",
+      "value": null,
+      "sequence": 35,
+      "timestamp": 0,
+      "ageMs": 0
+    },
+    {
+      "id": "rov.escPower",
+      "value": "unavailable",
+      "sequence": 36,
+      "timestamp": 0,
+      "ageMs": 0
+    },
+    {
       "id": "dispenser.dispense.running",
       "value": false,
-      "sequence": 25,
+      "sequence": 37,
       "timestamp": 0,
       "ageMs": 0
     },
     {
       "id": "depth_logger.record.running",
       "value": false,
-      "sequence": 26,
+      "sequence": 38,
       "timestamp": 0,
       "ageMs": 0
     }

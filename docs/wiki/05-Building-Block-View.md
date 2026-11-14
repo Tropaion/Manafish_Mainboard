@@ -80,7 +80,7 @@ Electrical facts the code depends on:
 | System | Repo path | Runs on | Stack | Status |
 |---|---|---|---|---|
 | RP2354A firmware | [firmware/](https://github.com/Tropaion/Manafish_Mainboard/tree/main/firmware) | RP2354A (MCU) | C11, Pico SDK 2.3.1, CMake, Unity tests | **[upstream]** mcu-firmware `88bd6a0`, Pico/Pico 2 builds; mainboard target, ESC power and bring-up script **[done]** (Phase 2) |
-| rov_firmware service (manafish-firmware) | [software/src/rov_firmware](https://github.com/Tropaion/Manafish_Mainboard/tree/main/software/src/rov_firmware) | CM5 | Python 3.13.15, asyncio, pydantic | **[upstream]** firmware `9e282b5`; Pi-side BMI270 code removed **[done]** (Phase 3); board code **[planned: Phase 4]** |
+| rov_firmware service (manafish-firmware) | [software/src/rov_firmware](https://github.com/Tropaion/Manafish_Mainboard/tree/main/software/src/rov_firmware) | CM5 | Python 3.13.15, asyncio, pydantic | **[upstream]** firmware `9e282b5`; Pi-side BMI270 code removed **[done]** (Phase 3); board code **[done]** (Phase 4, unit-tested; on the board **[bring-up]**) |
 | NixOS image | [software/flake.nix](https://github.com/Tropaion/Manafish_Mainboard/blob/main/software/flake.nix), [software/nix/](https://github.com/Tropaion/Manafish_Mainboard/tree/main/software/nix) | built on workstation or CI, runs on CM5 | Nix flake, nixos-raspberrypi, impermanence | `cm5-mainboard` **[done]** (Phase 3, Pi 3 config removed); on the CM5 IO Board **[done]** (spike, 2026-11-14) |
 | ESC firmware | AM32 binary, release asset of manafishrov/esc-firmware | ESCs | flashed through the MCU | **[upstream]** bundled in the image |
 | CI and releases | `.github/` | GitHub Actions | YAML workflows, actionlint, pre-commit | CI **[done]** (Phase 1); `build-mainboard` in CI and the release workflow **[done]** (Phase 2) |
@@ -160,7 +160,13 @@ flowchart LR
     pr["sensors/pressure"]
     fl["receive/mcu: UF2 flash"]
     esc["esc_firmware"]
-    pl["planned: esc_power, power_policy, charger, ltc4162, hull, rp1_gpio, mcu_gpio"]
+    epc["esc_power: EscPowerController"]
+    hu["sensors/hull: HullSensors"]
+    chm["sensors/charger: ChargerMonitor"]
+    pp["power_policy, sensors/ltc4162"]
+    bat["battery: LowBatteryMonitor"]
+    soc["soc_monitor: SocMonitor"]
+    br["board_readings"]
   end
   app <-->|"TCP 9000"| ws
   ws <--> ca
@@ -173,49 +179,68 @@ flowchart LR
   pr --> st
   fl --> mcu
   esc --> ser
-  pl --> st
+  epc --> pc
+  st --> epc
+  hu --> st
+  chm --> pp
+  chm --> st
+  bat --> pp
+  st --> bat
+  bat --> st
+  bat --> epc
+  soc --> st
+  st --> br
+  br --> ca
 ```
 
 Entry point: [main.py](https://github.com/Tropaion/Manafish_Mainboard/blob/main/software/src/rov_firmware/main.py)
-starts the WebSocket server, `SerialManager`, `PressureSensor`, then the tasks
-`pressure.read_loop`, `mcu.read_loop`, `pico_control.send_loop` and `FieldDiagnostics`.
+starts the WebSocket server, the BOOTSEL leftover check (`Board.prepare()`, Phase 4),
+`SerialManager`, `PressureSensor`, then the tasks `pressure.read_loop`, `mcu.read_loop`,
+`pico_control.send_loop` and `FieldDiagnostics`, plus the five board tasks from
+`Board.create_tasks()` (Phase 4): `hull.run`, `charger.run`, `battery.run`, `soc.run` and
+`esc_power.run`. `Board` ([board.py](https://github.com/Tropaion/Manafish_Mainboard/blob/main/software/src/rov_firmware/board.py)) builds them; the
+`EscPowerController` gets the battery checks from `LowBatteryMonitor.enable_blockers()`.
 
 | Module | Path (`software/src/…`) | Responsibility | Status |
 |---|---|---|---|
 | WebSocket send/receive | `rov_firmware/websocket/` (`server.py`, `handler.py`, `receive/`, `send/`) | App link on TCP 9000: config set/import, actions, auto-tuning, MCU flash requests; catalog samples at 60 Hz, status every 0.5 s | **[upstream]** |
-| pico_control + pico_protocol | `rov_firmware/pico_control.py`, `pico_protocol.py` | Negotiation (C5 GET_INFO, CAPS, HELLO), settings transaction, 60 Hz CONTROL, PRESSURE, ATTITUDE parsing (health bits 0 and 3), maintenance gate | **[upstream]**; 0x26 requests and health bits 4-6 **[planned: Phase 4]** |
-| serial (MCU discovery) | `rov_firmware/serial.py` | Finds and opens the MCU port; first-boot flash after 5 failed lookups. Today: `/dev/serial/by-id/usb-Raspberry_Pi_Pico*`, then any `ttyACM*` | **[upstream]**; the image's `/dev/manafish-mcu` symlink **[done]** (Phase 3); `find_mcu_port()` (`/dev/manafish-mcu`, sysfs 2e8a:0009, no `ttyACM*` fallback) **[planned: Phase 4]** |
+| pico_control + pico_protocol | `rov_firmware/pico_control.py`, `pico_protocol.py` | Negotiation (C5 GET_INFO, CAPS, HELLO), settings transaction, 60 Hz CONTROL, PRESSURE, ATTITUDE parsing (health bits 0 and 3), maintenance gate | **[upstream]**; 0x26 requests (`request_esc_power`), CAPS feature bits and health bits 4-6 **[done]** (Phase 4) |
+| serial (MCU discovery) | `rov_firmware/serial.py` | Finds and opens the MCU port (`mcu_usb.find_mcu_port()` in a worker thread); first-boot flash after 5 failed lookups in a row, once per run: before the first successful connection, or later for an MCU waiting in BOOTSEL | **[upstream]**; the image's `/dev/manafish-mcu` symlink **[done]** (Phase 3); `find_mcu_port()` and the first-boot disarm **[done]** (Phase 4) |
+| mcu_usb | `rov_firmware/mcu_usb.py` | Read-only sysfs USB lookups. `find_mcu_port()`: `/dev/manafish-mcu`, then a `/sys/class/tty/ttyACM*` scan for 2e8a:0009 that prefers the product "Manafish Mainboard"; no blind `ttyACM*` fallback. `usb_ids()`, `rp_usb_products()` and the IDs 2e8a, 000f (BOOTSEL) and 0009 (CDC). Used by `SerialManager._find_mcu_port`, `mcu_gpio`, `tools/test_thrusters.py` and `tools mcu-reset` | **[done]** (Phase 4) |
 | sensors/mcu | `rov_firmware/sensors/mcu.py` | Reads the MCU stream: DShot telemetry, logs, 0xD5/0xD6, ESC firmware status; version check and 60 s auto-flash window | **[upstream]** |
 | sensors/pressure | `rov_firmware/sensors/pressure.py` | MS5837 at 15 Hz, reconnect every 10 s | **[upstream]** |
-| sensors/pi_power | `rov_firmware/sensors/pi_power.py` | Undervoltage flag from hwmon | **[upstream]** |
+| sensors/pi_power | `rov_firmware/sensors/pi_power.py` | Undervoltage flag from hwmon; `SocMonitor` polls it and latches it, and the status builder reads the latch instead of sysfs | **[upstream]**; latch **[done]** (Phase 4) |
 | sensors/imu | removed: `rov_firmware/sensors/imu.py`, `tools/test_imu.py` and the bmi270 dependency | Upstream's CM5-side BMI270 at 0x68 would write the BMI270 config blob into the charger. `tests/test_no_pi_side_bmi270.py` keeps it out: no `bmi270` import under `src/` | removed **[done]** (Phase 3) |
-| sensors/hull | `rov_firmware/sensors/hull.py` | SHT45 (0xFD, 10 ms, CRC-8) and WSEN-PADS (1 Hz, BDU) at 1 Hz, `state.hull`, reconnect like `pressure.py` | **[planned: Phase 4]** |
-| sensors/ltc4162 | `rov_firmware/sensors/ltc4162.py` | LTC4162 charger registers over smbus2; datasheet-checked addresses and scales | **[planned: Phase 4]** |
-| sensors/charger | `rov_firmware/sensors/charger.py` | `ChargerMonitor`, 1 Hz policy loop and read-back | **[planned: Phase 4]** |
-| power_policy | `rov_firmware/power_policy.py` | Pure functions: PoE presence and type, input limit codes, derating, charge targets | **[planned: Phase 4]** |
-| LowBatteryMonitor | location set in Phase 4 (own 1 Hz task; the status builder only reads its result) | Battery %, warn, critical, 3.0 V/cell shutdown | **[planned: Phase 4]** |
-| esc_power | `rov_firmware/esc_power.py` | `EscPowerController`: enable conditions, state map from health bits, adoption on reconnect | **[planned: Phase 4]** |
-| rp1_gpio | `rov_firmware/rp1_gpio.py` | lgpio on chip `pinctrl-rp1`: `drive_low`, `release` (input, bias off); lazy import (lgpio is aarch64-only) | **[planned: Phase 4]** |
-| mcu_gpio | `rov_firmware/mcu_gpio.py` | `enter_bootsel()` (Decision 9 order), `reset()` (10 ms GPIO24 pulse); release in `finally` | **[planned: Phase 4]** |
-| UF2 flash | `rov_firmware/websocket/receive/mcu.py` | Resolves `~/mcu-firmware/<prefix>-v*.uf2`, board detection by USB IDs, runs picotool. Today `picotool load -f -v -x`. The image now holds only `mainboard-v<ver>.uf2`, so the `pico2` prefix finds nothing and the service never flashes the MCU by itself | **[upstream]**; GPIO BOOTSEL path, prefix `mainboard` **[planned: Phase 4]** |
-| custom_actions catalog | `rov_firmware/custom_actions/` (`builtins.py`, `runtime.py`, `defaults/`), `manafish_sdk` | Built-in readings and actions, user custom actions, bundled defaults (blackbox, extended telemetry, water sensor). Every `values()` key must be in `READING_DEFINITIONS` | **[upstream]**; new `rov.*` readings and `escPower.set` **[planned: Phase 4]** |
+| sensors/hull | `rov_firmware/sensors/hull.py`, `models/hull.py` | `HullSensors` at 1 Hz, I2C in a worker thread: SHT45 (0xFD, then a separate 6-byte read 10 ms later, NACK retried, CRC-8 0x31/0xFF, RH clamped) and WSEN-PADS (ID 0xB3, CTRL_1 = 0x12 for 1 Hz + BDU, checked every cycle and rewritten after a reset, one 5-byte burst from 0x28, raw/4096 hPa and raw/100 °C). Publishes a frozen `HullData` in `state.hull`; each sensor is unhealthy after 3 failed cycles and retried every 10 s, like `pressure.py` | **[done]** (Phase 4); on the board **[bring-up]** (B6) |
+| sensors/ltc4162 | `rov_firmware/sensors/ltc4162.py` | `Ltc4162`: datasheet-checked registers over smbus2 words (low byte first), sign-extended telemetry with fixed 5 cells, RSNSB 10 mΩ / RSNSI 8 mΩ; writes only the five settings registers inside their fields (`write_setting` refuses 0x19 and every other address); `ensure_force_telemetry_on()` (RMW, clears `run_bsr`) and `apply_settings()` (read-back, 0x29 first, full rewrite when `en_jeita` reads 1) | **[done]** (Phase 4); registers on the board **[bring-up]** (B6, B9) |
+| sensors/charger | `rov_firmware/sensors/charger.py`, `models/charger.py` | `ChargerMonitor`, 1 Hz in a worker thread: PoE pins, `force_telemetry_on`, telemetry validity, policy, read-back only with `CHARGER_WRITES_ENABLED` (False until B9), state and fault logs. Publishes a frozen `ChargerStatus` in `state.charger` (6.6) | **[done]** (Phase 4); writes enabled **[bring-up]** (B9) |
+| power_policy | `rov_firmware/power_policy.py` | Pure functions: PoE presence (`vin_gt_4p2v`) and type (Ag59800 Table 5), input limit codes, halved code, derating with hysteresis, chemistry check, charge targets; the owner-confirmable charge and battery values as named constants | **[done]** (Phase 4) |
+| LowBatteryMonitor | `rov_firmware/battery.py`, `models/battery.py` | Own 1 Hz task on the event loop (no I/O of its own). 10 s EMA of vbat for the battery %, warn / critical / shutdown levels with neutral gating and hysteresis, the shutdown chain, battery-present tracking, the pulled-pack auto-off on PoE and the ESC enable checks (`enable_blockers()`). Publishes a frozen `BatteryStatus` in `state.battery`; the status builder only reads it (6.7) | **[done]** (Phase 4); shutdown on the board **[bring-up]** (B15) |
+| soc_monitor | `rov_firmware/soc_monitor.py`, `models/soc.py` | `SocMonitor`, 1 Hz in a worker thread: `rpi_volt` alarm latched 60 s (upstream's `sensors/pi_power.py` reader), `thermal_zone0` temperature (cpu-thermal), `vcgencmd get_throttled` every 10 s (looked up once; absent → unavailable). Publishes a frozen `SocStatus` in `state.soc` | **[done]** (Phase 4) |
+| board | `rov_firmware/board.py` | `Board`: builds `HullSensors`, `ChargerMonitor`, `LowBatteryMonitor`, `SocMonitor` and the `EscPowerController` (with the battery checks) and sets `state.esc_power`; `prepare()` at service start, before the serial link (release GPIO24/25, one RUN pulse for a stale BOOTSEL, 6.2); `create_tasks()` starts the five board loops. `main.py` keeps only these three hooks | **[done]** (Phase 4) |
+| board_readings | `rov_firmware/board_readings.py` | `BOARD_READING_DEFINITIONS` and `board_readings()` for the twelve new `rov.*` readings (joined into `READING_DEFINITIONS` and `values()`); `board_state()`, `board_diagnostics()` and `board_faults()` for `diagnostics.py`. No I/O | **[done]** (Phase 4) |
+| esc_power | `rov_firmware/esc_power.py`, `models/esc_power.py` | `EscPowerController`: state map from health bits, operator on/off with enable checks, BUSY retry, adoption on reconnect, `wait_until_off`, `prepare_for_mcu_reset` (8.1) | **[done]** (Phase 4), including the injected battery and charger checks |
+| rp1_gpio | `rov_firmware/rp1_gpio.py` | `Rp1Gpio`: lgpio on the chip labelled `pinctrl-rp1` (found by trying `/dev/gpiochip*`); `drive_low` (output claimed at level 0), `release` (reclaim as input with bias off, then free: pinctrl-rp1 keeps a freed output driving), `read_input` (no bias flag, so the config.txt pull stays; for the PoE lines); `close` releases what it still drives. Lazy import (lgpio is aarch64-only); tests inject a fake | **[done]** (Phase 4); bias and persistence on the CM5 **[bring-up]** (B5) |
+| mcu_gpio | `rov_firmware/mcu_gpio.py` | `enter_bootsel()` (Decision 9 order, then waits until 2e8a:000f exists and udev made its `/dev/bus/usb` node usable), `reset()` (10 ms GPIO24 pulse), `leave_stale_bootsel()` (service start: release GPIO24/25, one `reset()` for 000f without 0009); on any exception the `Rp1Gpio` context manager releases every driven line (GPIO24 first); never drives high | **[done]** (Phase 4); on the board **[bring-up]** (B5, B7) |
+| UF2 flash | `rov_firmware/websocket/receive/mcu.py` | Resolves `~/mcu-firmware/mainboard-v*.uf2` (`_BOARD_PREFIXES = {PICO2: "mainboard"}`, `pico` normalised to `pico2`), board detection by USB IDs; then `prepare_for_mcu_reset()`, `mcu_flashing`, `enter_bootsel()` and `picotool load -v -x` without `-f` (`picotool_load_command`) | **[upstream]**; prefix `mainboard` and the GPIO BOOTSEL path **[done]** (Phase 4) |
+| custom_actions catalog | `rov_firmware/custom_actions/` (`builtins.py`, `runtime.py`, `defaults/`), `manafish_sdk` | Built-in readings and actions, user custom actions, bundled defaults (blackbox, extended telemetry, water sensor). Every `values()` key must be in `READING_DEFINITIONS` (key-set test). The blackbox default records the new readings too | **[upstream]**; new `rov.*` readings, the actions `rov.escPower.on` / `rov.escPower.off` and the blackbox columns **[done]** (Phase 4) |
 | motor_safety | `rov_firmware/motor_safety.py` | `disruptive_motor_operation_blocker`: refuses during MCU flashing, ESC recovery, ESC telemetry wait, auto-tuning, thruster test, stabilization, depth hold or non-zero input | **[upstream]** |
-| esc_firmware | `rov_firmware/esc_firmware.py`, `esc_recovery.py` | AM32 update through the MCU (0xE7/0xE8), recovery journal | **[upstream]**; ESC-power-ON preflight, error 11 **[planned: Phase 4]** |
-| State and models | `rov_firmware/rov_state.py`, `models/` | `RovState`, `RovConfig`, `RovStatus`, `SystemHealth` (shapes stay unchanged) | **[upstream]**; `mcu_board` default `pico2` **[planned: Phase 4]** |
-| Diagnostics | `rov_firmware/diagnostics.py` | 1 Hz field snapshots in the debug log | **[upstream]**; power/hull/ESC/SoC block **[planned: Phase 4]** |
+| esc_firmware | `rov_firmware/esc_firmware.py`, `esc_recovery.py` | AM32 update through the MCU (0xE7/0xE8), recovery journal | **[upstream]**; ESC-power-ON preflight, error 11, `mcu_reset_refusal()` **[done]** (Phase 4) |
+| State and models | `rov_firmware/rov_state.py`, `models/` | `RovState`, `RovConfig`, `RovStatus`, `SystemHealth` (shapes stay unchanged). `RovConfig.save()` fsyncs the temp file before the rename and the directory after. Board-side state outside the app contract: `esc_power_telemetry`, `hull` (`HullData`), `charger` (`ChargerStatus`), `battery` (`BatteryStatus`), `soc` (`SocStatus`), each replaced whole by its owner | **[upstream]**; `mcu_board` default `pico2` with the `pico` validator, hull camera defaults, fsync, board-side state **[done]** (Phase 4) |
+| Diagnostics | `rov_firmware/diagnostics.py` | 1 Hz field snapshots in the debug log; `board` block (power, hull, ESC power, SoC, `get_throttled`), board state on change, board faults, latched undervoltage (8.10) | **[upstream]**; board block **[done]** (Phase 4) |
 | Legacy control path | `rov_firmware/thrusters.py`, `regulator.py` | Python control loop from before the MCU port; not started by `main.py`, kept for tests and the differential reference | **[upstream]** |
-| tools | `src/tools/` | Interactive menu (`uv run tools`): pressure, thruster test (legacy 0x5A), package check, mock WebSocket server (also `--local`); `mock_esc_firmware.py` | **[upstream]**; IMU entry removed **[done]** (Phase 3); argv dispatch in Python (and `"$@"` in the image's `tools` script), `mcu-reset`, `mcu-recover` **[planned: Phase 4]**; `board-check` **[planned: Phase 5]** |
+| tools | `src/tools/` | Interactive menu (`uv run tools`): pressure, thruster test (legacy 0x5A), package check, mock WebSocket server (also `--local`; simulates the new readings and the two ESC power actions, a test keeps its readings equal to `READING_DEFINITIONS`), MCU reset and recover; `mock_esc_firmware.py`. Subcommands `tools mcu-reset` and `tools mcu-recover [UF2]` (`tools/mcu_recovery.py`, 8.4) | **[upstream]**; IMU entry removed **[done]** (Phase 3); argv dispatch in Python and `"$@"` in the image's `tools` script, `mcu-reset`, `mcu-recover` **[done]** (Phase 4); `board-check` **[planned: Phase 5]** |
 
 ## 5.4 Level 2: NixOS image
 
 | Module | File | Content | Status |
 |---|---|---|---|
 | Flake | [flake.nix](https://github.com/Tropaion/Manafish_Mainboard/blob/main/software/flake.nix) | `nixosConfigurations.cm5-mainboard` = nixos-raspberrypi `raspberry-pi-5.base` + `sd-image` + impermanence; `packages.sdImage`/`default` point at it. Inputs: `mcu-firmware` (this repo's `firmware-v1.0.4-mb.1` mainboard UF2), AM32 bin, ms5837, numpydantic. `releaseVersionFromLock` accepts `/download/v…/` and `/download/firmware-v…/`. Check `camera-headless`: both rpicam-apps builds have libav on and every preview backend off, and the rpi build links an ffmpeg with libx264. `pi3-imx477`, `bmi270-src` and the pico/pico2 UF2 inputs are gone | **[done]** (Phase 3) |
-| board.nix | [nix/board.nix](https://github.com/Tropaion/Manafish_Mainboard/blob/main/software/nix/board.nix) | Board config and the local additions upstream's modules lack (keeps subtree patches small): `camera_auto_detect`, `display_auto_detect` and `force_eeprom_read` = 0, `enable_uart=0` (`mkForce`), and an `[all]` block with `gpio=6,12=ip,pu`, `gpio=24,25=ip,pn`, `gpio=14=op,dh`, `dtoverlay=imx477,cam0`, `dtoverlay=imx477` (lines in 7.2); `CPUWeight` go2rtc 50, `manafish-firmware` 200 (8.11); polkit power-off and reboot for `pi`; libgpiod, ethtool, iperf3; flakes on and `trusted-users` root and `@wheel`. The base already brings raspberrypi-utils (`pinctrl`, `vcgencmd`), the gpio group and its udev rules; the sd-image profile brings usbutils | **[done]** (Phase 3); J8 gadget mode and an SSH key for `pi` not added |
+| board.nix | [nix/board.nix](https://github.com/Tropaion/Manafish_Mainboard/blob/main/software/nix/board.nix) | Board config and the local additions upstream's modules lack (keeps subtree patches small): `camera_auto_detect`, `display_auto_detect` and `force_eeprom_read` = 0, `enable_uart=0` (`mkForce`), and an `[all]` block with `gpio=6,12=ip,pu`, `gpio=24,25=ip,pn`, `gpio=14=op,dh`, `dtoverlay=imx477,cam0`, `dtoverlay=imx477` (lines in 7.2); `CPUWeight` go2rtc 50, `manafish-firmware` 200 (8.11); raspberrypi-utils on the `manafish-firmware` PATH for `vcgencmd get_throttled` (Phase 4); polkit power-off and reboot for `pi`; libgpiod, ethtool, iperf3; flakes on and `trusted-users` root and `@wheel`. The base already brings raspberrypi-utils (`pinctrl`, `vcgencmd`), the gpio group and its udev rules (in the system PATH, not in a unit's); the sd-image profile brings usbutils | **[done]** (Phase 3); service PATH entry **[done]** (Phase 4); J8 gadget mode and an SSH key for `pi` not added |
 | camera | [nix/camera.nix](https://github.com/Tropaion/Manafish_Mainboard/blob/main/software/nix/camera.nix) | rpicam-vid wrapper reads `config.json` and takes the camera index; libav encoder on, linked against `ffmpeg-headless` (has libx264); go2rtc `cam` = camera 0, `cam2` = camera 1, each encoding only while watched; `LIBPISP_BE_CONFIG_FILE` for all units and sessions (8.11) | **[done]** (Phase 3); `cam` on the IO Board **[done]** (spike, 2026-11-14); `cam2` **[bring-up]** (B8) |
 | mcu | [nix/mcu.nix](https://github.com/Tropaion/Manafish_Mainboard/blob/main/software/nix/mcu.nix) | `cdc_acm`, picotool. udev: picotool's own rules (RP-series BOOTSEL and CDC USB devices) and every RP-series `ttyACM*` (idVendor 2e8a, also a development Pico); the tty of 2e8a:0009 also gets `SYMLINK+="manafish-mcu"`; all group `plugdev`, mode 660. The on-device ARM/Clang/Pico SDK toolchain is gone | **[done]** (Phase 3); symlink on the board **[bring-up]** (B7) |
 | system | [nix/system.nix](https://github.com/Tropaion/Manafish_Mainboard/blob/main/software/nix/system.nix) | User `pi`; `manafish-setup` copies `software/`, one `mainboard-v<ver>.uf2` and the AM32 bin into `/home/pi`, and deletes stale `mainboard-v*.uf2` and `esc-v*` files. Each copy is compared by content and flushed | **[done]** (Phase 3) |
-| firmware | [nix/firmware.nix](https://github.com/Tropaion/Manafish_Mainboard/blob/main/software/nix/firmware.nix) | Python env (no bmi270), `start` and `tools` scripts, unit `manafish-firmware` | **[done]** (Phase 3) |
+| firmware | [nix/firmware.nix](https://github.com/Tropaion/Manafish_Mainboard/blob/main/software/nix/firmware.nix) | Python env (no bmi270), `start` and `tools` scripts (`tools` passes its arguments on, `"$@"`), unit `manafish-firmware` | **[done]** (Phase 3); `"$@"` **[done]** (Phase 4) |
 | networking | [nix/networking.nix](https://github.com/Tropaion/Manafish_Mainboard/blob/main/software/nix/networking.nix) | Static IP, dnsmasq DHCP on eth0, avahi, sshd, NetworkManager + iwd, `disable-wifi`/`disable-bt` (the firmware maps them to the `-pi5` overlays; harmless on a CM5 without wireless) | **[upstream]**; kept for every CM5 variant **[done]** |
 | sensors | [nix/sensors.nix](https://github.com/Tropaion/Manafish_Mainboard/blob/main/software/nix/sensors.nix) | I2C on, 400 kHz, i2c-dev, i2c-tools | 400 kHz **[done]** (Phase 3) |
 | impermanence | [nix/impermanence.nix](https://github.com/Tropaion/Manafish_Mainboard/blob/main/software/nix/impermanence.nix) | tmpfs `/`, `/persistent`, binds, persisted paths, `grow-persistent` | **[upstream]**; Pi 5 boot comment **[done]** |

@@ -9,23 +9,56 @@ def test_resolve_mcu_firmware_selects_latest_semver(tmp_path, monkeypatch):
     monkeypatch.setattr(Path, "home", lambda: tmp_path)
     firmware_dir = tmp_path / "mcu-firmware"
     firmware_dir.mkdir()
-    old = firmware_dir / "pico-v1.0.2.uf2"
-    prerelease = firmware_dir / "pico-v1.0.3-rc.1.uf2"
+    old = firmware_dir / "mainboard-v1.0.2-mb.1.uf2"
+    newer = firmware_dir / "mainboard-v1.0.4-mb.1.uf2"
     old.touch()
-    prerelease.touch()
+    newer.touch()
 
-    assert mcu.resolve_mcu_firmware(McuBoard.PICO) == (prerelease, "1.0.3-rc.1")
+    assert mcu.resolve_mcu_firmware(McuBoard.PICO2) == (newer, "1.0.4-mb.1")
 
 
 def test_resolve_mcu_firmware_prefers_stable_for_same_core(tmp_path, monkeypatch):
     monkeypatch.setattr(Path, "home", lambda: tmp_path)
     firmware_dir = tmp_path / "mcu-firmware"
     firmware_dir.mkdir()
-    (firmware_dir / "pico2-v1.0.3-rc.2.uf2").touch()
-    stable = firmware_dir / "pico2-v1.0.3.uf2"
+    (firmware_dir / "mainboard-v1.0.3-mb.2.uf2").touch()
+    stable = firmware_dir / "mainboard-v1.0.3.uf2"
     stable.touch()
 
     assert mcu.resolve_mcu_firmware(McuBoard.PICO2) == (stable, "1.0.3")
+
+
+def test_mainboard_prefix_ignores_upstream_pico_images(tmp_path, monkeypatch):
+    monkeypatch.setattr(Path, "home", lambda: tmp_path)
+    firmware_dir = tmp_path / "mcu-firmware"
+    firmware_dir.mkdir()
+    (firmware_dir / "pico-v1.0.5.uf2").touch()
+    (firmware_dir / "pico2-v1.0.5.uf2").touch()
+
+    assert mcu.resolve_mcu_firmware(McuBoard.PICO2) is None
+    (firmware_dir / "mainboard-v1.0.4-mb.1.uf2").touch()
+    assert mcu.resolve_mcu_firmware(McuBoard.PICO2) == (
+        firmware_dir / "mainboard-v1.0.4-mb.1.uf2",
+        "1.0.4-mb.1",
+    )
+
+
+def test_resolve_normalises_pico_to_the_mainboard_image(tmp_path, monkeypatch):
+    monkeypatch.setattr(Path, "home", lambda: tmp_path)
+    firmware_dir = tmp_path / "mcu-firmware"
+    firmware_dir.mkdir()
+    image = firmware_dir / "mainboard-v1.0.4-mb.1.uf2"
+    image.touch()
+
+    assert mcu.resolve_mcu_firmware(McuBoard.PICO) == (image, "1.0.4-mb.1")
+
+
+def test_mainboard_release_replaces_a_semver_higher_upstream_build():
+    # SemVer sorts 1.0.4-mb.1 below 1.0.4-rc.3: only equality may decide.
+    assert mcu.mcu_update_required("1.0.4-rc.3", "1.0.4-mb.1")
+    assert mcu.mcu_update_required("1.0.4", "1.0.4-mb.1")
+    assert mcu.mcu_update_required("1.0.4-mb.2", "1.0.4-mb.1")
+    assert not mcu.mcu_update_required("1.0.4-mb.1", "1.0.4-mb.1")
 
 
 def test_prerelease_bundle_requires_exact_live_version():
@@ -164,9 +197,9 @@ def test_inconclusive_board_detection_does_not_block(monkeypatch):
 def test_mcu_flash_refuses_firmware_for_a_different_board(
     rov_state, monkeypatch, tmp_path
 ):
-    firmware_path = tmp_path / "pico2-v1.0.4.uf2"
+    firmware_path = tmp_path / "mainboard-v1.0.4-mb.1.uf2"
     monkeypatch.setattr(
-        mcu, "resolve_mcu_firmware", lambda _board: (firmware_path, "1.0.4")
+        mcu, "resolve_mcu_firmware", lambda _board: (firmware_path, "1.0.4-mb.1")
     )
     monkeypatch.setattr(mcu, "detect_connected_mcu_boards", lambda: {McuBoard.PICO})
     monkeypatch.setattr(mcu, "_resolve_picotool_path", lambda: "picotool")

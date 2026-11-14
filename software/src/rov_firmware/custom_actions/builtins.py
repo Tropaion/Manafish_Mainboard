@@ -3,6 +3,7 @@
 from functools import cache
 from typing import Any, cast
 
+from ..board_readings import BOARD_READING_DEFINITIONS, board_readings
 from ..models.actions import DirectionVector
 from ..models.config import ThrusterTest
 from ..motor_safety import motor_firmware_operation_blocker
@@ -56,6 +57,8 @@ READING_DEFINITIONS = {
     "health": ("System health", "json", None),
     "deviceInfo": ("Device information", "json", None),
     "escFirmwareUpdate": ("ESC firmware update", "json", None),
+    # Mainboard readings (battery, charger, PoE, hull, SoC, ESC power).
+    **BOARD_READING_DEFINITIONS,
 }
 
 ACTION_DEFINITIONS = [
@@ -70,6 +73,10 @@ ACTION_DEFINITIONS = [
     ("thrusterTest.cancel", "Cancel thruster test", "number"),
     ("regulatorAutoTuning.start", "Start regulator tuning", "none"),
     ("regulatorAutoTuning.cancel", "Cancel regulator tuning", "none"),
+    # Mainboard ESC power switch. Two no-input actions, because the app offers
+    # overlay buttons only for inputType "none" and binds no keys to rov.*.
+    ("escPower.on", "ESC power on", "none"),
+    ("escPower.off", "ESC power off", "none"),
 ]
 
 
@@ -80,6 +87,7 @@ def values(state: RovState, *, include_status: bool = True) -> dict[str, Any]:
         combined.update(
             build_status_update(state).payload.model_dump(mode="json", by_alias=True)
         )
+        combined.update(board_readings(state))
     return {f"rov.{key}": value for key, value in combined.items()}
 
 
@@ -152,3 +160,17 @@ async def _invoke_special(state: RovState, identifier: str, value: object) -> No
         await handle_start_thruster_test(state, ThrusterTest(cast(int, value)))
     elif identifier == "rov.thrusterTest.cancel":
         await handle_cancel_thruster_test(state, ThrusterTest(cast(int, value)))
+    elif identifier in {"rov.escPower.on", "rov.escPower.off"}:
+        await _set_esc_power(state, on=identifier == "rov.escPower.on")
+
+
+async def _set_esc_power(state: RovState, *, on: bool) -> None:
+    """Operator ESC power request; the controller toasts its own refusals."""
+    controller = state.esc_power
+    if controller is None:
+        msg = "ESC power control is unavailable"
+        raise ValueError(msg)
+    if on:
+        await controller.request_on()
+    else:
+        await controller.request_off()

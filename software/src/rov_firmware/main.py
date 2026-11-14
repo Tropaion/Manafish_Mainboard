@@ -6,6 +6,7 @@ import traceback
 
 from serial import SerialException
 
+from .board import Board
 from .diagnostics import FieldDiagnostics
 from .log import log_error
 from .models.log import LogLevel
@@ -52,10 +53,12 @@ async def main() -> None:
     mcu: McuSensor = McuSensor(state, serial_manager)
     control = PicoControl(state, serial_manager)
     state.pico = control
+    board = Board(state)
 
     tasks: list[asyncio.Task[None]] = []
     try:
         await ws_server.initialize()
+        await board.prepare()
         _ = await serial_manager.initialize()
         await pressure.initialize()
 
@@ -68,6 +71,7 @@ async def main() -> None:
                 FieldDiagnostics(state, serial_manager, mcu, control).run(),
                 name="field_diagnostics",
             ),
+            *board.create_tasks(),
         ]
         _ = await asyncio.gather(*tasks)
     except asyncio.CancelledError:

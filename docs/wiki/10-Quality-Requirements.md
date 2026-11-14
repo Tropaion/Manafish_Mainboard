@@ -34,16 +34,16 @@ flowchart LR
 | QS-1 | Host (rov_firmware service (manafish-firmware) or the USB link) dies while thrusters run: MCU outputs neutral | Neutral within 200 ms (`HOST_TIMEOUT_US`) | Runtime harness lease-expiry scenarios; B13 on the board | **[upstream]** gate, **[bring-up]** (B13) |
 | QS-2 | Magnet switch turned off while spinning: thrusters stop | AM32 stops within 0.5 s | B13 | **[bring-up]** (B13) |
 | QS-3 | ESC power on: no thrust before the ESC supply is up | Motor lines 0 V until `SIGNAL_DELAY_MS` (5 s); thrust no earlier than 15 s after GP14 rises; state 3 to 4 at 15 s | `test_esc_power.c`, runtime scenarios; B11 scope warm and cold | **[done]** (host tests), **[bring-up]** (B11) |
-| QS-4 | ON request during the hold after boot or off | BUSY before 5 s; session kept | `test_esc_power.c`; `mainboard_bringup.py esc on` at B11 | **[done]** (host tests), **[bring-up]** (B11) |
+| QS-4 | ON request during the hold after boot or off | BUSY before 5 s; session kept; the CM5 retries with a new frame after the remaining hold | `test_esc_power.c`; CM5 `tests/test_esc_power.py`, `tests/test_esc_power_protocol.py`; `mainboard_bringup.py esc on` at B11 | **[done]** (host tests, MCU and CM5), **[bring-up]** (B11) |
 | QS-5 | MCU boots, is flashed or resets | GP14 stays 0 V for 60 s; never on without a request | B7 | **[bring-up]** (B7) |
 | QS-6 | Operator turns ESC power off | 2 s neutral, lines parked, GP14 low, then 5 s hold | `test_esc_power.c`; B11 | **[done]** (host tests), **[bring-up]** (B11) |
 | QS-7 | Host goes away with ESC power on | Auto-off after 30 s (confirmed by the owner); paused during ESC update | `test_esc_power.c`; B11 | **[done]** (host tests), **[bring-up]** (B11) |
 | QS-8 | Watchdog reboot, RUN pulse or BOOTSEL entry with ESC power on | Record whether GP14 falls and stays low; if not, "off before reset" becomes a documented host rule | B11 scope | **[bring-up]** (B11) |
 | QS-9 | ESC power off, ESCs connected | No back-powering (ESC 3.3 V rail dead) | B12 | **[bring-up]** (B12) |
-| QS-10 | ESC firmware update requested with ESC power off | Fails with MCU error 11, mapped on the CM5; works when on | Unit tests; B12 AM32 passthrough | MCU **[done]**, CM5 mapping **[planned: Phase 4]**, **[bring-up]** (B12) |
-| QS-11 | PoE present, no pack, operator requests ESC power | Refused; missing battery blocks ESC power | pytest with fakes; B10 | **[planned: Phase 4]**, **[bring-up]** (B10) |
-| QS-12 | LTC4162 charger unreadable | ESC enable blocked with a toast; low-battery logic only warns, never powers off | pytest with fakes | **[planned: Phase 4]** |
-| QS-13 | vbat below 3.2 V/cell for 10 s | Toast every 60 s, new enables blocked, ESC power stays on | pytest with fakes and an injectable clock | **[planned: Phase 4]** |
+| QS-10 | ESC firmware update requested with ESC power off | The CM5 preflight refuses before the maintenance gate; MCU error 11 shows a plain message; works when on | Unit tests (`tests/test_esc_firmware_power.py`); B12 AM32 passthrough | MCU **[done]**, CM5 **[done]** (Phase 4), **[bring-up]** (B12) |
+| QS-11 | PoE present, no pack, operator requests ESC power | Refused with "No battery on the charger"; a pack pulled on PoE switches ESC power off | pytest with fakes (`tests/test_battery_monitor.py`, `tests/test_power_policy.py`); B10 | **[done]** (Phase 4), **[bring-up]** (B10) |
+| QS-12 | LTC4162 charger unreadable | ESC enable blocked with a toast; low-battery logic only warns, never powers off | pytest with fakes (`tests/test_battery_monitor.py`) | **[done]** (Phase 4) |
+| QS-13 | vbat below 3.2 V/cell for 10 s | Toast every 60 s, new enables blocked, ESC power stays on | pytest with fakes and an injectable clock (`tests/test_battery_monitor.py`) | **[done]** (Phase 4) |
 
 ## 10.3 Robustness scenarios
 
@@ -52,12 +52,12 @@ flowchart LR
 | QR-1 | Abrupt power cuts, including during a config save | 50 cuts: boots every time, `config.json` intact | Spike check 7 on the IO Board (7 cuts: boots every time, no ext4 errors, `config.json` intact); B15 | IO Board **[done]** (spike, 2026-11-14), **[bring-up]** (B15) |
 | QR-2 | +5V cut under load | CM5_3.3V stays above 1.8 V | B15 scope | **[bring-up]** (B15) |
 | QR-3 | `poweroff` | 3.3 V, the MCU and ESC_PWR drop (`POWER_OFF_ON_HALT=1`) | B15 | **[bring-up]** (B15) |
-| QR-4 | Blank or bricked MCU | Hardware BOOTSEL: 000f, flash, then 0009 with iProduct "Manafish Mainboard" and `/dev/manafish-mcu` | `mcu_gpio` order test; B7 | **[planned: Phase 4]**, **[bring-up]** (B7) |
+| QR-4 | Blank or bricked MCU | Hardware BOOTSEL: 000f, flash, then 0009 with iProduct "Manafish Mainboard" and `/dev/manafish-mcu` | `mcu_gpio` order test; B7 | order test **[done]** (Phase 4), **[bring-up]** (B7) |
 | QR-5 | GPIO24/25 during CM5 power-up and boot | Never low over 10 cold boots | IO Board scope (Phase 3 spike); B5 | **[planned: Phase 3 spike]**, **[bring-up]** (B5) |
 | QR-6 | Cold start of Y1 | 20 reboots plus cold power cycles at 0-5 °C, and BOOTSEL when cold, all succeed | B7 | **[bring-up]** (B7) |
 | QR-7 | Thrusters running in a tank | Ethernet errors stay 0 during 30 min `iperf3` | B16 | **[bring-up]** (B16) |
 | QR-8 | PoE on vs off | `iperf3` 10 min each way; `ethtool -S` compared with and without PoE | B9 | **[bring-up]** (B9) |
-| QR-9 | Charger loses its registers (power cycle) | Next 1 Hz read-back rewrites all settings; `en_jeita` reading 1 detects it | pytest with FakeSMBus | **[planned: Phase 4]** |
+| QR-9 | Charger loses its registers (power cycle) | Next 1 Hz read-back rewrites all settings; `en_jeita` reading 1 detects it | pytest with FakeSMBus | **[done]** (Phase 4: `tests/test_ltc4162.py`, `tests/test_charger_monitor.py`); on the board with writes enabled **[bring-up]** (B9) |
 
 ## 10.4 Power integrity scenarios
 
@@ -83,13 +83,13 @@ flowchart LR
 
 | ID | Stimulus and response | Measure | Verified | Status |
 |---|---|---|---|---|
-| QC-1 | Existing app connects to the board | Works unchanged; `RovConfig`, `RovStatus`, `SystemHealth` shapes unchanged; new values only in the catalog | Catalog fixture test (exact match) plus key-set equality test; final acceptance at 10.10.10.10:9000 | **[upstream]** fixture, **[planned: Phase 4]** |
+| QC-1 | Existing app connects to the board | Works unchanged; `RovConfig`, `RovStatus`, `SystemHealth` shapes unchanged; new values only in the catalog; ESC power as the no-input actions `rov.escPower.on` / `rov.escPower.off` (the unmodified app offers buttons only for inputType-none actions and binds no keys to `rov.*`, so a boolean `rov.*` action would be unusable) | Catalog fixture test (exact match) plus key-set equality test (`tests/test_board_readings.py`); final acceptance at 10.10.10.10:9000 | **[upstream]** fixture; new entries and the key-set test **[done]** (Phase 4); app **[bring-up]** (final acceptance) |
 | QM-1 | `git subtree pull --squash` from an upstream | Both gates green after re-removing the deleted paths; no upstream version string edited | Gates in CLAUDE.md; CI | **[done]** procedure and CI |
 | QM-2 | Change under `firmware/src/control/` | C differential test runs, not skipped (`PICO_CONTROLLER_SOURCE` set) | `software-ci.yml` path filter | **[done]** |
-| QM-3 | New board logic | Runs on x86 without hardware: FakeSMBus, fake lgpio, fake sysfs, injectable clock; MCU logic as pure host-tested C | pytest; Unity | MCU **[done]**, CM5 **[planned: Phase 4]** |
+| QM-3 | New board logic | Runs on x86 without hardware: FakeSMBus, fake lgpio, fake sysfs, injectable clock; MCU logic as pure host-tested C | pytest; Unity | MCU **[done]**; CM5 FakeSMBus, fake lgpio, sysfs and clock **[done]** (Phase 4) |
 
 ## 10.7 Final acceptance
 
 With B0-B16 recorded, the app at 10.10.10.10:9000 shows camera 1, the new battery, PoE and
-hull readings, `escPower.set` turning on with the 15 s arming, all eight thrusters responding
+hull readings, `rov.escPower.on` turning on with the 15 s arming, all eight thrusters responding
 with telemetry, and PoE charging limited by PSE type **[bring-up]**.

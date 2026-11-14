@@ -95,8 +95,8 @@
 
     # Keep the app's 1920x1080 output limit: the CM5 encodes in software, so
     # larger frames only cost CPU time the MCU link needs.
-    WIDTH=$(clamp_int "$(get .camera.width)" 160 1920 1024)
-    HEIGHT=$(clamp_int "$(get .camera.height)" 160 1080 768)
+    WIDTH=$(clamp_int "$(get .camera.width)" 160 1920 1280)
+    HEIGHT=$(clamp_int "$(get .camera.height)" 160 1080 960)
     # H.264 and the camera scaler require complete chroma pairs. The Python
     # model already enforces this, but repeat it here for manually edited or
     # otherwise corrupted persisted configuration.
@@ -118,7 +118,7 @@
       MAX_FRAMERATE=$ENCODER_MAX_FRAMERATE
     fi
     FRAMERATE=$(clamp_int "$(get .camera.framerate)" 1 "$MAX_FRAMERATE" 30)
-    BITRATE=$(clamp_int "$(get .camera.bitrate)" 1000000 25000000 3538944)
+    BITRATE=$(clamp_int "$(get .camera.bitrate)" 1000000 25000000 4500000)
     KEYFRAME_INTERVAL=$(clamp_int "$(get .camera.keyframeInterval)" 1 300 30)
     ROTATION=$(enum_or "$(get .camera.rotation)" 0 0 180)
     PROFILE=$(enum_or "$(get .camera.profile)" baseline baseline main high)

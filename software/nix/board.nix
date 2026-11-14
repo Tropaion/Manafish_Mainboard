@@ -46,9 +46,14 @@
   # rpicam-vid encodes H.264 in software inside go2rtc's cgroup. Under CPU
   # contention the MCU link and the command stream in manafish-firmware get
   # four times go2rtc's share (other services: 100). A share, not a priority.
+  # vcgencmd for the get_throttled poll (soc_monitor.py): a unit's PATH holds
+  # only coreutils, findutils, grep, sed, systemd and its `path` entries.
   systemd.services = {
     go2rtc.serviceConfig.CPUWeight = 50;
-    manafish-firmware.serviceConfig.CPUWeight = 200;
+    manafish-firmware = {
+      serviceConfig.CPUWeight = 200;
+      path = [pkgs.raspberrypi-utils];
+    };
   };
 
   # Let `pi` (the firmware service and SSH sessions) power off and reboot.

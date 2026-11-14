@@ -2,11 +2,13 @@ import asyncio
 import copy
 import json
 from pathlib import Path
+import time
 from typing import Any, cast
 
 import pytest
 from websockets import ServerConnection
 
+from rov_firmware.custom_actions.builtins import READING_DEFINITIONS
 from tools import mock_websocket_server
 
 
@@ -182,3 +184,32 @@ def test_second_operator_is_rejected_without_taking_over_controls():
 
     assert connection.events == [("close", "1008 Another operator is connected")]
     assert capabilities.control is operator
+
+
+def test_mock_simulates_every_declared_reading():
+    simulated = mock_websocket_server._telemetry_readings(
+        0.0
+    ) | mock_websocket_server._status_readings(0.0)
+    assert set(simulated) == set(READING_DEFINITIONS)
+
+
+def test_esc_power_actions_drive_the_simulated_switch(monkeypatch):
+    connection = _PacedConnection([_invoke("on", "rov.escPower.on")])
+
+    asyncio.run(
+        mock_websocket_server._handle_client(cast(ServerConnection, connection))
+    )
+
+    responses = {
+        message["payload"]["requestId"]: message["payload"]
+        for message in connection.sent("capabilityResponse")
+    }
+    assert responses["on"]["ok"]
+    assert mock_websocket_server._esc_power_reading() == "ramping"
+    later = time.monotonic() + mock_websocket_server.ESC_POWER_RAMP_SECONDS
+    monkeypatch.setattr(mock_websocket_server.time, "monotonic", lambda: later)
+    assert mock_websocket_server._esc_power_reading() == "on"
+    mock_websocket_server._set_esc_power(on=False)
+    assert mock_websocket_server._esc_power_reading() == "stopping"
+    monkeypatch.setattr(mock_websocket_server.time, "monotonic", lambda: later + 3)
+    assert mock_websocket_server._esc_power_reading() == "off"

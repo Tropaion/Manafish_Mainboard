@@ -10,6 +10,7 @@ import struct
 import time
 import zlib
 
+from . import pico_protocol as wire
 from .constants import (
     ESC_FIRMWARE_APPLICATION_ADDRESS,
     ESC_FIRMWARE_EEPROM_ADDRESS,
@@ -25,6 +26,7 @@ from .constants import (
     NUM_MOTORS,
 )
 from .diagnostics import log_diagnostic
+from .esc_power import EscPowerState
 from .esc_recovery import clear_recovery_required, mark_recovery_required
 from .log import log_error, log_info, log_warn
 from .models.config import ThrusterProtocol
@@ -88,6 +90,7 @@ class _Error(IntEnum):
     WRONG_TARGET = 8
     PROGRAM = 9
     VERIFY = 10
+    ESC_POWER_OFF = wire.ESC_FIRMWARE_UPDATE_ERROR_ESC_POWER_OFF
 
 
 _ERROR_MESSAGES = {
@@ -101,7 +104,21 @@ _ERROR_MESSAGES = {
     _Error.WRONG_TARGET: "the connected ESC is not the supported F421/PB4 target",
     _Error.PROGRAM: "writing flash failed; the ESCs remain stopped for a safe retry",
     _Error.VERIFY: "flash verification failed; the ESCs remain stopped for a safe retry",
+    _Error.ESC_POWER_OFF: (
+        "ESC power is not on; switch ESC power on, wait until it reads on "
+        "(about 15 s) and retry"
+    ),
 }
+# Mainboard: RECOVER_BEGIN found ESC power off. The MCU keeps its recovery state in
+# RAM only, so it restarted (or the interrupted update ended while this service was
+# down); powering the ESCs on now would start them on parked (low) lines.
+_RECOVERY_POWER_OFF_MESSAGE = (
+    "ESC firmware recovery failed because ESC power is off: the MCU no longer holds "
+    "the ESCs in recovery (it restarted, or the interrupted update ended while this "
+    "service was down). No ESC was modified. ESC power stays blocked while the "
+    "recovery is pending; see the mainboard wiki, risk 'MCU reset during ESC "
+    "firmware recovery'."
+)
 
 
 class EscFirmwareUpdateError(RuntimeError):
@@ -110,6 +127,10 @@ class EscFirmwareUpdateError(RuntimeError):
 
 class _PicoStatusTimeoutError(EscFirmwareUpdateError):
     """Raised when the Pico does not acknowledge an updater packet in time."""
+
+
+class _EscPowerOffError(EscFirmwareUpdateError):
+    """The MCU refused BEGIN or RECOVER_BEGIN with error 11 (ESC power not on)."""
 
 
 class _PostCommitFailureError(EscFirmwareUpdateError):
@@ -233,6 +254,13 @@ def _format_updater_failure(motor: int, error: int) -> str:
         updater_error, "the updater reported an unspecified failure"
     )
     return f"{scope} failed because {detail}"
+
+
+def _updater_failure(motor: int, error: int) -> EscFirmwareUpdateError:
+    message = _format_updater_failure(motor, error)
+    if error == _Error.ESC_POWER_OFF:
+        return _EscPowerOffError(message)
+    return EscFirmwareUpdateError(message)
 
 
 def set_esc_firmware_recovery_required(
@@ -584,7 +612,7 @@ async def _expect_status(  # noqa: PLR0913 - wire status policy is explicit at e
                 recovery_required=True,
             )
         if status == _Status.FAILED:
-            raise EscFirmwareUpdateError(_format_updater_failure(motor, error))
+            raise _updater_failure(motor, error)
         if (
             status == expected
             and (expected_value is None or value == expected_value)
@@ -821,6 +849,10 @@ async def _run_update(  # noqa: PLR0913 - transaction hooks remain explicit for 
         )
     except _PostCommitFailureError:
         raise
+    except _EscPowerOffError as error:
+        if recovery:
+            raise EscFirmwareUpdateError(_RECOVERY_POWER_OFF_MESSAGE) from error
+        raise _precommit_error(error) from error
     except (EscFirmwareUpdateError, TimeoutError, OSError, RuntimeError) as error:
         raise _precommit_error(error) from error
 
@@ -864,6 +896,31 @@ def _start_update(state: RovState) -> None:
     update.error = None
 
 
+def _require_esc_power_on(state: RovState) -> None:
+    """Mainboard: AM32 needs powered ESCs, so check state 4 before the 0x25 gate.
+
+    The gate closes the session, so no ESC power request can follow it. A
+    recovery retry skips this: the host holds no session then (no ATTITUDE), and
+    the MCU refuses RECOVER_BEGIN with error 11 when ESC power is off. Pico
+    builds without the switch (no CAPS feature 0x20) are not checked.
+    """
+    esc_power = state.esc_power
+    if (
+        state.esc_firmware_recovery_required
+        or esc_power is None
+        or not esc_power.supported
+    ):
+        return
+    current = esc_power.power_state
+    if current != EscPowerState.ON:
+        msg = (
+            f"ESC power must be on before ESC firmware can be updated (it reads "
+            f"{current.value}). Switch ESC power on and wait until it reads on, "
+            "about 15 s."
+        )
+        raise EscFirmwareUpdateError(msg)
+
+
 async def _preflight_update(
     state: RovState, serial_manager: SerialManager
 ) -> tuple[Path, str, bytes]:
@@ -886,6 +943,7 @@ async def _preflight_update(
             "Wait for thruster control to become ready before flashing ESC firmware."
         )
         raise EscFirmwareUpdateError(msg)
+    _require_esc_power_on(state)
     blocker = disruptive_motor_operation_blocker(
         state,
         allow_esc_recovery=True,

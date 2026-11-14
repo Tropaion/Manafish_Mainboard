@@ -27,6 +27,9 @@ from .toast import ToastContent, cancel_thruster_test_action, toast_content
 
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
+    from .models.thruster import ThrusterData
     from .rov_state import RovState
     from .serial import SerialManager
 
@@ -50,6 +53,17 @@ MAX_SEQUENCE = 0xFFFFFFFE
 QUATERNION_SIZE = 4
 MIN_QUATERNION_NORM = 1e-6
 _NOT_READY = 5
+# 0x26 is answered at once; resend the same frame after REQUEST_RETRY up to this often.
+ESC_POWER_ACK_ATTEMPTS = 4
+
+
+def direction_input_valid(thrusters: "ThrusterData", wall_now: float) -> bool:
+    """Pilot input younger than HOST_TIMEOUT, sent as valid (flag bit 2)."""
+    return (
+        thrusters.direction_vector is not None
+        and thrusters.last_direction_time > 0
+        and 0 <= wall_now - thrusters.last_direction_time < HOST_TIMEOUT
+    )
 
 
 class PicoControl:
@@ -75,6 +89,7 @@ class PicoControl:
         self._negotiated = False
         self.capability_checked = False
         self.development_identity: str | None = None
+        self.features = 0
         self._last_telemetry = 0.0
         self._last_telemetry_sequence = 0
         self._last_imu_sequence = 0
@@ -93,6 +108,22 @@ class PicoControl:
         self._last_stats: dict[str, int | float] = {}
         self.current_quaternion = (0.0, 0.0, 0.0, 1.0)
         self.desired_quaternion = (0.0, 0.0, 0.0, 1.0)
+
+    @property
+    def session_active(self) -> bool:
+        """A negotiated session on this USB connection, before any maintenance gate."""
+        return (
+            self._negotiated
+            and self.session != 0
+            and not self._maintenance
+            and not self.state.mcu_flashing
+            and self._generation == self.serial.connection_generation
+        )
+
+    @property
+    def esc_power_supported(self) -> bool:
+        """CAPS feature 0x20: the MCU drives the mainboard ESC power switch."""
+        return bool(self.features & wire.FEATURE_ESC_POWER)
 
     @property
     def suppress_bundled_reconciliation(self) -> bool:
@@ -140,6 +171,7 @@ class PicoControl:
         self._negotiated = False
         self.capability_checked = False
         self.development_identity = None
+        self.features = 0
         self._last_telemetry = 0.0
         self._last_telemetry_sequence = 0
         self._last_imu_sequence = 0
@@ -148,6 +180,8 @@ class PicoControl:
         self._previous_direction.fill(0)
         self._last_source = 0.0
         self.state.system_health.imu_healthy = False
+        # A new USB connection may be a rebooted MCU: never carry its ESC state over.
+        self.state.esc_power_telemetry.expire()
         self.state.system_status.thruster_control_ready = False
         for future in (self._waiter, self._capability):
             if future is not None and not future.done():
@@ -197,7 +231,9 @@ class PicoControl:
         *,
         staged: bool = False,
         attempts: int | None = None,
+        results: tuple[int, ...] | None = None,
     ) -> wire.Frame:
+        expected = results or ((wire.STAGED if staged else wire.APPLIED),)
         frame = self._frame(kind, payload)
         self._pending = frame
         waiter = asyncio.get_running_loop().create_future()
@@ -219,11 +255,7 @@ class PicoControl:
             request_type, result, reserved, _generation, _digest = struct.unpack(
                 "<BBHII", reply.payload
             )
-            if (
-                request_type != kind
-                or reserved != 0
-                or result != (wire.STAGED if staged else wire.APPLIED)
-            ):
+            if request_type != kind or reserved != 0 or result not in expected:
                 msg = f"Pico rejected request {kind:#x} (result {result})"
                 raise RuntimeError(msg)
             return reply
@@ -277,6 +309,7 @@ class PicoControl:
                 msg = "Incompatible Pico control capabilities; output remains neutral"
                 raise RuntimeError(msg)
             identity = reply.payload[12:].decode("ascii", errors="strict")
+            self.features = features
             if features & 16 and identity.startswith("pico-control-dev:"):
                 self.development_identity = identity
             self.session = self._next_session()
@@ -396,6 +429,33 @@ class PicoControl:
     def confirm_persisted_config(self) -> None:
         """Resume only after the host has persisted the acknowledged image."""
         self._ready = True
+
+    async def request_esc_power(
+        self, *, on: bool, before_send: "Callable[[], None] | None" = None
+    ) -> int:
+        """Send one fresh, reliable ESC_POWER (0x26) request and return its result.
+
+        The result is APPLIED, BUSY, INVALID or UNSUPPORTED, and none of them ends
+        the session. A lost ACK resends the same frame; BUSY is retried by the
+        caller with a new request on its own timer, because a resent sequence
+        only repeats the cached BUSY. ENTER_MAINTENANCE (0x25) closes the session,
+        so every ESC power request goes out before that gate. ``before_send``
+        runs once the gate is held, right before the frame; raising cancels it.
+        """
+        async with asyncio.timeout(APPLY_TIMEOUT):
+            async with self._gate:
+                if before_send is not None:
+                    before_send()
+                if not self.session_active:
+                    msg = "Pico control session is not active"
+                    raise ConnectionError(msg)
+                reply = await self._request(
+                    wire.ESC_POWER,
+                    struct.pack("<I", int(on)),
+                    attempts=ESC_POWER_ACK_ATTEMPTS,
+                    results=wire.ESC_POWER_RESULTS,
+                )
+                return reply.payload[1]
 
     async def _set_target(self, kind: int, payload: bytes) -> None:
         async with asyncio.timeout(APPLY_TIMEOUT):
@@ -531,6 +591,12 @@ class PicoControl:
         desired = values[5:9]
         depth = values[9]
         generation, _control_sequence, health, _host_age, _output_age = values[10:15]
+        # The ESC power state (bits 4-6) is valid before the settings generation
+        # matches, so a talking MCU never looks silent to the off wait.
+        self.state.esc_power_telemetry.record(
+            (health >> wire.ESC_POWER_HEALTH_SHIFT) & wire.ESC_POWER_HEALTH_MASK,
+            time.monotonic(),
+        )
         if generation != self._settings_generation:
             self._reject_attitude(
                 "generation", f"{generation} != {self._settings_generation}"
@@ -604,6 +670,8 @@ class PicoControl:
         ):
             self.state.system_health.imu_healthy = False
             self.state.system_status.thruster_control_ready = False
+        if now - self.state.esc_power_telemetry.reported_at > TELEMETRY_TIMEOUT:
+            self.state.esc_power_telemetry.expire()
 
     def _recover_stalled_attitude(self, now: float) -> None:
         """Renegotiate when a ready session never gets usable attitude telemetry.
@@ -652,11 +720,7 @@ class PicoControl:
     async def _send_direction(self, now: float) -> None:
         state = self.state
         raw = state.thrusters.direction_vector
-        valid = (
-            raw is not None
-            and state.thrusters.last_direction_time > 0
-            and 0 <= time.time() - state.thrusters.last_direction_time < HOST_TIMEOUT
-        )
+        valid = direction_input_valid(state.thrusters, time.time())
         direction = (
             np.zeros(8, dtype=np.float32)
             if not valid

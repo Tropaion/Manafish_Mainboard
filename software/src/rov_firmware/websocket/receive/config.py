@@ -341,7 +341,8 @@ async def _persist_candidate(
                 msg = "Pico control is unavailable"
                 raise ConnectionError(msg)
             await state.pico.apply_config(candidate)
-        candidate.save()
+        # Mainboard: save() fsyncs twice; keep it off the 60 Hz control loop.
+        await asyncio.to_thread(candidate.save)
     except Exception as error:
         await _reject_config_mutation(state, mutation_id, str(error))
         return False

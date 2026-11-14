@@ -1,14 +1,81 @@
 import time
 
+from rov_firmware.models.battery import BatteryStatus
+from rov_firmware.models.charger import ChargerStatus, ChargerTelemetry
 from rov_firmware.models.config import ThrusterProtocol
+from rov_firmware.models.soc import SocStatus
 from rov_firmware.websocket.send import status
 
 
-def test_status_reports_pi_undervoltage(rov_state, monkeypatch):
-    monkeypatch.setattr(status, "is_pi_undervoltage_detected", lambda: True)
+def test_status_reports_pi_undervoltage(rov_state):
+    # SocMonitor latches the toggling rpi_volt alarm; the status reads the latch.
+    now = time.monotonic()
+    rov_state.soc = SocStatus(
+        updated_at=now, undervoltage=False, undervoltage_asserted_at=now - 30
+    )
     message = status.build_status_update(rov_state)
     assert message.payload.pi_undervoltage is True
     assert message.model_dump(by_alias=True)["payload"]["piUndervoltage"] is True
+
+
+def test_undervoltage_latch_expires_and_unavailable_is_no_alarm(rov_state):
+    now = time.monotonic()
+    rov_state.soc = SocStatus(
+        updated_at=now, undervoltage=False, undervoltage_asserted_at=now - 61
+    )
+    assert status.build_status_update(rov_state).payload.pi_undervoltage is False
+    rov_state.soc = SocStatus(updated_at=now, undervoltage=None)
+    assert status.build_status_update(rov_state).payload.pi_undervoltage is False
+
+
+def _charger(now, vbat_v):
+    return ChargerStatus(
+        readable=True,
+        updated_at=now,
+        telemetry=ChargerTelemetry(
+            vbat_cell_v=vbat_v / 5,
+            vbat_v=vbat_v,
+            vin_v=0.0,
+            vout_v=vbat_v,
+            ibat_a=-0.2,
+            iin_a=0.0,
+            die_temp_c=30.0,
+            charger_state=256,
+            charge_status=0,
+            system_status=1,
+            chem=0,
+            cell_count=0,
+            telemetry_valid=True,
+        ),
+        telemetry_problem=None,
+        poe_present=False,
+    )
+
+
+def test_battery_percentage_uses_the_ltc4162_ema(rov_state):
+    now = time.monotonic()
+    rov_state.mcu_telemetry.voltage = [12.0] * 8
+    rov_state.charger = _charger(now, 19.0)
+    rov_state.battery = BatteryStatus(updated_at=now, voltage_ema_v=18.25)
+    # (18.25 - 16) / (20.5 - 16) = 50 %, not the ESC average.
+    assert status.build_status_update(rov_state).payload.battery_percentage == 50
+
+
+def test_battery_percentage_uses_vbat_until_the_ema_exists(rov_state):
+    now = time.monotonic()
+    rov_state.charger = _charger(now, 20.5)
+    assert status.build_status_update(rov_state).payload.battery_percentage == 100
+
+
+def test_battery_percentage_falls_back_to_esc_voltage_without_the_charger(
+    rov_state,
+):
+    now = time.monotonic()
+    rov_state.mcu_telemetry.voltage = [18.25, 18.25, 0, 0, 0, 0, 0, 0]
+    rov_state.battery = BatteryStatus(updated_at=now, voltage_ema_v=20.0)
+    # No fresh charger telemetry: the stale EMA is not used either.
+    rov_state.charger = _charger(now - 10, 20.0)
+    assert status.build_status_update(rov_state).payload.battery_percentage == 50
 
 
 def test_status_reports_thruster_control_readiness(rov_state):

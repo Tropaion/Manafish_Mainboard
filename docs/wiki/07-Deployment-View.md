@@ -35,7 +35,7 @@ flowchart LR
 | Node | Runs | Storage | Status |
 |---|---|---|---|
 | CM5 | NixOS image `cm5-mainboard`: rov_firmware service (manafish-firmware), go2rtc, dnsmasq, sshd, avahi | eMMC, 16 GB or more; any CM5 with eMMC (7.2) | image **[done]** (Phase 3); boot on the CM5 IO Board **[done]** (spike, 2026-11-14); on the board **[bring-up]** (B4) |
-| RP2354A (MCU) | Mainboard UF2 from a `firmware-vX.Y.Z-mb.N` release | 2 MB in-package flash | board target, release workflow and release `firmware-v1.0.4-mb.1` **[done]**; bundled in the image **[done]** (Phase 3); flashed from the CM5 **[planned: Phase 4]** |
+| RP2354A (MCU) | Mainboard UF2 from a `firmware-vX.Y.Z-mb.N` release | 2 MB in-package flash | board target, release workflow and release `firmware-v1.0.4-mb.1` **[done]**; bundled in the image **[done]** (Phase 3); flashed from the CM5 (hardware BOOTSEL, 8.4) **[done]** (Phase 4), on the board **[bring-up]** (B7) |
 | ESCs | AM32 2.21.1 (`AM32_SKYSTARS_AM60_V2_F421`, manafishrov/esc-firmware `v2.21.1-rc.1`), flashed through the MCU | ESC flash | **[upstream]** |
 | Workstation | Nix with flakes and `extra-platforms = aarch64-linux`, qemu-aarch64 binfmt (F flag), uv, `~/usbboot`. rpiboot is not installed: it runs through `nix shell nixpkgs#rpiboot` (7.3). The `rpi-eeprom` submodule of `~/usbboot`, which the EEPROM update needs, is not initialised yet (7.3) | | **[done]** (Phase 0.1) |
 | GitHub Actions | CI and the release build | 7-day image artifacts, release assets | CI workflows **[done]** (Phase 1); release workflow **[done]** (Phase 2) |
@@ -222,7 +222,7 @@ automount that unmounts after 60 s idle, so a cut rarely finds the FAT partition
 |---|---|---|---|
 | `firmware/` | `manafish-setup` | Copy of the `software/` store path, replaced when the `.nix-source` marker differs | **[upstream]** |
 | `firmware/src/rov_firmware/config.json` | the service | `RovConfig` (mode 0600). Kept across image updates; also read by the camera wrapper and `manafish-network` | **[upstream]** |
-| `mcu-firmware/` | `manafish-setup` | One `mainboard-v<ver>.uf2`, now `mainboard-v1.0.4-mb.1.uf2`. Other `mainboard-v*.uf2` files are deleted. Until Phase 4 the service looks for `pico2-v*.uf2`, finds none and never flashes the MCU by itself | **[done]** (Phase 3) |
+| `mcu-firmware/` | `manafish-setup` | One `mainboard-v<ver>.uf2`, now `mainboard-v1.0.4-mb.1.uf2`. Other `mainboard-v*.uf2` files are deleted. The service looks for `mainboard-v*.uf2` and flashes it at first boot or on a version mismatch (6.2); before Phase 4 it looked for `pico2-v*.uf2` and never flashed by itself | **[done]** (Phase 3); prefix `mainboard` **[done]** (Phase 4) |
 | `esc-firmware/esc-v<ver>.bin` | `manafish-setup` | AM32 binary | **[upstream]** |
 
 ## 7.5 Services and ports
@@ -283,8 +283,9 @@ sequenceDiagram
 
 | Loop | How | Status |
 |---|---|---|
-| Python on the device | `rsync -rlt --delete --exclude __pycache__ --exclude config.json software/src/ pi@10.10.10.10:firmware/src/`, then restart the service with `ssh -t pi@10.10.10.10 'sudo systemctl restart manafish-firmware; journalctl -fu manafish-firmware'`. Never overwrite the device config. New Python dependencies need an image rebuild; the next new image replaces the synced tree | documented in CLAUDE.md **[done]** |
+| Python on the device | `rsync -rlt --delete --exclude __pycache__ --exclude "*.egg-info" --exclude config.json software/src/ pi@10.10.10.10:firmware/src/`, then restart the service with `ssh -t pi@10.10.10.10 'sudo systemctl restart manafish-firmware; journalctl -fu manafish-firmware'`. Never overwrite the device config. New Python dependencies need an image rebuild; the next new image replaces the synced tree | documented in CLAUDE.md **[done]** |
 | App work without hardware | `uv run tools` → "Run Mock Websocket Server Locally" | **[upstream]** |
+| MCU by hand on the device | `sudo systemctl stop manafish-firmware`, wait 35 s, then `tools mcu-reset` (10 ms RUN pulse) or `tools mcu-recover [UF2]` (hardware BOOTSEL, then `picotool load -v -x` of the given or bundled image). Both refuse earlier and while the ESC recovery journal is set (8.4). Without arguments `tools` shows the menu; the image's `tools` script passes its arguments on | **[done]** (Phase 4); on the board **[bring-up]** (B7) |
 | NixOS change without reflashing | `nix shell nixpkgs#nixos-rebuild-ng -c nixos-rebuild switch --flake ./software#cm5-mainboard --target-host pi@10.10.10.10 --sudo --ask-sudo-password`; builds on the workstation | flakes and `trusted-users` on the device **[done]**; the loop itself **[done]** (spike check 8, 2026-11-14) |
 | MCU firmware | `cd firmware && nix develop`, `make test`, `make build-pico2`; `make build-mainboard`, and `flash-mainboard` without `-f` (expects BOOTSEL already) | **[upstream]** / **[done]** |
 | MCU bench scripts | `scp firmware/scripts/control_smoke.py firmware/scripts/mainboard_bringup.py pi@10.10.10.10:`, run with the service stopped and `--port /dev/manafish-mcu`; not in the image | **[planned: Phase 5]** |

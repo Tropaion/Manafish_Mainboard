@@ -27,7 +27,7 @@ WEBSOCKET_PORT = 9000
 MOCK_CONFIG: dict[str, Any] = {
     "firmwareVersion": CURRENT_FIRMWARE_VERSION,
     "rovName": "Manafish-m0ck",
-    "mcuBoard": "pico",
+    "mcuBoard": "pico2",
     "thrusterProtocol": "dshot",
     "dshotSpeed": 300,
     "fluidType": "saltwater",
@@ -67,11 +67,11 @@ MOCK_CONFIG: dict[str, Any] = {
         "maxBatteryVoltage": 21.5,
     },
     "camera": {
-        "width": 1024,
-        "height": 768,
+        "width": 1280,
+        "height": 960,
         "framerate": 30,
         "cropFov": False,
-        "bitrate": 3538944,
+        "bitrate": 4500000,
         "keyframeInterval": 30,
         "profile": "baseline",
         "level": "4.2",
@@ -106,6 +106,9 @@ SYSTEM_STATUS: dict[str, Any] = {
         "step": None,
         "startTime": None,
     },
+    # Mainboard ESC power switch: requested state and when it last changed.
+    "escPowerOn": False,
+    "escPowerChangedAt": float("-inf"),
 }
 
 THRUSTER_TEST_TOAST_ID = "thruster-test"
@@ -115,6 +118,9 @@ ESC_FLASH_TOAST_ID = "flash-esc-firmware"
 THRUSTER_TEST_DURATION_SECONDS = 10
 AUTO_TUNING_OSCILLATION_DURATION_SECONDS = 10
 FLASH_DURATION_SECONDS = 3
+# The MCU's ESC power timers (firmware/src/esc_power.h): 15 s to thrust, 2 s stop.
+ESC_POWER_RAMP_SECONDS = 15
+ESC_POWER_STOP_SECONDS = 2
 PERCENT_COMPLETE = 100
 MOCK_ESC_FIRMWARE = MockEscFirmware(flash_duration_seconds=FLASH_DURATION_SECONDS)
 MCU_FLASH_TASK: asyncio.Task[None] | None = None
@@ -153,10 +159,43 @@ def _telemetry_readings(current_time: float) -> dict[str, Any]:
     }
 
 
+def _esc_power_reading() -> str:
+    """Simulate the reported ESC power state (rov.escPower)."""
+    elapsed = time.monotonic() - SYSTEM_STATUS["escPowerChangedAt"]
+    if SYSTEM_STATUS["escPowerOn"]:
+        return "ramping" if elapsed < ESC_POWER_RAMP_SECONDS else "on"
+    return "stopping" if elapsed < ESC_POWER_STOP_SECONDS else "off"
+
+
+def _set_esc_power(*, on: bool) -> None:
+    if SYSTEM_STATUS["escPowerOn"] != on:
+        SYSTEM_STATUS["escPowerOn"] = on
+        SYSTEM_STATUS["escPowerChangedAt"] = time.monotonic()
+
+
+def _board_readings(current_time: float) -> dict[str, Any]:
+    """Simulate the mainboard readings: a 5S pack charging on PoE type 3."""
+    return {
+        "batteryVoltage": round(19.0 + 1.0 * math.sin(current_time / 30), 2),
+        "batteryCurrent": round(1.2 + 0.4 * math.sin(current_time / 20), 3),
+        "chargerState": "cc_cv_charge",
+        "poeType": "type3",
+        "poeInputVoltage": round(24.0 + 0.2 * math.sin(current_time / 7), 2),
+        "poeInputCurrent": round(1.5 + 0.3 * math.sin(current_time / 9), 3),
+        "chargerTemperature": round(45 + 3 * math.sin(current_time / 40), 1),
+        "hullTemperature": round(30 + 2 * math.sin(current_time / 60), 1),
+        "hullHumidity": round(35 + 5 * math.cos(current_time / 50), 1),
+        "hullPressure": round(1013 + 2 * math.sin(current_time / 45), 2),
+        "socTemperature": round(55 + 5 * math.sin(current_time / 25), 1),
+        "escPower": _esc_power_reading(),
+    }
+
+
 def _status_readings(current_time: float) -> dict[str, Any]:
     """Simulate the readings the firmware samples at the status rate."""
     esc_versions, esc_update = MOCK_ESC_FIRMWARE.status_payload()
     return {
+        **_board_readings(current_time),
         "autoStabilization": SYSTEM_STATUS["autoStabilization"],
         "depthHold": SYSTEM_STATUS["depthHold"],
         "batteryPercentage": int((math.sin(current_time / 5) + 1) * 50),
@@ -702,7 +741,7 @@ async def _handle_client(websocket: ServerConnection) -> None:  # noqa: C901,PLR
 
     last_direction: JsonValue = None
 
-    async def control(identifier: str, value: JsonValue) -> None:  # noqa: C901
+    async def control(identifier: str, value: JsonValue) -> None:  # noqa: C901,PLR0912
         """Simulate a built-in `rov.*` action in place of the Pico."""
         nonlocal last_direction
         if identifier == "rov.direction":
@@ -748,6 +787,9 @@ async def _handle_client(websocket: ServerConnection) -> None:  # noqa: C901,PLR
             await start_auto_tuning()
         elif identifier == "rov.regulatorAutoTuning.cancel":
             await cancel_auto_tuning()
+        elif identifier in {"rov.escPower.on", "rov.escPower.off"}:
+            _set_esc_power(on=identifier.endswith(".on"))
+            await send_log(f"ESC power {identifier.rsplit('.', 1)[1]} requested")
 
     try:
         await websocket.send(json.dumps(_config_message()))

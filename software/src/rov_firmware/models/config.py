@@ -1,8 +1,10 @@
 """Configuration models for the ROV firmware."""
 
+import contextlib
 from enum import StrEnum
 from ipaddress import IPv4Address, IPv4Network
 import json
+import os
 from pathlib import Path
 import secrets
 import tempfile
@@ -14,6 +16,7 @@ from numpy.typing import NDArray as NumpyNDArray
 from numpydantic import NDArraySchema
 from pydantic import Field, field_validator, model_validator
 
+from ..esc_recovery import fsync_directory
 from ..version import compare_semver, match_semver
 from .base import CamelCaseModel
 
@@ -91,6 +94,15 @@ class McuBoard(StrEnum):
 
     PICO = "pico"
     PICO2 = "pico2"
+
+
+def normalize_mcu_board[T](board: T) -> T | McuBoard:
+    """Mainboard: the RP2354A enumerates like a Pico 2, so ``pico`` means ``pico2``.
+
+    The validators run it before enum parsing, so a stored or requested "pico"
+    never survives.
+    """
+    return McuBoard.PICO2 if board == McuBoard.PICO else board
 
 
 class ThrusterProtocol(StrEnum):
@@ -300,14 +312,16 @@ class Camera(CamelCaseModel):
     value can never prevent the camera stream from starting.
     """
 
-    width: int = 1024
-    height: int = 768
+    # Hull defaults for the CM5's software encoder (spike check 5b: about 62 % of
+    # one core). Stored configs keep their own values.
+    width: int = 1280
+    height: int = 960
     framerate: int = 30
     # Whether resolutions smaller than the largest supported crop the field of
     # view (via the imx477's faster 1332x990 sensor mode) instead of scaling
     # down from the full-FOV mode. See _max_framerate_for.
     crop_fov: bool = False
-    bitrate: int = 3_538_944
+    bitrate: int = 4_500_000
     keyframe_interval: int = 30
     profile: H264Profile = H264Profile.BASELINE
     level: H264Level = H264Level.LEVEL_4_2
@@ -404,7 +418,7 @@ class RovConfig(CamelCaseModel):
 
     firmware_version: str = CURRENT_FIRMWARE_VERSION
     rov_name: str = Field(default_factory=_generate_rov_name)
-    mcu_board: McuBoard = McuBoard.PICO
+    mcu_board: McuBoard = McuBoard.PICO2
     thruster_protocol: ThrusterProtocol = ThrusterProtocol.DSHOT
     dshot_speed: int = 300
     fluid_type: FluidType = FluidType.SALTWATER
@@ -490,13 +504,11 @@ class RovConfig(CamelCaseModel):
             raise ValueError(msg)
         return v
 
-    @model_validator(mode="after")
-    def validate_dshot_speed_for_board(self) -> "RovConfig":
-        """Reject DShot speeds unsupported by the selected MCU."""
-        if self.mcu_board == McuBoard.PICO and self.dshot_speed == _DSHOT_1200:
-            msg = "DShot1200 requires Pico 2"
-            raise ValueError(msg)
-        return self
+    @field_validator("mcu_board", mode="before")
+    @classmethod
+    def normalize_pico(cls, v: object) -> object:
+        """Rewrite ``pico`` to ``pico2`` (load, set-config and import validate)."""
+        return normalize_mcu_board(v)
 
     @field_validator("thruster_allocation", mode="before")
     @classmethod
@@ -548,17 +560,28 @@ class RovConfig(CamelCaseModel):
         return cls.model_validate(raw)
 
     def save(self) -> None:
-        """Save config to file with current firmware version."""
+        """Save config to file with current firmware version.
+
+        The temp file is flushed to disk before the rename and the directory
+        after it, so a power cut leaves either the old or the new config.
+        """
         self.firmware_version = CURRENT_FIRMWARE_VERSION
         dir_path = self._config_path.parent
-        tmp = Path(tempfile.mkstemp(dir=dir_path, suffix=".tmp")[1])
+        file_descriptor, temporary_name = tempfile.mkstemp(dir=dir_path, suffix=".tmp")
+        tmp = Path(temporary_name)
         try:
-            with tmp.open("w") as f:
+            with os.fdopen(file_descriptor, "w") as f:
                 _ = f.write(self.model_dump_json(by_alias=True, indent=2))
+                f.flush()
+                os.fsync(f.fileno())
             tmp.replace(self._config_path)
         except BaseException:
             tmp.unlink(missing_ok=True)
             raise
+        # The new config is in place: a failed directory sync only weakens its
+        # durability across a power cut and must not report the save as failed.
+        with contextlib.suppress(OSError):
+            fsync_directory(dir_path)
 
 
 class PartialRovConfig(CamelCaseModel):
@@ -584,6 +607,12 @@ class PartialRovConfig(CamelCaseModel):
     camera: PartialCamera | None = None
     ip_address: str | None = None
     websocket_port: int | None = None
+
+    @field_validator("mcu_board", mode="before")
+    @classmethod
+    def normalize_pico(cls, v: object) -> object:
+        """Rewrite a requested ``pico`` to ``pico2``."""
+        return normalize_mcu_board(v)
 
     @field_validator("thruster_allocation", mode="before")
     @classmethod

@@ -14,6 +14,8 @@ from rov_firmware.constants import (
     MCU_TELEMETRY_TYPE_ERPM,
     MCU_TELEMETRY_TYPE_SIGNAL_QUALITY,
 )
+from rov_firmware.models.battery import BatteryLevel, BatteryStatus
+from rov_firmware.models.soc import SocStatus
 from rov_firmware.pico_control import PicoControl
 from rov_firmware.regulator import Regulator
 from rov_firmware.sensors import mcu as mcu_module
@@ -268,3 +270,39 @@ def test_summary_accepts_pico_control_snapshots(rov_state, monkeypatch):
     assert summaries
     assert "pico_session" in summaries[-1]["control"]
     assert "max_write_gap_s" not in summaries[-1]["control"]
+
+
+def test_snapshot_carries_the_board_block_and_state(recorder):
+    recorder, events = recorder
+    recorder.sample(100.0, undervoltage=False)
+    snapshot = next(fields for event, fields in events if event == "snapshot")
+    board = snapshot["board"]
+    assert board["escPower"] == "unavailable"
+    assert board["batteryVoltage"] is None
+    assert "throttled" in board
+    assert "telemetry_problem" in board
+    state = next(fields for event, fields in events if event == "state")
+    assert state["board"]["battery_level"] == "normal"
+
+
+def test_latched_undervoltage_reaches_the_diagnostics(recorder):
+    recorder, events = recorder
+    recorder.state.soc = SocStatus(
+        updated_at=100.0, undervoltage=False, undervoltage_asserted_at=80.0
+    )
+    recorder.sample(100.0, undervoltage=False)
+    snapshot = next(fields for event, fields in events if event == "snapshot")
+    assert snapshot["pi_undervoltage"] is True
+    history = next(fields for event, fields in events if event == "fault_history")
+    assert "pi_undervoltage" in history["reasons"]
+
+
+def test_board_faults_freeze_a_history(recorder):
+    recorder, events = recorder
+    recorder.sample(100.0, undervoltage=False)
+    recorder.state.battery = BatteryStatus(
+        updated_at=101.0, level=BatteryLevel.CRITICAL
+    )
+    recorder.sample(101.0, undervoltage=False)
+    history = next(fields for event, fields in events if event == "fault_history")
+    assert history["reasons"] == {"battery_critical": 101.0}

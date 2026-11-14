@@ -11,13 +11,28 @@ _RECOVERY_JOURNAL_PATH = (
     Path.home() / ".local" / "state" / "manafish" / "esc-firmware-update.json"
 )
 
+# Mainboard: the MCU keeps its ESC recovery state in RAM only. A reset or flash
+# forgets it, and the next ESC power-on on parked (low) lines starts the partly
+# programmed ESC firmware instead of the AM32 bootloader.
+MCU_RESET_REFUSAL = (
+    "The MCU is not reset or flashed while ESC firmware recovery is pending: it "
+    "would forget the recovery, and the next ESC power-on would start the partly "
+    "programmed ESC firmware. Retry the ESC firmware update first."
+)
+
 
 def recovery_journal_exists() -> bool:
     """Return whether an earlier ESC transaction may have reached COMMIT."""
     return _RECOVERY_JOURNAL_PATH.exists()
 
 
-def _fsync_directory(path: Path) -> None:
+def mcu_reset_refusal() -> str | None:
+    """Why the MCU must not be reset or flashed now (for tools outside the service)."""
+    return MCU_RESET_REFUSAL if recovery_journal_exists() else None
+
+
+def fsync_directory(path: Path) -> None:
+    """Flush a directory entry change (a rename or unlink) to disk."""
     directory_fd = os.open(path, os.O_RDONLY)
     try:
         os.fsync(directory_fd)
@@ -46,7 +61,7 @@ def mark_recovery_required(target_version: str | None) -> None:
             file.flush()
             os.fsync(file.fileno())
         temporary_path.replace(path)
-        _fsync_directory(path.parent)
+        fsync_directory(path.parent)
     except BaseException:
         temporary_path.unlink(missing_ok=True)
         raise
@@ -58,4 +73,4 @@ def clear_recovery_required() -> None:
     if not path.exists():
         return
     path.unlink()
-    _fsync_directory(path.parent)
+    fsync_directory(path.parent)

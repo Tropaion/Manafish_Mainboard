@@ -60,6 +60,19 @@ COLUMNS = (
     "thrusterControlReady",
     "thrusterProtocolState",
     "piUndervoltage",
+    # Mainboard readings.
+    "batteryVoltage",
+    "batteryCurrent",
+    "escPower",
+    "chargerState",
+    "poeType",
+    "poeInputVoltage",
+    "poeInputCurrent",
+    "chargerTemperature",
+    "hullTemperature",
+    "hullHumidity",
+    "hullPressure",
+    "socTemperature",
 )
 
 script = Script(

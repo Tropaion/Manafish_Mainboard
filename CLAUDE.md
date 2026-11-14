@@ -21,8 +21,9 @@ import package `rov_firmware` (distribution name `manafish`) and its device path
 
 Port status: `software/flake.nix` builds the CM5 image (`cm5-mainboard`) and
 bundles the mainboard UF2 from the `firmware-v1.0.4-mb.1` release. It passed
-the spike on the CM5 IO Board (2026-11-14). The Python side (Phase 4) still
-assumes Pico boards.
+the spike on the CM5 IO Board (2026-11-14). Phase 4 (CM5 Python: mainboard MCU
+discovery and flashing, charger, PoE, hull sensors, battery, ESC power) is
+unit-tested and waits for bring-up.
 
 ## Owner rules
 
@@ -76,7 +77,7 @@ PICO_CONTROLLER_SOURCE=$PWD/../firmware/src/control/controller.c uv run pytest
 - Firmware: `cd firmware && nix develop`, then `make test`, `make build-pico2`.
 - Software: `uv run tools` → "Run Mock Websocket Server Locally" for app work
   without hardware. On the device (direct cable), never overwrite its config:
-  `rsync -rlt --delete --exclude __pycache__ --exclude config.json software/src/ pi@10.10.10.10:firmware/src/`,
+  `rsync -rlt --delete --exclude __pycache__ --exclude "*.egg-info" --exclude config.json software/src/ pi@10.10.10.10:firmware/src/`,
   then restart the service (device `sudo`, so Claude runs it):
   `ssh pi@10.10.10.10 'echo manafish | sudo -S -p "" systemctl restart manafish-firmware'`,
   and follow it with `ssh pi@10.10.10.10 'journalctl -fu manafish-firmware'`.
@@ -151,6 +152,10 @@ git subtree pull --prefix=software --squash upstream-software main -m "Update so
   bmi270 removal in `software/flake.nix`, `software/flake.lock`,
   `software/nix/firmware.nix`, `software/sync-python-deps.sh`,
   `software/pyproject.toml`, `software/uv.lock`, `software/src/tools/__init__.py`
-  and `software/src/tools/test_packages_available.py`.
+  and `software/src/tools/test_packages_available.py`; `"$@"` in the tools
+  wrapper of `software/nix/firmware.nix` and the 1280x960 / 4500000 fallbacks in
+  `software/nix/camera.nix` (no test guards these two). The other Phase 4 edits
+  to upstream files under `software/src` and `software/tests` are listed in wiki
+  8.9 and guarded by the pytest gate.
 - Then run both quality gates. Read removed upstream files with
   `git show upstream-mcu/main:<path>` or `git show upstream-software/main:<path>`.

@@ -5,12 +5,18 @@ from typing import TYPE_CHECKING
 
 
 if TYPE_CHECKING:
+    from .esc_power import EscPowerController
     from .pico_control import PicoControl
 
 from .esc_recovery import recovery_journal_exists
+from .models.battery import BatteryStatus
+from .models.charger import ChargerStatus
 from .models.config import RovConfig
+from .models.esc_power import EscPowerTelemetry
+from .models.hull import HullData
 from .models.regulator import RegulatorData
 from .models.sensors import ImuData, McuData, PressureData
+from .models.soc import SocStatus
 from .models.system import DeviceInfo, EscFirmwareUpdate, SystemHealth, SystemStatus
 from .models.thruster import ThrusterData
 
@@ -43,6 +49,14 @@ class RovState:
         self.mcu_flash_lock = asyncio.Lock()
         self.config_mutation_lock = asyncio.Lock()
         self.pico: PicoControl | None = None
+        self.esc_power_telemetry: EscPowerTelemetry = EscPowerTelemetry()
+        self.esc_power: EscPowerController | None = None
+        # Board-side state (not RovStatus): replaced whole by HullSensors,
+        # ChargerMonitor, LowBatteryMonitor and SocMonitor every cycle.
+        self.hull: HullData = HullData()
+        self.charger: ChargerStatus = ChargerStatus()
+        self.battery: BatteryStatus = BatteryStatus()
+        self.soc: SocStatus = SocStatus()
 
     async def set_desired_attitude(
         self, quaternion: tuple[float, float, float, float]

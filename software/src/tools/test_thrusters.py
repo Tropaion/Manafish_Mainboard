@@ -2,10 +2,11 @@
 
 import asyncio
 import logging
-from pathlib import Path
 import struct
 
 from serial_asyncio_fast import open_serial_connection
+
+from rov_firmware.mcu_usb import find_mcu_port
 
 
 MCU_TELEMETRY_MAX_READ_BUFFER_SIZE = 16
@@ -30,13 +31,11 @@ erpm_count = [0]
 
 
 def _find_port() -> str:
-    """Find the MCU serial port."""
-    ports = list(Path("/dev/serial/by-id/").glob("usb-Raspberry_Pi_Pico*"))
-    if not ports:
-        ports = list(Path("/dev/").glob("ttyACM*"))
-    if ports:
-        return str(ports[0])
-    msg = "No MCU port found"
+    """Find the MCU serial port (the service's lookup, no blind ttyACM fallback)."""
+    port = find_mcu_port()
+    if port is not None:
+        return port
+    msg = "No MCU port found (/dev/manafish-mcu or a 2e8a:0009 ttyACM)"
     raise RuntimeError(msg)
 
 
