@@ -6,9 +6,10 @@
         enable = true;
         value = "on";
       };
+      # The mainboard's LTC4162 and WSEN-PADS allow at most 400 kHz.
       i2c_arm_baudrate = {
         enable = true;
-        value = 1000000;
+        value = 400000;
       };
     };
   };

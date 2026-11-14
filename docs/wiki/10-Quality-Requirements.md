@@ -49,11 +49,11 @@ flowchart LR
 
 | ID | Stimulus and response | Measure | Verified | Status |
 |---|---|---|---|---|
-| QR-1 | Abrupt power cuts, including during a config save | 50 cuts: boots every time, `config.json` intact | Spike check 7 (20 cuts, no ext4 errors) on the IO Board; B15 | **[planned: Phase 3]**, **[bring-up]** (B15) |
+| QR-1 | Abrupt power cuts, including during a config save | 50 cuts: boots every time, `config.json` intact | Spike check 7 (20 cuts, no ext4 errors) on the IO Board; B15 | **[planned: Phase 3 spike]**, **[bring-up]** (B15) |
 | QR-2 | +5V cut under load | CM5_3.3V stays above 1.8 V | B15 scope | **[bring-up]** (B15) |
 | QR-3 | `poweroff` | 3.3 V, the MCU and ESC_PWR drop (`POWER_OFF_ON_HALT=1`) | B15 | **[bring-up]** (B15) |
 | QR-4 | Blank or bricked MCU | Hardware BOOTSEL: 000f, flash, then 0009 with iProduct "Manafish Mainboard" and `/dev/manafish-mcu` | `mcu_gpio` order test; B7 | **[planned: Phase 4]**, **[bring-up]** (B7) |
-| QR-5 | GPIO24/25 during CM5 power-up and boot | Never low over 10 cold boots | IO Board scope (Phase 3); B5 | **[planned: Phase 3]**, **[bring-up]** (B5) |
+| QR-5 | GPIO24/25 during CM5 power-up and boot | Never low over 10 cold boots | IO Board scope (Phase 3 spike); B5 | **[planned: Phase 3 spike]**, **[bring-up]** (B5) |
 | QR-6 | Cold start of Y1 | 20 reboots plus cold power cycles at 0-5 °C, and BOOTSEL when cold, all succeed | B7 | **[bring-up]** (B7) |
 | QR-7 | Thrusters running in a tank | Ethernet errors stay 0 during 30 min `iperf3` | B16 | **[bring-up]** (B16) |
 | QR-8 | PoE on vs off | `iperf3` 10 min each way; `ethtool -S` compared with and without PoE | B9 | **[bring-up]** (B9) |
@@ -77,7 +77,7 @@ flowchart LR
 |---|---|---|---|---|
 | QF-1 | Normal operation | Control loop at 500 Hz; features 0x3f; IMU healthy | `control_smoke.py --execute` at B7 | **[upstream]** loop, **[bring-up]** (B7) |
 | QF-2 | All eight ESCs on DShot | Telemetry from all 8, quality above 95 % | B12 | **[bring-up]** (B12) |
-| QF-3 | One and two go2rtc streams | CPU, SoC temperature and throttling logged over 60 min; latency measured; camera defaults set from this run | Spike check 5; B14 | **[planned: Phase 3]**, **[bring-up]** (B14) |
+| QF-3 | One and two go2rtc streams | CPU, SoC temperature and throttling logged over 60 min; latency measured; camera defaults set from this run | Spike check 5; B14 | **[planned: Phase 3 spike]**, **[bring-up]** (B14) |
 
 ## 10.6 Compatibility and maintainability scenarios
 

@@ -17,7 +17,6 @@ def main() -> None:
         "smbus2",
         "scipy",
         "serial_asyncio_fast",
-        "bmi270",
         "ms5837",
     ]
 

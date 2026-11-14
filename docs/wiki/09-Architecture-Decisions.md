@@ -32,6 +32,7 @@ from verified rulings that correct the plan. Status labels as in
 | 23 | Image workflow runs on `ubuntu-26.04-arm` | accepted |
 | 24 | Firmware releases set `prerelease: false` | accepted |
 | 25 | arc42 docs as Gitea wiki source in `docs/wiki/` | accepted |
+| 26 | One CM5 image for every CM5 with eMMC | accepted |
 
 ### ADR-01 Import upstreams with `git subtree --squash`
 - **Status:** accepted. **[done]** in Phase 0 (mcu-firmware @88bd6a0, firmware @9e282b5).
@@ -40,13 +41,13 @@ from verified rulings that correct the plan. Status labels as in
 - **Consequences:** base SHA recorded; `git subtree pull --squash` works. Upstream tags are never fetched. Upstream CI and pre-commit paths were removed and must be removed again after each pull.
 
 ### ADR-02 NixOS on the CM5, gated by a one-day spike
-- **Status:** accepted, gated by the Phase 3 spike **[planned: Phase 3]**.
+- **Status:** accepted. Image `cm5-mainboard` on `raspberry-pi-5.base` **[done]** (Phase 3); the gate, spike checks 1-4 on the CM5 IO Board, **[planned: Phase 3 spike]**.
 - **Context:** upstream already builds the whole image: services, Python env, bundled MCU/ESC firmware and a tmpfs root that survives the magnet switch's hard cut.
 - **Decision:** switch from `raspberry-pi-3.base` to nixos-raspberrypi `raspberry-pi-5.base` (same BCM2712). Spike checks 1-4 must pass on the CM5 IO Board.
-- **Consequences:** if they fail, stop and report. Fallback, only with owner approval: Raspberry Pi OS Lite with overlayroot, about 2-3 days; Phase 4 unchanged.
+- **Consequences:** if they fail, stop and report. Fallback, only with owner approval: Raspberry Pi OS Lite with overlayroot, about 2-3 days; Phase 4 unchanged. All board config lives in `software/nix/board.nix`; config.txt traps and lines in [Deployment View](07-Deployment-View).
 
 ### ADR-03 One target: CM5 image and mainboard UF2
-- **Status:** accepted. MCU part **[done]** (Phase 2: CI builds pico, pico2 and the mainboard; `firmware-release.yml` ships only the mainboard UF2); CM5 image **[planned: Phase 3]**.
+- **Status:** accepted. MCU part **[done]** (Phase 2: CI builds pico, pico2 and the mainboard; `firmware-release.yml` ships only the mainboard UF2); CM5 image **[done]** (Phase 3: `pi3-imx477` and the pico/pico2 UF2 inputs removed; the image bundles only the mainboard UF2).
 - **Context:** upstream targets a Raspberry Pi 3 and Pico/Pico 2 boards.
 - **Decision:** drop the `pi3-imx477` configuration. Keep pico/pico2 builds in CI for host tests, lint and upstream merges; release only the mainboard UF2.
 - **Consequences:** less to maintain; pico/pico2 code paths stay compiled so upstream merges keep working.
@@ -58,9 +59,9 @@ from verified rulings that correct the plan. Status labels as in
 - **Consequences:** stock pico2 images are not used on the board. ESC power code is a no-op stub without the pin macro.
 
 ### ADR-05 App contract unchanged; new values through the dynamic catalog
-- **Status:** accepted **[planned: Phase 4]**.
+- **Status:** accepted **[planned: Phase 4]**; go2rtc streams `cam` and `cam2` **[done]** (Phase 3).
 - **Context:** the pilot app is a separate repo and out of scope.
-- **Decision:** `RovConfig`, `RovStatus`, `SystemHealth` keep their shapes. New values are `rov.*` capability readings; ESC power is the action `rov.escPower.set`. Camera 1 stays go2rtc stream `cam`, camera 2 becomes `cam2`.
+- **Decision:** `RovConfig`, `RovStatus`, `SystemHealth` keep their shapes. New values are `rov.*` capability readings; ESC power is the action `rov.escPower.set`. Camera 1 stays go2rtc stream `cam`, camera 2 becomes `cam2`. The streams map to rpicam's camera index, so `cam` is the first camera present; this keeps video if camera 1 fails.
 - **Consequences:** the app works without changes; camera 2 needs app work elsewhere. Every new key must be in `READING_DEFINITIONS` and the catalog fixture.
 
 ### ADR-06 `mcu_board` keeps `pico`/`pico2`, `pico` normalised to `pico2`
@@ -76,10 +77,10 @@ from verified rulings that correct the plan. Status labels as in
 - **Consequences:** all board code is testable on x86 with fakes (FakeSMBus, fake lgpio).
 
 ### ADR-08 Releases as GitHub release assets, `-mb.N` tags
-- **Status:** accepted; tag scheme approved by the owner on 2026-11-13. Rules **[done]** in CLAUDE.md; workflow `firmware-release.yml` **[done]** (Phase 2); the first tag waits for the owner.
+- **Status:** accepted; tag scheme approved by the owner on 2026-11-13. Rules **[done]** in CLAUDE.md; workflow `firmware-release.yml` **[done]** (Phase 2); first release `firmware-v1.0.4-mb.1` **[done]**, bundled in the image (Phase 3).
 - **Context:** no access to upstream's S3 and minisign secrets. Upstream version strings must stay unedited for merges and config-migration lineage.
 - **Decision:** `firmware-vX.Y.Z-mb.N` (X.Y.Z from `version.h`, never `-rc`) and `software-v<pyproject version>-mb.N`. The software flake fetches the UF2 from this repo's release URL; the UF2 is never built in Nix (the Pico SDK is fetched over the network).
-- **Consequences:** `releaseVersionFromLock` must accept `firmware-v…` **[planned: Phase 3]**. `-mb.N` sorts below upstream `-rc` in SemVer.
+- **Consequences:** `releaseVersionFromLock` accepts `firmware-v…` **[done]** (Phase 3). `-mb.N` sorts below upstream `-rc` in SemVer.
 
 ### ADR-09 MCU always flashed through hardware BOOTSEL
 - **Status:** accepted **[planned: Phase 4]** (CM5 path); `make flash-mainboard` without `-f` and the GPIO24/GPIO25 steps in `firmware/docs/PICO_CONTROL_HANDOFF.md` **[done]** (Phase 2); ruling: the CM5 path never uses `picotool -f`.
@@ -136,16 +137,16 @@ from verified rulings that correct the plan. Status labels as in
 - **Consequences:** thrust stays available until the final shutdown, which happens only with motors neutral.
 
 ### ADR-18 Remove the CM5-side BMI270 code
-- **Status:** accepted **[planned: Phase 4]**.
-- **Context:** the IMU is on MCU SPI1. 0x68 on I2C1 is the LTC4162 charger.
-- **Decision:** delete `sensors/imu.py`, `tools/test_imu.py` and the bmi270 dependency.
-- **Consequences:** running it can no longer write the BMI270 config blob into the charger.
+- **Status:** accepted **[done]** (Phase 3, moved up from Phase 4).
+- **Context:** the IMU is on MCU SPI1. 0x68 on I2C1 is the LTC4162 charger. `tools/__init__.py` imported `test_imu` at module level, so dropping bmi270 from the Nix Python env alone would break the `tools` command (ruling).
+- **Decision:** delete `sensors/imu.py`, `tools/test_imu.py` and the bmi270 dependency in one change: `pyproject.toml`, `uv.lock`, the Nix Python env, `sync-python-deps.sh`, the flake input `bmi270-src`, the menu entry and the package check.
+- **Consequences:** running it can no longer write the BMI270 config blob into the charger. `tests/test_no_pi_side_bmi270.py` keeps it out (no `bmi270` import under `src/`).
 
 ### ADR-19 Software H.264 through libav
-- **Status:** accepted **[planned: Phase 3]**.
+- **Status:** accepted **[done]** (Phase 3); CPU and thermal load **[planned: Phase 3 spike]** (check 5) and **[bring-up]** (B14).
 - **Context:** BCM2712 has no hardware H.264 encoder.
-- **Decision:** `withLibavEncoder = true`; go2rtc at `Nice=10`, `CPUWeight=50`, service `CPUWeight=200`; camera 2 on demand.
-- **Consequences:** CPU and thermal load, measured at B14.
+- **Decision:** `withLibavEncoder = true`, rpicam-apps linked against the cached `ffmpeg-headless` (has libx264); wrapper `--camera N --codec h264 --libav-format h264 --low-latency`; go2rtc at `CPUWeight=50`, `manafish-firmware` at `CPUWeight=200` (both in board.nix); `cam` and `cam2` each encode only while watched. Flake check `camera-headless` asserts libav on and libx264 in the linked ffmpeg.
+- **Consequences:** CPU and thermal load, measured at the spike and at B14. See [Crosscutting Concepts](08-Crosscutting-Concepts) 8.11.
 
 ### ADR-20 Mainboard config through pydantic defaults
 - **Status:** accepted **[planned: Phase 4]**.
@@ -182,3 +183,9 @@ from verified rulings that correct the plan. Status labels as in
 - **Context:** the owner wants arc42 docs as a Gitea wiki; the wiki is its own git repo.
 - **Decision:** flat Gitea-wiki pages in this repo under `docs/wiki/`, in English, Mermaid diagrams. Each later phase updates its sections.
 - **Consequences:** publishing to `<repo>.wiki.git` is a push to an external service: owner gives URL and approval first.
+
+### ADR-26 One CM5 image for every CM5 with eMMC
+- **Status:** accepted (owner, 2026-11-13) **[done]** in `software/nix` (Phase 3); only the owner's unit is tested **[planned: Phase 3 spike]**.
+- **Context:** CM5 modules come with or without wireless, with 2 to 16 GB RAM and 16 GB or more eMMC. The mainboard has no SD card slot. The image must also boot on the official CM5 IO Board for the spike.
+- **Decision:** one image `cm5-mainboard` for every CM5 with eMMC; no setting depends on wireless, RAM or eMMC size. Keep `disable-wifi`/`disable-bt` (harmless without wireless). Rely on the firmware's default device tree, `bcm2712-rpi-cm5-cm5io.dtb`, on both carriers. CM5 Lite is not a target.
+- **Consequences:** no per-variant builds. Variant-specific problems (radios on a wireless CM5, memory on 2 GB) show up only when such a unit is first used; see [Risks and Technical Debt](11-Risks-and-Technical-Debt).

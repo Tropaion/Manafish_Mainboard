@@ -92,7 +92,7 @@ Forced-low DShot is signal inhibition, not proof that an ESC accepts neutral. Se
 | 1 Hz read-back | `ChargerMonitor` reads back each setting and rewrites it if it differs (covers a charger power loss); logs state and fault changes | **[planned: Phase 4]** |
 | Telemetry validity | Valid only after `telemetry_valid` (0x4A bit 0) plus one conversion wait. Pack scaling uses a fixed 5 cells. `chem`/`cell_count` are checked only while `en_chg = 1` and never used to release a suspend (they read 0 without input power) | **[planned: Phase 4]** |
 | PoE present | `system_status` `vin_gt_4p2v` (0x39 bit 1); `vin_gt_vbat` (bit 2) is secondary ("can charge") | **[planned: Phase 4]** |
-| PoE type | Ag59800 PoE module TYP2/TYP3 on CM5 GPIO6/GPIO12, opto, active low, `gpio=6,12=ip,pu` | **[planned: Phase 3]**, **[planned: Phase 4]** |
+| PoE type | Ag59800 PoE module TYP2/TYP3 on CM5 GPIO6/GPIO12, opto, active low, `gpio=6,12=ip,pu` | config.txt **[done]** (Phase 3), decoding **[planned: Phase 4]** |
 | Charge targets | 4.2 V/cell (code 31, 21.0 V) and 2.0 A (code 19, 0.5 C at 4000 mAh). Owner to confirm 4.2 vs 4.1 V/cell and the pack limit | **[planned: Phase 4]** |
 | Defaults window | With the magnet OFF the CM5 never configures the charger: 4.0 A input and 3.2 A charge apply | **[bring-up]** (B10) |
 
@@ -141,10 +141,11 @@ The magnet switch and battery removal cut power without warning.
 | `/etc` is tmpfs: `systemctl edit` overrides are lost at reboot; board config belongs in Nix | **[upstream]** |
 | `RovConfig.save()` writes a temp file and renames it over `config.json` (no fsync). Unreadable JSON loads defaults and saves them | **[upstream]** |
 | `manafish-setup` keeps `config.json` when it re-copies a new source tree | **[upstream]** |
+| `manafish-setup` compares the bundled UF2 and AM32 bin by content (`cmp`) and re-copies them when they differ, so an empty file left by a cut soon after a copy is repaired at the next boot. On a deploy boot it runs `sync` after the `config.json` backup, after copying the source and restoring the config, and after writing the source marker last (a cut before the marker lands only repeats the deploy); each new firmware copy is flushed on its own, so a normal boot flushes nothing | **[done]** (Phase 3) |
 | go2rtc camera wrapper validates every config value with a fallback, so a corrupt config never stops the stream | **[upstream]** |
 | ESC power state is never persisted; every MCU boot starts in OFF_HOLD | **[done]** |
 | Charger settings re-applied by the 1 Hz read-back | **[planned: Phase 4]** |
-| 20 abrupt cuts on the IO Board (spike check 7); 50 cuts on the board incl. during a config save; CM5_3.3V stays above 1.8 V during a +5V cut | **[planned: Phase 3]**, **[bring-up]** (B15) |
+| 20 abrupt cuts on the IO Board (spike check 7); 50 cuts on the board incl. during a config save; CM5_3.3V stays above 1.8 V during a +5V cut | **[planned: Phase 3 spike]**, **[bring-up]** (B15) |
 
 ## 8.4 MCU recovery
 
@@ -152,14 +153,14 @@ One flash path for every case: blank, hung, bricked or running (Decision 9).
 
 | Step | Detail | Status |
 |---|---|---|
-| Lines | Hardware BOOTSEL (GPIO24 RUN, GPIO25 QSPI_SS). Never drive either line high; release to input with bias off. GPIO25 low only while GPIO24 is low or within 100 ms after its release. `gpio=24,25=ip,pn` in config.txt | **[planned: Phase 3]**, **[planned: Phase 4]** |
+| Lines | Hardware BOOTSEL (GPIO24 RUN, GPIO25 QSPI_SS). Never drive either line high; release to input with bias off. GPIO25 low only while GPIO24 is low or within 100 ms after its release. `gpio=24,25=ip,pn` in config.txt | config.txt **[done]** (Phase 3), driver **[planned: Phase 4]** |
 | Before | Neutral, ESC_POWER off, wait for health bits 4-6 = 1 or 2, or 5 s (MCU silent). Runs before `state.mcu_flashing` is set, while the session is live. Never while the ESC recovery journal is set (OFF answers BUSY then) | **[planned: Phase 4]** |
 | Enter | GPIO24 low, GPIO25 low, 10 ms, release GPIO24, hold GPIO25 100 ms, release, wait for 2e8a:000f | **[planned: Phase 4]** |
 | Load | `picotool load -v -x`, never `-f`. Today upstream uses `-f` **[upstream]**; `make flash-mainboard` has no `-f` **[done]** | **[planned: Phase 4]** |
 | Paths | Manual, first boot and version mismatch all go through `flash_mcu_firmware` | **[upstream]** path, **[planned: Phase 4]** steps |
 | Startup | 000f present without 0009: one 10 ms `reset()` first | **[planned: Phase 4]** |
 | Tools | `mcu-reset`, `mcu-recover`: refuse until the rov_firmware service (manafish-firmware) is inactive or failed for at least 35 s (host loss 30 s + stop 2 s + margin), and while the ESC recovery journal is set (the MCU then holds ESC power on, and a reset forgets its recovery state) | **[planned: Phase 4]** |
-| Discovery | `/dev/manafish-mcu` udev symlink for 2e8a:0009, then a sysfs scan; no blind `ttyACM*` fallback | **[planned: Phase 3]**, **[planned: Phase 4]** |
+| Discovery | `/dev/manafish-mcu` udev symlink for 2e8a:0009, then a sysfs scan; no blind `ttyACM*` fallback | udev symlink **[done]** (Phase 3), Python **[planned: Phase 4]** |
 | Auto re-flash | Version mismatch re-flashes only within 60 s of the rov_firmware service (manafish-firmware) start, once per run. `MANAFISH_PICO_CONTROL_DEVELOPMENT=1` keeps only `pico-control-dev` builds; the first-boot path ignores it | **[upstream]** |
 | Last resort | SWD on J2 or CM5 GPIO8/11 (OpenOCD with RP2350 support) | **[bring-up]** (B7) |
 
@@ -197,10 +198,10 @@ Sequence diagrams: [Runtime View](06-Runtime-View).
 |---|---|---|
 | MCU host tests | Unity suites (142 at the Phase 0 baseline, 163 after Phase 2) plus Python harnesses: real runtime against a fake SDK, startup commands, build identity, linker memory, bench helpers. Phase 2 added `tests/test_esc_power.c` (called from `tests/test_main.c`), runtime scenarios in both `runtime_harness.c` and `test_control_runtime.py`, a source-wiring test, an IMU axis-map build and `tests/test_mainboard_bringup.py` | **[upstream]**, **[done]** |
 | MCU static | `format-check`, `lint-check` on the LLVM 19 baseline (mainboard compile DB); `build-pico`, `build-pico2`, `build-mainboard` with the ELF/map memory check | **[upstream]**, **[done]** |
-| CM5 unit tests | pytest (475 at baseline). New board code gets fakes: FakeSMBus, fake lgpio, fake sysfs tree, injectable clock | **[upstream]**, **[planned: Phase 4]** |
+| CM5 unit tests | pytest (475 at baseline, 476 after Phase 3 with `tests/test_no_pi_side_bmi270.py`). New board code gets fakes: FakeSMBus, fake lgpio, fake sysfs tree, injectable clock | **[upstream]**, **[planned: Phase 4]** |
 | C differential test | `test_pico_differential.py` compiles `firmware/src/control/controller.c` with host `cc` against hash-pinned Python references; skipped, not passed, without `PICO_CONTROLLER_SOURCE` | **[upstream]** |
-| CI | `firmware-ci.yml`, `software-ci.yml` (python + nix jobs), `software-image.yml` (ubuntu-26.04-arm) | **[done]**; first green run **[planned: Phase 1]** |
-| Image | Spike checks 1-8 on the CM5 IO Board | **[planned: Phase 3]** |
+| CI | `firmware-ci.yml`, `software-ci.yml` (python + nix jobs), `software-image.yml` (ubuntu-26.04-arm) | **[done]**, first runs green |
+| Image | `nix fmt -- --ci .`, `nix flake check` (check `camera-headless`), `nix build --dry-run .#sdImage`; spike checks 1-8 on the CM5 IO Board | Nix gates **[done]** (Phase 3); spike **[planned: Phase 3 spike]** |
 | Board | `tools board-check`, `mainboard_bringup.py`, `control_smoke.py`; `BRINGUP.md` with a record sheet per board; B0-B16 | `mainboard_bringup.py` **[done]**, `control_smoke.py` **[upstream]**; `board-check` and `BRINGUP.md` **[planned: Phase 5]**; **[bring-up]** |
 
 Gates per component: root
@@ -211,9 +212,9 @@ Gates per component: root
 | Item | Rule | Status |
 |---|---|---|
 | MCU tag | `firmware-vX.Y.Z-mb.N`; X.Y.Z from `MCU_FIRMWARE_VERSION_*` in `firmware/src/version.h`, never bumped; never `-rc` in it | **[done]** rule |
-| MCU asset | `mainboard-vX.Y.Z-mb.N.uf2` plus the third-party notices (`NOTICE.md`, BMI270, Pico SDK, pico_printf, TinyUSB and pio-dshot licenses), published (not draft, `prerelease: false`) by `firmware-release.yml` | workflow **[done]**; first release waits for the owner |
+| MCU asset | `mainboard-vX.Y.Z-mb.N.uf2` plus the third-party notices (`NOTICE.md`, BMI270, Pico SDK, pico_printf, TinyUSB and pio-dshot licenses), published (not draft, `prerelease: false`) by `firmware-release.yml` | workflow **[done]**; first release `firmware-v1.0.4-mb.1` **[done]** |
 | Software tag | `software-v<pyproject version>-mb.N`, e.g. `software-v1.2.0-rc.3-mb.1`; never `-mb` in `pyproject.toml` | **[done]** rule |
-| Image | Version = monorepo `shortRev`; the flake fetches the UF2 from this repo's release URL | **[upstream]**, **[planned: Phase 3]** |
+| Image | Version = monorepo `shortRev`; the flake fetches the UF2 from this repo's release URL | **[upstream]**, release URL **[done]** (Phase 3) |
 | Push | One tag at a time, never `git push --tags`; no tag without the owner | **[done]** rule |
 | SemVer order | `1.0.4-mb.1 < 1.0.4-rc.3 < 1.0.4`. MCU mismatch checks use version equality **[upstream]**; never mix plain and `-mb` UF2s in `~/mcu-firmware` | **[planned: Phase 4]** check |
 
@@ -234,3 +235,29 @@ keep conflicts small: MCU **[done]**, CM5 **[planned: Phase 4]**.
 | Blackbox | CSV custom action, disabled by default; whether new readings join `COLUMNS` is open | **[upstream]** |
 | MCU | Framed INFO log and STATS 0x91 every 5 s | **[upstream]** |
 | Board check | `tools board-check [--json]`, read-only, service stopped | **[planned: Phase 5]** |
+
+## 8.11 Video encoding
+
+The BCM2712 has no H.264 encoder, so the CM5 encodes video in software: rpicam-vid hands
+the frames to libx264 through libav. Code:
+[nix/camera.nix](https://github.com/Tropaion/Manafish_Mainboard/blob/main/software/nix/camera.nix).
+
+```mermaid
+flowchart LR
+  cam["imx477 on J5 or J11"] -->|"CSI-2"| isp["libcamera, PiSP"]
+  isp --> vid["rpicam-vid --camera N"]
+  vid -->|"libav, libx264"| h264["H.264 on stdout"]
+  h264 --> g2r["go2rtc exec source cam / cam2"]
+  g2r -->|"WebRTC :8555"| app["app"]
+```
+
+| Topic | Concept | Status |
+|---|---|---|
+| Encoder build | `rpi.rpicam-apps` (and `rpicam-apps`) built with `withLibavEncoder = true` and linked against nixpkgs `ffmpeg-headless` (8.1, has libx264, in the binary cache; the default ffmpeg pulls in SDL and PipeWire). Preview and post-processing backends stay off. Flake check `camera-headless` asserts both, and libx264 in the linked ffmpeg | **[done]** (Phase 3) |
+| Wrapper flags | `--camera N --codec h264 --libav-format h264 --low-latency`, plus profile, level, bitrate, keyframe interval and image settings from `config.json`, raw H.264 to stdout. `--libav-format h264` is needed to write to stdout; `--low-latency` selects x264's ultrafast preset with zerolatency tuning. `LIBCAMERA_LOG_LEVELS=*:WARN` keeps rpicam-vid's own error message within the first 512 bytes of stderr, which is all go2rtc keeps | **[done]** (Phase 3); runs with libx264, `--profile`/`--level` honoured **[planned: Phase 3 spike]** (check 4) |
+| Sensor modes | 2028x1520 12-bit full field of view, or the 1332x990 10-bit crop when it is big enough. On PiSP, libcamera turns the packed (`:P`) raw request into its compressed raw format | **[upstream]** modes; on PiSP **[planned: Phase 3 spike]** |
+| Camera order | go2rtc runs one wrapper per stream: `cam` with index 0, `cam2` with index 1. rpicam-apps numbers only the cameras it finds, sorted by libcamera id: with both fitted, CAM/DISP0 (J5, camera 1, `i2c@88000`) is index 0 and CAM/DISP1 (J11, camera 2, `i2c@70000`) index 1. Without camera 1, `cam` shows camera 2 and `cam2` fails | **[done]** (Phase 3); order **[planned: Phase 3 spike]** (check 3) |
+| On demand | go2rtc starts an `exec:` source with the first viewer and stops it after the last, so an unwatched camera costs no CPU | **[upstream]** go2rtc behaviour |
+| CPU share | go2rtc and its rpicam-vid children share one cgroup with `CPUWeight=50`; `manafish-firmware` has `CPUWeight=200` (other services 100). Under CPU contention the MCU link and command stream get four times go2rtc's share. This is a share, not a priority; both weights are set in board.nix. The control loop itself runs on the MCU | **[done]** (Phase 3) |
+| Limits | Output at most 1920x1080, bitrate 1-25 Mbit/s, framerate capped by the sensor mode and by H.264 level 4 (245,760 macroblocks/s). Both cameras share one set of settings. Defaults 1024x768, 3538944 bit/s **[upstream]**; hull defaults (camera 1 at 1280x960@30, 4-5 Mbit/s) follow the spike measurements | **[upstream]** limits; defaults **[planned: Phase 3 spike]** |
+| Load | CPU, SoC temperature and throttling with one and two streams: spike check 5, then the 60 min closed-hull soak (QF-3, QP-4) | **[planned: Phase 3 spike]**, **[bring-up]** (B14) |

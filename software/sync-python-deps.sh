@@ -24,7 +24,6 @@ PACKAGES=(
 # Custom packages from flake inputs
 CUSTOM_VERSION_PACKAGES=(
 	"numpydantic"
-	"bmi270"
 )
 
 CUSTOM_GIT_PACKAGES=(

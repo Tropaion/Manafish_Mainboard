@@ -16,22 +16,6 @@
         "type": "github"
       }
     },
-    "bmi270-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1682671935,
-        "narHash": "sha256-IxkMWWcrsglFV5HGDMK0GBx5o0svNfRXqhW8/ZWpsUk=",
-        "owner": "CoRoLab-Berlin",
-        "repo": "bmi270_python",
-        "rev": "8309e687d6b346455833c5d0c2734eeb56e98789",
-        "type": "github"
-      },
-      "original": {
-        "owner": "CoRoLab-Berlin",
-        "repo": "bmi270_python",
-        "type": "github"
-      }
-    },
     "esc-firmware": {
       "flake": false,
       "locked": {
@@ -101,28 +85,16 @@
         "type": "github"
       }
     },
-    "mcu-firmware-pico": {
+    "mcu-firmware": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-pvNoPR29FeWzrXy3rWrriTPNf9BsmkKXvaAD17OpTGU=",
+        "narHash": "sha256-B+88u6TlOOfl1yrR4bRDF6uwOECTZItFBmk2fBO1ho8=",
         "type": "file",
-        "url": "https://github.com/manafishrov/mcu-firmware/releases/download/v1.0.4-rc.3/pico-v1.0.4-rc.3.uf2"
+        "url": "https://github.com/Tropaion/Manafish_Mainboard/releases/download/firmware-v1.0.4-mb.1/mainboard-v1.0.4-mb.1.uf2"
       },
       "original": {
         "type": "file",
-        "url": "https://github.com/manafishrov/mcu-firmware/releases/download/v1.0.4-rc.3/pico-v1.0.4-rc.3.uf2"
-      }
-    },
-    "mcu-firmware-pico2": {
-      "flake": false,
-      "locked": {
-        "narHash": "sha256-NZyludLc/WzbRQ7AXI3fFyve1+Cxsq5nk8BW9rYDixc=",
-        "type": "file",
-        "url": "https://github.com/manafishrov/mcu-firmware/releases/download/v1.0.4-rc.3/pico2-v1.0.4-rc.3.uf2"
-      },
-      "original": {
-        "type": "file",
-        "url": "https://github.com/manafishrov/mcu-firmware/releases/download/v1.0.4-rc.3/pico2-v1.0.4-rc.3.uf2"
+        "url": "https://github.com/Tropaion/Manafish_Mainboard/releases/download/firmware-v1.0.4-mb.1/mainboard-v1.0.4-mb.1.uf2"
       }
     },
     "ms5837-src": {
@@ -223,11 +195,9 @@
     },
     "root": {
       "inputs": {
-        "bmi270-src": "bmi270-src",
         "esc-firmware": "esc-firmware",
         "impermanence": "impermanence",
-        "mcu-firmware-pico": "mcu-firmware-pico",
-        "mcu-firmware-pico2": "mcu-firmware-pico2",
+        "mcu-firmware": "mcu-firmware",
         "ms5837-src": "ms5837-src",
         "nixos-raspberrypi": "nixos-raspberrypi",
         "nixpkgs": [

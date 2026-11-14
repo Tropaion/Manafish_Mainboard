@@ -35,16 +35,8 @@
       url = "github:p2p-ld/numpydantic";
       flake = false;
     };
-    bmi270-src = {
-      url = "github:CoRoLab-Berlin/bmi270_python";
-      flake = false;
-    };
-    mcu-firmware-pico = {
-      url = "https://github.com/manafishrov/mcu-firmware/releases/download/v1.0.4-rc.3/pico-v1.0.4-rc.3.uf2";
-      flake = false;
-    };
-    mcu-firmware-pico2 = {
-      url = "https://github.com/manafishrov/mcu-firmware/releases/download/v1.0.4-rc.3/pico2-v1.0.4-rc.3.uf2";
+    mcu-firmware = {
+      url = "https://github.com/Tropaion/Manafish_Mainboard/releases/download/firmware-v1.0.4-mb.1/mainboard-v1.0.4-mb.1.uf2";
       flake = false;
     };
     esc-firmware = {
@@ -64,11 +56,12 @@
     lockedInputs = (builtins.fromJSON (builtins.readFile ./flake.lock)).nodes;
     releaseVersionFromLock = inputName: let
       url = lockedInputs.${inputName}.locked.url or "";
-      matched = builtins.match ".*/download/(v[^/]+)/.*" url;
+      # Mainboard MCU releases are tagged firmware-vX.Y.Z-mb.N.
+      matched = builtins.match ".*/download/(firmware-)?(v[^/]+)/.*" url;
       version =
         if matched == null
         then ""
-        else builtins.head matched;
+        else nixpkgs.lib.last matched;
       semver = builtins.match "v(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(-[0-9A-Za-z]+([.-][0-9A-Za-z]+)*)?(\\+[0-9A-Za-z]+([.-][0-9A-Za-z]+)*)?" version;
       rcLike = builtins.match ".*-[rR][cC].*" version != null;
       canonicalRc = builtins.match "v(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)-rc\\.[1-9][0-9]*(\\+[0-9A-Za-z]+([.-][0-9A-Za-z]+)*)?" version;
@@ -76,13 +69,7 @@
       if matched == null || semver == null || (rcLike && canonicalRc == null)
       then throw "${inputName} must be locked to a versioned GitHub release URL"
       else version;
-    mcuFirmwareVersion = let
-      pico = releaseVersionFromLock "mcu-firmware-pico";
-      pico2 = releaseVersionFromLock "mcu-firmware-pico2";
-    in
-      if pico == pico2
-      then pico
-      else throw "Pico and Pico 2 firmware inputs must use the same release version";
+    mcuFirmwareVersion = releaseVersionFromLock "mcu-firmware";
     escFirmwareVersion = releaseVersionFromLock "esc-firmware";
     supportedSystems = [
       "aarch64-linux"
@@ -94,17 +81,19 @@
 
     forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
   in {
-    nixosConfigurations.pi3-imx477 = nixos-raspberrypi.lib.nixosSystem {
+    nixosConfigurations.cm5-mainboard = nixos-raspberrypi.lib.nixosSystem {
       specialArgs = {
         inherit inputs version nixos-raspberrypi mcuFirmwareVersion escFirmwareVersion;
       };
       modules = [
-        nixos-raspberrypi.nixosModules.raspberry-pi-3.base
+        nixos-raspberrypi.nixosModules.raspberry-pi-5.base
         nixos-raspberrypi.nixosModules.sd-image
         impermanence.nixosModules.impermanence
         {
           system.stateVersion = "25.11";
-          image.fileName = "pi3-imx477-${version}.img";
+          # nixos-raspberrypi sets baseName, which names the file inside
+          # result/sd-image/ (fileName would only name the store path).
+          image.baseName = nixpkgs.lib.mkForce "manafish-cm5-mainboard-${version}";
           documentation = {
             enable = false;
             doc.enable = false;
@@ -113,6 +102,7 @@
             nixos.enable = false;
           };
         }
+        ./nix/board.nix
         ./nix/camera.nix
         ./nix/sensors.nix
         ./nix/mcu.nix
@@ -124,26 +114,30 @@
     };
 
     packages = forAllSystems (_: {
-      inherit (self.nixosConfigurations.pi3-imx477.config.system.build) sdImage;
-      default = self.nixosConfigurations.pi3-imx477.config.system.build.sdImage;
+      inherit (self.nixosConfigurations.cm5-mainboard.config.system.build) sdImage;
+      default = self.nixosConfigurations.cm5-mainboard.config.system.build.sdImage;
     });
 
     checks = forAllSystems (system: let
       pkgs = nixpkgs.legacyPackages.${system};
-      cameraPkgs = self.nixosConfigurations.pi3-imx477.pkgs;
-      headlessFlags = map (backend: "-Denable_${backend}=disabled") [
-        "libav"
-        "drm"
-        "egl"
-        "wayland"
-        "qt"
-        "opencv"
-      ];
+      cameraPkgs = self.nixosConfigurations.cm5-mainboard.pkgs;
+      # The CM5 encodes H.264 with libx264 through libav (camera.nix).
+      headlessFlags =
+        ["-Denable_libav=enabled"]
+        ++ map (backend: "-Denable_${backend}=disabled") [
+          "drm"
+          "egl"
+          "wayland"
+          "qt"
+          "opencv"
+        ];
       isHeadless = package: builtins.all (flag: builtins.elem flag package.mesonFlags) headlessFlags;
+      # Checked on the rpi variant only: the top-level one's buildInputs don't evaluate.
+      hasX264 = package: builtins.any (input: nixpkgs.lib.hasPrefix "ffmpeg" (input.pname or "") && builtins.elem "--enable-libx264" input.configureFlags) package.buildInputs;
     in {
       camera-headless = assert nixpkgs.lib.assertMsg
-      (builtins.all isHeadless [cameraPkgs.rpicam-apps cameraPkgs.rpi.rpicam-apps])
-      "Both rpicam-apps variants must keep every headless backend disabled";
+      (builtins.all isHeadless [cameraPkgs.rpicam-apps cameraPkgs.rpi.rpicam-apps] && hasX264 cameraPkgs.rpi.rpicam-apps)
+      "Both rpicam-apps variants must keep every headless backend disabled with libav on, and the linked ffmpeg needs libx264";
         pkgs.runCommand "camera-headless" {} "touch $out";
     });
 

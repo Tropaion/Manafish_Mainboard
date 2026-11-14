@@ -9,14 +9,14 @@ schematic and netlist; the PCB is fixed for this board revision.
 
 | Constraint | Consequence for the architecture |
 |---|---|
-| The CM5's BCM2712 has no hardware H.264 encoder. | Video is encoded in software: `rpicam-vid` with the libav encoder, served by go2rtc **[planned: Phase 3]**. Upstream uses the Pi 3 hardware encoder and builds `rpicam-apps` without libav **[upstream]**. CPU load and SoC temperature with one and two streams are measured at **[bring-up]** B14. |
+| The CM5's BCM2712 has no hardware H.264 encoder. | Video is encoded in software: `rpicam-vid` with the libav encoder, served by go2rtc **[done]** (Phase 3). Upstream used the Pi 3 hardware encoder and built `rpicam-apps` without libav. CPU load and SoC temperature with one and two streams are measured in the spike **[planned: Phase 3 spike]** and at **[bring-up]** B14. |
 | The RP2354A has 2 MB of in-package flash (stepping A4). | A separate board target `manafish_mainboard` sets the flash size, the boot stage 2 and its own USB product string **[done]**. The stock pico2 image assumes other flash and crystal settings. |
 | Crystal Y1 is 12 MHz, ESR 60 Ω, with 1 kΩ in series: slow start-up. | The board target raises `PICO_XOSC_STARTUP_DELAY_MULTIPLIER` to 64 **[done]**. Cold boots and cold BOOTSEL at 0-5 °C are tested at **[bring-up]** B7. |
 | The Pico SDK (2.3.1) is fetched over the network by CMake (`pico_sdk_import.cmake`), and its version is enforced. | The MCU UF2 is never built inside Nix. CI builds it, a release publishes it, and the software flake fetches it as a GitHub release asset. |
 | QSPI_SS (CM5 GPIO25) is also the chip select of the in-package flash. | The CM5 drives GPIO25 low only while GPIO24 holds the MCU in reset (BOOTSEL entry), never while the firmware runs. It never drives GPIO24 or GPIO25 high; it releases them to inputs. |
 | The RP2354A has no buttons and no LED; GP0-5 and GP15-17 are not connected. | Reset and BOOTSEL are done by the CM5 through GPIO24 RUN and GPIO25 QSPI_SS. The only UART access is the J13 breakout (GP22-29). |
-| I2C1 (GPIO2/3) runs at most at 400 kHz: the LTC4162 and the WSEN-PADS support only up to Fast mode. | `i2c_arm_baudrate` 400000 **[planned: Phase 3]**; upstream sets 1 MHz **[upstream]**. There are no pull-ups on the board; the CM5 module has 1.8 kΩ. |
-| 0x68 on I2C1 is the LTC4162 charger, not a BMI270. The BMI270 sits on the MCU's SPI1 (GP10-13). | Upstream's Pi-side BMI270 code would write the BMI270 config blob into the charger. It is removed **[planned: Phase 4]**. |
+| I2C1 (GPIO2/3) runs at most at 400 kHz: the LTC4162 and the WSEN-PADS support only up to Fast mode. | `i2c_arm_baudrate` 400000 **[done]** (Phase 3); upstream set 1 MHz. There are no pull-ups on the board; the CM5 module has 1.8 kΩ. |
+| 0x68 on I2C1 is the LTC4162 charger, not a BMI270. The BMI270 sits on the MCU's SPI1 (GP10-13). | Upstream's Pi-side BMI270 code would write the BMI270 config blob into the charger. It is removed **[done]** (Phase 3). |
 | The magnet switch is a hard 5 V cut of everything except the charger. The system comes up OFF after a battery or PoE connect. | No clean shutdown can be assumed. The CM5 runs a tmpfs root with a small persistent partition **[upstream]**. Power-cut tests at **[bring-up]** B15. |
 | No RTC battery, no fan, no LEDs. No SMBALERT, PGOOD or MAG_ON wire to the CM5. | The clock is not kept across power cuts. Cooling is passive, so SoC temperature is a reading and a soak test (B14). Status is shown only in the app. Charger and sensors are polled; the CM5 cannot see the magnet switch state. |
 | The IMU INT pins are not connected. | The MCU polls the BMI270 **[upstream]**. |
@@ -38,7 +38,7 @@ schematic and netlist; the PCB is fixed for this board revision.
 | The host drops the whole MCU session on any NOT_READY ACK **[upstream]**. | New MCU requests (ESC_POWER 0x26) answer BUSY, never NOT_READY **[done]**. |
 | `ruff check` rewrites files (`fix = true`, `unsafe-fixes = true` in `pyproject.toml`). | Gates and CI run `ruff check --no-fix`. |
 | The host `clang-format` formats differently from the LLVM 19 baseline. | C is formatted and linted only inside `nix develop ./firmware`. |
-| A GitHub release asset is limited to 2 GiB. | The on-device ARM/Clang/Pico SDK toolchain is dropped from the image **[planned: Phase 3]**. |
+| A GitHub release asset is limited to 2 GiB. | The on-device ARM/Clang/Pico SDK toolchain and the unused linux-firmware blobs are dropped from the image **[done]** (Phase 3). |
 
 ## 2.2 Organisational constraints
 

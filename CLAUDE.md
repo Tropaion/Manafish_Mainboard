@@ -19,10 +19,9 @@ Publishing them to the Gitea wiki repo is a push: ask the owner first.
 import package `rov_firmware` (distribution name `manafish`) and its device path
 `/home/pi/firmware`.
 
-Port status: `software/flake.nix` still builds upstream's Raspberry Pi 3 image
-(`pi3-imx477`) and bundles upstream's pico/pico2 UF2s; the CM5 configuration
-and bundling the mainboard UF2 from a `firmware-v…-mb.N` release are still to
-come.
+Port status: `software/flake.nix` builds the CM5 image (`cm5-mainboard`) and
+bundles the mainboard UF2 from the `firmware-v1.0.4-mb.1` release. The Python
+side (Phase 4) still assumes Pico boards.
 
 ## Owner rules
 
@@ -97,8 +96,11 @@ PICO_CONTROLLER_SOURCE=$PWD/../firmware/src/control/controller.c uv run pytest
   including `requires-python`.
 - Don't bump the nixos-raspberrypi pin before its cachix has the aarch64 builds.
 - The MCU UF2 is never built in Nix: the software flake fetches it as a GitHub
-  release asset. `releaseVersionFromLock` in `software/flake.nix` accepts only
-  `/download/v…/` URLs until Phase 3.1 adapts it to `firmware-v…`.
+  release asset. `releaseVersionFromLock` in `software/flake.nix` accepts
+  `/download/v…/` and `/download/firmware-v…/` URLs. New MCU tag into the image:
+  change the `mcu-firmware` URL in `software/flake.nix`, run `nix flake lock`
+  from `software/`, `git add software/flake.nix software/flake.lock`; the image
+  then bundles `mainboard-vX.Y.Z-mb.N.uf2`.
 
 ## Tags and releases
 
@@ -137,9 +139,15 @@ git subtree pull --prefix=software --squash upstream-software main -m "Update so
 - These paths were removed after the import; if a pull brings them back or
   conflicts on them, `git rm -r` them again: `firmware/.github software/.github
   firmware/.pre-commit-config.yaml software/.pre-commit-config.yaml
-  software/tests/test_ci_coverage.py`.
+  software/tests/test_ci_coverage.py software/src/tools/test_imu.py
+  software/src/rov_firmware/sensors/imu.py` (the Pi-side BMI270 code would
+  write into the charger at 0x68).
 - Keep the local patches on conflict: the Releases section of
-  `firmware/AGENTS.md`, and `git status --porcelain -- .` in
-  `firmware/CMakeLists.txt` and `firmware/tests/test_build_identity.py`.
+  `firmware/AGENTS.md`; `git status --porcelain -- .` in
+  `firmware/CMakeLists.txt` and `firmware/tests/test_build_identity.py`; the
+  bmi270 removal in `software/flake.nix`, `software/flake.lock`,
+  `software/nix/firmware.nix`, `software/sync-python-deps.sh`,
+  `software/pyproject.toml`, `software/uv.lock`, `software/src/tools/__init__.py`
+  and `software/src/tools/test_packages_available.py`.
 - Then run both quality gates. Read removed upstream files with
   `git show upstream-mcu/main:<path>` or `git show upstream-software/main:<path>`.

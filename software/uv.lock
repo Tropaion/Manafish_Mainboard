@@ -12,18 +12,6 @@ wheels = [
 ]
 
 [[package]]
-name = "bmi270"
-version = "0.4.3"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "smbus2" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/82/17/cb2c6ada7152ccb7bda033dd8da4e9741de5730c1b4203808651f791fbd6/bmi270-0.4.3.tar.gz", hash = "sha256:15b968b8acdfd005f21f3de4deab6bab97fd58f08f3f3c7add712f51a299e2ab", size = 18551, upload-time = "2023-04-28T08:49:45.47Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/6e/5c/234d687145bc5d989bfbd8a486cfcfc3cb2a947e7bc85458a720074fec83/bmi270-0.4.3-py3-none-any.whl", hash = "sha256:c8f0fbd5913e77666a05b1d9222fd8463681732c211d990b60f993de57581c08", size = 17137, upload-time = "2023-04-28T08:49:42.23Z" },
-]
-
-[[package]]
 name = "cfgv"
 version = "3.5.0"
 source = { registry = "https://pypi.org/simple" }
@@ -112,7 +100,6 @@ name = "manafish"
 version = "1.2.0rc3"
 source = { editable = "." }
 dependencies = [
-    { name = "bmi270" },
     { name = "gpiozero" },
     { name = "lgpio", marker = "platform_machine == 'aarch64' and sys_platform == 'linux'" },
     { name = "ms5837" },
@@ -136,7 +123,6 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "bmi270", specifier = "==0.4.3" },
     { name = "gpiozero", specifier = "==2.0.1" },
     { name = "lgpio", marker = "platform_machine == 'aarch64' and sys_platform == 'linux'", specifier = "==0.2.2" },
     { name = "ms5837", git = "https://github.com/bluerobotics/ms5837-python.git?rev=02996d71d2f08339b3d317b3f4da0a83781c706e" },

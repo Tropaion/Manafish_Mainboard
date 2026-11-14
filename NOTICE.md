@@ -166,10 +166,10 @@ Imported with `git subtree --squash` and adapted for this board:
 | `firmware/` | <https://github.com/manafishrov/mcu-firmware> | `88bd6a08a38bc79a3231bba4728303374ed3dd9e` |
 | `software/` | <https://github.com/manafishrov/firmware> | `9e282b5084bb8402c37d2adccdd348fd09f855a1` |
 
-Changes made here are under the same license. Until the mainboard MCU target
-exists, the software image also bundles upstream's released Pico and Pico 2
-UF2 files (`software/flake.nix`, inputs `mcu-firmware-pico` and
-`mcu-firmware-pico2`).
+Changes made here are under the same license. The software image bundles the
+mainboard UF2 built from `firmware/` (release `firmware-v1.0.4-mb.1` of this
+repository, input `mcu-firmware` in `software/flake.nix`); that release carries
+the UF2's third-party notices.
 
 ## Bosch BMI270 SensorAPI
 

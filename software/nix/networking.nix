@@ -65,6 +65,9 @@
   '';
 in {
   # Keep the onboard radios powered down; the ROV communicates over Ethernet.
+  # On the CM5 the firmware's overlay_map loads disable-wifi-pi5 and
+  # disable-bt-pi5. They only disable sdio2 and the bluetooth node, so they
+  # are harmless on a CM5 without wireless and leave GPIO14/15 alone.
   hardware.raspberry-pi.config.all.dt-overlays = {
     disable-wifi = {
       enable = true;

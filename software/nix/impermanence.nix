@@ -26,7 +26,10 @@ in {
       fsType = "ext4";
       neededForBoot = true;
     };
-    # U-Boot reads extlinux entries from the SD partition, not the tmpfs root.
+    # The CM5 boots through nixos-raspberrypi's generational `kernel`
+    # bootloader: config.txt, kernels, initrds and DTBs live on the FIRMWARE
+    # partition at /boot/firmware, so /boot only holds that mount point. The
+    # image creates it on the root partition, not on the tmpfs root.
     "/boot" = {
       device = "/persistent/boot";
       fsType = "none";

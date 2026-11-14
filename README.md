@@ -16,8 +16,8 @@ the USB-connected Raspberry Pi Pico and the wiring between them with one board:
 > [!WARNING]
 > Work in progress. The schematic and the 4-layer PCB layout are drawn, but no
 > board has been built or tested. Don't manufacture from this repository yet.
-> `firmware/` and `software/` still build upstream's Pico and Raspberry Pi 3
-> targets; the ports to this board are in progress.
+> `firmware/` builds the mainboard MCU target and `software/` the CM5 image,
+> but neither has run on this board yet; the ports are in progress.
 
 <img src="https://github.com/Tropaion/Manafish_Mainboard/blob/main/images/pcb_front.png?raw=true" width="45%"></img> <img src="https://github.com/Tropaion/Manafish_Mainboard/blob/main/images/pcb_back.png?raw=true" width="45%"></img>
 

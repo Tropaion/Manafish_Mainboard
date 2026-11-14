@@ -1,5 +1,6 @@
 {
   pkgs,
+  lib,
   inputs,
   mcuFirmwareVersion,
   escFirmwareVersion,
@@ -8,6 +9,7 @@
   username = "pi";
   homeDir = "/home/${username}";
   firmwareSource = ./..;
+  cmp = lib.getExe' pkgs.diffutils "cmp";
 in {
   # The SD image uses ext4 and vfat. The base profile's unused ZFS support
   # can force a full kernel rebuild when its module is missing from caches.
@@ -54,32 +56,33 @@ in {
       if [ ! -f "$MARKER" ] || [ "$(cat "$MARKER")" != "$CURRENT_SOURCE" ]; then
         CONFIG_BACKUP="${homeDir}/.config-backup.json"
         [ -f "$CONFIG" ] && cp "$CONFIG" "$CONFIG_BACKUP"
+        # The magnet switch cuts power without warning: flush each copy before
+        # the step that relies on it.
+        sync
         rm -rf "$FIRMWARE_DIR"
         cp -r "$CURRENT_SOURCE" "$FIRMWARE_DIR"
         chmod -R u+w "$FIRMWARE_DIR"
-        echo "$CURRENT_SOURCE" > "$MARKER"
         [ -f "$CONFIG_BACKUP" ] && mv "$CONFIG_BACKUP" "$CONFIG"
+        # The marker goes last: a cut before it lands only repeats the deploy.
+        sync
+        echo "$CURRENT_SOURCE" > "$MARKER"
+        sync
       fi
 
-      mkdir -p "$MCU_DIR"
-      for board in pico pico2; do
-        TARGET="$MCU_DIR/$board-${mcuFirmwareVersion}.uf2"
-        find "$MCU_DIR" -maxdepth 1 -type f -name "$board-v*.uf2" ! -name "$(basename "$TARGET")" -delete
-        [ -f "$TARGET" ] && continue
-        case "$board" in
-          pico)  cp ${inputs.mcu-firmware-pico} "$TARGET" ;;
-          pico2) cp ${inputs.mcu-firmware-pico2} "$TARGET" ;;
-        esac
-        chmod u+w "$TARGET"
-      done
-
-      mkdir -p "$ESC_FIRMWARE_DIR"
-      ESC_FIRMWARE_TARGET="$ESC_FIRMWARE_DIR/esc-${escFirmwareVersion}.bin"
-      find "$ESC_FIRMWARE_DIR" -maxdepth 1 -type f \( -name "esc-v*.hex" -o -name "esc-v*.bin" \) ! -name "$(basename "$ESC_FIRMWARE_TARGET")" -delete
-      if [ ! -f "$ESC_FIRMWARE_TARGET" ]; then
-        cp ${inputs.esc-firmware} "$ESC_FIRMWARE_TARGET"
-        chmod u+w "$ESC_FIRMWARE_TARGET"
-      fi
+      # deploy SRC DIR NAME STALE: copy SRC to DIR/NAME and delete the other
+      # files matching STALE. Compare content, not existence: a power cut soon
+      # after a copy can leave an empty file behind. install replaces a
+      # read-only target.
+      deploy() {
+        mkdir -p "$2"
+        find "$2" -maxdepth 1 -type f -name "$4" ! -name "$3" -delete
+        if ! ${cmp} -s "$1" "$2/$3"; then
+          install -m 644 "$1" "$2/$3"
+          sync "$2/$3"
+        fi
+      }
+      deploy ${inputs.mcu-firmware} "$MCU_DIR" "mainboard-${mcuFirmwareVersion}.uf2" "mainboard-v*.uf2"
+      deploy ${inputs.esc-firmware} "$ESC_FIRMWARE_DIR" "esc-${escFirmwareVersion}.bin" "esc-v*"
     '';
   };
 }

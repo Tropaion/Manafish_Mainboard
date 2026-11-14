@@ -34,7 +34,7 @@ sequenceDiagram
 | Power applied | Charger and +5V_AON run; the magnet switch board comes up OFF | hardware; +5V_AON about 5.115 V **[bring-up]** (B2) |
 | Magnet swipe | The Hall switch toggles the CD4013 flip-flop; MAG_ON enables load switch IC15; +5 V in about 18 ms | **[bring-up]** (B2) |
 | MCU boot | `esc_power_init()` before `stdio_init_all()`: GP14 output, low, 12 mA; then OFF_HOLD | **[done]**; GP14 stays 0 V for 60 s **[bring-up]** (B7) |
-| CM5 boot | `grow-persistent` (first boot only), `manafish-setup`, `manafish-network`, `dnsmasq`, `go2rtc`, `manafish-firmware` | **[upstream]** units; CM5 image **[planned: Phase 3]**; first boot **[bring-up]** (B4) |
+| CM5 boot | `grow-persistent` (first boot only), `manafish-setup`, `manafish-network`, `dnsmasq`, `go2rtc`, `manafish-firmware` | **[upstream]** units; CM5 image **[done]** (Phase 3); boot on the IO Board **[planned: Phase 3 spike]**; first boot **[bring-up]** (B4) |
 | Service start | WebSocket server, `SerialManager.initialize()`, `PressureSensor.initialize()`, then the read, send and diagnostics tasks | **[upstream]** |
 | Board tasks | `ChargerMonitor` and hull sensors at 1 Hz; `EscPowerController` adopts an MCU state of 3 or 4, never sends ON | **[planned: Phase 4]** |
 | Magnet off | Hard cut of +5 V: CM5, MCU and GP14 lose power; the charger keeps running | hardware; AM32 stops within 0.5 s **[bring-up]** (B13) |
@@ -61,11 +61,11 @@ flowchart TD
 | Item | Rule | Status |
 |---|---|---|
 | Port lookup today | `/dev/serial/by-id/usb-Raspberry_Pi_Pico*`, else any `/dev/ttyACM*`. With the product string "Manafish Mainboard" the by-id glob would probably miss the board (udev naming, not checked on hardware) | **[upstream]** |
-| Port lookup target | `find_mcu_port()`: `/dev/manafish-mcu` (udev symlink for 2e8a:0009), then a sysfs scan for 2e8a:0009; no blind `ttyACM*` fallback | udev **[planned: Phase 3]**, Python **[planned: Phase 4]** |
+| Port lookup target | `find_mcu_port()`: `/dev/manafish-mcu` (udev symlink for 2e8a:0009), then a sysfs scan for 2e8a:0009; no blind `ttyACM*` fallback | udev **[done]** (Phase 3), Python **[planned: Phase 4]** |
 | BOOTSEL leftover | At start, if 2e8a:000f is present without 0009, run one `reset()` (10 ms GPIO24 pulse) first | **[planned: Phase 4]** |
 | First-boot flash | After `MCU_FIRST_BOOT_RETRY_LIMIT` (5) failed lookups, once per run; skipped while ESC recovery is required; ignores the dev override | **[upstream]** |
 | Version compare | Equality (`mcu_update_required` = not `mcu_versions_match`), so no downgrade refusal. Bundled version = highest SemVer of `~/mcu-firmware/<prefix>-v*.uf2` | **[upstream]** |
-| Prefix | `pico`/`pico2` today; `{PICO2: "mainboard"}`, a stored `pico` is normalised to `pico2` | **[upstream]** / **[planned: Phase 4]** |
+| Prefix | `pico`/`pico2` today, but the image bundles only `mainboard-v<ver>.uf2`, so nothing matches and no auto-flash happens; `{PICO2: "mainboard"}`, a stored `pico` is normalised to `pico2` | **[upstream]** / **[planned: Phase 4]** |
 | Window | `MCU_AUTO_UPDATE_WINDOW_S` = 60 s from service start, at most one auto-flash per run (ADR-21) | **[upstream]** |
 | Dev override | Needs `MANAFISH_PICO_CONTROL_DEVELOPMENT=1`, identity `pico-control-dev:…`, CAPS feature bit 16 and the same USB generation. Otherwise test dev builds with the service stopped | **[upstream]**; **[bring-up]** (B7) |
 

@@ -13,7 +13,7 @@ Status labels are explained on [Home](Home).
 |---|---|---|
 | R1 | Run the control loop (AHRS, PID, thrust allocation) on the MCU at 500 Hz and drive 8 thrusters over DShot or PWM | **[upstream]** (Pico and Pico 2 builds); mainboard board target **[done]**; on the board **[bring-up]** (B7) |
 | R2 | Serve the app over a WebSocket on TCP port 9000: config, status, telemetry, capability catalog | **[upstream]** |
-| R3 | Stream camera 1 to the app as go2rtc stream `cam`; camera 2 as `cam2`, on demand | `cam` **[upstream]** (Pi 3 hardware encoder); software H.264 on the CM5 and `cam2` **[planned: Phase 3]** |
+| R3 | Stream camera 1 to the app as go2rtc stream `cam`; camera 2 as `cam2`, on demand | `cam` **[upstream]** (Pi 3 hardware encoder); software H.264 on the CM5 and `cam2` **[done]** (Phase 3); streaming on the CM5 IO Board **[planned: Phase 3 spike]** |
 | R4 | Switch battery power to the ESCs only on operator request: 5 s hold after any off, thrust no earlier than 15 s after switch-on | MCU side **[done]**; CM5 side (`rov.escPower.set`) **[planned: Phase 4]** |
 | R5 | Publish battery, PoE, hull and SoC readings to the app as `rov.*` capability readings | **[planned: Phase 4]** |
 | R6 | Charge the 5S pack from PoE, with the input limit set by the PSE type and derated by hull temperature | **[planned: Phase 4]**; charger writes enabled at **[bring-up]** B9 |
@@ -21,7 +21,7 @@ Status labels are explained on [Home](Home).
 | R8 | Flash and recover the MCU from the CM5, also when it is blank, hung or bricked (hardware BOOTSEL) | **[planned: Phase 4]**; upstream flashes with `picotool load -f` **[upstream]** |
 | R9 | Measure depth with the external MS5837 sensor | **[upstream]** |
 | R10 | Survive the magnet switch's hard power cut at any moment | tmpfs root **[upstream]**; 50 cuts at **[bring-up]** B15 |
-| R11 | Build the CM5 image and the MCU UF2 reproducibly; publish releases as GitHub release assets | Pi 3 image **[upstream]**; CI **[done]**, first green run **[planned: Phase 1]**; MCU release workflow **[done]**; CM5 image **[planned: Phase 3]** |
+| R11 | Build the CM5 image and the MCU UF2 reproducibly; publish releases as GitHub release assets | CI **[done]**, first runs green; MCU release workflow and release `firmware-v1.0.4-mb.1` **[done]**; CM5 image **[done]** (Phase 3), CI artifact only, no software release yet |
 | R12 | Keep the app contract unchanged | **[upstream]** contract; kept by every phase |
 
 Final acceptance **[bring-up]**: with B0 to B16 recorded, the app at

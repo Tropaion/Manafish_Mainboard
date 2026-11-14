@@ -28,20 +28,6 @@
           doCheck = false;
         })
         (pkgs.python313Packages.buildPythonPackage {
-          pname = "bmi270";
-          version = "0.4.3";
-          format = "other";
-          src = inputs.bmi270-src;
-          buildPhase = ":";
-          installPhase = ''
-            runHook preInstall
-            install -d $out/${pkgs.python313.sitePackages}
-            cp -r src/bmi270 $out/${pkgs.python313.sitePackages}/
-            runHook postInstall
-          '';
-          doCheck = false;
-        })
-        (pkgs.python313Packages.buildPythonPackage {
           pname = "ms5837";
           version = "0.1.0";
           format = "pyproject";

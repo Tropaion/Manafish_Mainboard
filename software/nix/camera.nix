@@ -6,9 +6,14 @@
   jq = lib.getExe pkgs.jq;
   rpicamVid = lib.getExe' pkgs.rpi.rpicam-apps "rpicam-vid";
   systemctl = lib.getExe' pkgs.systemd "systemctl";
+  # The CM5 (BCM2712) has no H.264 encoder. rpicam-vid's `--codec h264` falls
+  # back to libx264 through libav there, so libav must stay enabled. Link the
+  # cached ffmpeg-headless that go2rtc already ships: it has libx264, and the
+  # default ffmpeg pulls in SDL and PipeWire and has to be compiled.
   headlessRpicamApps = package:
     package.override {
-      withLibavEncoder = false;
+      withLibavEncoder = true;
+      ffmpeg = pkgs.ffmpeg-headless;
       withDrmPreview = false;
       withQtPreview = false;
       withEglPreview = false;
@@ -77,7 +82,14 @@
       printf '%s' "$fallback"
     }
 
-    # The Pi 3 hardware H.264 encoder is limited to a 1920x1080 output frame.
+    # go2rtc passes the camera index. rpicam-apps numbers only the cameras
+    # it finds, sorted by libcamera id: with both fitted, CAM/DISP0 (J5,
+    # camera 1) is 0 and CAM/DISP1 (J11, camera 2) is 1. Without camera 1,
+    # camera 2 becomes 0. Both cameras use the same settings.
+    CAMERA=$(enum_or "''${1-}" 0 0 1)
+
+    # Keep the app's 1920x1080 output limit: the CM5 encodes in software, so
+    # larger frames only cost CPU time the MCU link needs.
     WIDTH=$(clamp_int "$(get .camera.width)" 160 1920 1024)
     HEIGHT=$(clamp_int "$(get .camera.height)" 160 1080 768)
     # H.264 and the camera scaler require complete chroma pairs. The Python
@@ -121,18 +133,24 @@
     # Full-FOV mode (2028x1520, SRGGB12) reads the whole sensor and scales
     # down to WIDTHxHEIGHT; the crop mode (1332x990, SRGGB10) instead reads a
     # ~2/3 crop of the sensor for a higher framerate ceiling. The crop mode is
-    # only used when it's actually big enough to produce WIDTHxHEIGHT.
+    # only used when it's actually big enough to produce WIDTHxHEIGHT. On the
+    # CM5's PiSP, libcamera turns the packed (P) raw request into its
+    # compressed raw format.
     if [ "$CROP_FOV" = "true" ] && [ "$WIDTH" -le 1332 ] && [ "$HEIGHT" -le 990 ]; then
       MODE="1332:990:10:P"
     else
       MODE="2028:1520:12:P"
     fi
 
+    # Writing libav's output to stdout needs `--libav-format h264`;
+    # `--low-latency` picks x264's ultrafast/zerolatency presets.
     set -- \
       -t 0 -n --inline \
+      --camera "$CAMERA" \
       --mode "$MODE" \
       --width "$WIDTH" --height "$HEIGHT" --framerate "$FRAMERATE" \
-      --codec h264 --profile "$PROFILE" --level "$LEVEL" \
+      --codec h264 --libav-format h264 --low-latency \
+      --profile "$PROFILE" --level "$LEVEL" \
       -b "$BITRATE" -g "$KEYFRAME_INTERVAL" \
       --rotation "$ROTATION" \
       --awb "$AWB" --ev "$EV" \
@@ -143,6 +161,9 @@
     if [ "$HFLIP" = "true" ]; then set -- "$@" --hflip; fi
     if [ "$VFLIP" = "true" ]; then set -- "$@" --vflip; fi
 
+    # go2rtc keeps only the first 512 bytes of stderr for its error message.
+    # Drop libcamera's start-up INFO lines so rpicam-vid's own error fits.
+    export LIBCAMERA_LOG_LEVELS='*:WARN'
     exec ${rpicamVid} "$@" -o -
   '';
 
@@ -161,17 +182,6 @@ in {
       });
     })
   ];
-
-  hardware.raspberry-pi.config.all = {
-    dt-overlays.imx477 = {
-      enable = true;
-      params = {};
-    };
-    base-dt-params.camera_auto_detect = {
-      enable = true;
-      value = false;
-    };
-  };
 
   environment.systemPackages = with pkgs; [
     rpi.libcamera
@@ -219,8 +229,13 @@ in {
     settings = {
       # Camera and encoder parameters are generated at launch from the ROV
       # config by manafish-camera-stream, so they can be changed from the app
-      # without rebuilding the firmware image.
-      streams.cam = "exec:${cameraStream}";
+      # without rebuilding the firmware image. go2rtc starts an exec source
+      # when the first client connects and stops it after the last one
+      # leaves, so each camera only encodes while someone watches it.
+      streams = {
+        cam = "exec:${cameraStream} 0";
+        cam2 = "exec:${cameraStream} 1";
+      };
       api = {
         listen = ":1984";
         origin = "*";

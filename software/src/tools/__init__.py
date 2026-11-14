@@ -6,7 +6,6 @@ import sys
 
 from . import (
     mock_websocket_server,
-    test_imu,
     test_packages_available,
     test_pressure_sensor,
     test_thrusters,
@@ -19,12 +18,11 @@ logging.basicConfig(level=logging.INFO)
 def cli() -> None:
     """Interactive CLI menu for ROV tools."""
     _ = sys.stdout.write("\n--- ROV Diagnostic Tools ---\n")
-    _ = sys.stdout.write("1. Test IMU\n")
-    _ = sys.stdout.write("2. Test Pressure Sensor\n")
-    _ = sys.stdout.write("3. Test Thrusters\n")
-    _ = sys.stdout.write("4. Check Required Packages\n")
-    _ = sys.stdout.write("5. Run Mock Websocket Server\n")
-    _ = sys.stdout.write("6. Run Mock Websocket Server Locally\n")
+    _ = sys.stdout.write("1. Test Pressure Sensor\n")
+    _ = sys.stdout.write("2. Test Thrusters\n")
+    _ = sys.stdout.write("3. Check Required Packages\n")
+    _ = sys.stdout.write("4. Run Mock Websocket Server\n")
+    _ = sys.stdout.write("5. Run Mock Websocket Server Locally\n")
     _ = sys.stdout.write("q. Quit\n")
 
     choice = input("\nSelect a tool > ").strip().lower()
@@ -34,16 +32,14 @@ def cli() -> None:
 
     try:
         if choice == "1":
-            test_imu.main()
-        elif choice == "2":
             test_pressure_sensor.main()
-        elif choice == "3":
+        elif choice == "2":
             asyncio.run(test_thrusters.main())
-        elif choice == "4":
+        elif choice == "3":
             test_packages_available.main()
-        elif choice == "5":
+        elif choice == "4":
             asyncio.run(mock_websocket_server.main())
-        elif choice == "6":
+        elif choice == "5":
             original_argv = sys.argv[:]
             sys.argv = ["mock_websocket_server.py", "--local"]
             try:
