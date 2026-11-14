@@ -34,7 +34,7 @@ sequenceDiagram
 | Power applied | Charger and +5V_AON run; the magnet switch board comes up OFF | hardware; +5V_AON about 5.115 V **[bring-up]** (B2) |
 | Magnet swipe | The Hall switch toggles the CD4013 flip-flop; MAG_ON enables load switch IC15; +5 V in about 18 ms | **[bring-up]** (B2) |
 | MCU boot | `esc_power_init()` before `stdio_init_all()`: GP14 output, low, 12 mA; then OFF_HOLD | **[done]**; GP14 stays 0 V for 60 s **[bring-up]** (B7) |
-| CM5 boot | `grow-persistent` (first boot only), `manafish-setup`, `manafish-network`, `dnsmasq`, `go2rtc`, `manafish-firmware` | **[upstream]** units; CM5 image **[done]** (Phase 3); boot on the IO Board **[planned: Phase 3 spike]**; first boot **[bring-up]** (B4) |
+| CM5 boot | `grow-persistent` (first boot only), `manafish-setup`, `manafish-network`, `dnsmasq`, `go2rtc`, `manafish-firmware` | **[upstream]** units; CM5 image **[done]** (Phase 3); boot on the IO Board **[done]** (spike, 2026-11-14); first boot **[bring-up]** (B4) |
 | Service start | WebSocket server, `SerialManager.initialize()`, `PressureSensor.initialize()`, then the read, send and diagnostics tasks | **[upstream]** |
 | Board tasks | `ChargerMonitor` and hull sensors at 1 Hz; `EscPowerController` adopts an MCU state of 3 or 4, never sends ON | **[planned: Phase 4]** |
 | Magnet off | Hard cut of +5 V: CM5, MCU and GP14 lose power; the charger keeps running | hardware; AM32 stops within 0.5 s **[bring-up]** (B13) |

@@ -13,7 +13,7 @@ Status labels are explained on [Home](Home).
 |---|---|---|
 | R1 | Run the control loop (AHRS, PID, thrust allocation) on the MCU at 500 Hz and drive 8 thrusters over DShot or PWM | **[upstream]** (Pico and Pico 2 builds); mainboard board target **[done]**; on the board **[bring-up]** (B7) |
 | R2 | Serve the app over a WebSocket on TCP port 9000: config, status, telemetry, capability catalog | **[upstream]** |
-| R3 | Stream camera 1 to the app as go2rtc stream `cam`; camera 2 as `cam2`, on demand | `cam` **[upstream]** (Pi 3 hardware encoder); software H.264 on the CM5 and `cam2` **[done]** (Phase 3); streaming on the CM5 IO Board **[planned: Phase 3 spike]** |
+| R3 | Stream camera 1 to the app as go2rtc stream `cam`; camera 2 as `cam2`, on demand | `cam` **[upstream]** (Pi 3 hardware encoder); software H.264 on the CM5 and `cam2` **[done]** (Phase 3); `cam` streams on the CM5 IO Board **[done]** (spike, 2026-11-14); `cam2` **[bring-up]** (B8) |
 | R4 | Switch battery power to the ESCs only on operator request: 5 s hold after any off, thrust no earlier than 15 s after switch-on | MCU side **[done]**; CM5 side (`rov.escPower.set`) **[planned: Phase 4]** |
 | R5 | Publish battery, PoE, hull and SoC readings to the app as `rov.*` capability readings | **[planned: Phase 4]** |
 | R6 | Charge the 5S pack from PoE, with the input limit set by the PSE type and derated by hull temperature | **[planned: Phase 4]**; charger writes enabled at **[bring-up]** B9 |
@@ -45,7 +45,7 @@ Quality scenarios and their checks: [Quality Requirements](10-Quality-Requiremen
 
 | Role | Expectations |
 |---|---|
-| Owner (board designer and maintainer) | A working board and a simple design. Approves every commit, push, subtree pull, tag and release. Runs every `sudo`, jumper and hardware step. Decides BOM changes; the docs only recommend them. |
+| Owner (board designer and maintainer) | A working board and a simple design. Approves every commit, push, subtree pull, tag and release. Runs every workstation `sudo`, jumper and hardware step. Decides BOM changes; the docs only recommend them. |
 | ROV pilot | Video, control and readings in the app; a safe ESC power switch; battery warnings in time. |
 | app maintainers (separate repo) | An unchanged contract. New readings, the `rov.escPower.set` action and the `cam2` stream arrive through existing mechanisms. App support for `cam2` is their work. |
 | Upstream Manafish maintainers ([manafishrov](https://github.com/manafishrov)) | Source of `firmware/` and `software/` (AGPL-3.0). Their changes flow in by subtree pull; nothing flows back automatically. |

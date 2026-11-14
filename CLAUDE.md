@@ -20,15 +20,17 @@ import package `rov_firmware` (distribution name `manafish`) and its device path
 `/home/pi/firmware`.
 
 Port status: `software/flake.nix` builds the CM5 image (`cm5-mainboard`) and
-bundles the mainboard UF2 from the `firmware-v1.0.4-mb.1` release. The Python
-side (Phase 4) still assumes Pico boards.
+bundles the mainboard UF2 from the `firmware-v1.0.4-mb.1` release. It passed
+the spike on the CM5 IO Board (2026-11-14). The Python side (Phase 4) still
+assumes Pico boards.
 
 ## Owner rules
 
 - Ask before every commit and every push, and before `git subtree add/pull`
   (they commit at once). Push only to `main`; there are no PRs.
-- The owner runs every `sudo` (also on the device), jumper and hardware step.
-  Give the exact command or action, then wait for the result.
+- The owner runs every `sudo` on the workstation and every jumper and hardware
+  step. Give the exact command or action, then wait for the result. On a
+  Manafish device (password `manafish`) Claude runs `sudo` itself.
 - Never connect a board running a Manafish image to a LAN: it has static
   10.10.10.10 and a DHCP server on eth0. Use a direct cable.
 - Prefer simple solutions. Report every pin remap. BOM changes are
@@ -75,8 +77,9 @@ PICO_CONTROLLER_SOURCE=$PWD/../firmware/src/control/controller.c uv run pytest
 - Software: `uv run tools` → "Run Mock Websocket Server Locally" for app work
   without hardware. On the device (direct cable), never overwrite its config:
   `rsync -rlt --delete --exclude __pycache__ --exclude config.json software/src/ pi@10.10.10.10:firmware/src/`,
-  then the owner runs
-  `ssh -t pi@10.10.10.10 'sudo systemctl restart manafish-firmware; journalctl -fu manafish-firmware'`.
+  then restart the service (device `sudo`, so Claude runs it):
+  `ssh pi@10.10.10.10 'echo manafish | sudo -S -p "" systemctl restart manafish-firmware'`,
+  and follow it with `ssh pi@10.10.10.10 'journalctl -fu manafish-firmware'`.
   New Python dependencies need an image rebuild.
 
 ## Nix gotchas

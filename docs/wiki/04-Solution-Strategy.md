@@ -18,8 +18,8 @@ recovery, and bring-up. Status labels are explained on [Home](Home).
 | Recover a blank, hung or bricked MCU | One flashing path for all cases: neutral, ESC off, then hardware BOOTSEL (GPIO24 RUN, GPIO25 QSPI_SS), then `picotool load -v -x` without `-f`. Tools `mcu-reset` and `mcu-recover` for manual use. | **[planned: Phase 4]** | [Runtime View](06-Runtime-View) |
 | Find the MCU reliably | udev symlink `/dev/manafish-mcu` for 2e8a:0009, then a sysfs scan; no blind `ttyACM*` fallback. | udev **[done]** (Phase 3), **[planned: Phase 4]** Python | [Building Block View](05-Building-Block-View) |
 | Survive hard power cuts | NixOS with impermanence: tmpfs root, small persistent ext4 partition for `/home/pi`, logs and `/nix`. | **[upstream]**; CM5 image **[done]** (Phase 3) | [Deployment View](07-Deployment-View), [Crosscutting Concepts](08-Crosscutting-Concepts) |
-| CM5 operating system | Keep NixOS and switch to nixos-raspberrypi `raspberry-pi-5.base` (same BCM2712). A one-day spike on the CM5 IO Board decides; fallback Raspberry Pi OS Lite only with owner approval. | image **[done]** (Phase 3); spike **[planned: Phase 3 spike]** | [Deployment View](07-Deployment-View), [Architecture Decisions](09-Architecture-Decisions) |
-| No hardware H.264 encoder | `rpicam-vid` with the libav encoder; go2rtc serves `cam` (camera 1) and `cam2` (camera 2, on demand) with a smaller CPU share than the service. | **[done]** (Phase 3); load **[planned: Phase 3 spike]** | [Deployment View](07-Deployment-View), [Quality Requirements](10-Quality-Requirements) |
+| CM5 operating system | Keep NixOS and switch to nixos-raspberrypi `raspberry-pi-5.base` (same BCM2712). A one-day spike on the CM5 IO Board decides; fallback Raspberry Pi OS Lite only with owner approval. | image **[done]** (Phase 3); spike passed, NixOS stays **[done]** (2026-11-14) | [Deployment View](07-Deployment-View), [Architecture Decisions](09-Architecture-Decisions) |
+| No hardware H.264 encoder | `rpicam-vid` with the libav encoder; go2rtc serves `cam` (camera 1) and `cam2` (camera 2, on demand) with a smaller CPU share than the service. | **[done]** (Phase 3); one-stream load **[done]** (spike, 2026-11-14); two streams **[bring-up]** (B14) | [Deployment View](07-Deployment-View), [Quality Requirements](10-Quality-Requirements) |
 | Charger and hull sensors | Userspace smbus2 drivers, not kernel drivers; GPIO through lgpio on the `pinctrl-rp1` chip. Policy as pure functions. All tested with fakes (FakeSMBus, fake lgpio, fake sysfs, injectable clock). | **[planned: Phase 4]** | [Building Block View](05-Building-Block-View), [Crosscutting Concepts](08-Crosscutting-Concepts) |
 | Safe charger bring-up | `CHARGER_WRITES_ENABLED` stays false until B9. The only write before that is the `force_telemetry_on` read-modify-write, so telemetry runs on battery only. Telemetry is valid only after `telemetry_valid` (0x4A bit 0) and one conversion. | **[planned: Phase 4]**; enabled at **[bring-up]** B9 | [Crosscutting Concepts](08-Crosscutting-Concepts), [Risks and Technical Debt](11-Risks-and-Technical-Debt) |
 | PoE power budget | PSE type from GPIO6/GPIO12 sets the charger input limit; presence from LTC4162 `vin_gt_4p2v`. Hull temperature derates charging. | **[planned: Phase 4]** | [Crosscutting Concepts](08-Crosscutting-Concepts) |
@@ -45,6 +45,6 @@ recovery, and bring-up. Status labels are explained on [Home](Home).
 ## 4.3 Organisation
 
 Work runs in phases 0 to 6 (see [Home](Home)). The owner approves every commit,
-push and tag and runs every `sudo` and hardware step. Each later phase updates
+push and tag and runs every workstation `sudo` and hardware step. Each later phase updates
 the wiki sections it touches: building blocks, runtime, deployment, decisions,
 risks.

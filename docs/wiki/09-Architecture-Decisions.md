@@ -41,7 +41,7 @@ from verified rulings that correct the plan. Status labels as in
 - **Consequences:** base SHA recorded; `git subtree pull --squash` works. Upstream tags are never fetched. Upstream CI and pre-commit paths were removed and must be removed again after each pull.
 
 ### ADR-02 NixOS on the CM5, gated by a one-day spike
-- **Status:** accepted. Image `cm5-mainboard` on `raspberry-pi-5.base` **[done]** (Phase 3); the gate, spike checks 1-4 on the CM5 IO Board, **[planned: Phase 3 spike]**.
+- **Status:** accepted. Image `cm5-mainboard` on `raspberry-pi-5.base` **[done]** (Phase 3); the gate, spike checks 1-4 on the CM5 IO Board, passed **[done]** (2026-11-14), and so did checks 5-8 ([Deployment View](07-Deployment-View) 7.2).
 - **Context:** upstream already builds the whole image: services, Python env, bundled MCU/ESC firmware and a tmpfs root that survives the magnet switch's hard cut.
 - **Decision:** switch from `raspberry-pi-3.base` to nixos-raspberrypi `raspberry-pi-5.base` (same BCM2712). Spike checks 1-4 must pass on the CM5 IO Board.
 - **Consequences:** if they fail, stop and report. Fallback, only with owner approval: Raspberry Pi OS Lite with overlayroot, about 2-3 days; Phase 4 unchanged. All board config lives in `software/nix/board.nix`; config.txt traps and lines in [Deployment View](07-Deployment-View).
@@ -143,7 +143,7 @@ from verified rulings that correct the plan. Status labels as in
 - **Consequences:** running it can no longer write the BMI270 config blob into the charger. `tests/test_no_pi_side_bmi270.py` keeps it out (no `bmi270` import under `src/`).
 
 ### ADR-19 Software H.264 through libav
-- **Status:** accepted **[done]** (Phase 3); CPU and thermal load **[planned: Phase 3 spike]** (check 5) and **[bring-up]** (B14).
+- **Status:** accepted **[done]** (Phase 3); one-stream CPU and thermal load **[done]** (spike check 5, 2026-11-14: 1280x960@30 takes 62 % of one core); two streams and the closed hull **[bring-up]** (B14).
 - **Context:** BCM2712 has no hardware H.264 encoder.
 - **Decision:** `withLibavEncoder = true`, rpicam-apps linked against the cached `ffmpeg-headless` (has libx264); wrapper `--camera N --codec h264 --libav-format h264 --low-latency`; go2rtc at `CPUWeight=50`, `manafish-firmware` at `CPUWeight=200` (both in board.nix); `cam` and `cam2` each encode only while watched. Flake check `camera-headless` asserts libav on and libx264 in the linked ffmpeg.
 - **Consequences:** CPU and thermal load, measured at the spike and at B14. See [Crosscutting Concepts](08-Crosscutting-Concepts) 8.11.
@@ -185,7 +185,7 @@ from verified rulings that correct the plan. Status labels as in
 - **Consequences:** publishing to `<repo>.wiki.git` is a push to an external service: owner gives URL and approval first.
 
 ### ADR-26 One CM5 image for every CM5 with eMMC
-- **Status:** accepted (owner, 2026-11-13) **[done]** in `software/nix` (Phase 3); only the owner's unit is tested **[planned: Phase 3 spike]**.
+- **Status:** accepted (owner, 2026-11-13) **[done]** in `software/nix` (Phase 3); only the owner's unit is tested; it passed the spike **[done]** (2026-11-14).
 - **Context:** CM5 modules come with or without wireless, with 2 to 16 GB RAM and 16 GB or more eMMC. The mainboard has no SD card slot. The image must also boot on the official CM5 IO Board for the spike.
 - **Decision:** one image `cm5-mainboard` for every CM5 with eMMC; no setting depends on wireless, RAM or eMMC size. Keep `disable-wifi`/`disable-bt` (harmless without wireless). Rely on the firmware's default device tree, `bcm2712-rpi-cm5-cm5io.dtb`, on both carriers. CM5 Lite is not a target.
 - **Consequences:** no per-variant builds. Variant-specific problems (radios on a wireless CM5, memory on 2 GB) show up only when such a unit is first used; see [Risks and Technical Debt](11-Risks-and-Technical-Debt).

@@ -34,7 +34,7 @@ flowchart LR
 
 | Node | Runs | Storage | Status |
 |---|---|---|---|
-| CM5 | NixOS image `cm5-mainboard`: rov_firmware service (manafish-firmware), go2rtc, dnsmasq, sshd, avahi | eMMC, 16 GB or more; any CM5 with eMMC (7.2) | image **[done]** (Phase 3); boot on the CM5 IO Board **[planned: Phase 3 spike]**; on the board **[bring-up]** (B4) |
+| CM5 | NixOS image `cm5-mainboard`: rov_firmware service (manafish-firmware), go2rtc, dnsmasq, sshd, avahi | eMMC, 16 GB or more; any CM5 with eMMC (7.2) | image **[done]** (Phase 3); boot on the CM5 IO Board **[done]** (spike, 2026-11-14); on the board **[bring-up]** (B4) |
 | RP2354A (MCU) | Mainboard UF2 from a `firmware-vX.Y.Z-mb.N` release | 2 MB in-package flash | board target, release workflow and release `firmware-v1.0.4-mb.1` **[done]**; bundled in the image **[done]** (Phase 3); flashed from the CM5 **[planned: Phase 4]** |
 | ESCs | AM32 2.21.1 (`AM32_SKYSTARS_AM60_V2_F421`, manafishrov/esc-firmware `v2.21.1-rc.1`), flashed through the MCU | ESC flash | **[upstream]** |
 | Workstation | Nix with flakes and `extra-platforms = aarch64-linux`, qemu-aarch64 binfmt (F flag), uv, `~/usbboot`. rpiboot is not installed: it runs through `nix shell nixpkgs#rpiboot` (7.3). The `rpi-eeprom` submodule of `~/usbboot`, which the EEPROM update needs, is not initialised yet (7.3) | | **[done]** (Phase 0.1) |
@@ -52,8 +52,8 @@ flowchart LR
 | Caches | nix-community and nixos-raspberrypi cachix from the flake `nixConfig`; nixos-raspberrypi pinned to `1b9ac7d`. Don't bump the pin before its cachix has the aarch64 builds | **[upstream]** |
 | Inputs | Flakes see only git-tracked files: `git add` new files and a changed `flake.lock` first. `firmwareSource = ./..` puts only `software/` on the device | **[upstream]** |
 | Gates | `nix fmt -- --ci .`, `nix flake check`, `nix build --accept-flake-config --dry-run .#sdImage` | **[upstream]** |
-| Boot | Pi 5 generational `kernel` bootloader: config.txt, kernels, initrds and device trees on the FAT firmware partition (1024 MB), mounted at `/boot/firmware`. The firmware picks the device tree itself; on a CM5 with eMMC its default is `bcm2712-rpi-cm5-cm5io.dtb`, on the IO Board and on the mainboard (no HAT EEPROM) | **[done]**; on the IO Board **[planned: Phase 3 spike]** |
-| Spike | One day on the CM5 IO Board; checks 1-4 (boot and SSH, config.txt and serial console, cameras, software H.264) must pass. Fallback (Raspberry Pi OS Lite) only with owner approval | **[planned: Phase 3 spike]** |
+| Boot | Pi 5 generational `kernel` bootloader: config.txt, kernels, initrds and device trees on the FAT firmware partition (1024 MB), mounted at `/boot/firmware`. The firmware picks the device tree itself; on a CM5 with eMMC its default is `bcm2712-rpi-cm5-cm5io.dtb`, on the IO Board and on the mainboard (no HAT EEPROM) | **[done]**; on the IO Board **[done]** (spike, 2026-11-14) |
+| Spike | One day on the CM5 IO Board; checks 1-4 (boot and SSH, config.txt and serial console, cameras, software H.264) were the gate; they passed, so NixOS stays. All eight passed with image 591fafc plus the PiSP fix (8.11). The IO Board had one camera, so check 3 found camera 1 only and check 5 measured one stream; check 7 used 7 power cuts instead of 20 (owner's decision). Results in config.txt below, 7.3, 7.4, 7.8 and 8.11. On the spike's supply (type and cable not confirmed; the CM5 recorded no USB-PD contract) the CM5 logged undervoltage in every boot, with EXT5V down to 4.58 V under camera load. A supply change by the owner stopped early Ethernet link flaps but not the undervoltage | **[done]** (2026-11-14) |
 
 ### CM5 variants
 
@@ -67,8 +67,8 @@ depends on wireless, the RAM size or the eMMC size.
 | with or without wireless | yes | `disable-wifi` and `disable-bt` stay: the firmware loads the `-pi5` variants, which only disable the SDIO and Bluetooth nodes; on a CM5 without wireless they have nothing to disable |
 | CM5 Lite (no eMMC) | no | the mainboard has no SD card slot |
 
-The owner's unit: CM5 without wireless, 4 GB RAM, 16 GB eMMC. It is the only variant tested
-so far **[planned: Phase 3 spike]**.
+The owner's unit: CM5 without wireless, 4 GB RAM, 16 GB eMMC. It passed the spike **[done]**
+(2026-11-14) and is the only variant tested so far.
 
 ### config.txt
 
@@ -148,16 +148,17 @@ the HQ camera needs the 22-to-15-pin cable.
 - Camera 2 goes on CAM/DISP 1 and needs both jumpers on the IO Board's J6 (not the
   mainboard's battery connector J6). The silkscreen reads "Fit two jumpers for CAM/DISP 1"
   (CM5IO datasheet, section 5.3); the jumpers route header GPIO0/1 (i2c0) to the connector.
-  Without them the second imx477 never answers, and spike check 3 fails.
+  Without them the second imx477 never answers.
 - With a single HQ camera the second imx477 overlay finds no sensor.
 - The IO Board keeps CAM/DISP 1 powered all the time, and GPIO14 is only header TXD there.
   So camera 2's GPIO14 power enable is first tested on the mainboard (B8).
 
-The kernel command line keeps the base's `console=serial0,115200n8`; with `enable_uart=0`,
-`serial0` should be the debug UART `ttyAMA10`, not GPIO14/15. Spike check 2 confirms this
-and the `gpio=` lines with `readlink /dev/serial0` and `pinctrl get 6,12,14,15,24,25`.
-Expected: 6 and 12 `ip pu`, 14 `op dh`, 24 and 25 `ip pn`, and neither 14 nor 15 as
-`TXD0`/`RXD0`. Repeat the readback on the mainboard at B5 and B8 **[planned: Phase 3 spike]**.
+The base sets `console=serial0,115200n8`. With `enable_uart=0` the Pi boot firmware rewrites it to the
+debug UART, `console=ttyAMA10,115200n8`, and creates no `/dev/serial0` (unused). Spike
+check 2 reads `/proc/cmdline` and `pinctrl get 6,12,14,15,24,25`. Expected: 6 and 12
+`ip pu`, 14 `op dh`, 24 and 25 `ip pn`, and neither 14 nor 15 as `TXD0`/`RXD0`. Passed on
+the IO Board **[done]** (spike, 2026-11-14); repeat on the mainboard at B5 and B8
+**[bring-up]**.
 
 ## 7.3 Flashing the eMMC and the EEPROM
 
@@ -170,7 +171,7 @@ The owner runs every `sudo` step and every jumper. Write only to the new USB dis
 | 2. Expose the eMMC | `nix shell nixpkgs#rpiboot -c sh -c 'r=$(command -v rpiboot); sudo "$r" -d "${r%/bin/rpiboot}/share/rpiboot/mass-storage-gadget64"'`. Works in fish and zsh; rpiboot is not installed, and a bare `sudo "$(command -v rpiboot)"` runs an empty command. The gadget comes with the nixpkgs package, so flashing needs no usbboot clone | Same, over J8 |
 | 3. Write | `lsblk -o NAME,SIZE,MODEL,TRAN,MOUNTPOINTS`. On a re-flash the desktop may mount `FIRMWARE` or `NIXOS_SD`; if so, `sudo umount /dev/sdX1 /dev/sdX2`. Then `zstd -dc <image>.img.zst \| sudo dd of=/dev/sdX bs=4M conv=fsync` | Same |
 | 4. Boot | Unplug J11, remove the J2 jumper, then connect a 5 V/5 A USB-C supply to J11 | Remove the jumper, power-cycle with the magnet |
-| Status | **[planned: Phase 3 spike]** | **[bring-up]** (B3); if rpiboot over J8 fails, flash on the IO Board |
+| Status | **[done]** (spike, 2026-11-14) | **[bring-up]** (B3); if rpiboot over J8 fails, flash on the IO Board |
 
 EEPROM (bootloader config), first on the IO Board **[planned: Phase 3 spike]**, then on the board
 **[bring-up]** (B3). recovery5's EEPROM image, its `recovery.bin` and `rpi-eeprom-config` come
@@ -186,7 +187,8 @@ from the `rpi-eeprom` submodule of `~/usbboot`, which is not initialised yet.
    mainboard J7 pins 11-12.
 
 Spike check 1 records `vcgencmd bootloader_version`. Updating the EEPROM before the first boot
-of the image is optional; if check 1 fails, update it first.
+of the image is optional; if check 1 fails, update it first. The owner's unit booted the image
+with bootloader 2026/05/11 and no update.
 
 | Setting | Why |
 |---|---|
@@ -210,8 +212,11 @@ The root is tmpfs so that the hard power cut of the magnet switch cannot corrupt
 
 The Pi 5 base boots with the generational kernel loader and keeps the firmware files in
 `/boot/firmware`; the `/boot` bind still works (comment in impermanence.nix **[done]**).
-Power-cut tests: 20 cuts in the spike **[planned: Phase 3 spike]**, 50 cuts including a config save
-**[bring-up]** (B15).
+Power-cut tests: 7 cuts in the spike **[done]** (2026-11-14; 4 during boot, 3 while running),
+50 cuts including a config save **[bring-up]** (B15). In the spike every boot replayed the ext4
+journal (`systemd-fsck`: "recovering journal", then clean). No ext4 or FAT errors, no failed units,
+and the bundled firmware files and `config.json` kept their checksums. `/boot/firmware` is an
+automount that unmounts after 60 s idle, so a cut rarely finds the FAT partition mounted.
 
 | Path in `/home/pi` | Written by | Content | Status |
 |---|---|---|---|
@@ -278,9 +283,9 @@ sequenceDiagram
 
 | Loop | How | Status |
 |---|---|---|
-| Python on the device | `rsync -rlt --delete --exclude __pycache__ --exclude config.json software/src/ pi@10.10.10.10:firmware/src/`, then the owner runs `ssh -t pi@10.10.10.10 'sudo systemctl restart manafish-firmware; journalctl -fu manafish-firmware'`. Never overwrite the device config. New Python dependencies need an image rebuild; the next new image replaces the synced tree | documented in CLAUDE.md **[done]** |
+| Python on the device | `rsync -rlt --delete --exclude __pycache__ --exclude config.json software/src/ pi@10.10.10.10:firmware/src/`, then restart the service with `ssh -t pi@10.10.10.10 'sudo systemctl restart manafish-firmware; journalctl -fu manafish-firmware'`. Never overwrite the device config. New Python dependencies need an image rebuild; the next new image replaces the synced tree | documented in CLAUDE.md **[done]** |
 | App work without hardware | `uv run tools` → "Run Mock Websocket Server Locally" | **[upstream]** |
-| NixOS change without reflashing | `nix shell nixpkgs#nixos-rebuild-ng -c nixos-rebuild switch --flake ./software#cm5-mainboard --target-host pi@10.10.10.10 --sudo --ask-sudo-password`; builds on the workstation | flakes and `trusted-users` on the device **[done]**; the loop itself **[planned: Phase 3 spike]** (check 8) |
+| NixOS change without reflashing | `nix shell nixpkgs#nixos-rebuild-ng -c nixos-rebuild switch --flake ./software#cm5-mainboard --target-host pi@10.10.10.10 --sudo --ask-sudo-password`; builds on the workstation | flakes and `trusted-users` on the device **[done]**; the loop itself **[done]** (spike check 8, 2026-11-14) |
 | MCU firmware | `cd firmware && nix develop`, `make test`, `make build-pico2`; `make build-mainboard`, and `flash-mainboard` without `-f` (expects BOOTSEL already) | **[upstream]** / **[done]** |
 | MCU bench scripts | `scp firmware/scripts/control_smoke.py firmware/scripts/mainboard_bringup.py pi@10.10.10.10:`, run with the service stopped and `--port /dev/manafish-mcu`; not in the image | **[planned: Phase 5]** |
 

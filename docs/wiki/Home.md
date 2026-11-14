@@ -21,7 +21,8 @@ between them.
 
 State today: the PCB is designed and ordered; no board has been built or tested.
 `firmware/` builds the `manafish_mainboard` MCU target (Phase 2) and `software/`
-builds the CM5 image `cm5-mainboard` (Phase 3); neither has run on a board yet.
+builds the CM5 image `cm5-mainboard` (Phase 3), which passed the spike on the CM5 IO
+Board (2026-11-14); neither has run on the mainboard yet.
 The Python service still assumes Pico boards until Phase 4. The rest of the port
 follows the phases below.
 
@@ -107,7 +108,7 @@ Naming trap: upstream's repo called "firmware" lives in `software/`.
 | 0 | Workstation, subtree imports, root `CLAUDE.md`, scoped dirty check | **[done]** |
 | 1 | Root CI workflows, pre-commit, README and NOTICE fixes, this wiki | **[done]**, first CI runs green |
 | 2 | RP2354A firmware: `manafish_mainboard` board target, ESC power state machine, protocol 0x26, IMU axis macros, release workflow, `mainboard_bringup.py` | **[done]**, release `firmware-v1.0.4-mb.1` published; measurements **[bring-up]** (B7, B11-B13) |
-| 3 | CM5 NixOS image (`cm5-mainboard`), software H.264, second camera, one-day spike on the CM5 IO Board | Image, `board.nix`, libav H.264, `cam2`, `/dev/manafish-mcu`, bundled mainboard UF2, Pi-side BMI270 removal **[done]**; spike checks **[planned: Phase 3 spike]** |
+| 3 | CM5 NixOS image (`cm5-mainboard`), software H.264, second camera, one-day spike on the CM5 IO Board | Image, `board.nix`, libav H.264, `cam2`, `/dev/manafish-mcu`, bundled mainboard UF2, Pi-side BMI270 removal **[done]**; spike checks 1-8 **[done]** (IO Board, 2026-11-14); EEPROM rehearsal and GPIO24/25 scope on the IO Board **[planned: Phase 3 spike]** |
 | 4 | CM5 Python: MCU discovery and hardware BOOTSEL, charger, PoE, hull sensors, battery, ESC power, readings | **[planned: Phase 4]** |
 | 5 | Bring-up tooling: `tools board-check`, `BRINGUP.md` | **[planned: Phase 5]** |
 | 6 | Board bring-up, steps B0 to B16 | **[bring-up]** |

@@ -21,6 +21,11 @@
       withOpenCVPostProc = false;
     };
 
+  # libpisp treats a library with a RUNPATH (every Nix build) as uninstalled
+  # and looks for its config in the build tree, so libcamera fails on the CM5
+  # (nvmd/nixos-raspberrypi#48). Fixing libpisp would rebuild libcamera.
+  libpispConfig = "${pkgs.rpi.libpisp}/share/libpisp/backend_default_config.json";
+
   # The camera settings live in the ROV config, which the firmware persists as
   # user `pi` with mode 0600. go2rtc therefore runs as `pi` (see below) so this
   # wrapper can read the file. Every value is validated with a safe fallback, so
@@ -188,6 +193,11 @@ in {
     rpi.rpicam-apps
     cameraApply
   ];
+  # Every unit (go2rtc and its rpicam-vid), and shells, SSH and sudo via PAM.
+  systemd.globalEnvironment.LIBPISP_BE_CONFIG_FILE = libpispConfig;
+  environment.sessionVariables.LIBPISP_BE_CONFIG_FILE = libpispConfig;
+  # A libpisp update that moves the file fails the build, not the cameras.
+  system.checks = [(pkgs.runCommand "libpisp-config" {} "test -f ${libpispConfig} && touch $out")];
 
   # Allow `pi` to restart only go2rtc.service without a password, so camera
   # setting changes can be applied at runtime without a rebuild.

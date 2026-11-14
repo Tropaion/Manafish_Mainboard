@@ -9,7 +9,7 @@ schematic and netlist; the PCB is fixed for this board revision.
 
 | Constraint | Consequence for the architecture |
 |---|---|
-| The CM5's BCM2712 has no hardware H.264 encoder. | Video is encoded in software: `rpicam-vid` with the libav encoder, served by go2rtc **[done]** (Phase 3). Upstream used the Pi 3 hardware encoder and built `rpicam-apps` without libav. CPU load and SoC temperature with one and two streams are measured in the spike **[planned: Phase 3 spike]** and at **[bring-up]** B14. |
+| The CM5's BCM2712 has no hardware H.264 encoder. | Video is encoded in software: `rpicam-vid` with the libav encoder, served by go2rtc **[done]** (Phase 3). Upstream used the Pi 3 hardware encoder and built `rpicam-apps` without libav. CPU load and SoC temperature with one stream were measured in the spike **[done]** (2026-11-14, 8.11); two streams and the closed hull at **[bring-up]** B14. |
 | The RP2354A has 2 MB of in-package flash (stepping A4). | A separate board target `manafish_mainboard` sets the flash size, the boot stage 2 and its own USB product string **[done]**. The stock pico2 image assumes other flash and crystal settings. |
 | Crystal Y1 is 12 MHz, ESR 60 Ω, with 1 kΩ in series: slow start-up. | The board target raises `PICO_XOSC_STARTUP_DELAY_MULTIPLIER` to 64 **[done]**. Cold boots and cold BOOTSEL at 0-5 °C are tested at **[bring-up]** B7. |
 | The Pico SDK (2.3.1) is fetched over the network by CMake (`pico_sdk_import.cmake`), and its version is enforced. | The MCU UF2 is never built inside Nix. CI builds it, a release publishes it, and the software flake fetches it as a GitHub release asset. |
@@ -45,7 +45,7 @@ schematic and netlist; the PCB is fixed for this board revision.
 | Constraint | Source |
 |---|---|
 | Ask the owner before every commit, push and `git subtree add/pull`. Push only to `main`; there are no PRs. | [CLAUDE.md](https://github.com/Tropaion/Manafish_Mainboard/blob/main/CLAUDE.md), owner rules |
-| The owner runs every `sudo` (also on the device), jumper and hardware step. | CLAUDE.md |
+| The owner runs every `sudo` on the workstation and every jumper and hardware step; on a Manafish device Claude runs `sudo` itself. | CLAUDE.md |
 | Never connect a board running a Manafish image to a LAN: it has static 10.10.10.10 and a DHCP server on eth0. Use a direct cable. | CLAUDE.md |
 | Prefer simple solutions. Report every pin remap. BOM changes are recommendations only. | CLAUDE.md |
 | LTC4162, WSEN-PADS and SHT45 addresses, scales and bits come from the datasheet, never from memory. Charger writes stay disabled until bring-up step B9, except the `force_telemetry_on` read-modify-write. | CLAUDE.md |
