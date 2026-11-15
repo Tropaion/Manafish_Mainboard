@@ -52,8 +52,8 @@ flowchart LR
 | Caches | nix-community and nixos-raspberrypi cachix from the flake `nixConfig`; nixos-raspberrypi pinned to `1b9ac7d`. Don't bump the pin before its cachix has the aarch64 builds | **[upstream]** |
 | Inputs | Flakes see only git-tracked files: `git add` new files and a changed `flake.lock` first. `firmwareSource = ./..` puts only `software/` on the device | **[upstream]** |
 | Gates | `nix fmt -- --ci .`, `nix flake check`, `nix build --accept-flake-config --dry-run .#sdImage` | **[upstream]** |
-| Boot | Pi 5 generational `kernel` bootloader: config.txt, kernels, initrds and device trees on the FAT firmware partition (1024 MB), mounted at `/boot/firmware`. The firmware picks the device tree itself; on a CM5 with eMMC its default is `bcm2712-rpi-cm5-cm5io.dtb`, on the IO Board and on the mainboard (no HAT EEPROM) | **[done]**; on the IO Board **[done]** (spike, 2026-11-14) |
-| Spike | One day on the CM5 IO Board; checks 1-4 (boot and SSH, config.txt and serial console, cameras, software H.264) were the gate; they passed, so NixOS stays. All eight passed with image 591fafc plus the PiSP fix (8.11). The IO Board had one camera, so check 3 found camera 1 only and check 5 measured one stream; check 7 used 7 power cuts instead of 20 (owner's decision). Results in config.txt below, 7.3, 7.4, 7.8 and 8.11. On the spike's supply (type and cable not confirmed; the CM5 recorded no USB-PD contract) the CM5 logged undervoltage in every boot, with EXT5V down to 4.58 V under camera load. A supply change by the owner stopped early Ethernet link flaps but not the undervoltage | **[done]** (2026-11-14) |
+| Boot | Pi 5 generational `kernel` bootloader: config.txt, kernels, initrds and device trees on the FAT firmware partition (1024 MB), mounted at `/boot/firmware`. The firmware picks the device tree itself; on a CM5 with eMMC its default is `bcm2712-rpi-cm5-cm5io.dtb`, on the IO Board and on the mainboard (no HAT EEPROM) | **[done]**; on the IO Board **[done]** (spike, 2026-11-14); a generation deployed with `nixos-rebuild` boots after a power cycle **[done]** (IO Board, 2026-11-14/15, 7.8) |
+| Spike | One day on the CM5 IO Board; checks 1-4 (boot and SSH, config.txt and serial console, cameras, software H.264) were the gate; they passed, so NixOS stays. All eight passed with image 591fafc plus the PiSP fix (8.11). The IO Board had one camera, so check 3 found camera 1 only and check 5 measured one stream; check 7 used 7 power cuts instead of 20 (owner's decision). Results in config.txt below, 7.3, 7.4, 7.8 and 8.11. On the spike's supply (type and cable not confirmed; the CM5 recorded no USB-PD contract) the CM5 logged undervoltage in every boot, with EXT5V down to 4.58 V under camera load. A supply change by the owner stopped early Ethernet link flaps but not the undervoltage. Supply comparison afterwards (2026-11-14/15): the earlier supply idled at EXT5V 4.73 V and the kernel logged 17 "Undervoltage detected" events in that boot; a replacement idled at 5.03 V and held 4.87-4.90 V under a 30 s 4-core load, with `get_throttled` 0x0 and no undervoltage event. The same load took the SoC from 50 to 74 °C in 26 s without a heatsink, so cooling matters for B14. These numbers set the `soc.ext5v` limits of `tools board-check` (7.10) | **[done]** (2026-11-14); supply comparison **[done]** (2026-11-14/15) |
 
 ### CM5 variants
 
@@ -173,9 +173,12 @@ The owner runs every `sudo` step and every jumper. Write only to the new USB dis
 | 4. Boot | Unplug J11, remove the J2 jumper, then connect a 5 V/5 A USB-C supply to J11 | Remove the jumper, power-cycle with the magnet |
 | Status | **[done]** (spike, 2026-11-14) | **[bring-up]** (B3); if rpiboot over J8 fails, flash on the IO Board |
 
-EEPROM (bootloader config), first on the IO Board **[planned: Phase 3 spike]**, then on the board
-**[bring-up]** (B3). recovery5's EEPROM image, its `recovery.bin` and `rpi-eeprom-config` come
-from the `rpi-eeprom` submodule of `~/usbboot`, which is not initialised yet.
+EEPROM (bootloader config), first on the IO Board **[planned: Phase 3 spike]** (the steps below;
+the rehearsal's jumpers and pass criteria in
+[BRINGUP.md](https://github.com/Tropaion/Manafish_Mainboard/blob/main/BRINGUP.md), section 5),
+then on the board **[bring-up]** (B3). recovery5's EEPROM image, its `recovery.bin` and
+`rpi-eeprom-config` come from the `rpi-eeprom` submodule of `~/usbboot`, which is not
+initialised yet.
 
 1. Once, without sudo, with internet: `git -C ~/usbboot submodule update --init --depth 1`.
 2. Edit `~/usbboot/recovery5/boot.conf` (settings below), then run
@@ -245,8 +248,9 @@ The firewall is off **[upstream]**.
 **Warning:** never connect a board running a Manafish image to a LAN. It uses static
 10.10.10.10 and runs an authoritative DHCP server on eth0. Use a direct cable (for example a
 USB-Ethernet adapter on the workstation); the CM5 then has no internet. The app connects to
-10.10.10.10:9000. Measured link: `ethtool eth0` = 1000 full **[bring-up]** (B4), PoE and
-iperf3 **[bring-up]** (B9, B16).
+10.10.10.10:9000. Measured link **[bring-up]** (B4, board-check `eth0.link`), PoE and iperf3
+**[bring-up]** (B9, B16; error counters in `eth0.errors`). At B9 and B16 the PoE injector or
+switch connects only the board and the workstation.
 
 ## 7.7 Bundled MCU firmware and the release flow
 
@@ -286,9 +290,10 @@ sequenceDiagram
 | Python on the device | `rsync -rlt --delete --exclude __pycache__ --exclude "*.egg-info" --exclude config.json software/src/ pi@10.10.10.10:firmware/src/`, then restart the service with `ssh -t pi@10.10.10.10 'sudo systemctl restart manafish-firmware; journalctl -fu manafish-firmware'`. Never overwrite the device config. New Python dependencies need an image rebuild; the next new image replaces the synced tree | documented in CLAUDE.md **[done]** |
 | App work without hardware | `uv run tools` → "Run Mock Websocket Server Locally" | **[upstream]** |
 | MCU by hand on the device | `sudo systemctl stop manafish-firmware`, wait 35 s, then `tools mcu-reset` (10 ms RUN pulse) or `tools mcu-recover [UF2]` (hardware BOOTSEL, then `picotool load -v -x` of the given or bundled image). Both refuse earlier and while the ESC recovery journal is set (8.4). Without arguments `tools` shows the menu; the image's `tools` script passes its arguments on | **[done]** (Phase 4); on the board **[bring-up]** (B7) |
-| NixOS change without reflashing | `nix shell nixpkgs#nixos-rebuild-ng -c nixos-rebuild switch --flake ./software#cm5-mainboard --target-host pi@10.10.10.10 --sudo --ask-sudo-password`; builds on the workstation | flakes and `trusted-users` on the device **[done]**; the loop itself **[done]** (spike check 8, 2026-11-14) |
+| NixOS change without reflashing | `nix shell nixpkgs#nixos-rebuild-ng -c nixos-rebuild switch --flake ./software#cm5-mainboard --target-host pi@10.10.10.10 --sudo --ask-sudo-password`; builds on the workstation. To deploy a commit rather than the working tree, use a flake URL with `rev`: `git+file://<repo>?dir=software&rev=<rev>#cm5-mainboard`; uncommitted files then cannot mark the build dirty | flakes and `trusted-users` on the device **[done]**; the loop itself **[done]** (spike check 8, 2026-11-14). Generation 3, built from the clean rev 087329c through such a URL, deployed with `nixos-rebuild-ng switch --target-host`: it boots after a power cycle (generational bootloader), `config.json` was kept, the service PATH has `vcgencmd` (`get_throttled` read and logged) and the `tools` script passes `"$@"` (`tools mcu-reset --help` works) **[done]** (IO Board, 2026-11-14/15) |
 | MCU firmware | `cd firmware && nix develop`, `make test`, `make build-pico2`; `make build-mainboard`, and `flash-mainboard` without `-f` (expects BOOTSEL already) | **[upstream]** / **[done]** |
-| MCU bench scripts | `scp firmware/scripts/control_smoke.py firmware/scripts/mainboard_bringup.py pi@10.10.10.10:`, run with the service stopped and `--port /dev/manafish-mcu`; not in the image | **[planned: Phase 5]** |
+| MCU bench scripts | `scp firmware/scripts/control_smoke.py firmware/scripts/mainboard_bringup.py pi@10.10.10.10:`, then on the CM5 `python3 <script> --port /dev/manafish-mcu --execute …` with the service stopped (the system Python 3.13 has pyserial 3.5); not in the image. Commands and pass criteria in `BRINGUP.md` (3.2) | **[done]** (Phase 5); on the board **[bring-up]** (B7, B11) |
+| Board check | Read-only bring-up check with the service stopped: `sudo systemctl stop manafish-firmware`, `tools board-check [--json]`, `sudo systemctl start manafish-firmware`; ids, criteria and exit codes in [BRINGUP.md](https://github.com/Tropaion/Manafish_Mainboard/blob/main/BRINGUP.md) 3.1 | **[done]** (Phase 5); on the board **[bring-up]** (B4-B10, B14-B16) |
 
 ## 7.9 CI workflows
 
@@ -307,3 +312,16 @@ before every commit anyway.
 | [.pre-commit-config.yaml](https://github.com/Tropaion/Manafish_Mainboard/blob/main/.pre-commit-config.yaml) | commit hook | ruff check (with `--fix`), ruff format and ty through `uv run` in `software/`; clang-format v19.1.7 for `firmware/` without `third_party` and `tests/unity` | **[done]** |
 
 Renovate stays off. Pushes go only to `main`, after owner approval; there are no PRs.
+
+## 7.10 Board bring-up
+
+[BRINGUP.md](https://github.com/Tropaion/Manafish_Mainboard/blob/main/BRINGUP.md) at the repo
+root is the procedure for each new board **[done]** (Phase 5): bench rules, equipment per step,
+the tools, steps B0 to B16 with pass criteria, the items still open on the CM5 IO Board, and a
+record sheet to copy per board. Running it is **[bring-up]** (Phase 6).
+
+| Tool | Where | Use | Status |
+|---|---|---|---|
+| `tools board-check [--json]` | in the image (`software/src/tools/board_check.py`) | Read-only check of everything the CM5 can see (system, I2C1 parts, PoE type, GPIO lines, MCU on USB, charger, cameras, SoC, eth0, services), run with the service stopped; check ids, criteria, thresholds and exit codes in [BRINGUP.md](https://github.com/Tropaion/Manafish_Mainboard/blob/main/BRINGUP.md) 3.1. Used at B4-B10, B14-B16 | **[done]** (Phase 5); on the board **[bring-up]** |
+| `control_smoke.py`, `mainboard_bringup.py` | copied to the CM5 with `scp` (7.8) | MCU smoke test (features 0x3f, 500 Hz, IMU healthy) at B7; ESC power timing at B11; IMU axes at B13 | **[done]**; on the board **[bring-up]** |
+| `tools mcu-reset`, `tools mcu-recover` | in the image | RUN pulse and hardware BOOTSEL flash at B7 (8.4) | **[done]** (Phase 4); on the board **[bring-up]** (B7) |

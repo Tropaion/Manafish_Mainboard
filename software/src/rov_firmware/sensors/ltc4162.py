@@ -62,6 +62,13 @@ CONFIG_BITS_FIELD: Final = 0x3E
 EN_C_OVER_X_TERM: Final = 1 << 2
 EN_JEITA: Final = 1 << 0
 CHARGER_CONFIG_FIELD: Final = EN_C_OVER_X_TERM | EN_JEITA
+CONFIG_BITS_FLAGS: Final = {
+    SUSPEND_CHARGER: "suspend_charger",
+    RUN_BSR: "run_bsr",
+    TELEMETRY_SPEED_HIGH: "telemetry_speed_high",
+    FORCE_TELEMETRY_ON: "force_telemetry_on",
+    MPPT_EN: "mppt_en",
+}
 # Code fields.
 IIN_LIMIT_FIELD: Final = 0x3F  # [5:0]
 CHARGE_CURRENT_FIELD: Final = 0x1F  # [4:0]
@@ -77,6 +84,16 @@ VIN_GT_VBAT: Final = 1 << 2
 VIN_GT_4P2V: Final = 1 << 1
 INTVCC_GT_2P8V: Final = 1 << 0
 SYSTEM_STATUS_FIELD: Final = 0x1BF
+SYSTEM_STATUS_FLAGS: Final = {
+    EN_CHG: "en_chg",
+    CELL_COUNT_ERR: "cell_count_err",
+    NO_RT: "no_rt",
+    THERMAL_SHUTDOWN: "thermal_shutdown",
+    VIN_OVLO: "vin_ovlo",
+    VIN_GT_VBAT: "vin_gt_vbat",
+    VIN_GT_4P2V: "vin_gt_4p2v",
+    INTVCC_GT_2P8V: "intvcc_gt_2p8v",
+}
 CHARGER_STATE_FIELD: Final = 0x1FFF  # [12:0]
 CHARGE_STATUS_FIELD: Final = 0x3F  # [5:0]
 TELEMETRY_VALID: Final = 1 << 0  # telemetry_status 0x4A bit 0
@@ -144,6 +161,16 @@ SETTING_FIELDS: Final = {
     IIN_LIMIT_TARGET: IIN_LIMIT_FIELD,
     CONFIG_BITS: CONFIG_BITS_FIELD & ~RUN_BSR,
 }
+# Power-on defaults of the five settings (DS pp.39-42): en_jeita 1, C/x 0,
+# vcharge 31 = 4.20 V/cell, charge current 31 = 3.2 A, input limit 63 = 4.0 A,
+# config_bits 0.
+DEFAULT_SETTINGS: Final = ChargerSettings(
+    charger_config_bits=EN_JEITA,
+    vcharge_setting=31,
+    charge_current_setting=31,
+    iin_limit_target=63,
+    config_bits=0,
+)
 _WORD: Final = 0xFFFF
 _SIGN: Final = 0x8000
 
@@ -183,6 +210,26 @@ def charge_current_amps(code: int) -> float:
 def charge_voltage_per_cell(code: int) -> float:
     """``vcharge_setting`` code to volts per cell (31 = 4.2 V, 23 = 4.1 V)."""
     return VCHARGE_BASE_V + code * VCHARGE_STEP_V
+
+
+def flag_names(value: int, names: dict[int, str]) -> list[str]:
+    """Names of the bits of ``names`` that are set in ``value``."""
+    return [name for bit, name in names.items() if value & bit]
+
+
+def describe_settings(settings: ChargerSettings) -> str:
+    """The five settings as codes and units, for logs and board-check."""
+    suspended = bool(settings.config_bits & SUSPEND_CHARGER)
+    return (
+        f"vcharge code {settings.vcharge_setting} = "
+        f"{charge_voltage_per_cell(settings.vcharge_setting):.4f} V/cell, "
+        f"charge code {settings.charge_current_setting} = "
+        f"{charge_current_amps(settings.charge_current_setting):.1f} A, "
+        f"input code {settings.iin_limit_target} = "
+        f"{input_limit_amps(settings.iin_limit_target):.4f} A, "
+        f"en_jeita {settings.charger_config_bits & EN_JEITA}, "
+        f"suspend {'yes' if suspended else 'no'}"
+    )
 
 
 def _one_hot_name(value: int, names: dict[int, str], zero: str | None) -> str:
@@ -238,6 +285,16 @@ class Ltc4162:
     def _read_setting(self, register: int) -> int:
         """Read a settings register masked to its writable field (no ``run_bsr``)."""
         return self._read(register) & SETTING_FIELDS[register]
+
+    def read_settings(self) -> ChargerSettings:
+        """Read the five settings registers, each masked to its writable field."""
+        return ChargerSettings(
+            charger_config_bits=self._read_setting(CHARGER_CONFIG_BITS),
+            vcharge_setting=self._read_setting(VCHARGE_SETTING),
+            charge_current_setting=self._read_setting(CHARGE_CURRENT_SETTING),
+            iin_limit_target=self._read_setting(IIN_LIMIT_TARGET),
+            config_bits=self._read_setting(CONFIG_BITS),
+        )
 
     def write_setting(self, register: int, value: int) -> None:
         """Write one settings register; anything else is refused before the bus."""

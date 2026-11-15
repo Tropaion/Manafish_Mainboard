@@ -28,7 +28,7 @@ from rov_firmware.websocket.receive.mcu import (
 SERVICE = "manafish-firmware"
 # MCU host-loss auto-off (30 s) plus its 2 s neutral stop plus margin.
 SERVICE_QUIET_S = 35.0
-_STOPPED_STATES = ("inactive", "failed")
+STOPPED_STATES = ("inactive", "failed")
 _USB_SETTLE_S = 0.5
 _USB_WAIT_S = 5.0
 
@@ -82,7 +82,7 @@ def service_refusal(
     except (OSError, subprocess.SubprocessError) as error:
         return f"Cannot read the state of {SERVICE} through systemctl: {error}"
     state = properties.get("ActiveState", "")
-    if state not in _STOPPED_STATES:
+    if state not in STOPPED_STATES:
         return (
             f"{SERVICE} is {state or 'in an unknown state'}. Stop it first "
             f"(sudo systemctl stop {SERVICE}), then wait {SERVICE_QUIET_S:.0f} s: "

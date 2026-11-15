@@ -22,9 +22,11 @@ Terms and abbreviations used across these docs. Status labels are explained on
 | BDU | Block data update. WSEN-PADS setting that keeps an output word consistent while it is read. |
 | BMI270 | Bosch IMU, on the MCU's SPI1 (GP10-13), polled. Not on I2C. |
 | BMS | Battery management system inside the pack. The only overcurrent protection on the ESC branch. |
+| board-check | `tools board-check [--json]`: read-only bring-up check on the CM5, run with the service stopped; check ids, verdicts and exit codes in `BRINGUP.md` 3.1 **[done]** (Phase 5). |
 | board.nix | `software/nix/board.nix`: all board-specific NixOS config (config.txt options and GPIO lines, camera overlays, polkit, bring-up tools) **[done]**. |
 | BOOTSEL | RP2354A boot ROM mode that accepts new firmware over USB (2e8a:000f). Entered when QSPI_SS is low while the chip leaves reset. On this board: hardware BOOTSEL (GPIO24 RUN, GPIO25 QSPI_SS). |
-| Bx | Bring-up step x of phase 6, from B0 (inspection without power) to B16 (EMI). |
+| BRINGUP.md | Bring-up procedure and record sheet at the repo root **[done]** (Phase 5). |
+| Bx | Bring-up step x of phase 6, from B0 (inspection without power) to B16 (EMI). Procedure in `BRINGUP.md`. |
 | BUSY | ACK result 3. For ESC_POWER ON: hold not over, settings not applied, stopping, upload, recovery or protocol transition; for OFF: ESC firmware recovery. The host retries. |
 | cachix | Binary cache for Nix. The builds use the nix-community and nixos-raspberrypi caches. |
 | CAPS | Capability exchange. The host sends the legacy C5 request GET_CONTROL_CAPABILITIES; the MCU answers with frame 0x81: schema, sizes, feature bits (0x1f today; 0x20 = ESC power **[done]**) and build identity. |

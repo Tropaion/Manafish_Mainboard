@@ -23,7 +23,8 @@ Port status: `software/flake.nix` builds the CM5 image (`cm5-mainboard`) and
 bundles the mainboard UF2 from the `firmware-v1.0.4-mb.1` release. It passed
 the spike on the CM5 IO Board (2026-11-14). Phase 4 (CM5 Python: mainboard MCU
 discovery and flashing, charger, PoE, hull sensors, battery, ESC power) is
-unit-tested and waits for bring-up.
+unit-tested and waits for bring-up. Phase 5 (`tools board-check`, `BRINGUP.md`)
+is done and waits for the boards.
 
 ## Owner rules
 

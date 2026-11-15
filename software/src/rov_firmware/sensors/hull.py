@@ -7,6 +7,7 @@ SHT45: one-byte command 0xFD (high repeatability), then a separate read transfer
 of 6 bytes (T MSB, LSB, CRC, RH MSB, LSB, CRC) at least 8.3 ms later; 10 ms is
 used. The sensor never stretches the clock: a read header that comes too early
 is NACKed and is retried. Data can be read once. CRC-8 poly 0x31, init 0xFF.
+0x89 reads the 32-bit serial number in the same 6-byte layout (board-check).
 
 WSEN-PADS: DEVICE_ID 0x0F reads 0xB3. CTRL_1 = 0x12 (ODR 1 Hz, BDU, low-power,
 no LPF2) is the only register ever written; nothing else, and no reserved
@@ -45,6 +46,8 @@ HULL_RECONNECT_INTERVAL_S: Final = 10.0
 SHT45_ADDRESS: Final = 0x44
 SHT45_MEASURE_HIGH_PRECISION: Final = 0xFD
 SHT45_MEASURE_WAIT_S: Final = 0.010  # datasheet max 8.3 ms
+SHT45_READ_SERIAL: Final = 0x89
+SHT45_SERIAL_WAIT_S: Final = 0.010  # the DS gives none; Sensirion's drivers wait 10 ms
 SHT45_RESPONSE_LENGTH: Final = 6
 SHT45_READ_ATTEMPTS: Final = 3
 SHT45_RETRY_WAIT_S: Final = 0.005
@@ -100,20 +103,26 @@ def crc8(data: bytes) -> int:
     return crc
 
 
-def sht45_convert(data: bytes) -> tuple[float, float]:
-    """Check both CRCs and convert to (degrees C, %RH clamped to 0..100)."""
+def sht45_words(data: bytes) -> tuple[int, int]:
+    """Check both CRCs of a 6-byte SHT45 response and return its two words."""
     if len(data) != SHT45_RESPONSE_LENGTH:
         msg = f"SHT45 returned {len(data)} bytes, expected {SHT45_RESPONSE_LENGTH}"
         raise ValueError(msg)
-    ticks = []
+    words = []
     for start in range(0, SHT45_RESPONSE_LENGTH, _WORD_WITH_CRC):
         word, crc = data[start : start + 2], data[start + 2]
         if crc8(word) != crc:
             msg = f"SHT45 CRC mismatch on bytes {start}-{start + 2}"
             raise ValueError(msg)
-        ticks.append(int.from_bytes(word, "big"))
-    temperature = -45.0 + 175.0 * ticks[0] / SHT45_FULL_SCALE
-    humidity = -6.0 + 125.0 * ticks[1] / SHT45_FULL_SCALE
+        words.append(int.from_bytes(word, "big"))
+    return words[0], words[1]
+
+
+def sht45_convert(data: bytes) -> tuple[float, float]:
+    """Check both CRCs and convert to (degrees C, %RH clamped to 0..100)."""
+    temperature_ticks, humidity_ticks = sht45_words(data)
+    temperature = -45.0 + 175.0 * temperature_ticks / SHT45_FULL_SCALE
+    humidity = -6.0 + 125.0 * humidity_ticks / SHT45_FULL_SCALE
     return temperature, min(max(humidity, 0.0), SHT45_HUMIDITY_MAX_PCT)
 
 
@@ -131,26 +140,41 @@ def _read_raw(bus: HullBus, address: int, length: int) -> bytes:
     return ctypes.string_at(message.buf, message.len)
 
 
-def measure_sht45(bus: HullBus, sleep: Callable[[float], None]) -> tuple[float, float]:
-    """One high-precision measurement: write 0xFD, wait, read in its own transfer."""
-    bus.i2c_rdwr(i2c_msg.write(SHT45_ADDRESS, [SHT45_MEASURE_HIGH_PRECISION]))
-    sleep(SHT45_MEASURE_WAIT_S)
+def _sht45_command(
+    bus: HullBus, command: int, wait_s: float, sleep: Callable[[float], None]
+) -> bytes:
+    """Write a one-byte command, wait, then read 6 bytes in their own transfer."""
+    bus.i2c_rdwr(i2c_msg.write(SHT45_ADDRESS, [command]))
+    sleep(wait_s)
     attempt = 1
     while True:
         try:
-            data = _read_raw(bus, SHT45_ADDRESS, SHT45_RESPONSE_LENGTH)
-            break
+            return _read_raw(bus, SHT45_ADDRESS, SHT45_RESPONSE_LENGTH)
         except OSError:
-            # NACK on the read header: still measuring. Retry the read only.
+            # NACK on the read header: still busy. Retry the read only.
             if attempt >= SHT45_READ_ATTEMPTS:
                 raise
             attempt += 1
             sleep(SHT45_RETRY_WAIT_S)
+
+
+def measure_sht45(bus: HullBus, sleep: Callable[[float], None]) -> tuple[float, float]:
+    """One high-precision measurement: write 0xFD, wait, read in its own transfer."""
+    data = _sht45_command(
+        bus, SHT45_MEASURE_HIGH_PRECISION, SHT45_MEASURE_WAIT_S, sleep
+    )
     return sht45_convert(data)
 
 
-def configure_pads(bus: HullBus) -> None:
-    """Check the device ID and auto-increment, then start 1 Hz with BDU."""
+def read_sht45_serial(bus: HullBus, sleep: Callable[[float], None]) -> int:
+    """The 32-bit serial number: write 0x89, wait, read in its own transfer."""
+    data = _sht45_command(bus, SHT45_READ_SERIAL, SHT45_SERIAL_WAIT_S, sleep)
+    high, low = sht45_words(data)
+    return (high << 16) | low
+
+
+def check_pads(bus: HullBus) -> None:
+    """Read-only: DEVICE_ID must read 0xB3 and CTRL_2 must have auto-increment on."""
     device_id = bus.read_byte_data(PADS_ADDRESS, PADS_DEVICE_ID_REGISTER)
     if device_id != PADS_DEVICE_ID:
         msg = f"WSEN-PADS DEVICE_ID reads {device_id:#04x}, expected {PADS_DEVICE_ID:#04x}"
@@ -158,6 +182,11 @@ def configure_pads(bus: HullBus) -> None:
     if not bus.read_byte_data(PADS_ADDRESS, PADS_CTRL_2) & PADS_IF_ADD_INC:
         msg = "WSEN-PADS CTRL_2 has auto-increment off; the 5-byte burst would fail"
         raise OSError(msg)
+
+
+def configure_pads(bus: HullBus) -> None:
+    """Check the device ID and auto-increment, then start 1 Hz with BDU."""
+    check_pads(bus)
     bus.write_byte_data(PADS_ADDRESS, PADS_CTRL_1, PADS_CTRL_1_VALUE)
 
 

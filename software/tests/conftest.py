@@ -24,6 +24,7 @@ from rov_firmware.models.system import (
 )
 from rov_firmware.models.thruster import ThrusterData
 from rov_firmware.rov_state import RovState
+from rov_firmware.sensors.ltc4162 import DEFAULT_SETTINGS
 
 
 @pytest.fixture
@@ -220,6 +221,16 @@ class FakeSMBus:
         self.calls.append(("write_byte", i2c_addr, register, value))
         self._device(i2c_addr).write_byte(register, value)
 
+    def read_byte(self, i2c_addr, _force=None):
+        # SMBus receive byte: a read with no register pointer (scan probe).
+        self.calls.append(("receive_byte", i2c_addr))
+        return self._device(i2c_addr).receive_byte()
+
+    def write_byte(self, i2c_addr, value, _force=None):
+        # SMBus send byte: one command byte, no data (MS5837 reset).
+        self.calls.append(("send_byte", i2c_addr, value))
+        self._device(i2c_addr).send_byte(value)
+
     def read_i2c_block_data(self, i2c_addr, register, length, _force=None):
         self.calls.append(("read_block", i2c_addr, register, length))
         return self._device(i2c_addr).read_block(register, length)
@@ -249,11 +260,11 @@ class FakeLtc4162:
     """
 
     DEFAULTS: ClassVar[dict[int, int]] = {
-        0x14: 0x0000,
-        0x15: 63,
-        0x1A: 31,
-        0x1B: 31,
-        0x29: 0x0001,
+        0x14: DEFAULT_SETTINGS.config_bits,  # 0
+        0x15: DEFAULT_SETTINGS.iin_limit_target,  # 63
+        0x1A: DEFAULT_SETTINGS.charge_current_setting,  # 31
+        0x1B: DEFAULT_SETTINGS.vcharge_setting,  # 31
+        0x29: DEFAULT_SETTINGS.charger_config_bits,  # en_jeita
     }
     WRITABLE = frozenset(DEFAULTS)
     READABLE = WRITABLE | frozenset(
@@ -364,34 +375,49 @@ def sht45_crc(data: bytes) -> int:
 class FakeSht45:
     """SHT45 per datasheet V7.3: one-byte commands, no clock stretching.
 
-    A read header before the measurement is done (8.3 ms max), or with no
-    measurement pending, is NACKed; data can be read only once.
+    0xFD measures (8.3 ms max); 0x89 reads the serial number (the DS gives no
+    wait). A read header before the measurement is done, or with no command
+    pending, is NACKed; data can be read only once.
     """
+
+    MEASURE = 0xFD
+    READ_SERIAL = 0x89
 
     def __init__(self, clock: FakeClock) -> None:
         self.clock = clock
         self.present = True
         self.temperature_ticks = 0x6666  # 25.00 C
         self.humidity_ticks = 0x7AE1  # about 54 %RH
+        self.serial_number = 0x1234ABCD
         self.measure_s = 0.0083
-        self.started: float | None = None
+        self.serial_s = 0.0  # the DS gives none; a test can make the part slow
+        self.pending: tuple[int, float] | None = None  # (command, time sent)
         self.corrupt_next = False
         self.commands: list[tuple[float, int]] = []
         self.reads: list[float] = []
 
     def i2c_write(self, data: bytes) -> None:
-        assert data == bytes([0xFD]), f"unexpected SHT45 command {data!r}"
+        assert data in (bytes([self.MEASURE]), bytes([self.READ_SERIAL])), (
+            f"unexpected SHT45 command {data!r}"
+        )
         self.commands.append((self.clock.now, data[0]))
-        self.started = self.clock.now
+        self.pending = (data[0], self.clock.now)
 
     def i2c_read(self, length: int) -> bytes:
         assert length == 6
-        if self.started is None or self.clock.now - self.started < self.measure_s:
+        if self.pending is None:
             raise OSError(errno.EREMOTEIO, "Remote I/O error")
-        self.started = None
+        command, sent = self.pending
+        busy_s = self.measure_s if command == self.MEASURE else self.serial_s
+        if self.clock.now - sent < busy_s:
+            raise OSError(errno.EREMOTEIO, "Remote I/O error")
+        self.pending = None
         self.reads.append(self.clock.now)
+        values = (self.temperature_ticks, self.humidity_ticks)
+        if command == self.READ_SERIAL:
+            values = (self.serial_number >> 16, self.serial_number & 0xFFFF)
         words = []
-        for ticks in (self.temperature_ticks, self.humidity_ticks):
+        for ticks in values:
             word = ticks.to_bytes(2, "big")
             words.append(word + bytes([sht45_crc(word)]))
         data = bytearray(b"".join(words))

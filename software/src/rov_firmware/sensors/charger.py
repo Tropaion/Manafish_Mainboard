@@ -82,20 +82,6 @@ def _open_bus() -> WordBus:
     return SMBus(ltc4162.I2C_BUS)
 
 
-def _describe(settings: ChargerSettings) -> str:
-    suspended = bool(settings.config_bits & ltc4162.SUSPEND_CHARGER)
-    return (
-        f"vcharge code {settings.vcharge_setting} = "
-        f"{ltc4162.charge_voltage_per_cell(settings.vcharge_setting):.4f} V/cell, "
-        f"charge code {settings.charge_current_setting} = "
-        f"{ltc4162.charge_current_amps(settings.charge_current_setting):.1f} A, "
-        f"input code {settings.iin_limit_target} = "
-        f"{ltc4162.input_limit_amps(settings.iin_limit_target):.4f} A, "
-        f"en_jeita {settings.charger_config_bits & ltc4162.EN_JEITA}, "
-        f"suspend {'yes' if suspended else 'no'}"
-    )
-
-
 class ChargerMonitor:
     """1 Hz charger policy loop and read-back; publishes ``state.charger``."""
 
@@ -258,7 +244,7 @@ class ChargerMonitor:
     def _apply(self, chip: Ltc4162, targets: ChargerSettings) -> None:
         if targets != self._last_targets:
             suffix = "" if self._writes_enabled else " (writes disabled until B9)"
-            log_info(f"Charger targets{suffix}: {_describe(targets)}")
+            log_info(f"Charger targets{suffix}: {ltc4162.describe_settings(targets)}")
             self._last_targets = targets
         if not self._writes_enabled:
             return

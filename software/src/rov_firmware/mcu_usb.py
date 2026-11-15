@@ -18,7 +18,8 @@ _TTY_CLASS_PATH = Path("/sys/class/tty")
 _DEV_PATH = Path("/dev")
 
 
-def _read_text(path: Path) -> str | None:
+def read_text(path: Path) -> str | None:
+    """A stripped sysfs attribute, or None if it cannot be read."""
     try:
         return path.read_text().strip()
     except OSError:
@@ -35,14 +36,19 @@ def usb_ids(device: Path) -> tuple[str, str] | None:
     return vendor, product
 
 
-def rp_usb_products(devices_path: Path = USB_DEVICES_PATH) -> set[str]:
-    """Product IDs of every attached Raspberry Pi (2e8a) USB device."""
-    products = set()
-    for device in devices_path.glob("*"):
+def rp_usb_devices(devices_path: Path = USB_DEVICES_PATH) -> dict[str, list[Path]]:
+    """Every attached Raspberry Pi (2e8a) USB device: product ID -> sysfs paths."""
+    devices: dict[str, list[Path]] = {}
+    for device in sorted(devices_path.glob("*")):
         ids = usb_ids(device)
         if ids is not None and ids[0] == RPI_USB_VENDOR:
-            products.add(ids[1])
-    return products
+            devices.setdefault(ids[1], []).append(device)
+    return devices
+
+
+def rp_usb_products(devices_path: Path = USB_DEVICES_PATH) -> set[str]:
+    """Product IDs of every attached Raspberry Pi (2e8a) USB device."""
+    return set(rp_usb_devices(devices_path))
 
 
 def find_mcu_port(
@@ -65,7 +71,7 @@ def find_mcu_port(
         usb_device = (tty / "device").resolve().parent
         if usb_ids(usb_device) != (RPI_USB_VENDOR, CDC_PRODUCT):
             continue
-        named = _read_text(usb_device / "product") == MCU_USB_PRODUCT_NAME
+        named = read_text(usb_device / "product") == MCU_USB_PRODUCT_NAME
         candidates.append((not named, tty.name))
     if not candidates:
         return None

@@ -24,7 +24,9 @@ State today: the PCB is designed and ordered; no board has been built or tested.
 builds the CM5 image `cm5-mainboard` (Phase 3), which passed the spike on the CM5 IO
 Board (2026-11-14); neither has run on the mainboard yet.
 The Python service is ported to the mainboard (Phase 4, unit-tested with fakes); on the
-board it is **[bring-up]**. The rest of the port follows the phases below.
+board it is **[bring-up]**. The bring-up tooling is ready (Phase 5): `tools board-check` and
+[BRINGUP.md](https://github.com/Tropaion/Manafish_Mainboard/blob/main/BRINGUP.md), the
+procedure and record sheet for steps B0 to B16.
 
 ## Overview
 
@@ -108,9 +110,9 @@ Naming trap: upstream's repo called "firmware" lives in `software/`.
 | 0 | Workstation, subtree imports, root `CLAUDE.md`, scoped dirty check | **[done]** |
 | 1 | Root CI workflows, pre-commit, README and NOTICE fixes, this wiki | **[done]**, first CI runs green |
 | 2 | RP2354A firmware: `manafish_mainboard` board target, ESC power state machine, protocol 0x26, IMU axis macros, release workflow, `mainboard_bringup.py` | **[done]**, release `firmware-v1.0.4-mb.1` published; measurements **[bring-up]** (B7, B11-B13) |
-| 3 | CM5 NixOS image (`cm5-mainboard`), software H.264, second camera, one-day spike on the CM5 IO Board | Image, `board.nix`, libav H.264, `cam2`, `/dev/manafish-mcu`, bundled mainboard UF2, Pi-side BMI270 removal **[done]**; spike checks 1-8 **[done]** (IO Board, 2026-11-14); EEPROM rehearsal and GPIO24/25 scope on the IO Board **[planned: Phase 3 spike]** |
+| 3 | CM5 NixOS image (`cm5-mainboard`), software H.264, second camera, one-day spike on the CM5 IO Board | Image, `board.nix`, libav H.264, `cam2`, `/dev/manafish-mcu`, bundled mainboard UF2, Pi-side BMI270 removal **[done]**; spike checks 1-8 **[done]** (IO Board, 2026-11-14); EEPROM rehearsal and GPIO24/25 scope on the IO Board **[planned: Phase 3 spike]** (steps in `BRINGUP.md`, section 5) |
 | 4 | CM5 Python: MCU discovery and hardware BOOTSEL, charger, PoE, hull sensors, battery, ESC power, readings | **[done]** (unit-tested with fakes; on the board **[bring-up]**) |
-| 5 | Bring-up tooling: `tools board-check`, `BRINGUP.md` | **[planned: Phase 5]** |
+| 5 | Bring-up tooling: `tools board-check`, `BRINGUP.md` | **[done]**; on the board **[bring-up]** |
 | 6 | Board bring-up, steps B0 to B16 | **[bring-up]** |
 
 ## Where the source lives
@@ -123,6 +125,7 @@ a separate git repo, so links to code use absolute GitHub URLs.
 Main references:
 
 - [README.md](https://github.com/Tropaion/Manafish_Mainboard/blob/main/README.md): hardware
+- [BRINGUP.md](https://github.com/Tropaion/Manafish_Mainboard/blob/main/BRINGUP.md): bench rules, `tools board-check`, steps B0 to B16, record sheet per board
 - [CLAUDE.md](https://github.com/Tropaion/Manafish_Mainboard/blob/main/CLAUDE.md): owner rules, quality gates, tag scheme, upstream sync
 - [firmware/docs/PICO_CONTROL_PROTOCOL.md](https://github.com/Tropaion/Manafish_Mainboard/blob/main/firmware/docs/PICO_CONTROL_PROTOCOL.md): CM5 to MCU protocol
 - [NOTICE.md](https://github.com/Tropaion/Manafish_Mainboard/blob/main/NOTICE.md): third-party terms

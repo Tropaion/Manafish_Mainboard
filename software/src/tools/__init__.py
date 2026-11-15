@@ -8,6 +8,7 @@ from pathlib import Path
 import sys
 
 from . import (
+    board_check,
     mcu_recovery,
     mock_websocket_server,
     test_packages_available,
@@ -25,6 +26,11 @@ def _parser() -> argparse.ArgumentParser:
         description="ROV tools. Without a command: the interactive menu.",
     )
     commands = parser.add_subparsers(dest="command", required=True)
+    check = commands.add_parser(
+        "board-check",
+        help="read-only bring-up check of the board; stop manafish-firmware first",
+    )
+    check.add_argument("--json", action="store_true", help="print JSON")
     commands.add_parser(
         "mcu-reset",
         help="pulse the MCU's RUN line (GPIO24); the service must be stopped 35 s",
@@ -44,6 +50,8 @@ def _parser() -> argparse.ArgumentParser:
 
 def _run_command(argv: Sequence[str]) -> int:
     args = _parser().parse_args(argv)
+    if args.command == "board-check":
+        return board_check.main(json_output=args.json)
     if args.command == "mcu-reset":
         return mcu_recovery.reset_main()
     return mcu_recovery.recover_main(args.uf2)
@@ -57,7 +65,7 @@ def cli(argv: Sequence[str] | None = None) -> None:
     _menu()
 
 
-def _menu() -> None:
+def _menu() -> None:  # noqa: C901 - one branch per menu entry
     """Interactive CLI menu for ROV tools."""
     _ = sys.stdout.write("\n--- ROV Diagnostic Tools ---\n")
     _ = sys.stdout.write("1. Test Pressure Sensor\n")
@@ -67,6 +75,7 @@ def _menu() -> None:
     _ = sys.stdout.write("5. Run Mock Websocket Server Locally\n")
     _ = sys.stdout.write("6. Reset the MCU (mcu-reset)\n")
     _ = sys.stdout.write("7. Recover the MCU with the bundled image (mcu-recover)\n")
+    _ = sys.stdout.write("8. Check the board, service stopped (board-check)\n")
     _ = sys.stdout.write("q. Quit\n")
 
     choice = input("\nSelect a tool > ").strip().lower()
@@ -94,6 +103,8 @@ def _menu() -> None:
             sys.exit(mcu_recovery.reset_main())
         elif choice == "7":
             sys.exit(mcu_recovery.recover_main(None))
+        elif choice == "8":
+            sys.exit(board_check.main(json_output=False))
         else:
             _ = sys.stdout.write(f"Invalid selection: {choice}")
             sys.exit(1)

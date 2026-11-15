@@ -4,7 +4,9 @@ The five ranked quality goals are in [Introduction and Goals](01-Introduction-an
 power integrity and performance support them. This page makes them testable. Every scenario
 names its measure and where it is verified. Status labels as in
 [Crosscutting Concepts](08-Crosscutting-Concepts); B-steps are the bring-up steps of
-Phase 6 (record sheet in `BRINGUP.md`, **[planned: Phase 5]**).
+Phase 6. Their procedure and the record sheet per board are in
+[BRINGUP.md](https://github.com/Tropaion/Manafish_Mainboard/blob/main/BRINGUP.md) **[done]** (Phase 5);
+`tools board-check` ids in the Verified column are checks of that tool.
 
 ## 10.1 Quality tree
 
@@ -52,24 +54,24 @@ flowchart LR
 | QR-1 | Abrupt power cuts, including during a config save | 50 cuts: boots every time, `config.json` intact | Spike check 7 on the IO Board (7 cuts: boots every time, no ext4 errors, `config.json` intact); B15 | IO Board **[done]** (spike, 2026-11-14), **[bring-up]** (B15) |
 | QR-2 | +5V cut under load | CM5_3.3V stays above 1.8 V | B15 scope | **[bring-up]** (B15) |
 | QR-3 | `poweroff` | 3.3 V, the MCU and ESC_PWR drop (`POWER_OFF_ON_HALT=1`) | B15 | **[bring-up]** (B15) |
-| QR-4 | Blank or bricked MCU | Hardware BOOTSEL: 000f, flash, then 0009 with iProduct "Manafish Mainboard" and `/dev/manafish-mcu` | `mcu_gpio` order test; B7 | order test **[done]** (Phase 4), **[bring-up]** (B7) |
-| QR-5 | GPIO24/25 during CM5 power-up and boot | Never low over 10 cold boots | IO Board scope (Phase 3 spike); B5 | **[planned: Phase 3 spike]**, **[bring-up]** (B5) |
+| QR-4 | Blank or bricked MCU | Hardware BOOTSEL: 000f, flash, then 0009 with iProduct "Manafish Mainboard" and `/dev/manafish-mcu` | `mcu_gpio` order test; B7 (`usb.mcu`) | order test **[done]** (Phase 4), **[bring-up]** (B7) |
+| QR-5 | GPIO24/25 during CM5 power-up and boot | Never low over 10 cold boots | IO Board scope with the board's pull-ups wired (`BRINGUP.md`, section 5; there the service's first-boot flash attempt pulls both lines low once per run, because no MCU answers); B5 scope, `gpio.mcu_lines` for the static state | **[planned: Phase 3 spike]**, **[bring-up]** (B5) |
 | QR-6 | Cold start of Y1 | 20 reboots plus cold power cycles at 0-5 °C, and BOOTSEL when cold, all succeed | B7 | **[bring-up]** (B7) |
-| QR-7 | Thrusters running in a tank | Ethernet errors stay 0 during 30 min `iperf3` | B16 | **[bring-up]** (B16) |
-| QR-8 | PoE on vs off | `iperf3` 10 min each way; `ethtool -S` compared with and without PoE | B9 | **[bring-up]** (B9) |
+| QR-7 | Thrusters running in a tank | Ethernet errors stay 0 during 30 min `iperf3` | B16 (`eth0.errors`) | **[bring-up]** (B16) |
+| QR-8 | PoE on vs off | `iperf3` 10 min each way; `ethtool -S` compared with and without PoE | B9 (`eth0.errors`) | **[bring-up]** (B9) |
 | QR-9 | Charger loses its registers (power cycle) | Next 1 Hz read-back rewrites all settings; `en_jeita` reading 1 detects it | pytest with FakeSMBus | **[done]** (Phase 4: `tests/test_ltc4162.py`, `tests/test_charger_monitor.py`); on the board with writes enabled **[bring-up]** (B9) |
 
 ## 10.4 Power integrity scenarios
 
 | ID | Stimulus and response | Measure | Verified | Status |
 |---|---|---|---|---|
-| QP-1 | PoE charging with a configured charger | PSE never trips: Type 4, and Type 2 if available | B9 (after register check, `CHARGER_WRITES_ENABLED`) | **[bring-up]** (B9) |
+| QP-1 | PoE charging with a configured charger | PSE never trips: Type 4, and Type 2 if available | B9 (after register check, `CHARGER_WRITES_ENABLED`; `poe.type`, `charger.settings`) | **[bring-up]** (B9) |
 | QP-2 | Defaults window: magnet OFF, PoE onto a part-discharged pack | No trip with 4.0 A in / 3.2 A charge defaults; clamp-measure iin and ibat | B10 | **[bring-up]** (B10) |
-| QP-3 | Charging a real 5S pack | CC/CV, ibat at most 2.0 A | B10 | **[bring-up]** (B10) |
-| QP-4 | 60 min soak, closed hull, two streams, charging on PoE | +5V warm at most 5.25 V (`EXT5V_V`) | B14; cold value at B4 | **[bring-up]** (B4, B14) |
+| QP-3 | Charging a real 5S pack | CC/CV, ibat at most 2.0 A | B10 (`charger.telemetry`) | **[bring-up]** (B10) |
+| QP-4 | 60 min soak, closed hull, two streams, charging on PoE | +5V warm at most 5.25 V (`EXT5V_V`) | B14; cold value at B4 (`soc.ext5v`) | **[bring-up]** (B4, B14) |
 | QP-5 | Both cameras streaming | CM5_3.3V below 600 mA; droop scoped | B8 | **[bring-up]** (B8) |
-| QP-6 | First boot | `get_throttled` = 0, `ethtool eth0` = 1000 full | B4 | **[bring-up]** (B4) |
-| QP-7 | I2C1 with the module pull-ups | All four addresses answer; SCL rise under 300 ns | B6 | **[bring-up]** (B6) |
+| QP-6 | First boot | No throttling and a gigabit full-duplex link: `soc.throttled` and `eth0.link` PASS (criteria in [BRINGUP.md](https://github.com/Tropaion/Manafish_Mainboard/blob/main/BRINGUP.md) 3.1) | B4 | **[bring-up]** (B4) |
+| QP-7 | I2C1 with the module pull-ups | All four addresses answer; SCL rise under 300 ns | B6 (`i2c.sht45`, `i2c.pads`, `i2c.ltc4162`, `i2c.ms5837`, `i2c.unexpected`; rise time by scope) | **[bring-up]** (B6) |
 
 ## 10.5 Performance scenarios
 
